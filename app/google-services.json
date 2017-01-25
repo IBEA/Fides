@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1022060485812",
+    "firebase_url": "https://fides-6faeb.firebaseio.com",
+    "project_id": "fides-6faeb",
+    "storage_bucket": "fides-6faeb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022060485812:android:a62f169c5d53ddd5",
+        "android_client_info": {
+          "package_name": "com.ibea.fides"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022060485812-s3eeum7m2ncql4irsiq1s8isiia7jcme.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ibea.fides",
+            "certificate_hash": "0D292F0E9AE2D9CE736A4D66E886FBE6036C2B30"
+          }
+        },
+        {
+          "client_id": "1022060485812-r4k11oh7730h11l4625tnrk8k76hreig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_5nu9rH7WPn62BcgDcdvU7sgZzq5TPdI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022060485812-r4k11oh7730h11l4625tnrk8k76hreig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
