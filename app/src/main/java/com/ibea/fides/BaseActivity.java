@@ -4,9 +4,16 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {
+
+    // Database References
+
+    public DatabaseReference db;
+    public DatabaseReference dbShifts;
 
     // For Navigation
     public Context mContext;
@@ -24,6 +31,9 @@ public class BaseActivity extends AppCompatActivity {
         // Set Context and TAG for each Activity
         mContext = this;
         TAG = this.getClass().getSimpleName();
+
+        // Set database references
+        db = FirebaseDatabase.getInstance().getReference();
     }
 
     // On Start Override
