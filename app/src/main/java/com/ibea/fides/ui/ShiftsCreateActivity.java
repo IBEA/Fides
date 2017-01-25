@@ -30,6 +30,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.button_LetsGo) Button mButton_LetsGo;
     @Bind((R.id.switch_From)) Switch mSwitch_From;
     @Bind(R.id.switch_To) Switch mSwitch_To;
+    @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         return true;
     }
 
+    //Converts to military time
     public String convertTime(String _time, boolean _isChecked){
         int marker = _time.indexOf(":");
         int hour = Integer.parseInt(_time.substring(0, marker));
@@ -74,6 +76,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                 int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
                 String date = mEditText_Date.getText().toString();
+                String description = mEditText_Descritpion.getText().toString();
 
                 //Push data
                 DatabaseReference pushRef = dbShifts.push();
@@ -81,7 +84,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 pushRef.child(Constants.DB_FIELD_UNTIL).setValue(until);
                 pushRef.child(Constants.DB_FIELD_MAXVOLUNTEERS).setValue(maxVolunteers);
                 pushRef.child(Constants.DB_FIELD_DATE).setValue(date);
-                pushRef.child((Constants.DB_FIELD_OID)).setValue("temp");
+                pushRef.child(Constants.DB_FIELD_OID).setValue("temp");
+                pushRef.child(Constants.DB_FIELD_DESCRIPTION).setValue(description);
                 Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
             }
         }
