@@ -28,6 +28,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.logInButton) Button mLogInButton;
     @Bind(R.id.newAccountText) TextView mNewAccountButton;
+    @Bind(R.id.button2) Button mDirtyButton;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -60,10 +61,13 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         // Set Click Listeners
         mNewAccountButton.setOnClickListener(this);
         mLogInButton.setOnClickListener(this);
+        mDirtyButton.setOnClickListener(this);
 
         // Ready Progress Dialog
         createAuthProgressDialog();
     }
+
+    //!! Plant o move this to BaseActivity to prevent fringe cases !!
 
     // Add AuthStateListener on Start
     @Override
@@ -93,6 +97,10 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
             // Destroy current Activity
             finish();
+        }else if(view == mDirtyButton){
+            // Alaina's dirty shift button redirect, don't worry about it
+            Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
+            startActivity(intent);
         }
     }
 

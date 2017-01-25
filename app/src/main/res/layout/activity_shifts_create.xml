@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_shifts_create"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.ibea.fides.ui.ShiftsCreateActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/editText_From"
+        android:hint="From (h:mm)"
+        android:inputType="time" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/editText_From"
+        android:layout_alignLeft="@+id/editText_From"
+        android:layout_alignStart="@+id/editText_From"
+        android:id="@+id/editText_Until"
+        android:hint="Until (h:mm)"
+        android:inputType="time" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/editText_Until"
+        android:layout_alignRight="@+id/editText_Until"
+        android:layout_alignEnd="@+id/editText_Until"
+        android:id="@+id/editText_Date"
+        android:hint="Date (dd/mm/yyyy)"
+        android:inputType="date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/editText_Date"
+        android:layout_alignLeft="@+id/editText_Date"
+        android:layout_alignStart="@+id/editText_Date"
+        android:id="@+id/editText_MaxVolunteers"
+        android:hint="Number of volunteers"
+        android:inputType="number" />
+
+    <Button
+        android:text="Let's Go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_MaxVolunteers"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button_LetsGo" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText_Until"
+        android:layout_toRightOf="@+id/editText_From"
+        android:layout_toEndOf="@+id/editText_From"
+        android:id="@+id/switch_From"
+        android:textOn="PM"
+        android:textOff="AM"
+        android:checked="false"
+        android:splitTrack="false"
+        android:showText="true"
+        />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_From"
+        android:layout_toRightOf="@+id/editText_From"
+        android:layout_toEndOf="@+id/editText_From"
+        android:id="@+id/switch_To"
+        android:textOn="PM"
+        android:textOff="AM"
+        android:showText="true"/>
+</RelativeLayout>
