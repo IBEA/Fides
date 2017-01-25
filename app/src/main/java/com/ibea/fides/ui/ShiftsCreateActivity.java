@@ -7,7 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 
 import butterknife.Bind;
@@ -30,10 +32,30 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mButton_LetsGo.setOnClickListener(this);
     }
 
+    // Checks to make sure all fields ar efilled out correctly
+    public boolean validateFields(){
+
+        return true;
+    }
+
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
-            Toast.makeText(mContext, "Pop", Toast.LENGTH_SHORT).show();
+            if(validateFields()){
+                //Harvest data
+                String from = mEditText_From.getText().toString();
+                String until = mEditText_Until.getText().toString();
+                int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
+                String date = mEditText_Date.getText().toString();
+
+                //Push data
+                DatabaseReference pushRef = dbShifts.push();
+                pushRef.child("test").setValue("test");
+                pushRef.child(Constants.DB_FIELD_UNTIL).setValue(until);
+                pushRef.child(Constants.DB_FIELD_MAXVOLUNTEERS).setValue(maxVolunteers);
+                pushRef.child(Constants.DB_FIELD_DATE).setValue(date);
+                Toast.makeText(mContext, Constants.DB_NODE_SHIFTS, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

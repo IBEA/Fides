@@ -44,10 +44,10 @@ public class BaseActivity extends AppCompatActivity {
 
         // Set database references
         db = FirebaseDatabase.getInstance().getReference();
-        dbShifts = db.child(Constants.FIREBASE_CHILD_SHIFTS);
-        dbUsers = db.child(Constants.FIREBASE_CHILD_USERS);
-        dbOrganizations = db.child(Constants.FIREBASE_CHILD_ORGANIZATIONS);
-        dbTags = db.child(Constants.FIREBASE_CHILD_TAGS);
+        dbShifts = db.child(Constants.DB_NODE_SHIFTS);
+        dbUsers = db.child(Constants.DB_NODE_USERS);
+        dbOrganizations = db.child(Constants.DB_NODE_ORGANIZATIONS);
+        dbTags = db.child(Constants.DB_NODE_TAGS);
 
         // Set auth references
         // There are currently NO PROTECTIONS in place for users not being logged in and on a page other than the login screen.

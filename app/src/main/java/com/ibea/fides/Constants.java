@@ -5,8 +5,16 @@ package com.ibea.fides;
  */
 
 public class Constants {
-    public static final String FIREBASE_CHILD_USERS = "users";
-    public static final String FIREBASE_CHILD_SHIFTS = "shifts";
-    public static final String FIREBASE_CHILD_ORGANIZATIONS = "organizations";
-    public static final String FIREBASE_CHILD_TAGS = "tags";
+    public static final String DB_NODE_USERS = "users";
+    public static final String DB_NODE_SHIFTS = "shifts";
+    public static final String DB_NODE_ORGANIZATIONS = "organizations";
+    public static final String DB_NODE_TAGS = "tags";
+
+    // Constants for fields.
+
+    //For shifts
+    public static final String DB_FIELD_FROM = "from";
+    public static final String DB_FIELD_UNTIL = "until";
+    public static final String DB_FIELD_DATE = "date";
+    public static final String DB_FIELD_MAXVOLUNTEERS = "maxVolunteers";
 }
