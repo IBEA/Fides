@@ -61,4 +61,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="104dp" />
 
+    <Button
+        android:text="Alaina's Dirty Shifts Buton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logInButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:id="@+id/button2" />
+
 </RelativeLayout>
