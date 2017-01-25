@@ -13,16 +13,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/emailInput"
-        android:hint="Your Email Address"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10"
         android:layout_marginTop="12dp"
@@ -38,8 +28,8 @@
         android:inputType="number"
         android:ems="10"
         android:layout_marginTop="10dp"
-        android:id="@+id/zipcodeInput"
-        android:hint="Zipcode"
+        android:id="@+id/addressInput"
+        android:hint="Address of Organization"
         android:layout_below="@+id/organizationInput"
         android:layout_alignLeft="@+id/organizationInput"
         android:layout_alignStart="@+id/organizationInput" />
@@ -49,21 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/searchButton"
-        android:layout_below="@+id/zipcodeInput"
+        android:layout_below="@+id/addressInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_marginTop="10dp"
-        android:id="@+id/nameInput"
-        android:hint="Your Name"
-        android:layout_below="@+id/emailInput"
-        android:layout_alignLeft="@+id/emailInput"
-        android:layout_alignStart="@+id/emailInput" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -83,5 +61,19 @@
         android:layout_alignEnd="@+id/searchButton"
         android:layout_marginTop="7dp"
         android:id="@+id/submitButton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="13dp"
+        android:id="@+id/nameInput"
+        android:hint="Your Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/searchButton"
+        android:layout_alignEnd="@+id/searchButton"
+        android:layout_marginRight="7dp"
+        android:layout_marginEnd="7dp" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.ui.NewOrganizationActivity;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
         return mOrganizations.size();
     }
 
-    public class OrganizationViewHolder extends RecyclerView.ViewHolder {
+    public class OrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.nameText) TextView mOrganizationName;
         private Context mContext;
 
@@ -53,10 +55,16 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            itemView.setOnClickListener(this);
         }
 
         public void bindOrganization(Organization organization) {
             mOrganizationName.setText(organization.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            ((NewOrganizationActivity) mContext).userItemClick(getAdapterPosition());
         }
     }
 }

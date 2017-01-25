@@ -1,38 +1,41 @@
 package com.ibea.fides.ui;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.utils.RecyclerItemListener;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewOrganizationActivity extends BaseActivity implements View.OnClickListener {
+public class NewOrganizationActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
 
     @Bind(R.id.organizationResultRecyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
-    @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
+    @Bind(R.id.addressInput) EditText mAddressInput;
     @Bind(R.id.searchButton) Button mSearchButton;
     @Bind(R.id.submitButton) Button mSubmitButton;
 
     private OrganizationListAdapter mAdapter;
     public ArrayList<Organization> mOrganizations = new ArrayList<>();
+    private String organizationId;
 
+    // Temporary List
     public ArrayList<Organization> mTestOrg = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,21 +67,22 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         // Will eventually call API - Temporary comparison to premade list of organizations
         if(view == mSearchButton) {
-            String name = mNameInput.getText().toString().trim();
-            String zipcode = mZipcodeInput.getText().toString().trim();
-            getOrganizations(name, zipcode);
+            String orgName = mOrganizationNameInput.getText().toString().trim();
+            String address = mAddressInput.getText().toString().trim();
+            getOrganizations(orgName, address);
         }
 
         if(view == mSubmitButton) {
+            String userName = mNameInput.getText().toString().trim();
 
         }
 
     }
 
-    private void getOrganizations(String name, String zipcode) {
+    private void getOrganizations(String orgName, String address) {
         // Temporary until API
         for(Organization org : mTestOrg) {
-            if(org.getName().equals(name)) {
+            if(org.getName().equals(orgName)) {
                 mOrganizations.add(org);
             }
         }
@@ -94,4 +98,12 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
             }
         });
     }
+
+    // Interface function that allows information regarding an item in a RecyclerView to be accessed directly
+    @Override
+    public void userItemClick(int pos) {
+        organizationId = mOrganizations.get(pos).getName();
+    }
+
+
 }
