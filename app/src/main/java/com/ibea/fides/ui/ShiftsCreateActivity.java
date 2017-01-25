@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.editText_Date) EditText mEditText_Date;
     @Bind(R.id.editText_MaxVolunteers) EditText mEditText_MaxVolunteers;
     @Bind(R.id.button_LetsGo) Button mButton_LetsGo;
+    @Bind((R.id.switch_From)) Switch mSwitch_From;
+    @Bind(R.id.switch_To) Switch mSwitch_To;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,31 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         return true;
     }
 
+    public String convertTime(String _time, boolean _isChecked){
+        int marker = _time.indexOf(":");
+        int hour = Integer.parseInt(_time.substring(0, marker));
+        String minutes = _time.substring(marker, _time.length());
+
+        if(_isChecked && hour != 12) {
+            hour = hour + 12;
+        }else if (!_isChecked && hour == 12) {
+            hour = 0;
+        }
+
+        _time = hour + minutes;
+//        Toast.makeText(mContext, _time, Toast.LENGTH_SHORT).show();
+        return _time;
+    }
+
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
             if(validateFields()){
                 //Harvest data
-                String from = mEditText_From.getText().toString();
-                String until = mEditText_Until.getText().toString();
+                String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
+
+                String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
+
                 int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
                 String date = mEditText_Date.getText().toString();
 

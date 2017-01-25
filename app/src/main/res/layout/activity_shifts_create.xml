@@ -67,7 +67,7 @@
         android:layout_above="@+id/editText_Until"
         android:layout_toRightOf="@+id/editText_From"
         android:layout_toEndOf="@+id/editText_From"
-        android:id="@+id/switch1"
+        android:id="@+id/switch_From"
         android:textOn="PM"
         android:textOff="AM"
         android:checked="false"
@@ -81,7 +81,7 @@
         android:layout_below="@+id/editText_From"
         android:layout_toRightOf="@+id/editText_From"
         android:layout_toEndOf="@+id/editText_From"
-        android:id="@+id/switch2"
+        android:id="@+id/switch_To"
         android:textOn="PM"
         android:textOff="AM"
         android:showText="true"/>
