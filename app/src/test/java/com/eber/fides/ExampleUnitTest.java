@@ -1,4 +1,4 @@
-package com.eber.fides;
+package com.ibea.fides;
 
 import org.junit.Test;
 

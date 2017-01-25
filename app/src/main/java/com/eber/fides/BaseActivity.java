@@ -1,10 +1,10 @@
-package com.eber.fides;
+package com.ibea.fides;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.eber.fides.utils.Universal;
+import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {
 

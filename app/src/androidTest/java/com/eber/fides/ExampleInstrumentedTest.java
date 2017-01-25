@@ -1,4 +1,4 @@
-package com.eber.fides;
+package com.ibea.fides;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

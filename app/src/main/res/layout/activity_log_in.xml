@@ -8,10 +8,57 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.eber.fides.ui.LogInActivity">
+    tools:context="com.ibea.fides.ui.LogInActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Welcome to Fides"
+        android:id="@+id/titleText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailInput"
+        android:hint="Your Email Address"
+        android:layout_below="@+id/titleText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="98dp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordInput"
+        android:inputType="textPassword"
+        android:hint="Your Password"
+        android:layout_below="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:id="@+id/logInButton"
+        android:layout_below="@+id/passwordInput"
+        android:layout_marginTop="21dp"
+        android:layout_alignLeft="@+id/passwordInput"
+        android:layout_alignStart="@+id/passwordInput"
+        android:layout_alignRight="@+id/passwordInput"
+        android:layout_alignEnd="@+id/passwordInput" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/newAccountText"
+        android:text="Click to Create Account"
+        android:textSize="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="104dp" />
+
 </RelativeLayout>

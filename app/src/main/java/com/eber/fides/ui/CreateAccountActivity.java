@@ -1,19 +1,18 @@
-package com.eber.fides.ui;
+package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.eber.fides.BaseActivity;
-import com.eber.fides.Constants;
-import com.eber.fides.R;
-import com.eber.fides.models.User;
+import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
+import com.ibea.fides.R;
+import com.ibea.fides.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

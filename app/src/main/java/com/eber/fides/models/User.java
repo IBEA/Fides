@@ -1,4 +1,4 @@
-package com.eber.fides.models;
+package com.ibea.fides.models;
 
 import org.parceler.Parcel;
 

@@ -1,9 +1,9 @@
-package com.eber.fides.ui;
+package com.ibea.fides.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.eber.fides.R;
+import com.ibea.fides.R;
 
 public class HomeActivity extends AppCompatActivity {
 
