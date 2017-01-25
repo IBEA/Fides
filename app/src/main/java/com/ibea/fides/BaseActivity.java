@@ -14,6 +14,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public DatabaseReference db;
     public DatabaseReference dbShifts;
+    public DatabaseReference dbUsers;
+    public DatabaseReference dbOrganizations;
+    public DatabaseReference dbTags;
 
     // For Navigation
     public Context mContext;
@@ -34,6 +37,10 @@ public class BaseActivity extends AppCompatActivity {
 
         // Set database references
         db = FirebaseDatabase.getInstance().getReference();
+        dbShifts = db.child(Constants.FIREBASE_CHILD_SHIFTS);
+        dbUsers = db.child(Constants.FIREBASE_CHILD_USERS);
+        dbOrganizations = db.child(Constants.FIREBASE_CHILD_ORGANIZATIONS);
+        dbTags = db.child(Constants.FIREBASE_CHILD_TAGS);
     }
 
     // On Start Override
