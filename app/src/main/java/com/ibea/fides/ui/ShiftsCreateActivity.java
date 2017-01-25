@@ -35,6 +35,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     // Checks to make sure all fields ar efilled out correctly
     public boolean validateFields(){
 
+
         return true;
     }
 
