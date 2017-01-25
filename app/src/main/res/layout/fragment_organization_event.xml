@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.eber.fides.ui.OrganizationEventFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Insert Organization Event Info"
+        android:textSize="20dp"
+        android:layout_centerInParent="true"/>
+
+</FrameLayout>
