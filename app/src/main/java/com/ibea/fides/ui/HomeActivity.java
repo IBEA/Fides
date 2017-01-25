@@ -15,9 +15,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private String[] mPages = new String[] {"Logout", "Create Shifts" , "Add here" , "Add here"};
 
@@ -26,7 +27,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
     }
 
     @Override
@@ -43,8 +43,7 @@ public class HomeActivity extends AppCompatActivity {
             logout();
             return true;
         }
-
-        if (id == R.id.action_shifts){
+        else if (id == R.id.action_shifts){
             Intent intent = new Intent(HomeActivity.this, ShiftsCreateActivity.class);
             startActivity(intent);
         }
@@ -55,12 +54,5 @@ public class HomeActivity extends AppCompatActivity {
         // Another interface callback
     }
 
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 
 }
