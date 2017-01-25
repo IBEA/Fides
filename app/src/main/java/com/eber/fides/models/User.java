@@ -1,9 +1,12 @@
 package com.eber.fides.models;
 
+import org.parceler.Parcel;
+
 /**
  * Created by KincaidJ on 1/24/17.
  */
 
+@Parcel
 public class User {
     String pushId;
     String name;
