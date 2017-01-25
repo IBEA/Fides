@@ -18,6 +18,11 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".ui.CreateAccountActivity" />
         <activity android:name=".ui.HomeActivity" />
+        <activity android:name="com.eber.fides.ui.OrganizationActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.ShiftsCreateActivity"></activity>
     </application>
 
