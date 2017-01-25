@@ -32,7 +32,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mButton_LetsGo.setOnClickListener(this);
     }
 
-    // Checks to make sure all fields ar efilled out correctly
+    // !! Checks to make sure all fields are filled out correctly !!
     public boolean validateFields(){
 
         return true;
