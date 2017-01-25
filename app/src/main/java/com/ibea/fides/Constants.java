@@ -10,11 +10,13 @@ public class Constants {
     public static final String DB_NODE_ORGANIZATIONS = "organizations";
     public static final String DB_NODE_TAGS = "tags";
 
-    // Constants for fields.
+    // Constants for fields. Reusable if fields are named same.
+    //OID == Organization ID, as provided by the API
 
-    //For shifts
+    //For shifts.
     public static final String DB_FIELD_FROM = "from";
     public static final String DB_FIELD_UNTIL = "until";
     public static final String DB_FIELD_DATE = "date";
     public static final String DB_FIELD_MAXVOLUNTEERS = "maxVolunteers";
+    public static final String DB_FIELD_OID = "OID";
 }

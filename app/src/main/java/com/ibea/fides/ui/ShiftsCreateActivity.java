@@ -50,11 +50,12 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                 //Push data
                 DatabaseReference pushRef = dbShifts.push();
-                pushRef.child("test").setValue("test");
+                pushRef.child(Constants.DB_FIELD_FROM).setValue(from);
                 pushRef.child(Constants.DB_FIELD_UNTIL).setValue(until);
                 pushRef.child(Constants.DB_FIELD_MAXVOLUNTEERS).setValue(maxVolunteers);
                 pushRef.child(Constants.DB_FIELD_DATE).setValue(date);
-                Toast.makeText(mContext, Constants.DB_NODE_SHIFTS, Toast.LENGTH_SHORT).show();
+                pushRef.child((Constants.DB_FIELD_OID)).setValue("temp");
+                Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
             }
         }
     }
