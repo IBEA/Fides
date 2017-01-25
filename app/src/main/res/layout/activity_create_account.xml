@@ -71,4 +71,18 @@
         android:layout_alignEnd="@+id/passwordConfirmInput"
         android:layout_marginBottom="81dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/newOrganizationText"
+        android:text="Click here if you're a new organization"
+        android:textSize="15dp"
+        android:layout_marginBottom="54dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/createButton"
+        android:layout_alignStart="@+id/createButton"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+
 </RelativeLayout>
