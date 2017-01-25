@@ -58,7 +58,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         createAuthStateListener();
 
         // Firebase References
-        userRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS);
 
         // Ready Progress Dialog
         createAuthProgressDialog();

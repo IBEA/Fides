@@ -10,4 +10,54 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ibea.fides.ui.ShiftsCreateActivity">
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/editText_From"
+        android:hint="From" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_From"
+        android:layout_alignLeft="@+id/editText_From"
+        android:layout_alignStart="@+id/editText_From"
+        android:id="@+id/editText_Until"
+        android:hint="Until" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_Until"
+        android:layout_alignRight="@+id/editText_Until"
+        android:layout_alignEnd="@+id/editText_Until"
+        android:id="@+id/editText_Date"
+        android:hint="Date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_Date"
+        android:layout_alignLeft="@+id/editText_Date"
+        android:layout_alignStart="@+id/editText_Date"
+        android:id="@+id/editText_MaxVolunteers"
+        android:hint="Number of volunteers" />
+
+    <Button
+        android:text="Let's Go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_MaxVolunteers"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button_LetsGo" />
 </RelativeLayout>
