@@ -15,7 +15,7 @@ public class Shift {
     String address;
     String from;
     String until;
-    String OID;
+    String organizationID;
     String description;
     String shortDescription;
     String organizationName;
@@ -28,7 +28,7 @@ public class Shift {
     public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip, String _organizationName){
         from = _from;
         until = _until;
-        OID = _OID;
+        organizationID = _OID;
         description = _description;
         shortDescription = _shortDescription;
         date = _date;
@@ -81,12 +81,12 @@ public class Shift {
         this.until = until;
     }
 
-    public String getOID() {
-        return OID;
+    public String getOrganizationID() {
+        return organizationID;
     }
 
-    public void setOID(String OID) {
-        this.OID = OID;
+    public void setOrganizationID(String OID) {
+        this.organizationID = OID;
     }
 
     public String getDescription() {

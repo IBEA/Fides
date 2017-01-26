@@ -81,7 +81,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     // Reads all fields and returns constructed shift
-    public Shift createShift(){
+    public Shift createShift(String _organizationName, String _OID){
         String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
         String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
 
@@ -89,11 +89,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String date = mEditText_Date.getText().toString();
         String description = mEditText_Descritpion.getText().toString();
         String shortDescription = mEditText_ShortDescritpion.getText().toString();
-        String OID = mEditText_Org.getText().toString();
         String address = mEditText_Address.getText().toString();
         int zip = Integer.parseInt(mEditText_Zip.getText().toString());
 
-        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, OID, address, zip, "GenericName");
+        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _OID, address, zip, _organizationName);
 
         return shift;
     }
@@ -105,23 +104,41 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         pushRef.setValue(_shift);
 
         // Add shift to shiftsAvailable fields
-        String OID = _shift.getOID();
-
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(true);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOID()).child(shiftID).setValue(true);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOrganizationID()).child(shiftID).setValue(true);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
-            if(validateFields()){
-                //Harvest data
-                Shift shift = createShift();
+            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if((Boolean) dataSnapshot.child("isOrganization").getValue() == true){
+                        String organizationName = dataSnapshot.child("name").getValue().toString();
+                        String OID = dataSnapshot.child("OID").getValue().toString();
 
-                //Push data
-                pushData(shift);
-            }
+                        Log.v("Here:", organizationName);
+                        Log.v("There:", OID);
+
+                        if(validateFields()){
+                            //Harvest data
+                            Shift shift = createShift(organizationName, OID);
+
+                            //Push data
+                            pushData(shift);
+                        }
+                    }else {
+                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
