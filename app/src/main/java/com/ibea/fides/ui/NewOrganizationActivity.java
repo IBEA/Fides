@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.OrganizationListAdapter;
@@ -83,23 +86,42 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
 
     }
 
-    // Populate RecyclerView with all matching organizations
+    // Populate RecyclerView with all matching organizations that have not been claimed
     private void getOrganizations(String orgName, String address) {
-        // Temporary until API
+        // Temporary until API - Populate Array List with matching organizations
         for(Organization org : mTestOrg) {
             if(org.getName().equals(orgName)) {
                 mOrganizations.add(org);
             }
         }
-        NewOrganizationActivity.this.runOnUiThread(new Runnable() {
+
+        // Consult Database to see if organizations have been claimed, then run adapter
+        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(Organization org : mOrganizations) {
+                    if(dataSnapshot.hasChild(org.getName())) {
+                       mOrganizations.remove(org);
+                    }
+                }
+
+                // Populate recyclerview
+                NewOrganizationActivity.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mAdapter = new OrganizationListAdapter(getApplicationContext(), mOrganizations);
+                        mRecyclerView.setAdapter(mAdapter);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewOrganizationActivity.this);
+                        mRecyclerView.setLayoutManager(layoutManager);
+                        mRecyclerView.setHasFixedSize(true);
+                    }
+                });
+            }
 
             @Override
-            public void run() {
-                mAdapter = new OrganizationListAdapter(getApplicationContext(), mOrganizations);
-                mRecyclerView.setAdapter(mAdapter);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewOrganizationActivity.this);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mRecyclerView.setHasFixedSize(true);
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
