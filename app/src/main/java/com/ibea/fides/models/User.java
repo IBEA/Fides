@@ -35,11 +35,11 @@ public class User {
         this.name = name;
     }
 
-    public boolean isOrganization() {
+    public boolean getIsOrganization() {
         return isOrganization;
     }
 
-    public void setOrganization(boolean organization) {
-        isOrganization = organization;
+    public void setIsOrganization(boolean isOrganization) {
+        this.isOrganization = isOrganization;
     }
 }
