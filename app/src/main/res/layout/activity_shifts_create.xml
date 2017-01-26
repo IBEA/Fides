@@ -112,18 +112,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:layout_below="@+id/editText_Org"
-        android:layout_alignRight="@+id/editText_Org"
-        android:layout_alignEnd="@+id/editText_Org"
-        android:layout_marginTop="13dp"
-        android:id="@+id/editText_Address"
-        android:hint="Address" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:layout_below="@+id/editText_Address"
@@ -131,4 +119,15 @@
         android:layout_alignStart="@+id/editText_Address"
         android:id="@+id/editText_Zip"
         android:hint="Zip" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/editText_Address"
+        android:hint="Address"
+        android:layout_below="@+id/editText_ShortDescription"
+        android:layout_alignLeft="@+id/editText_ShortDescription"
+        android:layout_alignStart="@+id/editText_ShortDescription" />
 </RelativeLayout>
