@@ -131,4 +131,15 @@
         android:layout_marginTop="13dp"
         android:id="@+id/editText_Address"
         android:hint="Address" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/editText_Address"
+        android:layout_alignLeft="@+id/editText_Address"
+        android:layout_alignStart="@+id/editText_Address"
+        android:id="@+id/editText_Zip"
+        android:hint="Zip" />
 </RelativeLayout>

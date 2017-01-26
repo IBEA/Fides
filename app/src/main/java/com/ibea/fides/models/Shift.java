@@ -13,6 +13,15 @@ public class Shift {
     private String OID;
     private String description;
     private String shortDescription;
+    private int zip;
+
+    public int getZip() {
+        return zip;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
+    }
 
     public String getAddress() {
         return address;
@@ -37,7 +46,7 @@ public class Shift {
     private List<String> currentVolunteers = new ArrayList<String>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address){
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip){
         from = _from;
         until = _until;
         OID = _OID;
@@ -46,6 +55,7 @@ public class Shift {
         date = _date;
         maxVolunteers = _maxVolunteers;
         address = _address;
+        zip = _zip;
     }
 
     public String getFrom() {
