@@ -1,9 +1,12 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.view.menu.ListMenuItemView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,11 +16,18 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -95,8 +105,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         pushRef.setValue(_shift);
 
         // Add shift to shiftsAvailable fields
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).setValue(shiftID);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOID()).setValue(shiftID);
+        String OID = _shift.getOID();
+
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(true);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOID()).child(shiftID).setValue(true);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
     }
 
