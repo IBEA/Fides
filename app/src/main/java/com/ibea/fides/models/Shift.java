@@ -12,16 +12,27 @@ public class Shift {
     private String until;
     private String OID;
     private String description;
+    private String shortDescription;
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
     private String date;
     private int maxVolunteers;
     private List<String> currentVolunteers = new ArrayList<String>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, int _maxVolunteers, String _OID){
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID){
         from = _from;
         until = _until;
         OID = _OID;
         description = _description;
+        shortDescription = _shortDescription;
         date = _date;
         maxVolunteers = _maxVolunteers;
     }
