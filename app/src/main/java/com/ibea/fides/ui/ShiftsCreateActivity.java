@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Shift;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,14 +79,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 String date = mEditText_Date.getText().toString();
                 String description = mEditText_Descritpion.getText().toString();
 
+                Shift shift = new Shift(from, until, date, description, maxVolunteers, "temp");
+
                 //Push data
                 DatabaseReference pushRef = dbShifts.push();
-                pushRef.child(Constants.DB_FIELD_FROM).setValue(from);
-                pushRef.child(Constants.DB_FIELD_UNTIL).setValue(until);
-                pushRef.child(Constants.DB_FIELD_MAXVOLUNTEERS).setValue(maxVolunteers);
-                pushRef.child(Constants.DB_FIELD_DATE).setValue(date);
-                pushRef.child(Constants.DB_FIELD_OID).setValue("temp");
-                pushRef.child(Constants.DB_FIELD_DESCRIPTION).setValue(description);
+                pushRef.setValue(shift);
                 Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
             }
         }
