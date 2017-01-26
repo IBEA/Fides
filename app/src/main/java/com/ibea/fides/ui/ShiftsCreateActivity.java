@@ -70,6 +70,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         return _time;
     }
 
+    // Reads all fields and returns constructed shift
     public Shift createShift(){
         String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
         String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
@@ -87,18 +88,21 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         return shift;
     }
 
+    public void pushData(Shift _shift){
+        DatabaseReference pushRef = dbShifts.push();
+        pushRef.setValue(_shift);
+        Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
             if(validateFields()){
                 //Harvest data
-
                 Shift shift = createShift();
 
                 //Push data
-                DatabaseReference pushRef = dbShifts.push();
-                pushRef.setValue(shift);
-                Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
+                pushData(shift);
             }
         }
     }
