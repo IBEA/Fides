@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.ShiftsCreateActivity" />
-        <activity android:name=".ShiftsTestingActivity"></activity>
+        <activity android:name=".ui.ShiftsTestingActivity"></activity>
     </application>
 
 </manifest>

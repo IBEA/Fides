@@ -33,7 +33,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v){
         if(v == mButton_Dirty){
-            Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
+            Intent intent = new Intent(mContext, ShiftsTestingActivity.class);
             startActivity(intent);
         }
     }
