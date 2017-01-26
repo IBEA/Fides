@@ -10,6 +10,7 @@ import org.parceler.Parcel;
 public class User {
     String pushId;
     String name;
+    boolean isOrganization = false;
 
     // Empty Constructor for Parceler
     public User() {}
@@ -34,4 +35,11 @@ public class User {
         this.name = name;
     }
 
+    public boolean isOrganization() {
+        return isOrganization;
+    }
+
+    public void setOrganization(boolean organization) {
+        isOrganization = organization;
+    }
 }
