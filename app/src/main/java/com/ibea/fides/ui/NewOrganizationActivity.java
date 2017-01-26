@@ -74,6 +74,7 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
             getOrganizations(orgName, address);
         }
 
+        // Sends email to us claiming an organization
         if(view == mSubmitButton) {
             String orgName = mOrganizationNameInput.getText().toString().trim();
             String userName = mNameInput.getText().toString().trim();
@@ -82,6 +83,7 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
 
     }
 
+    // Populate RecyclerView with all matching organizations
     private void getOrganizations(String orgName, String address) {
         // Temporary until API
         for(Organization org : mTestOrg) {
@@ -108,6 +110,7 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
         organizationId = mOrganizations.get(pos).getName();
     }
 
+    // Populate email to us upon claim request
     private void claimOrganization(String userName, String organizationId, String organizationName) {
         String[] TO = {"justin.m.kincaid.work@gmail.com"};
 
