@@ -1,13 +1,19 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
+
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
+
+import android.widget.Button;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,4 +41,31 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             mUniversal.logout(mContext);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+        }
+        else if (id == R.id.action_shifts){
+            Intent intent = new Intent(HomeActivity.this, ShiftsCreateActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
+
 }

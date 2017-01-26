@@ -13,45 +13,45 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/editText_From"
-        android:hint="From" />
+        android:hint="From (h:mm)"
+        android:inputType="time" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:layout_below="@+id/editText_From"
         android:layout_alignLeft="@+id/editText_From"
         android:layout_alignStart="@+id/editText_From"
         android:id="@+id/editText_Until"
-        android:hint="Until" />
+        android:hint="Until (h:mm)"
+        android:inputType="time" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:layout_below="@+id/editText_Until"
         android:layout_alignRight="@+id/editText_Until"
         android:layout_alignEnd="@+id/editText_Until"
         android:id="@+id/editText_Date"
-        android:hint="Date" />
+        android:hint="Date (dd/mm/yyyy)"
+        android:inputType="date" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:layout_below="@+id/editText_Date"
         android:layout_alignLeft="@+id/editText_Date"
         android:layout_alignStart="@+id/editText_Date"
         android:id="@+id/editText_MaxVolunteers"
-        android:hint="Number of volunteers" />
+        android:hint="Number of volunteers"
+        android:inputType="number" />
 
     <Button
         android:text="Let's Go"
@@ -60,4 +60,41 @@
         android:layout_below="@+id/editText_MaxVolunteers"
         android:layout_centerHorizontal="true"
         android:id="@+id/button_LetsGo" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editText_Until"
+        android:layout_toRightOf="@+id/editText_From"
+        android:layout_toEndOf="@+id/editText_From"
+        android:id="@+id/switch_From"
+        android:textOn="PM"
+        android:textOff="AM"
+        android:checked="false"
+        android:splitTrack="false"
+        android:showText="true"
+        />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_From"
+        android:layout_toRightOf="@+id/editText_From"
+        android:layout_toEndOf="@+id/editText_From"
+        android:id="@+id/switch_To"
+        android:textOn="PM"
+        android:textOff="AM"
+        android:showText="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/button_LetsGo"
+        android:layout_alignRight="@+id/editText_MaxVolunteers"
+        android:layout_alignEnd="@+id/editText_MaxVolunteers"
+        android:layout_marginTop="11dp"
+        android:id="@+id/editText_Description"
+        android:hint="Description" />
 </RelativeLayout>
