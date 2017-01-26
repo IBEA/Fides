@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewOrganizationActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
+public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
 
     @Bind(R.id.organizationResultRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.nameInput) EditText mNameInput;
@@ -92,13 +92,13 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
                 }
 
                 // Populate recyclerview
-                NewOrganizationActivity.this.runOnUiThread(new Runnable() {
+                OrganizationApplicationActivity.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
                         mAdapter = new OrganizationListAdapter(getApplicationContext(), mOrganizations);
                         mRecyclerView.setAdapter(mAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewOrganizationActivity.this);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(OrganizationApplicationActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setHasFixedSize(true);
                     }

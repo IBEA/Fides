@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.ui.NewOrganizationActivity;
+import com.ibea.fides.ui.OrganizationApplicationActivity;
 
 import java.util.ArrayList;
 
@@ -64,7 +64,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
 
         @Override
         public void onClick(View v) {
-            ((NewOrganizationActivity) mContext).userItemClick(getAdapterPosition());
+            ((OrganizationApplicationActivity) mContext).userItemClick(getAdapterPosition());
         }
     }
 }
