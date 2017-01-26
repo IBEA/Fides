@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#ffffff"
-        android:text="This is slide 1"
+        android:text="This is slide 3"
         android:id="@+id/textView"
         android:textSize="25sp" />
 

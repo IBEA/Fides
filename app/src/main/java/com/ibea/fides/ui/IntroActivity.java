@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
@@ -26,9 +25,10 @@ public class IntroActivity extends AppIntro {
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
         addSlide(SampleSlide.newInstance(R.layout.slide_1));
-        addSlide(SampleSlide.newInstance(R.layout.slide_1));
-        addSlide(SampleSlide.newInstance(R.layout.slide_1));
-        addSlide(AppIntroFragment.newInstance("Slide title", "Loong description here", R.drawable.common_full_open_on_phone, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null) ));
+        addSlide(SampleSlide.newInstance(R.layout.slide_2));
+        addSlide(SampleSlide.newInstance(R.layout.slide_3));
+
+        //addSlide(AppIntroFragment.newInstance("Slide title", "Loong description here", R.drawable.common_full_open_on_phone, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null) ));
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
@@ -42,6 +42,8 @@ public class IntroActivity extends AppIntro {
         // Hide Skip/Done button.
         showSkipButton(true);
         setProgressButtonEnabled(true);
+
+        setFadeAnimation();
 
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
