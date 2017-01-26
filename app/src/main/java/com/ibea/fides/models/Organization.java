@@ -8,7 +8,7 @@ import org.parceler.Parcel;
 
 @Parcel
 public class Organization {
-    String pushId;
+    String pushID;
     String name;
 
     // Empty Constructor for Parceler
