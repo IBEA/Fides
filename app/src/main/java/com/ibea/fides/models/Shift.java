@@ -18,13 +18,14 @@ public class Shift {
     String OID;
     String description;
     String shortDescription;
+    String organizationName;
     int zip;
     String date;
     int maxVolunteers;
     List<String> currentVolunteers = new ArrayList<String>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip){
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip, String _organizationName){
         from = _from;
         until = _until;
         OID = _OID;
@@ -34,6 +35,7 @@ public class Shift {
         maxVolunteers = _maxVolunteers;
         address = _address;
         zip = _zip;
+        organizationName = _organizationName;
     }
 
     // Getters and Setters
@@ -117,5 +119,13 @@ public class Shift {
 
     public void setCurrentVolunteers(List<String> currentVolunteers) {
         this.currentVolunteers = currentVolunteers;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 }

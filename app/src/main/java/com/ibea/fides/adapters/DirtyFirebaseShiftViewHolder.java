@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
+import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 
 import org.parceler.Parcels;
@@ -34,13 +36,9 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     }
 
     public void bindShift(Shift shift) {
-//        ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
-//        TextView nameTextView = (TextView) mView.findViewById(R.id.restaurantNameTextView);
-//        TextView categoryTextView = (TextView) mView.findViewById(R.id.categoryTextView);
-//        TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
+        TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
 
-//        nameTextView.setText(restaurant.getName());
-
+        organizationTextView.setText(shift.getOrganizationName());
     }
 
     @Override
