@@ -22,14 +22,8 @@
         <activity android:name=".ui.HomeActivity" />
         <activity android:name=".ui.ShiftsCreateActivity" />
         <activity android:name=".ui.ShiftsTestingActivity" />
-        <activity android:name=".ui.NewOrganizationActivity"></activity>
-        <activity android:name="com.eber.fides.ui.OrganizationActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.ShiftsCreateActivity"></activity>
-        <activity android:name=".ui.IntroActivity"></activity>
+        <activity android:name=".ui.NewOrganizationActivity"/>
+        <activity android:name=".ui.IntroActivity"/>
     </application>
 
 </manifest>
