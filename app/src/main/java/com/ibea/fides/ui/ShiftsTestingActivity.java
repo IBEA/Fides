@@ -30,12 +30,11 @@ public class ShiftsTestingActivity extends BaseActivity {
 
     private void setUpFirebaseAdapter() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Shift, DirtyFirebaseShiftViewHolder>
-                (Shift.class, R.layout.restaurant_list_item, DirtyFirebaseShiftViewHolder.class,
+                (Shift.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class,
                         dbShifts) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder,
-                                              Shift model, int position) {
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, Shift model, int position) {
                 viewHolder.bindShift(model);
             }
         };
