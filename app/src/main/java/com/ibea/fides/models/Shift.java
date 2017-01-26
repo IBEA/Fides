@@ -37,7 +37,7 @@ public class Shift {
     }
 
     // Getters and Setters
-    public String getPushID() { return this.pushID; } 
+    public String getPushID() { return pushID; }
     public void setPushID(String pushID) { this.pushID = pushID; }
     public int getZip() {
         return zip;
