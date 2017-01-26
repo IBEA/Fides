@@ -28,6 +28,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         ButterKnife.bind(this);
 
         mButton_Dirty.setOnClickListener(this);
+
+        Intent intent = new Intent(HomeActivity.this , IntroActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -43,6 +46,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override

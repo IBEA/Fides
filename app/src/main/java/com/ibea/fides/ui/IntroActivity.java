@@ -1,5 +1,6 @@
 package com.ibea.fides.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,13 +25,10 @@ public class IntroActivity extends AppIntro {
 
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
-        addSlide(SampleSlide.newInstance(R.layout.slide_1);
-        addSlide(SampleSlide.newInstance(R.layout.slide_1);
-        addSlide(SampleSlide.newInstance(R.layout.slide_1);
+        addSlide(SampleSlide.newInstance(R.layout.slide_1));
+        addSlide(SampleSlide.newInstance(R.layout.slide_1));
+        addSlide(SampleSlide.newInstance(R.layout.slide_1));
         addSlide(AppIntroFragment.newInstance("Slide title", "Loong description here", R.drawable.common_full_open_on_phone, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null) ));
-        //addSlide(secondFragment);
-        //addSlide(thirdFragment);
-        //addSlide(fourthFragment);
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
@@ -42,25 +40,28 @@ public class IntroActivity extends AppIntro {
         setSeparatorColor(Color.parseColor("#2196F3"));
 
         // Hide Skip/Done button.
-        showSkipButton(false);
-        setProgressButtonEnabled(false);
+        showSkipButton(true);
+        setProgressButtonEnabled(true);
 
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
-        setVibrate(true);
-        setVibrateIntensity(30);
+        //setVibrate(true);
+        //setVibrateIntensity(30);
     }
 
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        // Do something when users tap on Skip button.
+
+        finish();
     }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        // Do something when users tap on Done button.
+
+
+        finish();
     }
 
     @Override
