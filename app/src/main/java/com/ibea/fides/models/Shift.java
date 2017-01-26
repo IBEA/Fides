@@ -1,5 +1,7 @@
 package com.ibea.fides.models;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,23 +9,58 @@ import java.util.List;
  * Created by Alaina Traxler on 1/25/2017.
  */
 
+@Parcel
 public class Shift {
-    private String from;
-    private String until;
-    private String OID;
-    private String description;
-    private String date;
-    private int maxVolunteers;
-    private List<String> currentVolunteers = new ArrayList<String>();
+    String pushID;
+    String address;
+    String from;
+    String until;
+    String OID;
+    String description;
+    String shortDescription;
+    int zip;
+    String date;
+    int maxVolunteers;
+    List<String> currentVolunteers = new ArrayList<String>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, int _maxVolunteers, String _OID){
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip){
         from = _from;
         until = _until;
         OID = _OID;
         description = _description;
+        shortDescription = _shortDescription;
         date = _date;
         maxVolunteers = _maxVolunteers;
+        address = _address;
+        zip = _zip;
+    }
+
+    // Getters and Setters
+    public String getPushID() { return pushID; }
+    public void setPushID(String pushID) { this.pushID = pushID; }
+    public int getZip() {
+        return zip;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
     public String getFrom() {

@@ -1,7 +1,9 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +28,37 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         mButton_Dirty.setOnClickListener(this);
         mButton_Dirty_Logout.setOnClickListener(this);
+
+
+        //Keep this to test intro
+        //Intent intent = new Intent(HomeActivity.this , IntroActivity.class);
+        //startActivity(intent);
+
+        //Use the following block of code for real app performance -- Will only run intro once
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                if (isFirstStart) {
+                    Intent i = new Intent(HomeActivity.this, IntroActivity.class);
+                    startActivity(i);
+
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    e.putBoolean("firstStart", false);
+
+                    e.apply();
+                }
+            }
+        });
+
+        t.start();
+
+        //end of block
     }
 
     @Override
@@ -44,6 +77,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override

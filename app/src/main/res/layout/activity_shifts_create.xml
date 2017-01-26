@@ -97,4 +97,49 @@
         android:layout_marginTop="11dp"
         android:id="@+id/editText_Description"
         android:hint="Description" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/editText_Description"
+        android:layout_alignLeft="@+id/editText_Description"
+        android:layout_alignStart="@+id/editText_Description"
+        android:id="@+id/editText_ShortDescription"
+        android:hint="Short Description" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_ShortDescription"
+        android:layout_alignLeft="@+id/editText_ShortDescription"
+        android:layout_alignStart="@+id/editText_ShortDescription"
+        android:id="@+id/editText_Org"
+        android:hint="Dirty org id box, don't use" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:layout_below="@+id/editText_Org"
+        android:layout_alignRight="@+id/editText_Org"
+        android:layout_alignEnd="@+id/editText_Org"
+        android:layout_marginTop="13dp"
+        android:id="@+id/editText_Address"
+        android:hint="Address" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/editText_Address"
+        android:layout_alignLeft="@+id/editText_Address"
+        android:layout_alignStart="@+id/editText_Address"
+        android:id="@+id/editText_Zip"
+        android:hint="Zip" />
 </RelativeLayout>

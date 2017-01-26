@@ -22,8 +22,8 @@
         <activity android:name=".ui.HomeActivity" />
         <activity android:name=".ui.ShiftsCreateActivity" />
         <activity android:name=".ui.ShiftsTestingActivity" />
-        <activity android:name=".ui.NewOrganizationActivity" />
-        <activity android:name=".ui.ShiftDetailsActivity"></activity>
+        <activity android:name=".ui.ShiftDetailsActivity"></activity>tivity android:name=".ui.OrganizationApplicationActivity"/>
+        <activity android:name=".ui.IntroActivity"/>
     </application>
 
 </manifest>
