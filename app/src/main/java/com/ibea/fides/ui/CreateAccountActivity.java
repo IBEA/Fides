@@ -86,7 +86,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             createNewUser();
         }
         if(view == mNewOrgButton) {
-            Intent intent = new Intent(mContext, NewOrganizationActivity.class);
+            Intent intent = new Intent(mContext, OrganizationApplicationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
