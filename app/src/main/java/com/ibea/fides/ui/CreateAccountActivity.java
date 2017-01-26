@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibea.fides.BaseActivity;
@@ -31,6 +32,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
     @Bind(R.id.createButton) Button mCreateButton;
+    @Bind(R.id.newOrganizationText) TextView mNewOrgButton;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -49,6 +51,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         // Set Click Listener
         mCreateButton.setOnClickListener(this);
+        mNewOrgButton.setOnClickListener(this);
 
         // Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
@@ -81,6 +84,12 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         if(view == mCreateButton) {
             createNewUser();
+        }
+        if(view == mNewOrgButton) {
+            Intent intent = new Intent(mContext, NewOrganizationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
     }
 

@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.button_Dirty) Button mButton_Dirty;
-
+    @Bind(R.id.button_Dirty_Logout) Button mButton_Dirty_Logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +28,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         ButterKnife.bind(this);
 
         mButton_Dirty.setOnClickListener(this);
+        mButton_Dirty_Logout.setOnClickListener(this);
     }
 
     @Override
@@ -35,6 +36,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if(v == mButton_Dirty){
             Intent intent = new Intent(mContext, ShiftsTestingActivity.class);
             startActivity(intent);
+        }
+        if(v == mButton_Dirty_Logout) {
+            mUniversal.logout(mContext);
         }
     }
 
