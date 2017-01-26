@@ -12,12 +12,4 @@ public class Constants {
 
     // Constants for fields. Reusable if fields are named same.
     //OID == Organization ID, as provided by the API
-
-    //For shifts.
-    public static final String DB_FIELD_FROM = "from";
-    public static final String DB_FIELD_UNTIL = "until";
-    public static final String DB_FIELD_DATE = "date";
-    public static final String DB_FIELD_MAXVOLUNTEERS = "maxVolunteers";
-    public static final String DB_FIELD_OID = "OID";
-    public static final String DB_FIELD_DESCRIPTION = "description";
 }
