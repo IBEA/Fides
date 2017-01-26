@@ -33,7 +33,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.switch_To) Switch mSwitch_To;
     @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
-    @Bind(R.id.editText_Org) EditText getmEditText_Org;
+    @Bind(R.id.editText_Org) EditText mEditText_Org;
+    @Bind(R.id.editText_Address) EditText mEditText_Address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 String date = mEditText_Date.getText().toString();
                 String description = mEditText_Descritpion.getText().toString();
                 String shortDescription = mEditText_ShortDescritpion.getText().toString();
-                String OID = getmEditText_Org.getText().toString();
+                String OID = mEditText_Org.getText().toString();
+                String address = mEditText_Address.getText().toString();
 
-                Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, OID);
+                Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, OID, address);
 
                 //Push data
                 DatabaseReference pushRef = dbShifts.push();
