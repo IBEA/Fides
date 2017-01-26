@@ -16,8 +16,8 @@ public class Organization {
     String address;
     String zipcode;
     String description;
-    List<Shift> shiftsAvailable = new ArrayList<>();
-    List<Shift> shiftsCompleted = new ArrayList<>();
+    List<String> shiftsAvailable = new ArrayList<>();
+    List<String> shiftsCompleted = new ArrayList<>();
 
     // Empty Constructor for Parceler
     public Organization() {}
@@ -69,30 +69,30 @@ public class Organization {
         this.description = description;
     }
 
-    public List<Shift> getShiftsAvailable() {
+    public List<String> getShiftsAvailable() {
         return shiftsAvailable;
     }
 
-    public void setShiftsAvailable(List<Shift> shiftsAvailable) {
+    public void setShiftsAvailable(List<String> shiftsAvailable) {
         this.shiftsAvailable = shiftsAvailable;
     }
 
-    public List<Shift> getShiftsCompleted() {
+    public List<String> getShiftsCompleted() {
         return shiftsCompleted;
     }
 
-    public void setShiftsCompleted(List<Shift> shiftsCompleted) {
+    public void setShiftsCompleted(List<String> shiftsCompleted) {
         this.shiftsCompleted = shiftsCompleted;
     }
 
     // Shift Functions
-    public void addShift(Shift shiftToAdd) {
+    public void addShift(String shiftToAdd) {
         this.shiftsAvailable.add(shiftToAdd);
     }
 
     public void completeShift(String pushID) {
-        for(Shift shift : this.shiftsAvailable) {
-            if(shift.getPushID().equals(pushID)) {
+        for(String shift : this.shiftsAvailable) {
+            if(shift.equals(pushID)) {
                 shiftsAvailable.remove(shift);
                 shiftsCompleted.add(shift);
             }
