@@ -48,20 +48,6 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
         ButterKnife.bind(this);
 
         // Temporary premade list of organizations
-        Organization org1 = new Organization("1", "Good Sam");
-        Organization org2 = new Organization("2", "Legacy");
-        Organization org3 = new Organization("3", "Meals on Wheels");
-        Organization org4 = new Organization("4", "Hack Oregon");
-        Organization org5 = new Organization("5", "Blankets All Around");
-        Organization org6 = new Organization("6", "Black Lives Matter");
-        Organization org7 = new Organization("7", "OHSU");
-        mTestOrg.add(org1);
-        mTestOrg.add(org2);
-        mTestOrg.add(org3);
-        mTestOrg.add(org4);
-        mTestOrg.add(org5);
-        mTestOrg.add(org6);
-        mTestOrg.add(org7);
 
         // Set Click Listener
         mSubmitButton.setOnClickListener(this);
