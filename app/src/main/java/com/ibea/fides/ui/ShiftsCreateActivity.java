@@ -43,7 +43,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.switch_To) Switch mSwitch_To;
     @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
-    @Bind(R.id.editText_Org) EditText mEditText_Org;
     @Bind(R.id.editText_Address) EditText mEditText_Address;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
 

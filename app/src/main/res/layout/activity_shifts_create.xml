@@ -112,17 +112,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_ShortDescription"
-        android:layout_alignLeft="@+id/editText_ShortDescription"
-        android:layout_alignStart="@+id/editText_ShortDescription"
-        android:id="@+id/editText_Org"
-        android:hint="Dirty org id box, don't use" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
         android:layout_below="@+id/editText_Org"
