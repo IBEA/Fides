@@ -37,13 +37,19 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
     public void bindShift(Shift shift) {
         TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
+        TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
+        TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
 
         organizationTextView.setText(shift.getOrganizationName());
+        shortDescriptionTextView.setText(shift.getShortDescription());
+        zipCodeTextView.setText(String.valueOf(shift.getZip()));
     }
 
     @Override
     public void onClick(View view) {
         final ArrayList<Shift> shifts = new ArrayList<>();
+
+        //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -55,9 +61,10 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
                 int itemPosition = getLayoutPosition();
 
-//                Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
+                //Rough code for kicking into the pager adapter that it looks like you guys are using.
+//                Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
 //                intent.putExtra("position", itemPosition + "");
-//                intent.putExtra("restaurants", Parcels.wrap(restaurants));
+//                intent.putExtra("shifts", Parcels.wrap(shifts));
 
 //                mContext.startActivity(intent);
             }
