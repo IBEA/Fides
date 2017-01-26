@@ -70,24 +70,30 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         return _time;
     }
 
+    public Shift createShift(){
+        String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
+        String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
+
+        int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
+        String date = mEditText_Date.getText().toString();
+        String description = mEditText_Descritpion.getText().toString();
+        String shortDescription = mEditText_ShortDescritpion.getText().toString();
+        String OID = mEditText_Org.getText().toString();
+        String address = mEditText_Address.getText().toString();
+        int zip = Integer.parseInt(mEditText_Zip.getText().toString());
+
+        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, OID, address, zip);
+
+        return shift;
+    }
+
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
             if(validateFields()){
                 //Harvest data
-                String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
 
-                String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
-
-                int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
-                String date = mEditText_Date.getText().toString();
-                String description = mEditText_Descritpion.getText().toString();
-                String shortDescription = mEditText_ShortDescritpion.getText().toString();
-                String OID = mEditText_Org.getText().toString();
-                String address = mEditText_Address.getText().toString();
-                int zip = Integer.parseInt(mEditText_Zip.getText().toString());
-
-                Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, OID, address, zip);
+                Shift shift = createShift();
 
                 //Push data
                 DatabaseReference pushRef = dbShifts.push();
