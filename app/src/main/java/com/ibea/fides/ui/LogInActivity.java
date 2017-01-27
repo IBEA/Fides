@@ -92,9 +92,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         if(view == mNewAccountButton) {
             Intent intent = new Intent(mContext, CreateAccountActivity.class);
             startActivity(intent);
-
-            // Destroy current Activity
-            finish();
         }
     }
 

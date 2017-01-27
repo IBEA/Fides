@@ -12,7 +12,9 @@ import java.util.List;
 @Parcel
 public class Organization {
     String pushID;
-    String name;
+    String orgName;
+    String ein;
+    String contactName;
     String address;
     String zipcode;
     String description;
@@ -23,73 +25,58 @@ public class Organization {
     public Organization() {}
 
     // Basic Constructor
-    public Organization(String name) {
-        this.name = name;
+    public Organization(String orgName) {
+        this.orgName = orgName;
     }
 
     // Getters and Setters
-
     public String getPushID() {
         return pushID;
     }
-
     public void setPushID(String pushID) {
         this.pushID = pushID;
     }
-
-    public String getName() {
-        return name;
+    public String getOrgName() {
+        return orgName;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
-
+    public String getEin() { return ein; }
+    public void setEin(String ein) { this.ein = ein; }
+    public String getContactName() { return contactName; }
+    public void setContactName(String contactName) { this.contactName = contactName; }
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
-
     public String getZipcode() {
         return zipcode;
     }
-
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public List<String> getShiftsAvailable() {
         return shiftsAvailable;
     }
-
-    public void setShiftsAvailable(List<String> shiftsAvailable) {
-        this.shiftsAvailable = shiftsAvailable;
-    }
-
+    public void setShiftsAvailable(List<String> shiftsAvailable) { this.shiftsAvailable = shiftsAvailable; }
     public List<String> getShiftsCompleted() {
         return shiftsCompleted;
     }
-
-    public void setShiftsCompleted(List<String> shiftsCompleted) {
-        this.shiftsCompleted = shiftsCompleted;
-    }
+    public void setShiftsCompleted(List<String> shiftsCompleted) { this.shiftsCompleted = shiftsCompleted; }
 
     // Shift Functions
     public void addShift(String shiftToAdd) {
         this.shiftsAvailable.add(shiftToAdd);
     }
-
     public void completeShift(String pushID) {
         for(String shift : this.shiftsAvailable) {
             if(shift.equals(pushID)) {
