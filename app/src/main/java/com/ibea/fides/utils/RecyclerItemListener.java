@@ -5,5 +5,5 @@ package com.ibea.fides.utils;
  */
 
 public interface RecyclerItemListener {
-    void userItemClick(int pos);
+    void userItemClick(Object data);
 }

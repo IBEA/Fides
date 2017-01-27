@@ -14,15 +14,17 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.utils.RecyclerItemListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftsTestingActivity extends BaseActivity implements View.OnClickListener{
+public class ShiftsTestingActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.button_Volunteer) Button mButton_Volunteer;
+//    @Bind(R.id.button_Volunteer) Button mButton_Volunteer;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private RecyclerItemListener mTransfer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +32,22 @@ public class ShiftsTestingActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_shifts_testing);
         ButterKnife.bind(this);
 
+        mTransfer = this;
+
         setUpFirebaseAdapter();
-        mButton_Volunteer.setOnClickListener(this);
+//        mButton_Volunteer.setOnClickListener(this);
+    }
+
+    @Override
+    public void userItemClick(Object data){
+        Toast.makeText(mContext, "PopPop", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v){
-        if(v == mButton_Volunteer){
-            claimShift();
-        }
+//        if(v == mButton_Volunteer){
+//            claimShift();
+//        }
     }
 
     private void setUpFirebaseAdapter() {
@@ -47,7 +56,7 @@ public class ShiftsTestingActivity extends BaseActivity implements View.OnClickL
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                viewHolder.bindShift(shiftID);
+                viewHolder.bindShift(shiftID, mTransfer);
             }
         };
         mRecyclerView.setHasFixedSize(true);
@@ -56,7 +65,10 @@ public class ShiftsTestingActivity extends BaseActivity implements View.OnClickL
     }
 
     public void claimShift(){
+//        String shiftID =
+
         // Assign to shiftsPending for user
+//        dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid()).child(shif)
 
         //check if shift has slots left. If not, remove from shiftsAvailable
         Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();

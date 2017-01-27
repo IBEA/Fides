@@ -14,11 +14,12 @@ import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.utils.RecyclerItemListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftSearchActivity extends BaseActivity implements View.OnClickListener {
+public class ShiftSearchActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
     @Bind(R.id.zipcodeRadio)
     RadioButton mZipRadio;
     @Bind(R.id.organizationRadio)
@@ -35,6 +36,7 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
     private String zipcode;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private RecyclerItemListener mTransfer;
 
 
     @Override
@@ -43,7 +45,14 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_shift_search);
         ButterKnife.bind(this);
 
+        mTransfer = this;
+
         mSearchButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void userItemClick(Object data){
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -78,7 +87,7 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                viewHolder.bindShift(shiftID);
+                viewHolder.bindShift(shiftID, mTransfer);
             }
         };
         mRecyclerView.setHasFixedSize(true);

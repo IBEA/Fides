@@ -16,4 +16,5 @@ public class Constants {
     // Sub-nodes
     public static final String DB_SUBNODE_ZIPCODE = "zipcode";
     public static final String DB_SUBNODE_ORGANIZATIONS = "organizations";
+    public static final String DB_SUBNODE_VOLUNTEERS = "volunteers";
 }
