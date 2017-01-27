@@ -79,6 +79,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if(v == mButton_Dirty_Logout) {
             mUniversal.logout(mContext);
         }
+
     }
 
     @Override
@@ -98,6 +99,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
         else if (id == R.id.action_shifts){
             Intent intent = new Intent(HomeActivity.this, ShiftsCreateActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.action_dirty_shift_search) {
+            Intent intent = new Intent(mContext, ShiftSearchActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
