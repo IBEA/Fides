@@ -64,7 +64,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
 
         @Override
         public void onClick(View v) {
-            ((OrganizationApplicationActivity) mContext).userItemClick(getAdapterPosition());
+            ((OrganizationApplicationActivity) mContext).userItemClick(getAdapterPosition(), "unspecified");
         }
     }
 }

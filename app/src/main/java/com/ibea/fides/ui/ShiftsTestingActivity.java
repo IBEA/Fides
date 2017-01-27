@@ -19,9 +19,8 @@ import com.ibea.fides.utils.RecyclerItemListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftsTestingActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener{
+public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemListener{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-//    @Bind(R.id.button_Volunteer) Button mButton_Volunteer;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerItemListener mTransfer;
@@ -35,21 +34,15 @@ public class ShiftsTestingActivity extends BaseActivity implements View.OnClickL
         mTransfer = this;
 
         setUpFirebaseAdapter();
-//        mButton_Volunteer.setOnClickListener(this);
     }
 
     @Override
-    public void userItemClick(Object data){
+    public void userItemClick(Object data, String view){
         Shift shift = (Shift) data;
-        Toast.makeText(mContext, shift.getOrganizationName(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClick(View v){
-        //!! Put protections in for shifts that have been claimed before the interface updates !!
-//        if(v == mButton_Volunteer){
-//            claimShift();
-//        }
+        Toast.makeText(mContext, "in userItemClick", Toast.LENGTH_SHORT).show();
+        if(view.equals("volunteerButton")){
+            claimShift(shift);
+        }
     }
 
     private void setUpFirebaseAdapter() {
@@ -66,7 +59,8 @@ public class ShiftsTestingActivity extends BaseActivity implements View.OnClickL
         mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
-    public void claimShift(){
+    public void claimShift(Shift shift){
+        //!! Put protections in for shifts that have been claimed before the interface updates !!
 //        String shiftID =
 
         // Assign to shiftsPending for user

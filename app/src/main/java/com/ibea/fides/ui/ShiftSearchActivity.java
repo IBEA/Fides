@@ -51,7 +51,7 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    public void userItemClick(Object data){
+    public void userItemClick(Object data, String view){
 
     }
 
