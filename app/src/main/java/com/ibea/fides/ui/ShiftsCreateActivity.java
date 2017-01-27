@@ -97,6 +97,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void pushData(Shift _shift){
+        String organizagtionID = _shift.getOrganizationID();
+
         // Add shift to database
         DatabaseReference pushRef = dbShifts.push();
         String shiftID = pushRef.getKey();
@@ -104,8 +106,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         // Add shift to shiftsAvailable fields
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(shiftID);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOrganizationID()).child(shiftID).setValue(shiftID);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftID).setValue(shiftID);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
+
+        // Add shift to shiftsPending for organization
+        dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftID).setValue(shiftID);
     }
 
     @Override

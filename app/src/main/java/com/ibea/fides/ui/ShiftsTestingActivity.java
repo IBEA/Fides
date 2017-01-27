@@ -43,6 +43,12 @@ public class ShiftsTestingActivity extends BaseActivity {
         mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
+    public void claimShift(){
+        // Assign to shiftsPending for user
+
+        //check if shift has slots left. If not, remove from shiftsAvailable
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
