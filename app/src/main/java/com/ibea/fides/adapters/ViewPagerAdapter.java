@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.ibea.fides.ui.FragmentTab1;
+import com.ibea.fides.ui.ProfileTab;
 import com.ibea.fides.ui.FragmentTab2;
 
 /**
@@ -32,10 +32,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
 
-            // Open FragmentTab1.java
+            // Open ProfileTab.java
             case 0:
-                FragmentTab1 fragmenttab1 = new FragmentTab1();
-                return fragmenttab1;
+                ProfileTab fragmenttab = new ProfileTab();
+                return fragmenttab;
 
             // Open FragmentTab2.java
             case 1:
