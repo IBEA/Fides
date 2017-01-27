@@ -3,6 +3,9 @@
     package="com.ibea.fides">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +31,6 @@
         <activity android:name=".ui.OrgProfileActivity"
             android:exported="true"></activity>
         <activity android:name=".ui.ShiftDetailsActivity"></activity>
-
     </application>
 
 </manifest>
