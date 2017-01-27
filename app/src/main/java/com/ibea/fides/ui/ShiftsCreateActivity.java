@@ -103,8 +103,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         pushRef.setValue(_shift);
 
         // Add shift to shiftsAvailable fields
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(true);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOrganizationID()).child(shiftID).setValue(true);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(shiftID);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOrganizationID()).child(shiftID).setValue(shiftID);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
     }
 
