@@ -5,14 +5,15 @@ package com.ibea.fides;
  */
 
 public class Constants {
+    //Base nodes
     public static final String DB_NODE_USERS = "users";
     public static final String DB_NODE_SHIFTS = "shifts";
     public static final String DB_NODE_ORGANIZATIONS = "organizations";
     public static final String DB_NODE_TAGS = "tags";
     public static final String DB_NODE_SHIFTSAVAILABLE = "shiftsAvailable";
+    public static final String DB_NODE_SHIFTSUNAVAILABLE = "shiftsUnavailable";
+
+    // Sub-nodes
     public static final String DB_SUBNODE_ZIPCODE = "zipcode";
     public static final String DB_SUBNODE_ORGANIZATIONS = "organizations";
-
-    // Constants for fields. Reusable if fields are named same.
-    //OID == Organization ID, as provided by the API
 }
