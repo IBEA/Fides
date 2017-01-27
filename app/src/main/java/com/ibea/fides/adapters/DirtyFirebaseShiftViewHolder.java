@@ -45,6 +45,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     public void bindShift(String shiftID, RecyclerItemListener _transfer) {
         transfer = _transfer;
 
+        //!! Change volunteer button to cancel button if organization !!
+
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
         final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);

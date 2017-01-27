@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
@@ -61,19 +64,35 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
     }
 
     public void claimShift(Shift shift){
+        final String userID = mCurrentUser.getUid();
+        final String shiftID = shift.getPushID();
+
+        dbShifts.child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
+                    Toast.makeText(ShiftsTestingActivity.this, "Shift full", Toast.LENGTH_SHORT).show();
+                }else{
+                    // Assign to shiftsPending for user
+                    dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).setValue(shiftID);
+
+                    //Add user to list of volunteers and push to database
+                    shift.addVolunteer(userID);
+                    dbShifts.child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+
+                    //check if shift has slots left. If not, remove from shiftsAvailable
+                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         //!! Put protections in for shifts that have been claimed before the interface updates !!
-        String shiftID = shift.getPushID();
-
-        // Assign to shiftsPending for user
-        dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid()).child(shiftID).setValue(shiftID);
-
-        //Add user to list of volunteers and push to database
-        shift.addVolunteer(mCurrentUser.getUid());
-        dbShifts.child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
-
-
-        //check if shift has slots left. If not, remove from shiftsAvailable
-        Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
