@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.ibea.fides.BaseActivity;
@@ -15,8 +18,9 @@ import com.ibea.fides.models.Shift;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftsTestingActivity extends BaseActivity {
+public class ShiftsTestingActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.button_Volunteer) Button mButton_Volunteer;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
 
@@ -27,6 +31,14 @@ public class ShiftsTestingActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setUpFirebaseAdapter();
+        mButton_Volunteer.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v){
+        if(v == mButton_Volunteer){
+            claimShift();
+        }
     }
 
     private void setUpFirebaseAdapter() {
@@ -47,6 +59,7 @@ public class ShiftsTestingActivity extends BaseActivity {
         // Assign to shiftsPending for user
 
         //check if shift has slots left. If not, remove from shiftsAvailable
+        Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
