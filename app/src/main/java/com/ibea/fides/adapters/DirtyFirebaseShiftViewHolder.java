@@ -50,7 +50,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
 
-//        mVolunteerButton.setOnClickListener(this);
+        mVolunteerButton.setOnClickListener(this);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -75,14 +75,12 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     public void onClick(View view) {
         final ArrayList<Shift> shifts = new ArrayList<>();
 
-        Toast.makeText(mContext, "in onClick", Toast.LENGTH_SHORT).show();
-
-//        if(view == mVolunteerButton){
-//            Toast.makeText(mContext, "In onClick", Toast.LENGTH_SHORT).show();
-//            transfer.userItemClick(mShift, "volunteerButton");
-//        }else{
-//            transfer.userItemClick(mShift, "unspecified");
-//        }
+        if(view == mVolunteerButton){
+            Toast.makeText(mContext, "In onClick", Toast.LENGTH_SHORT).show();
+            transfer.userItemClick(mShift, "volunteerButton");
+        }else{
+            transfer.userItemClick(mShift, "unspecified");
+        }
 
         //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS);

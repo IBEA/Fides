@@ -39,9 +39,10 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
     @Override
     public void userItemClick(Object data, String view){
         Shift shift = (Shift) data;
-        Toast.makeText(mContext, "in userItemClick", Toast.LENGTH_SHORT).show();
         if(view.equals("volunteerButton")){
             claimShift(shift);
+        }else{
+            //!! Redirect to shift details!!
         }
     }
 
@@ -61,10 +62,10 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
 
     public void claimShift(Shift shift){
         //!! Put protections in for shifts that have been claimed before the interface updates !!
-//        String shiftID =
+        String shiftID = shift.getPushID();
 
         // Assign to shiftsPending for user
-//        dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid()).child(shif)
+        dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid()).child(shiftID).setValue(shiftID);
 
         //check if shift has slots left. If not, remove from shiftsAvailable
         Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
