@@ -67,6 +67,9 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
         // Assign to shiftsPending for user
         dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid()).child(shiftID).setValue(shiftID);
 
+        //Add user to list of volunteers
+
+
         //check if shift has slots left. If not, remove from shiftsAvailable
         Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
     }

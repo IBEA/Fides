@@ -128,4 +128,14 @@ public class Shift {
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
+
+    public void addVolunteer(String userID){
+        currentVolunteers.add(userID);
+    }
+
+    public void removeVolunteer(String userID){
+        //Untested
+        int index = currentVolunteers.indexOf(userID);
+        currentVolunteers.remove(index);
+    }
 }
