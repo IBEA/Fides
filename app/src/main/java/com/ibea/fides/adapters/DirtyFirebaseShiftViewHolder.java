@@ -69,7 +69,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     @Override
     public void onClick(View view) {
         final ArrayList<Shift> shifts = new ArrayList<>();
-        transfer.userItemClick(3);
+        transfer.userItemClick(mShift);
 
         //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS);

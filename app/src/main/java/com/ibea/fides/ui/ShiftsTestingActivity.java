@@ -40,11 +40,13 @@ public class ShiftsTestingActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void userItemClick(Object data){
-        Toast.makeText(mContext, "PopPop", Toast.LENGTH_SHORT).show();
+        Shift shift = (Shift) data;
+        Toast.makeText(mContext, shift.getOrganizationName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View v){
+        //!! Put protections in for shifts that have been claimed before the interface updates !!
 //        if(v == mButton_Volunteer){
 //            claimShift();
 //        }

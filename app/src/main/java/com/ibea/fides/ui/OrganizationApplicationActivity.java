@@ -114,9 +114,11 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
     // Interface function that allows information regarding an item in a RecyclerView to be accessed directly
     @Override
-    public void userItemClick(int pos) {
+    public void userItemClick(Object data) {
+        int pos = (int) data;
         organizationId = mOrganizations.get(pos).getName();
     }
+
 
     // Populate email to us upon claim request
     private void claimOrganization(String userName, String organizationId, String organizationName) {
