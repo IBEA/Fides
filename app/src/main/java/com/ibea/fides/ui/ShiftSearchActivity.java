@@ -1,6 +1,5 @@
 package com.ibea.fides.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,7 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
     RadioButton mZipRadio;
     @Bind(R.id.organizationRadio)
     RadioButton mOrgRadio;
-    @Bind(R.id.searchButton)
+    @Bind(R.id.submitButton)
     Button mSearchButton;
     @Bind(R.id.searchTextInput)
     EditText mSearchInput;

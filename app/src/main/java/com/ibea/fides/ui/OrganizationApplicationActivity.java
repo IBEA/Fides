@@ -17,33 +17,25 @@ import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.utils.RecyclerItemListener;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
-
-    @Bind(R.id.organizationResultRecyclerView) RecyclerView mRecyclerView;
+public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
+    @Bind(R.id.roleInput) EditText mRoleInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
     @Bind(R.id.addressInput) EditText mAddressInput;
-    @Bind(R.id.searchButton) Button mSearchButton;
+    @Bind(R.id.zipcodeInput) EditText mZipInput;
+    @Bind(R.id.einInput) EditText mEinInput;
     @Bind(R.id.submitButton) Button mSubmitButton;
-
-    private OrganizationListAdapter mAdapter;
-    public ArrayList<Organization> mOrganizations = new ArrayList<>();
-    private String organizationId;
-
-    // Temporary List
-    public ArrayList<Organization> mTestOrg = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_organization);
+        setContentView(R.layout.activity_organization_application);
         ButterKnife.bind(this);
 
         // Temporary premade list of organizations
