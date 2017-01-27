@@ -3,6 +3,7 @@ package com.ibea.fides.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,14 +36,27 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(Shift shift) {
-        TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
-        TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
-        TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
+    public void bindShift(String shiftID) {
+        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
+        final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
+        final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
 
-        organizationTextView.setText(shift.getOrganizationName());
-        shortDescriptionTextView.setText(shift.getShortDescription());
-        zipCodeTextView.setText(String.valueOf(shift.getZip()));
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftID);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+
+                organizationTextView.setText(shift.getOrganizationName());
+                shortDescriptionTextView.setText(shift.getShortDescription());
+                zipCodeTextView.setText(String.valueOf(shift.getZip()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
