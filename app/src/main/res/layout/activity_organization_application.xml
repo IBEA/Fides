@@ -49,7 +49,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="text"
         android:ems="10"
         android:id="@+id/addressInput"
         android:hint="Address of Organization"
@@ -79,13 +79,28 @@
         android:layout_alignLeft="@+id/zipcodeInput"
         android:layout_alignStart="@+id/zipcodeInput" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/einInput"
+        android:id="@+id/descriptionInput"
+        android:hint="A short description of your organization"
+        android:lines="10"
+        android:maxLines="10"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/einInput"
+        android:layout_alignStart="@+id/einInput" />
+
     <Button
         android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/submitButton"
-        android:layout_below="@+id/einInput"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

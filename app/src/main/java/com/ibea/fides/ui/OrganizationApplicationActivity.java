@@ -1,24 +1,16 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DatabaseReference;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +22,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     @Bind(R.id.addressInput) EditText mAddressInput;
     @Bind(R.id.zipcodeInput) EditText mZipInput;
     @Bind(R.id.einInput) EditText mEinInput;
+    @Bind(R.id.descriptionInput) EditText mDescriptionInput;
     @Bind(R.id.submitButton) Button mSubmitButton;
 
     @Override
@@ -38,97 +31,37 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         setContentView(R.layout.activity_organization_application);
         ButterKnife.bind(this);
 
-        // Temporary premade list of organizations
-
         // Set Click Listener
         mSubmitButton.setOnClickListener(this);
-        mSearchButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        // Will eventually call API - Temporary comparison to premade list of organizations
-        if(view == mSearchButton) {
-            String orgName = mOrganizationNameInput.getText().toString().trim();
-            String address = mAddressInput.getText().toString().trim();
-            getOrganizations(orgName, address);
-        }
-
         // Sends email to us claiming an organization
-        if(view == mSubmitButton) {
+        if (view == mSubmitButton) {
             String orgName = mOrganizationNameInput.getText().toString().trim();
+            String ein = mEinInput.getText().toString().trim();
             String userName = mNameInput.getText().toString().trim();
-            claimOrganization(userName, organizationId, orgName);
-        }
+            String address = mAddressInput.getText().toString().trim();
+            String zip = mZipInput.getText().toString().trim();
+            String description = mDescriptionInput.getText().toString().trim();
 
-    }
-    
-
-    // Populate RecyclerView with all matching organizations that have not been claimed
-    private void getOrganizations(String orgName, String address) {
-        // Temporary until API - Populate Array List with matching organizations
-        for(Organization org : mTestOrg) {
-            if(org.getName().equals(orgName)) {
-                mOrganizations.add(org);
-            }
-        }
-
-        // Consult Database to see if organizations have been claimed, then run adapter
-        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(Organization org : mOrganizations) {
-                    if(dataSnapshot.hasChild(org.getName())) {
-                       mOrganizations.remove(org);
-                    }
-                }
-
-                // Populate recyclerview
-                OrganizationApplicationActivity.this.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mAdapter = new OrganizationListAdapter(getApplicationContext(), mOrganizations);
-                        mRecyclerView.setAdapter(mAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(OrganizationApplicationActivity.this);
-                        mRecyclerView.setLayoutManager(layoutManager);
-                        mRecyclerView.setHasFixedSize(true);
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    // Interface function that allows information regarding an item in a RecyclerView to be accessed directly
-    @Override
-    public void userItemClick(Object data, String view) {
-        int pos = (int) data;
-        organizationId = mOrganizations.get(pos).getName();
-    }
-
-
-    // Populate email to us upon claim request
-    private void claimOrganization(String userName, String organizationId, String organizationName) {
-        String[] TO = {"justin.m.kincaid.work@gmail.com"};
-
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, organizationName + " Requests Access");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
-
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            finish();
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(mContext, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            submitOrganization(orgName, ein, userName, address, zip, description);
         }
     }
+
+   public void submitOrganization(String orgName, String ein, String userName, String address, String zip, String description) {
+       DatabaseReference orgKey = dbPendingOrganizations.push();
+       String pushID = orgKey.getKey();
+       Log.d(TAG, pushID);
+       Organization organization = new Organization(pushID, orgName, ein, userName, address, zip, description);
+       orgKey.setValue(organization);
+
+       Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
+
+       Intent intent = new Intent(mContext, LogInActivity.class);
+       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+       startActivity(intent);
+       finish();
+   }
 }

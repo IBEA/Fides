@@ -25,8 +25,14 @@ public class Organization {
     public Organization() {}
 
     // Basic Constructor
-    public Organization(String orgName) {
+    public Organization(String pushID, String orgName, String ein, String contactName, String address, String zip, String description) {
+        this.pushID = pushID;
         this.orgName = orgName;
+        this.ein = ein;
+        this.contactName = contactName;
+        this.address = address;
+        this.zipcode = zip;
+        this.description = description;
     }
 
     // Getters and Setters

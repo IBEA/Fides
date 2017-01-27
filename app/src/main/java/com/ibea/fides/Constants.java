@@ -9,6 +9,7 @@ public class Constants {
     public static final String DB_NODE_USERS = "users";
     public static final String DB_NODE_SHIFTS = "shifts";
     public static final String DB_NODE_ORGANIZATIONS = "organizations";
+    public static final String DB_NODE_APPLICATIONS = "pendingOrganizations";
     public static final String DB_NODE_TAGS = "tags";
     public static final String DB_NODE_SHIFTSAVAILABLE = "shiftsAvailable";
     public static final String DB_NODE_SHIFTSPENDING = "shiftsPending";
