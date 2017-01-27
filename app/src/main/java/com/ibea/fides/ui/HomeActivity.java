@@ -1,21 +1,23 @@
 package com.ibea.fides.ui;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
-
-import android.widget.Button;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +34,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mButton_Dirty.setOnClickListener(this);
         mButton_Dirty_Logout.setOnClickListener(this);
 
+        Notify();
+
+        final Intent emptyIntent = new Intent();
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Keep this to test intro
         //Intent intent = new Intent(HomeActivity.this , IntroActivity.class);
@@ -101,5 +107,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         // Another interface callback
     }
 
+
+    //Use this as a function Notification System
+    private void Notify() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder b = new NotificationCompat.Builder(this);
+
+        b.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_arrow_back_white)
+                .setTicker("This is the ticker!")
+                .setContentTitle("Fides Alert!")
+                .setContentText("Your Volunteer shift is coming up in 1 hour!")
+                .setDefaults(Notification.DEFAULT_LIGHTS| Notification.DEFAULT_SOUND)
+                .setContentIntent(contentIntent)
+                .setContentInfo("Info")
+                .setPriority(Notification.PRIORITY_HIGH);
+
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, b.build());
+    }
 
 }

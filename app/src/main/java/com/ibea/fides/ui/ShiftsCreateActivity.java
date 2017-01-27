@@ -1,9 +1,12 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.view.menu.ListMenuItemView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,11 +16,18 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,6 +43,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.switch_To) Switch mSwitch_To;
     @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
+    @Bind(R.id.editText_Address) EditText mEditText_Address;
+    @Bind(R.id.editText_Zip) EditText mEditText_Zip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,27 +79,65 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         return _time;
     }
 
+    // Reads all fields and returns constructed shift
+    public Shift createShift(String _organizationName, String _OID){
+        String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
+        String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
+
+        int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
+        String date = mEditText_Date.getText().toString();
+        String description = mEditText_Descritpion.getText().toString();
+        String shortDescription = mEditText_ShortDescritpion.getText().toString();
+        String address = mEditText_Address.getText().toString();
+        int zip = Integer.parseInt(mEditText_Zip.getText().toString());
+
+        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _OID, address, zip, _organizationName);
+
+        return shift;
+    }
+
+    public void pushData(Shift _shift){
+        // Add shift to database
+        DatabaseReference pushRef = dbShifts.push();
+        String shiftID = pushRef.getKey();
+        pushRef.setValue(_shift);
+
+        // Add shift to shiftsAvailable fields
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(true);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(_shift.getOrganizationID()).child(shiftID).setValue(true);
+        Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
-            if(validateFields()){
-                //Harvest data
-                String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
+            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if((Boolean) dataSnapshot.child("isOrganization").getValue() == true){
+                        String organizationName = dataSnapshot.child("name").getValue().toString();
+                        String OID = dataSnapshot.child("OID").getValue().toString();
 
-                String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
+                        Log.v("Here:", organizationName);
+                        Log.v("There:", OID);
 
-                int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
-                String date = mEditText_Date.getText().toString();
-                String description = mEditText_Descritpion.getText().toString();
-                String shortDescription = mEditText_ShortDescritpion.getText().toString();
+                        if(validateFields()){
+                            //Harvest data
+                            Shift shift = createShift(organizationName, OID);
 
-                Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, "temp");
+                            //Push data
+                            pushData(shift);
+                        }
+                    }else {
+                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-                //Push data
-                DatabaseReference pushRef = dbShifts.push();
-                pushRef.setValue(shift);
-                Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 

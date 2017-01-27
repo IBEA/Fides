@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewOrganizationActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
+public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
 
     @Bind(R.id.organizationResultRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.nameInput) EditText mNameInput;
@@ -47,20 +47,6 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
         ButterKnife.bind(this);
 
         // Temporary premade list of organizations
-        Organization org1 = new Organization("1", "Good Sam");
-        Organization org2 = new Organization("2", "Legacy");
-        Organization org3 = new Organization("3", "Meals on Wheels");
-        Organization org4 = new Organization("4", "Hack Oregon");
-        Organization org5 = new Organization("5", "Blankets All Around");
-        Organization org6 = new Organization("6", "Black Lives Matter");
-        Organization org7 = new Organization("7", "OHSU");
-        mTestOrg.add(org1);
-        mTestOrg.add(org2);
-        mTestOrg.add(org3);
-        mTestOrg.add(org4);
-        mTestOrg.add(org5);
-        mTestOrg.add(org6);
-        mTestOrg.add(org7);
 
         // Set Click Listener
         mSubmitButton.setOnClickListener(this);
@@ -106,13 +92,13 @@ public class NewOrganizationActivity extends BaseActivity implements View.OnClic
                 }
 
                 // Populate recyclerview
-                NewOrganizationActivity.this.runOnUiThread(new Runnable() {
+                OrganizationApplicationActivity.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
                         mAdapter = new OrganizationListAdapter(getApplicationContext(), mOrganizations);
                         mRecyclerView.setAdapter(mAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewOrganizationActivity.this);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(OrganizationApplicationActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setHasFixedSize(true);
                     }

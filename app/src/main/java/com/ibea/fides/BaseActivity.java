@@ -25,6 +25,7 @@ public class BaseActivity extends AppCompatActivity {
     public DatabaseReference dbOrganizations;
     public DatabaseReference dbTags;
     public DatabaseReference dbCurrentUser;
+    public DatabaseReference dbShiftsAvailable;
 
     // Auth references
     public FirebaseAuth mAuth;
@@ -53,6 +54,7 @@ public class BaseActivity extends AppCompatActivity {
         dbUsers = db.child(Constants.DB_NODE_USERS);
         dbOrganizations = db.child(Constants.DB_NODE_ORGANIZATIONS);
         dbTags = db.child(Constants.DB_NODE_TAGS);
+        dbShiftsAvailable = db.child(Constants.DB_NODE_SHIFTSAVAILABLE);
 
         // Set auth references
         // There are currently NO PROTECTIONS in place for users not being logged in and on a page other than the login screen.

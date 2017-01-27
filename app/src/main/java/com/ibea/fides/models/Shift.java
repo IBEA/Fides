@@ -1,5 +1,7 @@
 package com.ibea.fides.models;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +9,53 @@ import java.util.List;
  * Created by Alaina Traxler on 1/25/2017.
  */
 
+@Parcel
 public class Shift {
-    private String from;
-    private String until;
-    private String OID;
-    private String description;
-    private String shortDescription;
+    String pushID;
+    String address;
+    String from;
+    String until;
+    String organizationID;
+    String description;
+    String shortDescription;
+    String organizationName;
+    int zip;
+    String date;
+    int maxVolunteers;
+    List<String> currentVolunteers = new ArrayList<String>();
+
+    public Shift(){}
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip, String _organizationName){
+        from = _from;
+        until = _until;
+        organizationID = _OID;
+        description = _description;
+        shortDescription = _shortDescription;
+        date = _date;
+        maxVolunteers = _maxVolunteers;
+        address = _address;
+        zip = _zip;
+        organizationName = _organizationName;
+    }
+
+    // Getters and Setters
+    public String getPushID() { return pushID; }
+    public void setPushID(String pushID) { this.pushID = pushID; }
+    public int getZip() {
+        return zip;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getShortDescription() {
         return shortDescription;
@@ -20,21 +63,6 @@ public class Shift {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
-    }
-
-    private String date;
-    private int maxVolunteers;
-    private List<String> currentVolunteers = new ArrayList<String>();
-
-    public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID){
-        from = _from;
-        until = _until;
-        OID = _OID;
-        description = _description;
-        shortDescription = _shortDescription;
-        date = _date;
-        maxVolunteers = _maxVolunteers;
     }
 
     public String getFrom() {
@@ -53,12 +81,12 @@ public class Shift {
         this.until = until;
     }
 
-    public String getOID() {
-        return OID;
+    public String getOrganizationID() {
+        return organizationID;
     }
 
-    public void setOID(String OID) {
-        this.OID = OID;
+    public void setOrganizationID(String OID) {
+        this.organizationID = OID;
     }
 
     public String getDescription() {
@@ -91,5 +119,13 @@ public class Shift {
 
     public void setCurrentVolunteers(List<String> currentVolunteers) {
         this.currentVolunteers = currentVolunteers;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 }
