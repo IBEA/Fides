@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,6 +70,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         }
 
     }
+    
 
     // Populate RecyclerView with all matching organizations that have not been claimed
     private void getOrganizations(String orgName, String address) {
