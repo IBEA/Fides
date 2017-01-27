@@ -76,7 +76,6 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         final ArrayList<Shift> shifts = new ArrayList<>();
 
         if(view == mVolunteerButton){
-            Toast.makeText(mContext, "In onClick", Toast.LENGTH_SHORT).show();
             transfer.userItemClick(mShift, "volunteerButton");
         }else{
             transfer.userItemClick(mShift, "unspecified");
