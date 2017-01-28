@@ -6,18 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.utils.RecyclerItemListener;
 
-import java.util.ArrayList;
 
 /**
  * Created by KincaidJ on 1/28/17.
@@ -26,8 +18,6 @@ import java.util.ArrayList;
 public class DirtyFirebaseOrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     View mView;
     Context mContext;
-    Organization mOrg;
-    RecyclerItemListener mTransfer;
 
     public DirtyFirebaseOrganizationViewHolder(View itemView) {
         super(itemView);
@@ -36,29 +26,36 @@ public class DirtyFirebaseOrganizationViewHolder extends RecyclerView.ViewHolder
         itemView.setOnClickListener(this);
     }
 
-    public void bindOrganization(String orgID, RecyclerItemListener transfer) {
-        mTransfer = transfer;
-        
-        final TextView orgNameText = (TextView) mView.findViewById(R.id.nameText);
-        
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_APPLICATIONS).child(orgID);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Organization org = dataSnapshot.getValue(Organization.class);
-                mOrg = org;
-                orgNameText.setText(org.getOrgName());
-            }
+    public void bindOrganization(Organization organization) {
+        TextView nameText = (TextView) mView.findViewById(R.id.nameText);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        nameText.setText(organization.getOrgName());
     }
 
     @Override
     public void onClick(View view) {
-
+//        final ArrayList<Organization> organizations = new ArrayList<>();
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESTAURANTS);
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    organizations.add(snapshot.getValue(Organization.class));
+//                }
+//
+//                int itemPosition = getLayoutPosition();
+//
+//                Intent intent = new Intent(mContext, OrganizationDetailActivity.class);
+//                intent.putExtra("position", itemPosition + "");
+//                intent.putExtra("organizations", Parcels.wrap(organizations));
+//
+//                mContext.startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
     }
 }
