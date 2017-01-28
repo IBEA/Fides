@@ -109,6 +109,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
                     Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
                 }else{
+                    mVolunteerButton.setText("Volunteer");
+
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).removeValue();
 
@@ -118,6 +120,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                     dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
 
                     //Check if shift was full. If so, repopulate to shiftsAvailable
+                    //!! Currently untestable !!
                     if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
                         String zip = String.valueOf(shift.getZip());
                         String organizationID = shift.getOrganizationID();
@@ -149,6 +152,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
                     Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
                 }else{
+                    mVolunteerButton.setText("Cancel");
+
                     // Assign to shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).setValue(shiftID);
 
