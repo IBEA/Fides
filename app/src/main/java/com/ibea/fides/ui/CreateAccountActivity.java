@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +32,11 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
+    @Bind(R.id.volunteerRadio) RadioButton mVolunteerRadio;
+    @Bind(R.id.organizationRadio) RadioButton mOrgRadio;
     @Bind(R.id.createButton) Button mCreateButton;
-    @Bind(R.id.newOrganizationText) TextView mNewOrgButton;
+    @Bind(R.id.adminButton) Button mAdminButton;
+
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -42,6 +46,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     // Misc
     private ProgressDialog mAuthProgressDialog;
     private String mName;
+    private String mUserType;
+    boolean isAdmin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         // Set Click Listener
         mCreateButton.setOnClickListener(this);
-        mNewOrgButton.setOnClickListener(this);
+        mAdminButton.setOnClickListener(this);
 
         // Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
@@ -80,16 +86,30 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch (view.getId()) {
+            case R.id.volunteerRadio:
+                if (checked)
+                    mUserType = "volunteer";
+                break;
+            case R.id.organizationRadio:
+                if (checked)
+                    mUserType = "org";
+                break;
+        }
+    }
+
     @Override
     public void onClick(View view) {
         if(view == mCreateButton) {
             createNewUser();
         }
-        if(view == mNewOrgButton) {
-            Intent intent = new Intent(mContext, OrganizationApplicationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+        if(view == mAdminButton) {
+            isAdmin = true;
         }
     }
 
@@ -142,7 +162,12 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 // If user is present, create new User, update Shared Preferences, send them to Account Setup, clear backstack, and destroy this activity
                 if(user != null) {
                     // Send user to new intent
-                    Intent intent = new Intent(mContext, HomeActivity.class);
+                    Intent intent;
+                    if(mUserType.equals("org")) {
+                        intent = new Intent(mContext, OrganizationApplicationActivity.class);
+                    } else {
+                        intent = new Intent(mContext, HomeActivity.class);
+                    }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -192,6 +217,16 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Construct new User and Add to Users Table
         User newUser = new User(user.getUid(), mName);
+
+
+        // Set User Type
+        if(mUserType.equals("org")) {
+            newUser.setIsOrganization(true);
+        }
+        if(isAdmin) {
+            newUser.setIsAdmin(isAdmin);
+        }
+
         userRef.child(user.getUid()).setValue(newUser);
 
         // Add Display Name to User Authentication in Firebase
