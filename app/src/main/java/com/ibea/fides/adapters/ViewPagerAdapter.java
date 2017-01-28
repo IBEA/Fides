@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.ibea.fides.ui.FragmentTab1;
-import com.ibea.fides.ui.FragmentTab2;
+import com.ibea.fides.ui.ShiftFragment;
 
 /**
  * Created by Nhat on 1/27/17.
@@ -39,12 +39,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 FragmentTab1 fragmenttab1 = new FragmentTab1();
                 return fragmenttab1;
 
-            // Open FragmentTab2.java
+            // Open ShiftFragment.java
             case 1:
-                FragmentTab2 fragmenttab2 = new FragmentTab2();
-                return fragmenttab2;
+                ShiftFragment organizationshiftfragment = new ShiftFragment();
+                return organizationshiftfragment;
 
-            // Open FragmentTab3.java
+
 //            case 2:
 //                FragmentTab3 fragmenttab3 = new FragmentTab3();
 //                return fragmenttab3;

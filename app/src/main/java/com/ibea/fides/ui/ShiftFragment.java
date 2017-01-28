@@ -6,20 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ibea.fides.R;
+import static com.ibea.fides.R.layout.shift_fragment;
 
 /**
  * Created by N8Home on 1/27/17.
  */
 
-public class FragmentTab2 extends Fragment {
+public class ShiftFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get the view from fragmenttab1.xml
-        View view = inflater.inflate(R.layout.fragmenttab2, container, false);
+//         Get the view from shift_fragment.xml
+          View view = inflater.inflate(shift_fragment, container, false);
         return view;
     }
-
 }
