@@ -36,35 +36,25 @@
     </android.support.v7.widget.CardView>
 
     <TextView
-        android:text="Level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/leveltext"
-        android:textSize="24sp"
-        android:layout_marginBottom="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/view2"
-        android:layout_toStartOf="@+id/view2" />
-
-    <TextView
         android:text="Hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/hourstext"
-        android:layout_alignBaseline="@+id/leveltext"
-        android:layout_alignBottom="@+id/leveltext"
+        android:textSize="25sp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/usernametext"
-        android:layout_toEndOf="@+id/usernametext"
-        android:textSize="25sp" />
+        android:layout_toEndOf="@+id/usernametext" />
 
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="200dip"
-        android:id="@+id/graph"
-        android:layout_above="@+id/leveltext"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/hourstext"
-        android:layout_alignStart="@+id/hourstext" />
+    <TextView
+        android:text="Trust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trusttext"
+        android:textSize="24sp"
+        android:layout_alignBottom="@+id/hourstext"
+        android:layout_toLeftOf="@+id/view2"
+        android:layout_toStartOf="@+id/view2"
+        android:layout_alignTop="@+id/hourstext" />
+
 
 </RelativeLayout>
