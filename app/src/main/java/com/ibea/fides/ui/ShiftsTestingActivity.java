@@ -42,8 +42,10 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
     @Override
     public void userItemClick(Object data, String view){
         Shift shift = (Shift) data;
-        if(view.equals("volunteerButton")){
-            claimShift(shift);
+        if(view.equals("Volunteer")){
+//            claimShift(shift);
+        }else if(view.equals("Cancel")){
+
         }else{
             //!! Redirect to shift details!!
         }
@@ -63,37 +65,6 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
         mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
-    public void claimShift(Shift shift){
-        final String userID = mCurrentUser.getUid();
-        final String shiftID = shift.getPushID();
-
-        dbShifts.child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Shift shift = dataSnapshot.getValue(Shift.class);
-                if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
-                    Toast.makeText(ShiftsTestingActivity.this, "Shift full", Toast.LENGTH_SHORT).show();
-                }else{
-                    // Assign to shiftsPending for user
-                    dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).setValue(shiftID);
-
-                    //Add user to list of volunteers and push to database
-                    shift.addVolunteer(userID);
-                    dbShifts.child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
-
-
-                    //check if shift has slots left. If not, remove from shiftsAvailable
-                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        //!! Put protections in for shifts that have been claimed before the interface updates !!
-    }
 
     @Override
     protected void onDestroy() {

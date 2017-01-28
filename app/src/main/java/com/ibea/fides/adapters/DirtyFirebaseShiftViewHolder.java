@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.ui.ShiftsTestingActivity;
 import com.ibea.fides.utils.RecyclerItemListener;
 
 import org.parceler.Parcels;
@@ -60,6 +62,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 mShift = shift;
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                if(shift.getCurrentVolunteers().indexOf(userID) != -1){
+                    mVolunteerButton.setText("Cancel");
+                }
 
                 organizationTextView.setText(shift.getOrganizationName());
                 shortDescriptionTextView.setText(shift.getShortDescription());
@@ -78,7 +85,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         final ArrayList<Shift> shifts = new ArrayList<>();
 
         if(view == mVolunteerButton){
-            transfer.userItemClick(mShift, "volunteerButton");
+            claimShift(mShift);
         }else{
             transfer.userItemClick(mShift, "unspecified");
         }
@@ -107,5 +114,38 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    public void claimShift(Shift shift){
+        final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String shiftID = shift.getPushID();
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
+                    Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
+                }else{
+                    // Assign to shiftsPending for user
+                    dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).setValue(shiftID);
+
+                    //Add user to list of volunteers and push to database
+                    shift.addVolunteer(userID);
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+
+                    //check if shift has slots left. If not, remove from shiftsAvailable
+                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //!! Put protections in for shifts that have been claimed before the interface updates !!
     }
 }
