@@ -83,42 +83,63 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     @Override
     public void onClick(View view) {
         final ArrayList<Shift> shifts = new ArrayList<>();
+        String function = mVolunteerButton.getText().toString();
 
-        if(view == mVolunteerButton){
-            claimShift(mShift);
-        }else{
-            transfer.userItemClick(mShift, "unspecified");
+        if(view == mVolunteerButton) {
+            if(function.equals("Volunteer")){
+                claimShift();
+            }else{
+                quitShift();
+            }
         }
 
         //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Remember how there was tuff here? Nomore. Now it's going to be a link to the shiftDetails.
+    }
 
+    public void quitShift(){
+        final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String shiftID = mShift.getPushID();
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    shifts.add(snapshot.getValue(Shift.class));
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                if(shift.getCurrentVolunteers().indexOf(userID) == -1){
+                    Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+                }else{
+                    // Remove from shiftsPending for user
+                    dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).removeValue();
+
+                    //Remove user from list of volunteers and push to database
+                    //!! Check to see what happens when sending an empty list !!
+                    shift.removeVolunteer(userID);
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+                    //Check if shift was full. If so, repopulate to shiftsAvailable
+                    if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
+                        String zip = String.valueOf(shift.getZip());
+                        String organizationID = shift.getOrganizationID();
+
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftID).setValue(shiftID);
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftID).setValue(shiftID);
+                    }
+
+                    Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
                 }
-
-                int itemPosition = getLayoutPosition();
-
-                //Rough code for kicking into the pager adapter that it looks like you guys are using.
-//                Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
-//                intent.putExtra("position", itemPosition + "");
-//                intent.putExtra("shifts", Parcels.wrap(shifts));
-
-//                mContext.startActivity(intent);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
 
-    public void claimShift(Shift shift){
+    public void claimShift(){
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String shiftID = shift.getPushID();
+        final String shiftID = mShift.getPushID();
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
