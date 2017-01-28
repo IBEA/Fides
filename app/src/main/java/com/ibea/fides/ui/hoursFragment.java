@@ -18,6 +18,8 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+// Currently holds a bar graph that will later show hours volunteered -- Garrett
+
 public class hoursFragment extends android.support.v4.app.Fragment {
 
     @Bind(R.id.graph)
@@ -53,7 +55,7 @@ public class hoursFragment extends android.support.v4.app.Fragment {
         graph.addSeries(series);
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setHorizontalLabels(new String[] {prevmonth2.substring(0,3), prevmonth.substring(0,3), month.substring(0,3)});
+        staticLabelsFormatter.setHorizontalLabels(new String[] {prevmonth2, prevmonth, month});
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
         return view;

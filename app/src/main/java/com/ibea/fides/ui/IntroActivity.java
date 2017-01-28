@@ -12,6 +12,8 @@ import com.ibea.fides.R;
  * Created by Garrett on 1/25/2017.
  */
 
+//-- Creates the slideshow that appears when app is run for the first time -- Garrettt
+
 public class IntroActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

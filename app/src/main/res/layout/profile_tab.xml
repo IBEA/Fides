@@ -56,5 +56,24 @@
         android:layout_toStartOf="@+id/view2"
         android:layout_alignTop="@+id/hourstext" />
 
+    <com.hookedonplay.decoviewlib.DecoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dynamicArcView"
+        android:layout_toStartOf="@+id/usernametext"
+        android:layout_below="@+id/hourstext"
+        android:layout_toLeftOf="@+id/usernametext" />
+
+    <TextView
+        android:text="0%"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trustpercent"
+        android:textSize="24sp"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_below="@+id/trusttext"
+        android:layout_alignLeft="@+id/trusttext"
+        android:layout_alignStart="@+id/trusttext"
+        android:layout_marginTop="103dp" />
 
 </RelativeLayout>
