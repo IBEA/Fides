@@ -63,7 +63,7 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
                 Log.v(TAG, "In populateViewHolder");
-                viewHolder.bindShift(shiftID, mTransfer);
+                viewHolder.bindShift(shiftID);
             }
         };
 
