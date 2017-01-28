@@ -101,6 +101,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }else if(id == R.id.action_dirty_shift_search) {
             Intent intent = new Intent(mContext, ShiftSearchActivity.class);
             startActivity(intent);
+        }else if(id == R.id.action_admin) {
+            Intent intent = new Intent(mContext, AdminActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
