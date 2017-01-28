@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.ViewPagerAdapter;
 
+// Main organization page, nested with profile and shift tab.
+
 public class OrgProfileActivity extends AppCompatActivity{
 
     @Override

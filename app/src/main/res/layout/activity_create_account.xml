@@ -23,32 +23,13 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/nameInput"
-        android:hint="Your Name"
-        android:layout_below="@+id/titleText"
-        android:layout_alignLeft="@+id/titleText"
-        android:layout_alignStart="@+id/titleText"
-        android:layout_marginTop="46dp" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/emailInput"
-        android:hint="Your Email Address"
-        android:layout_marginBottom="29dp"
-        android:layout_above="@+id/passwordInput"
-        android:layout_alignLeft="@+id/nameInput"
-        android:layout_alignStart="@+id/nameInput" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
         android:id="@+id/passwordInput"
         android:inputType="textPassword"
         android:hint="Your Password"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/emailInput"
-        android:layout_alignStart="@+id/emailInput" />
+        android:layout_alignStart="@+id/emailInput"
+        android:layout_marginTop="15dp"/>
 
     <EditText
         android:layout_width="300dp"
@@ -56,7 +37,7 @@
         android:id="@+id/passwordConfirmInput"
         android:inputType="textPassword"
         android:hint="Your Password Confirmed"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/passwordInput"
         android:layout_alignLeft="@+id/passwordInput"
         android:layout_alignStart="@+id/passwordInput" />
@@ -69,7 +50,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/passwordConfirmInput"
         android:layout_alignEnd="@+id/passwordConfirmInput"
-        android:layout_marginBottom="81dp" />
+        android:layout_marginBottom="81dp"
+        android:layout_marginTop="15dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,12 +59,33 @@
         android:id="@+id/newOrganizationText"
         android:text="Click here if you're a new organization"
         android:textSize="15dp"
-        android:layout_marginBottom="54dp"
+        android:layout_marginBottom="37dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/createButton"
         android:layout_alignStart="@+id/createButton"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp" />
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailInput"
+        android:hint="Your Email Address"
+        android:layout_above="@+id/passwordInput"
+        android:layout_alignLeft="@+id/nameInput"
+        android:layout_alignStart="@+id/nameInput"
+        android:layout_marginTop="15dp"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/nameInput"
+        android:hint="Your Name"
+        android:layout_marginBottom="15dp"
+        android:layout_above="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"/>
 
 
 </RelativeLayout>

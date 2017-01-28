@@ -9,8 +9,10 @@ import com.ibea.fides.ui.FragmentTab1;
 import com.ibea.fides.ui.FragmentTab2;
 
 /**
- * Created by N8Home on 1/27/17.
+ * Created by Nhat on 1/27/17.
  */
+
+// This Page Adapter is handling fragment for the profile and shift tab.
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
