@@ -92,9 +92,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         if(view == mNewAccountButton) {
             Intent intent = new Intent(mContext, CreateAccountActivity.class);
             startActivity(intent);
-
-            // Destroy current Activity
-            finish();
         }
     }
 
@@ -124,6 +121,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
                 if(task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
+
                 }
                 if(!task.isSuccessful()) {
                     Toast.makeText(LogInActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();

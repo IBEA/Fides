@@ -23,6 +23,7 @@ public class BaseActivity extends AppCompatActivity {
     public DatabaseReference dbShifts;
     public DatabaseReference dbUsers;
     public DatabaseReference dbOrganizations;
+    public DatabaseReference dbPendingOrganizations;
     public DatabaseReference dbTags;
     public DatabaseReference dbCurrentUser;
     public DatabaseReference dbShiftsAvailable;
@@ -54,6 +55,7 @@ public class BaseActivity extends AppCompatActivity {
         dbShifts = db.child(Constants.DB_NODE_SHIFTS);
         dbUsers = db.child(Constants.DB_NODE_USERS);
         dbOrganizations = db.child(Constants.DB_NODE_ORGANIZATIONS);
+        dbPendingOrganizations = db.child(Constants.DB_NODE_APPLICATIONS);
         dbTags = db.child(Constants.DB_NODE_TAGS);
         dbShiftsAvailable = db.child(Constants.DB_NODE_SHIFTSAVAILABLE);
         dbShiftsPending = db.child(Constants.DB_NODE_SHIFTSPENDING);

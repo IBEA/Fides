@@ -34,8 +34,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mButton_Dirty.setOnClickListener(this);
         mButton_Dirty_Logout.setOnClickListener(this);
 
-        Notify();
-
         final Intent emptyIntent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
