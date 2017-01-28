@@ -212,6 +212,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         // Construct new User and Add to Users Table
         User newUser = new User(user.getUid(), mName);
 
+
         // Set User Type
         if(mUserType.equals("org")) {
             newUser.setIsOrganization(true);

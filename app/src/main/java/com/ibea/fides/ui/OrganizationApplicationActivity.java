@@ -51,11 +51,9 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     }
 
    public void submitOrganization(String orgName, String ein, String userName, String address, String zip, String description) {
-       DatabaseReference orgKey = dbPendingOrganizations.push();
-       String pushID = orgKey.getKey();
-       Log.d(TAG, pushID);
-       Organization organization = new Organization(pushID, orgName, ein, userName, address, zip, description);
-       orgKey.setValue(organization);
+       String uid = mCurrentUser.getUid();
+       Organization organization = new Organization(uid, orgName, ein, userName, address, zip, description);
+       dbPendingOrganizations.child(uid).setValue(organization);
 
        Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
 
