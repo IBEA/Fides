@@ -5,13 +5,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+
 import com.ibea.fides.ui.ProfileTab;
-import com.ibea.fides.ui.FragmentTab2;
+import com.ibea.fides.ui.ShiftFragment;
 import com.ibea.fides.ui.hoursFragment;
 
+
 /**
- * Created by N8Home on 1/27/17.
+ * Created by Nhat on 1/27/17.
  */
+
+// This Page Adapter is handling fragment for the profile and shift tab.
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -38,10 +42,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 ProfileTab fragmenttab = new ProfileTab();
                 return fragmenttab;
 
-            // Open FragmentTab2.java
+            // Open ShiftFragment.java
             case 1:
-                FragmentTab2 fragmenttab2 = new FragmentTab2();
-                return fragmenttab2;
+                ShiftFragment organizationshiftfragment = new ShiftFragment();
+                return organizationshiftfragment;
 
              //Open FragmentTab3.java
             case 2:

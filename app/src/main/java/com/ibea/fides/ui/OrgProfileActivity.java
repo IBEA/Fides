@@ -12,6 +12,8 @@ import com.jjoe64.graphview.GraphView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+// Main organization page, nested with profile and shift tab.
+
 public class OrgProfileActivity extends AppCompatActivity{
 
 
