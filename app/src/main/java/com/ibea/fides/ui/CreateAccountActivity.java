@@ -35,6 +35,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.volunteerRadio) RadioButton mVolunteerRadio;
     @Bind(R.id.organizationRadio) RadioButton mOrgRadio;
     @Bind(R.id.createButton) Button mCreateButton;
+    @Bind(R.id.adminButton) Button mAdminButton;
 
 
     // Firebase
@@ -46,6 +47,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     private ProgressDialog mAuthProgressDialog;
     private String mName;
     private String mUserType;
+    boolean isAdmin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         // Set Click Listener
         mCreateButton.setOnClickListener(this);
+        mAdminButton.setOnClickListener(this);
 
         // Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
@@ -104,6 +107,9 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         if(view == mCreateButton) {
             createNewUser();
+        }
+        if(view == mAdminButton) {
+            isAdmin = true;
         }
     }
 
@@ -216,6 +222,9 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         // Set User Type
         if(mUserType.equals("org")) {
             newUser.setIsOrganization(true);
+        }
+        if(isAdmin) {
+            newUser.setIsAdmin(isAdmin);
         }
 
         userRef.child(user.getUid()).setValue(newUser);
