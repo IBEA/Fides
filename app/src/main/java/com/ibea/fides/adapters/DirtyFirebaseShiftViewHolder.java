@@ -94,7 +94,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         }
 
         //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
-        //Remember how there was tuff here? Nomore. Now it's going to be a link to the shiftDetails.
+        //Remember how there was stuff here? No more. Now it's going to be a link to the shiftDetails.
     }
 
     public void quitShift(){
@@ -158,6 +158,14 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
 
                     //check if shift has slots left. If not, remove from shiftsAvailable
+                    String organizationID = shift.getOrganizationID();
+                    String zip = String.valueOf(shift.getZip());
+
+                    if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 0){
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftID).removeValue();
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftID).removeValue();
+                    }
+
                     Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
                 }
             }
