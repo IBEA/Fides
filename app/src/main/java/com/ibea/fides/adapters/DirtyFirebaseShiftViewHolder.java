@@ -88,13 +88,12 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         if(view == mVolunteerButton) {
             if(function.equals("Volunteer")){
                 claimShift();
-            }else{
+            }else if(function.equals("Cancel")){
                 quitShift();
             }
         }
 
-        //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
-        //Remember how there was stuff here? No more. Now it's going to be a link to the shiftDetails.
+        // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
     }
 
     public void quitShift(){
