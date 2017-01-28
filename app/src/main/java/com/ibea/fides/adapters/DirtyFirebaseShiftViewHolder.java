@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.ui.ShiftsTestingActivity;
 import com.ibea.fides.utils.RecyclerItemListener;
 
 import org.parceler.Parcels;
@@ -45,12 +47,14 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     public void bindShift(String shiftID, RecyclerItemListener _transfer) {
         transfer = _transfer;
 
+        //!! Change volunteer button to cancel button if organization !!
+
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
         final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
 
-//        mVolunteerButton.setOnClickListener(this);
+        mVolunteerButton.setOnClickListener(this);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -58,6 +62,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 mShift = shift;
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                if(shift.getCurrentVolunteers().indexOf(userID) != -1){
+                    mVolunteerButton.setText("Cancel");
+                }
 
                 organizationTextView.setText(shift.getOrganizationName());
                 shortDescriptionTextView.setText(shift.getShortDescription());
@@ -74,39 +83,103 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     @Override
     public void onClick(View view) {
         final ArrayList<Shift> shifts = new ArrayList<>();
+        String function = mVolunteerButton.getText().toString();
 
-        Toast.makeText(mContext, "in onClick", Toast.LENGTH_SHORT).show();
-
-//        if(view == mVolunteerButton){
-//            Toast.makeText(mContext, "In onClick", Toast.LENGTH_SHORT).show();
-//            transfer.userItemClick(mShift, "volunteerButton");
-//        }else{
-//            transfer.userItemClick(mShift, "unspecified");
-//        }
+        if(view == mVolunteerButton) {
+            if(function.equals("Volunteer")){
+                claimShift();
+            }else{
+                quitShift();
+            }
+        }
 
         //This is going into the FULL, UNFILTERED shifts list. There should (will) ultimately be a way to point this toward the correct node of shiftsAvailable.
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Remember how there was stuff here? No more. Now it's going to be a link to the shiftDetails.
+    }
 
+    public void quitShift(){
+        final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String shiftID = mShift.getPushID();
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    shifts.add(snapshot.getValue(Shift.class));
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                if(shift.getCurrentVolunteers().indexOf(userID) == -1){
+                    Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+                }else{
+                    mVolunteerButton.setText("Volunteer");
+
+                    // Remove from shiftsPending for user
+                    dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).removeValue();
+
+                    //Remove user from list of volunteers and push to database
+                    //!! Check to see what happens when sending an empty list !!
+                    shift.removeVolunteer(userID);
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+                    //Check if shift was full. If so, repopulate to shiftsAvailable
+                    //!! Currently untestable !!
+                    if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
+                        String zip = String.valueOf(shift.getZip());
+                        String organizationID = shift.getOrganizationID();
+
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftID).setValue(shiftID);
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftID).setValue(shiftID);
+                    }
+
+                    Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
                 }
-
-                int itemPosition = getLayoutPosition();
-
-                //Rough code for kicking into the pager adapter that it looks like you guys are using.
-//                Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
-//                intent.putExtra("position", itemPosition + "");
-//                intent.putExtra("shifts", Parcels.wrap(shifts));
-
-//                mContext.startActivity(intent);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+    }
+
+    public void claimShift(){
+        final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String shiftID = mShift.getPushID();
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
+                    Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
+                }else{
+                    mVolunteerButton.setText("Cancel");
+
+                    // Assign to shiftsPending for user
+                    dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftID).setValue(shiftID);
+
+                    //Add user to list of volunteers and push to database
+                    shift.addVolunteer(userID);
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftID).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+
+                    //check if shift has slots left. If not, remove from shiftsAvailable
+                    String organizationID = shift.getOrganizationID();
+                    String zip = String.valueOf(shift.getZip());
+
+                    if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 0){
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftID).removeValue();
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftID).removeValue();
+                    }
+
+                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //!! Put protections in for shifts that have been claimed before the interface updates !!
     }
 }

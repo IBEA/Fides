@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
@@ -39,13 +42,17 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
     @Override
     public void userItemClick(Object data, String view){
         Shift shift = (Shift) data;
-        Toast.makeText(mContext, "in userItemClick", Toast.LENGTH_SHORT).show();
-        if(view.equals("volunteerButton")){
-            claimShift(shift);
+        if(view.equals("Volunteer")){
+//            claimShift(shift);
+        }else if(view.equals("Cancel")){
+
+        }else{
+            //!! Redirect to shift details!!
         }
     }
 
     private void setUpFirebaseAdapter() {
+        //!! If statement to switch between zip and organization needed here. setUpFirebaseAdapter will need to take appropriate arguments. Defaulting to a zip code 97201 right now !!
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child("97201")) {
 
@@ -59,16 +66,6 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
         mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
-    public void claimShift(Shift shift){
-        //!! Put protections in for shifts that have been claimed before the interface updates !!
-//        String shiftID =
-
-        // Assign to shiftsPending for user
-//        dbShiftsPending.child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid()).child(shif)
-
-        //check if shift has slots left. If not, remove from shiftsAvailable
-        Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onDestroy() {

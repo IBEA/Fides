@@ -102,6 +102,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to database
         DatabaseReference pushRef = dbShifts.push();
         String shiftID = pushRef.getKey();
+        _shift.setPushID(shiftID);
         pushRef.setValue(_shift);
 
         // Add shift to shiftsAvailable fields
