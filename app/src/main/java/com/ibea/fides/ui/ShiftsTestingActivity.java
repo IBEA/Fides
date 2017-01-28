@@ -66,6 +66,7 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
                 viewHolder.bindShift(shiftID, mTransfer);
             }
         };
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
