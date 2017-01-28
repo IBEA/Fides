@@ -37,6 +37,7 @@
         <activity
             android:name=".ui.OrgProfileActivity"
             android:exported="true" />
+        <activity android:name=".ui.FragmentTestingActivity"></activity>
     </application>
 
 </manifest>

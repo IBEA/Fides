@@ -52,7 +52,7 @@ public class BaseActivity extends AppCompatActivity {
 
         // Set Context and TAG for each Activity
         mContext = this;
-        TAG = this.getClass().getSimpleName();
+        TAG = ">>>>>" + this.getClass().getSimpleName();
 
         // Set database references
         db = FirebaseDatabase.getInstance().getReference();

@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
@@ -60,6 +62,7 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
+                Log.v(TAG, "In populateViewHolder");
                 viewHolder.bindShift(shiftID, mTransfer);
             }
         };
