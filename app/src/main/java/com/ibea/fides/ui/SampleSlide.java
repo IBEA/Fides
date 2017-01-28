@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 public class SampleSlide extends Fragment {
 
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
