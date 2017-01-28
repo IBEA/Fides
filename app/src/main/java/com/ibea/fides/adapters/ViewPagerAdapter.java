@@ -5,8 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.ibea.fides.ui.FragmentTab1;
+import com.ibea.fides.ui.ProfileTab;
 import com.ibea.fides.ui.FragmentTab2;
+import com.ibea.fides.ui.hoursFragment;
 
 /**
  * Created by N8Home on 1/27/17.
@@ -14,9 +15,9 @@ import com.ibea.fides.ui.FragmentTab2;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    final int PAGE_COUNT = 2;
+    final int PAGE_COUNT = 3;
     // Tab Titles
-    private String tabtitles[] = new String[] { "Profile", "Shift" };
+    private String tabtitles[] = new String[] { "Profile", "Shift", "Hours" };
     Context context;
 
     public ViewPagerAdapter(FragmentManager fm) {
@@ -32,20 +33,20 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
 
-            // Open FragmentTab1.java
+            // Open ProfileTab.java
             case 0:
-                FragmentTab1 fragmenttab1 = new FragmentTab1();
-                return fragmenttab1;
+                ProfileTab fragmenttab = new ProfileTab();
+                return fragmenttab;
 
             // Open FragmentTab2.java
             case 1:
                 FragmentTab2 fragmenttab2 = new FragmentTab2();
                 return fragmenttab2;
 
-            // Open FragmentTab3.java
-//            case 2:
-//                FragmentTab3 fragmenttab3 = new FragmentTab3();
-//                return fragmenttab3;
+             //Open FragmentTab3.java
+            case 2:
+                hoursFragment fragmenttab3 = new hoursFragment();
+                return fragmenttab3;
         }
         return null;
     }

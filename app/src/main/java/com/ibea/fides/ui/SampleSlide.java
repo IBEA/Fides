@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+//Sampleslide used in Intro Slideshow
 
 public class SampleSlide extends Fragment {
 
