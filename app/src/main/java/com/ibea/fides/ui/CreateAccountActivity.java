@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
@@ -27,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+// Create Account - Options for Volunteer or Organization and Admin status
+// Pushes a User object to the Users node in database
 public class CreateAccountActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.emailInput) EditText mEmailInput;
