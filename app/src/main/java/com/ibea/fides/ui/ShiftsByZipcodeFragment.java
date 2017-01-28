@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -30,6 +31,8 @@ import butterknife.ButterKnife;
 public class ShiftsByZipcodeFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.searchView_Zipcode)
+    SearchView mSearchView_Zipcode;
 
     public ShiftsByZipcodeFragment() {
         // Required empty public constructor
@@ -44,7 +47,24 @@ public class ShiftsByZipcodeFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         Log.v(">>>>", "In onCreateView");
-        setUpFirebaseAdapter();
+
+        //!! Set searchview up to autopopulate with user zipcode !!
+        mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(query.length() != 0){
+                    setUpFirebaseAdapter(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        setUpFirebaseAdapter("97201");
         return view;
     }
 
@@ -63,8 +83,8 @@ public class ShiftsByZipcodeFragment extends Fragment {
         return fragmentFirst;
     }
 
-    private void setUpFirebaseAdapter() {
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child("97201");
+    private void setUpFirebaseAdapter(String query) {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(query);
 
         //!! If statement to switch between zip and organization needed here. setUpFirebaseAdapter will need to take appropriate arguments. Defaulting to a zip code 97201 right now !!
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
