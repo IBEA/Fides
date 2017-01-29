@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ import com.ibea.fides.utils.RecyclerItemListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AdminActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
+public class AdminActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
@@ -32,14 +33,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         ButterKnife.bind(this);
-
-        mTransfer = this;
         setUpFirebaseAdapter();
-    }
-
-    @Override
-    public void userItemClick(Object data, String view){
-
     }
 
     @Override
