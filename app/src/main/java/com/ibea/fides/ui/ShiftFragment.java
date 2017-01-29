@@ -21,4 +21,6 @@ public class ShiftFragment extends Fragment {
           View view = inflater.inflate(shift_fragment, container, false);
         return view;
     }
+
+
 }

@@ -26,11 +26,4 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/textView3" />
 
-    <Button
-        android:text="Approve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/approveButton" />
 </RelativeLayout>

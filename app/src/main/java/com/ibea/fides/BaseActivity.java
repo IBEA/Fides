@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.ui.HomeActivity;
 import com.ibea.fides.ui.LogInActivity;
+import com.ibea.fides.ui.ShiftSearchActivity;
+import com.ibea.fides.ui.ShiftsCreateActivity;
 import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {
@@ -48,7 +52,7 @@ public class BaseActivity extends AppCompatActivity {
 
         // Set Context and TAG for each Activity
         mContext = this;
-        TAG = this.getClass().getSimpleName();
+        TAG = ">>>>>" + this.getClass().getSimpleName();
 
         // Set database references
         db = FirebaseDatabase.getInstance().getReference();
@@ -92,6 +96,35 @@ public class BaseActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+        }
+        else if (id == R.id.action_shifts){
+            Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.action_dirty_shift_search) {
+            Intent intent = new Intent(mContext, ShiftSearchActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
 }

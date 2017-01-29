@@ -9,11 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.ibea.fides.BaseActivity;
@@ -24,7 +21,8 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.button_Dirty) Button mButton_Dirty;
-    @Bind(R.id.button_Dirty_Logout) Button mButton_Dirty_Logout;
+    @Bind(R.id.button_Fragments) Button mButton_Fragments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         ButterKnife.bind(this);
 
         mButton_Dirty.setOnClickListener(this);
-        mButton_Dirty_Logout.setOnClickListener(this);
+        mButton_Fragments.setOnClickListener(this);
 
         final Intent emptyIntent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -73,18 +71,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if(v == mButton_Dirty){
             Intent intent = new Intent(mContext, ShiftsTestingActivity.class);
             startActivity(intent);
+        }else if(v == mButton_Fragments){
+            Intent intent = new Intent(mContext, FragmentTestingActivity.class);
+            startActivity(intent);
         }
-        if(v == mButton_Dirty_Logout) {
-            mUniversal.logout(mContext);
-        }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
 
     }
 
@@ -106,10 +96,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
     }
 
 
