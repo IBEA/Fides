@@ -1,9 +1,11 @@
 package com.ibea.fides.ui;
 
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,9 @@ public class ProfileTab extends Fragment {
     @Bind(R.id.usernametext) TextView username;
     @Bind(R.id.trustpercent) TextView trustpercent;
     @Bind(R.id.dynamicArcView) DecoView arcView;
+    @Bind(R.id.hoursArcView) DecoView hoursArcView;
+
+    private boolean once = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,13 +43,13 @@ public class ProfileTab extends Fragment {
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
                 .setRange(0, 100, 100)
                 .setInitialVisibility(false)
-                .setLineWidth(32f)
+                .setLineWidth(100f)
                 .build());
 
 //Create data series track
-        final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
+        final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 245, 245, 0))
                 .setRange(0, 100, 0)
-                .setLineWidth(32f)
+                .setLineWidth(100f)
                 .build();
 
         int series1Index = arcView.addSeries(seriesItem1);
@@ -64,6 +69,58 @@ public class ProfileTab extends Fragment {
                 if (format.contains("%%")) {
                     float percentFilled = ((currentPosition - seriesItem1.getMinValue()) / (seriesItem1.getMaxValue() - seriesItem1.getMinValue()));
                     trustpercent.setText(String.format(format, percentFilled * 100f));
+                } else {
+                    trustpercent.setText(String.format(format, currentPosition));
+                }
+            }
+
+            @Override
+            public void onSeriesItemDisplayProgress(float percentComplete) {
+
+            }
+        });
+
+        // Create background track
+        hoursArcView.addSeries(new SeriesItem.Builder(Color.rgb(216, 241, 255))
+                .setRange(0, 25, 25)
+                .setInitialVisibility(false)
+                .setLineWidth(100f)
+                .build());
+
+//Create data series track
+        final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.rgb(188, 231, 255))
+                .setRange(0, 25, 0)
+                .setLineWidth(100f)
+                .setSpinDuration(2000)
+                .build();
+
+        final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.rgb(150, 218, 255))
+                .setSpinDuration(2000)
+                .setShowPointWhenEmpty(false)
+                .setRange(0, 25, 0)
+                .setLineWidth(100f)
+                .build();
+
+        final int series2Index = hoursArcView.addSeries(seriesItem2);
+        final int series3Index = hoursArcView.addSeries(seriesItem3);
+
+        hoursArcView.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
+                .setDelay(1000)
+                .setDuration(2000)
+                .build());
+
+        hoursArcView.addEvent(new DecoEvent.Builder(25).setIndex(series2Index).setDelay(2000).build());
+
+        hoursArcView.addEvent(new DecoEvent.Builder(25).setIndex(series3Index).setDelay(3800).build());
+
+        seriesItem2.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
+            @Override
+            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
+                if (format.contains("%%")) {
+                    float percentFilled = ((currentPosition - seriesItem2.getMinValue()) / (seriesItem2.getMaxValue() - seriesItem2.getMinValue()));
+                    trustpercent.setText(String.format(format, percentFilled * 100f));
+
+                    //Log.d("percentFilled" , "check" + percentFilled);
                 } else {
                     trustpercent.setText(String.format(format, currentPosition));
                 }

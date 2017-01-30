@@ -80,7 +80,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     // Reads all fields and returns constructed shift
-    public Shift createShift(String _organizationName, String _OID){
+    public Shift createShift(String _organizationName, String _pushID){
         String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
         String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
 
@@ -91,7 +91,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String address = mEditText_Address.getText().toString();
         int zip = Integer.parseInt(mEditText_Zip.getText().toString());
 
-        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _OID, address, zip, _organizationName);
+        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushID, address, zip, _organizationName);
 
         return shift;
     }
@@ -122,14 +122,15 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if((Boolean) dataSnapshot.child("isOrganization").getValue() == true){
                         String organizationName = dataSnapshot.child("name").getValue().toString();
-                        String OID = dataSnapshot.child("OID").getValue().toString();
-
                         Log.v("Here:", organizationName);
-                        Log.v("There:", OID);
+
+                        String pushID = dataSnapshot.child("pushId").getValue().toString();
+
+                        Log.v("There:", pushID);
 
                         if(validateFields()){
                             //Harvest data
-                            Shift shift = createShift(organizationName, OID);
+                            Shift shift = createShift(organizationName, pushID);
 
                             //Push data
                             pushData(shift);
