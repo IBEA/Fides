@@ -44,8 +44,7 @@ public class ShiftFragment extends Fragment implements View.OnClickListener {
 
         return view;
     }
-
-
+    
     @Override
     public void onClick(View v) {
         if (v == mOrganizationName) {
