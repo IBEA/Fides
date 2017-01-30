@@ -91,25 +91,25 @@ public class ProfileTab extends Fragment {
         final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.rgb(188, 231, 255))
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
-                .setSpinDuration(2000)
+                .setSpinDuration(1000)
                 .build();
 
         final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.rgb(150, 218, 255))
-                .setSpinDuration(2000)
+                .setSpinDuration(1000)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
                 .build();
 
         final SeriesItem seriesItem4 = new SeriesItem.Builder(Color.rgb(114, 205, 255))
-                .setSpinDuration(2000)
+                .setSpinDuration(1000)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
                 .build();
 
         final SeriesItem seriesItem5 = new SeriesItem.Builder(Color.rgb(61, 131, 244))
-                .setSpinDuration(2000)
+                .setSpinDuration(1000)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
@@ -126,10 +126,10 @@ public class ProfileTab extends Fragment {
                 .build());
 
         if(totalHoursWorked > 15){
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(3800).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(5600).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(7400).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(1000).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(1800).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(2700).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(3600).build());
         }
         else if(totalHoursWorked > 10){
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());

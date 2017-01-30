@@ -22,7 +22,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     final int PAGE_COUNT = 4;
     // Tab Titles
-    private String tabtitles[] = new String[] { "Profile", "Upcoming Shifts", "Find Shifts" , "History" };
+    private String tabtitles[] = new String[] { "Profile", "Shifts", "Find" , "History" };
     Context context;
 
     public ViewPagerAdapter(FragmentManager fm) {
