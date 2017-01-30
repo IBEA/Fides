@@ -18,9 +18,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.OrganizationListAdapter;
+import com.ibea.fides.adapters.OrganizationListAdapter;
+import com.ibea.fides.models.Organization;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,9 +36,13 @@ import butterknife.ButterKnife;
  */
 public class ShiftsByZipcodeFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private RecyclerView.Adapter mRecyclerAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private ArrayList<Organization> orgList = new ArrayList<Organization>();
+
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.searchView_Zipcode)
-    SearchView mSearchView_Zipcode;
+    @Bind(R.id.searchView_Zipcode) SearchView mSearchView_Zipcode;
 
     public ShiftsByZipcodeFragment() {
         // Required empty public constructor
@@ -48,12 +58,42 @@ public class ShiftsByZipcodeFragment extends Fragment {
 
         Log.v(">>>>", "In onCreateView");
 
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_ORGANIZATIONS);
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Organization organization = dataSnapshot.getValue(Organization.class);
+                    orgList.add(organization);
+                    Log.v("-----", "Org added");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+
+
+        mRecyclerAdapter = new OrganizationListAdapter(this.getContext(), orgList);
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+
+        setUpFirebaseAdapter("97201", "shiftsByZip");
+
         //!! Set searchview up to autopopulate with user zipcode !!
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query.length() != 0){
-                    setUpFirebaseAdapter(query);
+                    setUpFirebaseAdapter(query, "shiftsByZip");
                 }
                 return false;
             }
@@ -64,7 +104,6 @@ public class ShiftsByZipcodeFragment extends Fragment {
             }
         });
 
-        setUpFirebaseAdapter("97201");
         return view;
     }
 
@@ -83,7 +122,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
         return fragmentFirst;
     }
 
-    private void setUpFirebaseAdapter(String query) {
+    private void setUpFirebaseAdapter(String query, String searchType) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(query);
 
         //!! If statement to switch between zip and organization needed here. setUpFirebaseAdapter will need to take appropriate arguments. Defaulting to a zip code 97201 right now !!

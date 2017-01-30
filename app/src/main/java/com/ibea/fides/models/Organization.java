@@ -12,7 +12,7 @@ import java.util.List;
 @Parcel
 public class Organization {
     String pushID;
-    String orgName;
+    String name;
     String ein;
     String contactName;
     String address;
@@ -27,7 +27,7 @@ public class Organization {
     // Basic Constructor
     public Organization(String pushID, String orgName, String ein, String contactName, String address, String zip, String description) {
         this.pushID = pushID;
-        this.orgName = orgName;
+        this.name = orgName;
         this.ein = ein;
         this.contactName = contactName;
         this.address = address;
@@ -42,11 +42,11 @@ public class Organization {
     public void setPushID(String pushID) {
         this.pushID = pushID;
     }
-    public String getOrgName() {
-        return orgName;
+    public String getName() {
+        return name;
     }
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setName(String orgName) {
+        this.name = orgName;
     }
     public String getEin() { return ein; }
     public void setEin(String ein) { this.ein = ein; }
