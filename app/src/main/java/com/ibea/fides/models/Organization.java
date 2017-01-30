@@ -11,7 +11,7 @@ import java.util.List;
 
 @Parcel
 public class Organization {
-    String pushID;
+    String pushId;
     String name;
     String ein;
     String contactName;
@@ -25,8 +25,8 @@ public class Organization {
     public Organization() {}
 
     // Basic Constructor
-    public Organization(String pushID, String orgName, String ein, String contactName, String address, String zip, String description) {
-        this.pushID = pushID;
+    public Organization(String pushId, String orgName, String ein, String contactName, String address, String zip, String description) {
+        this.pushId = pushId;
         this.name = orgName;
         this.ein = ein;
         this.contactName = contactName;
@@ -36,11 +36,11 @@ public class Organization {
     }
 
     // Getters and Setters
-    public String getPushID() {
-        return pushID;
+    public String getPushId() {
+        return pushId;
     }
-    public void setPushID(String pushID) {
-        this.pushID = pushID;
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
     public String getName() {
         return name;
@@ -83,9 +83,9 @@ public class Organization {
     public void addShift(String shiftToAdd) {
         this.shiftsAvailable.add(shiftToAdd);
     }
-    public void completeShift(String pushID) {
+    public void completeShift(String pushId) {
         for(String shift : this.shiftsAvailable) {
-            if(shift.equals(pushID)) {
+            if(shift.equals(pushId)) {
                 shiftsAvailable.remove(shift);
                 shiftsCompleted.add(shift);
             }

@@ -94,9 +94,9 @@ public class ShiftsPendingForVolunteerFragment extends Fragment {
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForUser) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                Log.v(">>>>>", shiftID);
-                viewHolder.bindShift(shiftID, isOrganization);
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+                Log.v(">>>>>", shiftId);
+                viewHolder.bindShift(shiftId, isOrganization);
             }
         };
         mRecyclerView.setHasFixedSize(true);

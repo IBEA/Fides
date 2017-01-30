@@ -170,8 +170,8 @@ public class ShiftsByZipcodeFragment extends Fragment {
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbRef) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                viewHolder.bindShift(shiftID, isOrganization);
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+                viewHolder.bindShift(shiftId, isOrganization);
             }
         };
         mRecyclerView.setHasFixedSize(true);

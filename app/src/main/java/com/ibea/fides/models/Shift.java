@@ -11,7 +11,7 @@ import java.util.List;
 
 @Parcel
 public class Shift {
-    String pushID;
+    String pushId;
     String address;
     String from;
     String until;
@@ -39,8 +39,8 @@ public class Shift {
     }
 
     // Getters and Setters
-    public String getPushID() { return pushID; }
-    public void setPushID(String pushID) { this.pushID = pushID; }
+    public String getPushId() { return pushId; }
+    public void setPushId(String pushId) { this.pushId = pushId; }
     public int getZip() {
         return zip;
     }
