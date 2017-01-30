@@ -81,24 +81,24 @@ public class ProfileTab extends Fragment {
         });
 
         // Create background track
-        hoursArcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
+        hoursArcView.addSeries(new SeriesItem.Builder(Color.rgb(216, 241, 255))
                 .setRange(0, 25, 25)
                 .setInitialVisibility(false)
                 .setLineWidth(100f)
                 .build());
 
 //Create data series track
-        final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 245, 245, 0))
+        final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.rgb(188, 231, 255))
                 .setRange(0, 25, 0)
                 .setLineWidth(100f)
                 .setSpinDuration(2000)
                 .build();
 
-        final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.argb(255, 150, 150, 0))
-                .setRange(0, 25, 0)
+        final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.rgb(150, 218, 255))
                 .setSpinDuration(2000)
+                .setShowPointWhenEmpty(false)
+                .setRange(0, 25, 0)
                 .setLineWidth(100f)
-                .setInset(new PointF(20f, 20f))
                 .build();
 
         final int series2Index = hoursArcView.addSeries(seriesItem2);
@@ -111,7 +111,7 @@ public class ProfileTab extends Fragment {
 
         hoursArcView.addEvent(new DecoEvent.Builder(25).setIndex(series2Index).setDelay(2000).build());
 
-        hoursArcView.addEvent(new DecoEvent.Builder(25).setIndex(series3Index).setDelay(4000).build());
+        hoursArcView.addEvent(new DecoEvent.Builder(25).setIndex(series3Index).setDelay(3800).build());
 
         seriesItem2.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
             @Override

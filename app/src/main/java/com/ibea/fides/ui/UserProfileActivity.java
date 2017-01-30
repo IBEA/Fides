@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 
 // Main organization page, nested with profile and shift tab.
 
-public class OrgProfileActivity extends AppCompatActivity{
+public class UserProfileActivity extends AppCompatActivity{
 
 
     @Override
