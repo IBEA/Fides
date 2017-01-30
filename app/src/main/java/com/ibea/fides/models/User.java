@@ -10,6 +10,7 @@ import org.parceler.Parcel;
 public class User {
     String pushId;
     String name;
+    String email;
     boolean isOrganization = false;
     boolean isAdmin = false;
 
@@ -17,9 +18,10 @@ public class User {
     public User() {}
 
     // Basic Constructor
-    public User(String pushId, String name) {
+    public User(String pushId, String name, String email) {
         this.pushId = pushId;
         this.name = name;
+        this.email = email;
     }
 
     // Getters and Setters
@@ -35,6 +37,8 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
     public boolean getIsOrganization() { return isOrganization; }
     public void setIsOrganization(boolean isOrganization) {
         this.isOrganization = isOrganization;
