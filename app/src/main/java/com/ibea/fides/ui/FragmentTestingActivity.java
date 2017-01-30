@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
@@ -42,8 +43,10 @@ public class FragmentTestingActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
+                    Log.v("+++++", "First trigger");
                     return ShiftsByZipcodeFragment.newInstance(0, "Volunteer Opportunities");
                 case 1:
+                    Log.v("+++++", "Second trigger");
                     return ShiftsPendingForVolunteerFragment.newInstance(0, "Pending Shifts");
                 default:
                     return null;

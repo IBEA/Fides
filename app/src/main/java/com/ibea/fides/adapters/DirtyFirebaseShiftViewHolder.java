@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,7 +58,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         mVolunteerButton.setOnClickListener(this);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftID);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
@@ -66,6 +67,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
                 if(shift.getCurrentVolunteers().indexOf(userID) != -1){
                     mVolunteerButton.setText("Cancel");
+                }else{
+                    mVolunteerButton.setText("Volunteer");
                 }
 
                 organizationTextView.setText(shift.getOrganizationName());
@@ -78,6 +81,18 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
             }
         });
+
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        })
     }
 
     @Override

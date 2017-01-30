@@ -115,7 +115,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
                                 }
                                 mRecyclerAdapter = new OrganizationListAdapter(mContext, orgList);
                                 if(mRecyclerView.getAdapter().getClass() == mRecyclerAdapter.getClass()){
-                                    mRecyclerView.swapAdapter(mRecyclerAdapter, true);
+                                       mRecyclerView.swapAdapter(mRecyclerAdapter, true);
                                 }else{
                                     mRecyclerView.setAdapter(mRecyclerAdapter);
                                 }
