@@ -3,7 +3,6 @@ package com.ibea.fides.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
-import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
 
@@ -55,7 +51,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shifts_by_zipcode, container, false);
+        View view = inflater.inflate(R.layout.shifts_available_by_user, container, false);
         ButterKnife.bind(this, view);
 
         final Context mContext = this.getContext();
