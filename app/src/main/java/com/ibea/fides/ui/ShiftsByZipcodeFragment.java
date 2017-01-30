@@ -1,6 +1,7 @@
 package com.ibea.fides.ui;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,8 @@ public class ShiftsByZipcodeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shifts_by_zipcode, container, false);
         ButterKnife.bind(this, view);
 
+        final Context mContext = this.getContext();
+
         Log.v(">>>>", "In onCreateView");
 
         //!! Set searchview up to autopopulate with user zipcode !!
@@ -66,7 +69,6 @@ public class ShiftsByZipcodeFragment extends Fragment {
         final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
         final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
 
-//        mRecyclerAdapter = new OrganizationListAdapter(this.getContext(), orgList);
         mRecyclerView.setAdapter(mFirebaseAdapter);
 
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -78,29 +80,34 @@ public class ShiftsByZipcodeFragment extends Fragment {
                     if(query.length() == 5 && query.matches(onlyNumbers)){
                         Log.v("-----", "onlyNumbers");
 
-                        mFirebaseAdapter = null;
+//                        mFirebaseAdapter = null;
                         setUpFirebaseAdapter(query, "shiftsByZip");
                         mRecyclerView.setAdapter(mFirebaseAdapter);
 
                     }else{
-//                        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                                    Organization organization = snapshot.getValue(Organization.class);
-//                                    if(organization.getName().toLowerCase().contains(query.toLowerCase())){
-//                                        orgList.add(organization);
-//                                        Log.v("-----", organization.getName() + " added");
-//                                    }
-//
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//
-//                            }
-//                        });
+                        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.v("-----", "In org call");
+                                orgList.clear();
+                                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                    Log.v("-----", "In org loop");
+                                    Organization organization = snapshot.getValue(Organization.class);
+                                    if(organization.getName().toLowerCase().contains(query.toLowerCase())){
+                                        orgList.add(organization);
+                                        Log.v("-----", organization.getName() + " added");
+                                    }
+
+                                }
+                                mRecyclerAdapter = new OrganizationListAdapter(mContext, orgList);
+                                mRecyclerView.setAdapter(mRecyclerAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 }
                 return false;
