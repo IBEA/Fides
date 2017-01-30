@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +36,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     Context mContext;
     Shift mShift;
     Button mVolunteerButton;
+    Boolean isOrganization;
 
     public DirtyFirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -43,7 +45,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(String shiftId) {
+    public void bindShift(String shiftId, Boolean _isOrganization) {
+        isOrganization = _isOrganization;
 
         //!! Change volunteer button to cancel button if organization !!
 
@@ -55,7 +58,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         mVolunteerButton.setOnClickListener(this);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
@@ -64,6 +68,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
                 if(shift.getCurrentVolunteers().indexOf(userID) != -1){
                     mVolunteerButton.setText("Cancel");
+                }else{
+                    mVolunteerButton.setText("Volunteer");
                 }
 
                 organizationTextView.setText(shift.getOrganizationName());
@@ -76,6 +82,18 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
             }
         });
+
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        })
     }
 
     @Override
@@ -140,6 +158,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     public void claimShift(){
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String shiftId = mShift.getPushId();
+        Log.v("In claimShift:", shiftId);
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {

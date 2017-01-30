@@ -86,7 +86,7 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId);
+                viewHolder.bindShift(shiftId, false);
             }
         };
         mRecyclerView.setHasFixedSize(true);
