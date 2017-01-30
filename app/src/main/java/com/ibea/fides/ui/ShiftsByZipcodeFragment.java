@@ -59,7 +59,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
         Log.v(">>>>", "In onCreateView");
 
         //!! Set searchview up to autopopulate with user zipcode !!
-//        setUpFirebaseAdapter("97201", "shiftsByZip");
+        setUpFirebaseAdapter("97201", "shiftsByZip");
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
@@ -76,9 +76,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
                     if(query.length() == 5 && query.matches(onlyNumbers)){
                         Log.v("-----", "onlyNumbers");
 
-//                        mFirebaseAdapter = null;
                         setUpFirebaseAdapter(query, "shiftsByZip");
-//                        mRecyclerView.setAdapter(mFirebaseAdapter);
                         if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
                             mRecyclerView.swapAdapter(mFirebaseAdapter, true);
                         }else{
