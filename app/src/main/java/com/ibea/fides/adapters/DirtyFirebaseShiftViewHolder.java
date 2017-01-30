@@ -158,6 +158,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     public void claimShift(){
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String shiftId = mShift.getPushId();
+        Log.v("In claimShift:", shiftId);
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {

@@ -171,6 +171,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+                Log.v("ShiftID:", shiftId);
                 viewHolder.bindShift(shiftId, isOrganization);
             }
         };
