@@ -80,7 +80,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     // Reads all fields and returns constructed shift
-    public Shift createShift(String _organizationName, String _OID){
+    public Shift createShift(String _organizationName, String _pushId){
         String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
         String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
 
@@ -91,7 +91,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String address = mEditText_Address.getText().toString();
         int zip = Integer.parseInt(mEditText_Zip.getText().toString());
 
-        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _OID, address, zip, _organizationName);
+        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, zip, _organizationName);
 
         return shift;
     }
@@ -101,17 +101,17 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         // Add shift to database
         DatabaseReference pushRef = dbShifts.push();
-        String shiftID = pushRef.getKey();
-        _shift.setPushID(shiftID);
+        String shiftId = pushRef.getKey();
+        _shift.setPushId(shiftId);
         pushRef.setValue(_shift);
 
         // Add shift to shiftsAvailable fields
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftID).setValue(shiftID);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftID).setValue(shiftID);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(shiftId);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
 
         // Add shift to shiftsPending for organization
-        dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftID).setValue(shiftID);
+        dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
     }
 
     @Override
@@ -122,14 +122,15 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if((Boolean) dataSnapshot.child("isOrganization").getValue() == true){
                         String organizationName = dataSnapshot.child("name").getValue().toString();
-                        String OID = dataSnapshot.child("OID").getValue().toString();
-
                         Log.v("Here:", organizationName);
-                        Log.v("There:", OID);
+
+                        String pushId = dataSnapshot.child("pushId").getValue().toString();
+
+                        Log.v("There:", pushId);
 
                         if(validateFields()){
                             //Harvest data
-                            Shift shift = createShift(organizationName, OID);
+                            Shift shift = createShift(organizationName, pushId);
 
                             //Push data
                             pushData(shift);

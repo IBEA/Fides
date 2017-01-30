@@ -24,8 +24,8 @@ public class FragmentTestingActivity extends BaseActivity {
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 1;
-        private String tabtitles[] = new String[] { "Volunteer Opportunites" };
+        private static int NUM_ITEMS = 2;
+        private String tabtitles[] = new String[] { "Volunteer Opportunites", "Upcoming Shifts" };
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -42,7 +42,9 @@ public class FragmentTestingActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return ShiftsByZipcodeFragment.newInstance(0, "Shifts by Zipcode");
+                    return ShiftsByZipcodeFragment.newInstance(0, "Volunteer Opportunities");
+                case 1:
+                    return ShiftsPendingForVolunteerFragment.newInstance(0, "Pending Shifts");
                 default:
                     return null;
             }

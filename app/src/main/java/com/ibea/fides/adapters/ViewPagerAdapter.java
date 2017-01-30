@@ -19,9 +19,9 @@ import com.ibea.fides.ui.hoursFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    final int PAGE_COUNT = 3;
+    final int PAGE_COUNT = 4;
     // Tab Titles
-    private String tabtitles[] = new String[] { "Profile", "Shift", "Hours" };
+    private String tabtitles[] = new String[] { "Profile", "Search", "Shifts" , "Hours" };
     Context context;
 
     public ViewPagerAdapter(FragmentManager fm) {
@@ -49,8 +49,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
              //Open FragmentTab3.java
             case 2:
-                hoursFragment fragmenttab3 = new hoursFragment();
+                ShiftFragment fragmenttab3 = new ShiftFragment();
                 return fragmenttab3;
+
+            case 3:
+                hoursFragment fragmenttab2 = new hoursFragment();
+                return fragmenttab2;
+
+
         }
         return null;
     }

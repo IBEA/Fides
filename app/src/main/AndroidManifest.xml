@@ -35,7 +35,7 @@
         <activity android:name=".ui.AdminActivity" />
         <activity android:name=".ui.IntroActivity" />
         <activity
-            android:name=".ui.OrgProfileActivity"
+            android:name=".ui.UserProfileActivity"
             android:exported="true" />
         <activity android:name=".ui.FragmentTestingActivity" />
         <activity android:name=".ui.OrganizationProfileActivity"

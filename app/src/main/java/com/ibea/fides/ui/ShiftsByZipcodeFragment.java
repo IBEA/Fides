@@ -51,7 +51,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.shifts_available_by_user, container, false);
+        View view = inflater.inflate(R.layout.shifts_available_for_volunteers, container, false);
         ButterKnife.bind(this, view);
 
         final Context mContext = this.getContext();
@@ -59,7 +59,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
         Log.v(">>>>", "In onCreateView");
 
         //!! Set searchview up to autopopulate with user zipcode !!
-//        setUpFirebaseAdapter("97201", "shiftsByZip");
+        setUpFirebaseAdapter("97201", "shiftsByZip");
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
@@ -76,9 +76,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
                     if(query.length() == 5 && query.matches(onlyNumbers)){
                         Log.v("-----", "onlyNumbers");
 
-//                        mFirebaseAdapter = null;
                         setUpFirebaseAdapter(query, "shiftsByZip");
-//                        mRecyclerView.setAdapter(mFirebaseAdapter);
                         if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
                             mRecyclerView.swapAdapter(mFirebaseAdapter, true);
                         }else{
@@ -157,8 +155,8 @@ public class ShiftsByZipcodeFragment extends Fragment {
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbRef) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                viewHolder.bindShift(shiftID);
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+                viewHolder.bindShift(shiftId);
             }
         };
         mRecyclerView.setHasFixedSize(true);

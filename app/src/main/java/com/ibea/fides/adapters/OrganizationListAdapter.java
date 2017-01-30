@@ -2,6 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationListAdapter.OrganizationViewHolder> {
     private ArrayList<Organization> mOrganizations = new ArrayList<>();
     private Context mContext;
+    private Organization mOrganization;
 
     public OrganizationListAdapter(Context context, ArrayList<Organization> organizations) {
         mContext = context;
@@ -41,7 +43,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
         return mOrganizations.size();
     }
 
-    public class OrganizationViewHolder extends RecyclerView.ViewHolder {
+    public class OrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Context mContext;
         @Bind(R.id.nameText) TextView nameText;
 
@@ -49,10 +51,18 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            itemView.setOnClickListener(this);
         }
 
         public void bindOrganization(Organization organization) {
+            mOrganization = organization;
             nameText.setText(organization.getName());
+        }
+
+        @Override
+        public void onClick(View v){
+            //!! Fromt end, here's your breadcrumb, parcel your mOrganization and send it wherever you like !!
+            Log.v("Org Item", "Clicked on " + mOrganization.getName());
         }
     }
 }
