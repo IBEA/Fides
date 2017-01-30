@@ -2,14 +2,14 @@ package com.ibea.fides.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
+import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.ViewPagerAdapter;
 
 // Main organization page, nested with profile and shift tab.
 
-public class UserProfileActivity extends AppCompatActivity{
+public class UserProfileActivity extends BaseActivity{
 
 
     @Override
