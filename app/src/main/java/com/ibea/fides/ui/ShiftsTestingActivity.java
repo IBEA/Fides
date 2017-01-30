@@ -61,9 +61,9 @@ public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemL
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child("97201")) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
                 Log.v(TAG, "In populateViewHolder");
-                viewHolder.bindShift(shiftID, false );
+                viewHolder.bindShift(shiftId, false);
             }
         };
 

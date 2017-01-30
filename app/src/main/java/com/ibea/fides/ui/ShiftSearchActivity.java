@@ -85,8 +85,8 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(zipcode)) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                viewHolder.bindShift(shiftID, false);
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+                viewHolder.bindShift(shiftId, false);
             }
         };
         mRecyclerView.setHasFixedSize(true);

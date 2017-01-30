@@ -40,10 +40,10 @@ public class DirtyFirebaseOrganizationViewHolder extends RecyclerView.ViewHolder
     @Override
     public void onClick(View view) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_ORGANIZATIONS);
-        ref.child(mOrganization.getPushID()).setValue(mOrganization);
+        ref.child(mOrganization.getPushId()).setValue(mOrganization);
 
         DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_APPLICATIONS);
-        oldRef.child(mOrganization.getPushID()).removeValue();
+        oldRef.child(mOrganization.getPushId()).removeValue();
 
     }
 }
