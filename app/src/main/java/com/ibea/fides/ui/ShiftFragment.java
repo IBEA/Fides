@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibea.fides.R;
 
@@ -52,15 +53,18 @@ public class ShiftFragment extends Fragment implements View.OnClickListener {
                     Uri.parse("http://www.oregonhumane.org/"));
             startActivity(webIntent);
         }
-        if (v == mOrganizationContact) {
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("geo:" + mOrgnaization.getLatitude()
-                            + "," + mOrgnaization.getLongitude()
-                            + "?q=(" + mOrgnaization.getName() + ")"));
-            startActivity(mapIntent);
-        }
+//        if (v == mOrganizationContact) {
+//            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+//                    Uri.parse("geo:" + mOrgnaization.getLatitude()
+//                            + "," + mOrgnaization.getLongitude()
+//                            + "?q=(" + mOrgnaization.getName() + ")"));
+//            startActivity(mapIntent);
+//        }
         if (v == mOrganizationEditButton){
-            intent
+            Toast.makeText(getContext(), "Edit Button Is Press", Toast.LENGTH_SHORT).show();
+        }
+        if (v == mOrganizationDeleteButton){
+            Toast.makeText(getContext(), "Delete Button Is Press", Toast.LENGTH_SHORT).show();
         }
     }
 }
