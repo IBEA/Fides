@@ -25,7 +25,7 @@ public class FragmentTestingActivity extends BaseActivity {
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
         private static int NUM_ITEMS = 1;
-        private String tabtitles[] = new String[] { "Shifts by Zipcode" };
+        private String tabtitles[] = new String[] { "Volunteer Opportunites" };
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
