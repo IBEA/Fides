@@ -35,6 +35,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     Context mContext;
     Shift mShift;
     Button mVolunteerButton;
+    Boolean isOrganization;
 
     public DirtyFirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -43,7 +44,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(String shiftID) {
+    public void bindShift(String shiftID, Boolean _isOrganization) {
+        isOrganization = _isOrganization;
 
         //!! Change volunteer button to cancel button if organization !!
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,8 @@ public class ShiftsByZipcodeFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private Boolean isOrganization;
 
     private ArrayList<Organization> orgList = new ArrayList<Organization>();
 
@@ -65,7 +68,19 @@ public class ShiftsByZipcodeFragment extends Fragment {
         final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
         final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
 
-//        mRecyclerView.setAdapter(mFirebaseAdapter);
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        dbRef.child(Constants.DB_NODE_USERS).child(currentUserId).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isOrganization =  dataSnapshot.getValue(Boolean.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -156,7 +171,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftID, int position) {
-                viewHolder.bindShift(shiftID);
+                viewHolder.bindShift(shiftID, isOrganization);
             }
         };
         mRecyclerView.setHasFixedSize(true);
