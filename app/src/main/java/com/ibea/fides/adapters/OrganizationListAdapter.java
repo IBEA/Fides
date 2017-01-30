@@ -52,7 +52,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
         }
 
         public void bindOrganization(Organization organization) {
-            nameText.setText("Test");
+            nameText.setText(organization.getName());
         }
     }
 }

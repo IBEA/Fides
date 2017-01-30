@@ -2,6 +2,7 @@ package com.ibea.fides.ui;
 
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,42 +59,49 @@ public class ShiftsByZipcodeFragment extends Fragment {
 
         Log.v(">>>>", "In onCreateView");
 
-
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_ORGANIZATIONS);
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Organization organization = dataSnapshot.getValue(Organization.class);
-                    orgList.add(organization);
-                    Log.v("-----", "Org added");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-
-
-        mRecyclerAdapter = new OrganizationListAdapter(this.getContext(), orgList);
-        mRecyclerView.setAdapter(mRecyclerAdapter);
-
+        //!! Set searchview up to autopopulate with user zipcode !!
         setUpFirebaseAdapter("97201", "shiftsByZip");
 
-        //!! Set searchview up to autopopulate with user zipcode !!
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
+        final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
+
+//        mRecyclerAdapter = new OrganizationListAdapter(this.getContext(), orgList);
+        mRecyclerView.setAdapter(mFirebaseAdapter);
+
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
+                String onlyNumbers = "[0-9]+";
+
                 if(query.length() != 0){
-                    setUpFirebaseAdapter(query, "shiftsByZip");
+                    if(query.length() == 5 && query.matches(onlyNumbers)){
+                        Log.v("-----", "onlyNumbers");
+
+                        mFirebaseAdapter = null;
+                        setUpFirebaseAdapter(query, "shiftsByZip");
+                        mRecyclerView.setAdapter(mFirebaseAdapter);
+
+                    }else{
+//                        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                                    Organization organization = snapshot.getValue(Organization.class);
+//                                    if(organization.getName().toLowerCase().contains(query.toLowerCase())){
+//                                        orgList.add(organization);
+//                                        Log.v("-----", organization.getName() + " added");
+//                                    }
+//
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+                    }
                 }
                 return false;
             }
@@ -103,6 +111,12 @@ public class ShiftsByZipcodeFragment extends Fragment {
                 return false;
             }
         });
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
 
         return view;
     }
