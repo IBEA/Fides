@@ -51,7 +51,7 @@ public class ShiftsByZipcodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.shifts_available_by_user, container, false);
+        View view = inflater.inflate(R.layout.shifts_available_for_volunteers, container, false);
         ButterKnife.bind(this, view);
 
         final Context mContext = this.getContext();
