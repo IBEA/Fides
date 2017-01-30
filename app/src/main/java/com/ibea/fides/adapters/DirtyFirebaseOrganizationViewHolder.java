@@ -34,7 +34,7 @@ public class DirtyFirebaseOrganizationViewHolder extends RecyclerView.ViewHolder
 
         TextView nameText = (TextView) mView.findViewById(R.id.nameText);
         mOrganization = organization;
-        nameText.setText(organization.getOrgName());
+        nameText.setText(organization.getName());
     }
 
     @Override

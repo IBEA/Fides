@@ -63,13 +63,13 @@ public class ShiftsByZipcodeFragment extends Fragment {
         Log.v(">>>>", "In onCreateView");
 
         //!! Set searchview up to autopopulate with user zipcode !!
-        setUpFirebaseAdapter("97201", "shiftsByZip");
+//        setUpFirebaseAdapter("97201", "shiftsByZip");
 
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
         final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
 
-        mRecyclerView.setAdapter(mFirebaseAdapter);
+//        mRecyclerView.setAdapter(mFirebaseAdapter);
 
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -82,7 +82,12 @@ public class ShiftsByZipcodeFragment extends Fragment {
 
 //                        mFirebaseAdapter = null;
                         setUpFirebaseAdapter(query, "shiftsByZip");
-                        mRecyclerView.setAdapter(mFirebaseAdapter);
+//                        mRecyclerView.setAdapter(mFirebaseAdapter);
+                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                            mRecyclerView.swapAdapter(mFirebaseAdapter, true);
+                        }else{
+                            mRecyclerView.setAdapter(mFirebaseAdapter);
+                        }
 
                     }else{
                         dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,7 +105,12 @@ public class ShiftsByZipcodeFragment extends Fragment {
 
                                 }
                                 mRecyclerAdapter = new OrganizationListAdapter(mContext, orgList);
-                                mRecyclerView.setAdapter(mRecyclerAdapter);
+                                if(mRecyclerView.getAdapter().getClass() == mRecyclerAdapter.getClass()){
+                                    mRecyclerView.swapAdapter(mRecyclerAdapter, true);
+                                }else{
+                                    mRecyclerView.setAdapter(mRecyclerAdapter);
+                                }
+
                             }
 
                             @Override
