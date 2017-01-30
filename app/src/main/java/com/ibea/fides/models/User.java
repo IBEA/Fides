@@ -18,7 +18,7 @@ public class User {
     public User() {}
 
     // Basic Constructor
-    public User(String pushId, String name) {
+    public User(String pushId, String name, String email) {
         this.pushId = pushId;
         this.name = name;
         this.email = email;

@@ -47,6 +47,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     // Misc
     private ProgressDialog mAuthProgressDialog;
     private String mName;
+    private String mEmail;
     private String mUserType;
     boolean isAdmin = false;
 
@@ -132,6 +133,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         // Set name
         mName = name;
+        mEmail = email;
 
         // Display Progress Dialog
         mAuthProgressDialog.show();
@@ -217,7 +219,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Construct new User and Add to Users Table
-        User newUser = new User(user.getUid(), mName);
+        User newUser = new User(user.getUid(), mName, mEmail);
 
 
         // Set User Type
