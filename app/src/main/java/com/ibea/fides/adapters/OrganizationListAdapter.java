@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationListAdapter.OrganizationViewHolder> {
     private ArrayList<Organization> mOrganizations = new ArrayList<>();
     private Context mContext;
+    private Organization mOrganization;
 
     public OrganizationListAdapter(Context context, ArrayList<Organization> organizations) {
         mContext = context;
@@ -54,12 +55,14 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
         }
 
         public void bindOrganization(Organization organization) {
+            mOrganization = organization;
             nameText.setText(organization.getName());
         }
 
         @Override
         public void onClick(View v){
-            Log.v("Org Item", "Click successful");
+            //!! Fromt end, here's your breadcrumb, parcel your mOrganization and send it wherever you like !!
+            Log.v("Org Item", "Clicked on " + mOrganization.getName());
         }
     }
 }
