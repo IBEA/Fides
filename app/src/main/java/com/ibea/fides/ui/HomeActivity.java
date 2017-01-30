@@ -9,11 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.ibea.fides.BaseActivity;
@@ -81,7 +78,25 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+        }
+        else if (id == R.id.action_shifts){
+            Intent intent = new Intent(HomeActivity.this, ShiftsCreateActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.action_dirty_shift_search) {
+            Intent intent = new Intent(mContext, ShiftSearchActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.action_admin) {
+            Intent intent = new Intent(mContext, AdminActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     //Use this as a function Notification System
