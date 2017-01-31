@@ -66,10 +66,14 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 mShift = shift;
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-                    mVolunteerButton.setText("Cancel");
+                if(isOrganization){
+                    mVolunteerButton.setText("Delete");
                 }else{
-                    mVolunteerButton.setText("Volunteer");
+                    if(shift.getCurrentVolunteers().indexOf(userID) != -1){
+                        mVolunteerButton.setText("Cancel");
+                    }else{
+                        mVolunteerButton.setText("Volunteer");
+                    }
                 }
 
                 organizationTextView.setText(shift.getOrganizationName());
@@ -82,18 +86,6 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
             }
         });
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        })
     }
 
     @Override
@@ -106,10 +98,16 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 claimShift();
             }else if(function.equals("Cancel")){
                 quitShift();
+            }else if(function.equals("Delete")){
+                deleteShift();
+            }else{
+                // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
             }
         }
+    }
 
-        // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
+    public void deleteShift(){
+        Log.v(">>", "Delete");
     }
 
     public void quitShift(){
