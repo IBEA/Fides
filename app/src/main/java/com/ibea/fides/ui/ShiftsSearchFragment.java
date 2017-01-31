@@ -39,8 +39,11 @@ public class ShiftsSearchFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private Boolean isOrganization;
-
     private ArrayList<Organization> orgList = new ArrayList<Organization>();
+
+    final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
+    final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.searchView_Zipcode) SearchView mSearchView_Zipcode;
@@ -59,41 +62,29 @@ public class ShiftsSearchFragment extends Fragment {
 
         final Context mContext = this.getContext();
 
-        Log.v(">>>>", "In onCreateView");
-
-        //!! Set searchview up to autopopulate with user zipcode !!
+        //TODO: Set searchview up to autopopulate with user zipcode
         setUpFirebaseAdapter("97201", "shiftsByZip");
-
-        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
-        final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
+        mRecyclerView.setAdapter(mFirebaseAdapter);
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-//        dbRef.child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                isOrganization =  dataSnapshot.getValue(Boolean.class);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        //TODO: implement tag search
+        //TODO: implement city search
 
-        Log.d(">>isOrg>>", String.valueOf(isOrganization));
-
+        //We're passing shiftsByZip in anticipation of further options like tags and cities
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
                 String onlyNumbers = "[0-9]+";
 
+                //Make sure the query is not empty
                 if(query.length() != 0){
+                    //Check to see if it's a zipcode
                     if(query.length() == 5 && query.matches(onlyNumbers)){
-                        Log.v("-----", "onlyNumbers");
-
                         setUpFirebaseAdapter(query, "shiftsByZip");
+
+                        //Setting vs swapping helps prevent index errors
+                        //TODO: get this sorted out so that it's not redundant. We're setting the adapter IN the setup.
                         if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
                             mRecyclerView.swapAdapter(mFirebaseAdapter, true);
                         }else{
@@ -101,32 +92,27 @@ public class ShiftsSearchFragment extends Fragment {
                         }
 
                     }else{
+                        //Go get a list of orgs, and filter them by the query
                         dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.v("-----", "In org call");
                                 orgList.clear();
                                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                    Log.v("-----", "In org loop");
                                     Organization organization = snapshot.getValue(Organization.class);
                                     if(organization.getName().toLowerCase().contains(query.toLowerCase())){
                                         orgList.add(organization);
-                                        Log.v("-----", organization.getName() + " added");
                                     }
-
                                 }
                                 mRecyclerAdapter = new OrganizationListAdapter(mContext, orgList);
+                                //Setting vs swapping helps prevent index errors
                                 if(mRecyclerView.getAdapter().getClass() == mRecyclerAdapter.getClass()){
                                        mRecyclerView.swapAdapter(mRecyclerAdapter, true);
                                 }else{
                                     mRecyclerView.setAdapter(mRecyclerAdapter);
                                 }
-
                             }
-
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-
                             }
                         });
                     }
@@ -139,12 +125,6 @@ public class ShiftsSearchFragment extends Fragment {
                 return false;
             }
         });
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
 
         return view;
     }
@@ -165,20 +145,15 @@ public class ShiftsSearchFragment extends Fragment {
     }
 
     private void setUpFirebaseAdapter(String query, String searchType) {
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(query);
-
-        //!! If statement to switch between zip and organization needed here. setUpFirebaseAdapter will need to take appropriate arguments. Defaulting to a zip code 97201 right now !!
+        //Where we should drop the switch in for query type
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbRef) {
-
+                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsByZip.child(query)) {
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                Log.v("ShiftID:", shiftId);
                 viewHolder.bindShift(shiftId, false);
             }
         };
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 }
