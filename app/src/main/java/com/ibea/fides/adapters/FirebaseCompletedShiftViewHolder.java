@@ -42,6 +42,8 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
         isOrganization = _isOrganization;
 
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Name);
+        final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
+        final TextView descriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
 
         if(organizationTextView == null){
             Log.d(">>>>", "textView is null");
@@ -58,6 +60,8 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
                 if(mShift != null){
                     organizationTextView.setText(mShift.getOrganizationName());
+                    dateTextView.setText(mShift.getDate());
+                    descriptionTextView.setText(mShift.getShortDescription());
                 }
             }
 
@@ -70,6 +74,7 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
     @Override
     public void onClick(View view) {
+
         //!! Front end, this is where you pack the shift off to shift details !!
 
     }

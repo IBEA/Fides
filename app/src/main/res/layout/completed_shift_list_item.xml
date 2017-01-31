@@ -16,12 +16,6 @@
         android:id="@+id/textView_Date" />
 
     <TextView
-        android:text="Time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_Time" />
-
-    <TextView
         android:text="Short Description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
