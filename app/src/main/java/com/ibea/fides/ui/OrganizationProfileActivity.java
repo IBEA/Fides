@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.ViewPagerAdapter;
+import com.ibea.fides.adapters.OrganizationProfilePageAdapter;
 
 public class OrganizationProfileActivity extends AppCompatActivity {
 
@@ -15,8 +15,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organization_profile);
 
         //        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.organizationProfilePager);
         // Set the ViewPagerAdapter into ViewPager
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new OrganizationProfilePageAdapter(getSupportFragmentManager()));
     }
 }

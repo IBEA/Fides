@@ -23,10 +23,10 @@ import static com.ibea.fides.R.layout.shift_fragment;
  */
 
 public class ShiftFragment extends Fragment implements View.OnClickListener {
-    @Bind(R.id.organizationName) TextView mOrganizationName;
+    @Bind(R.id.organizationNameTextView) TextView mOrganizationName;
     @Bind(R.id.organizationContact) TextView mOrganizationContact;
     @Bind(R.id.organizationShiftDetail) TextView mOrganizationShiftDeatil;
-    @Bind(R.id.organizationEditButton) Button mOrganizationEditButton;
+    @Bind(R.id.organizationEditTextButton) Button mOrganizationEditButton;
     @Bind(R.id.organizationDeleteButton) Button mOrganizationDeleteButton;
     @Bind(R.id.organizationNumberOfVolunteer) TextView mOrganinzationNumberOfVolunteer;
 
