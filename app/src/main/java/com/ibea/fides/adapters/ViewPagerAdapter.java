@@ -50,8 +50,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
              //Open FragmentTab3.java
             case 2:
-                ShiftsByZipcodeFragment searchAsUserFragment = new ShiftsByZipcodeFragment();
-                return searchAsUserFragment;
+                //ShiftsByZipcodeFragment searchAsUserFragment = new ShiftsByZipcodeFragment();
+                //return searchAsUserFragment;
+                hoursFragment fragmenttab4 = new hoursFragment();
+                return fragmenttab4;
 
             case 3:
                 hoursFragment fragmenttab2 = new hoursFragment();
