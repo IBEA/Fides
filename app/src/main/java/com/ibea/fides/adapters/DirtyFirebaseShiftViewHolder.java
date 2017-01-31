@@ -71,7 +71,9 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 mShift = shift;
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
                 if(mShift != null){
+                    Log.v("+_+_+", String.valueOf(mShift.getOrganizationID().equals(userID)));
                     if(isOrganization && mShift.getOrganizationID().equals(userID)){
                         mVolunteerButton.setText("Delete");
                         mCompleteButton.setVisibility(View.VISIBLE);

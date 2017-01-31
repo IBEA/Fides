@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,11 +60,11 @@ public class ShiftsCompletedForVolunteersFragment extends Fragment {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId);
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.completed_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbRef) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
+                (String.class, R.layout.completed_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbRef) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+            protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {
                 viewHolder.bindShift(shiftId, true);
             }
         };
