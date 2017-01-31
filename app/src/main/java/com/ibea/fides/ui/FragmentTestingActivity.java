@@ -24,8 +24,8 @@ public class FragmentTestingActivity extends BaseActivity {
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 4;
-        private String tabtitles[] = new String[] { "Volunteer Opportunites", "Upcoming Shifts (Volunteers)", "Upcoming Shifts (Organizations)", "Completed Shifts (Volunteer)" };
+        private static int NUM_ITEMS = 5;
+        private String tabtitles[] = new String[] { "Volunteer Opportunites", "Upcoming Shifts (Volunteers)", "Upcoming Shifts (Organizations)", "Completed Shifts (Volunteer)", "Completed Shifts (Organization)" };
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -48,8 +48,9 @@ public class FragmentTestingActivity extends BaseActivity {
                 case 2:
                     return ShiftsPendingForOrganizationsFragment.newInstance(0, "Pending Shifts for Orgs");
                 case 3:
-                    Log.v("+++++", "Case triggered");
                     return ShiftsCompletedForVolunteersFragment.newInstance(0, "Completed Shifts for Volunteers");
+                case 4:
+                    return ShiftsCompletedForOrganizationFragment.newInstance(0, "Completed Shifts for Organizations");
                 default:
                     return null;
             }
