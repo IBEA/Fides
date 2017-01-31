@@ -25,6 +25,7 @@ import com.ibea.fides.utils.RecyclerItemListener;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alaina Traxler on 1/25/2017.
@@ -36,6 +37,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     Context mContext;
     Shift mShift;
     Button mVolunteerButton;
+    Button mCompleteButton;
     Boolean isOrganization;
 
     public DirtyFirebaseShiftViewHolder(View itemView) {
@@ -54,8 +56,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
         final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
-
+        mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
+        mCompleteButton.setOnClickListener(this);
+        mCompleteButton.setVisibility(View.GONE);
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
         ref.addValueEventListener(new ValueEventListener() {
@@ -66,15 +71,21 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 mShift = shift;
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-                    mVolunteerButton.setText("Cancel");
-                }else{
-                    mVolunteerButton.setText("Volunteer");
+                if(mShift != null){
+                    if(isOrganization && mShift.getOrganizationID().equals(userID)){
+                        mVolunteerButton.setText("Delete");
+                        mCompleteButton.setVisibility(View.VISIBLE);
+                    }else{
+                        if(shift.getCurrentVolunteers().indexOf(userID) != -1){
+                            mVolunteerButton.setText("Cancel");
+                        }else{
+                            mVolunteerButton.setText("Volunteer");
+                        }
+                    }
+                    organizationTextView.setText(shift.getOrganizationName());
+                    shortDescriptionTextView.setText(shift.getShortDescription());
+                    zipCodeTextView.setText(String.valueOf(shift.getZip()));
                 }
-
-                organizationTextView.setText(shift.getOrganizationName());
-                shortDescriptionTextView.setText(shift.getShortDescription());
-                zipCodeTextView.setText(String.valueOf(shift.getZip()));
             }
 
             @Override
@@ -82,18 +93,6 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
             }
         });
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        })
     }
 
     @Override
@@ -106,10 +105,51 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 claimShift();
             }else if(function.equals("Cancel")){
                 quitShift();
+            }else if(function.equals("Delete")){
+                deleteShift(true);
             }
+        }else if(view == mCompleteButton) {
+            completeShift();
+        }else{
+            // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
+        }
+    }
+
+    // Avoided duplicate functionality in completeShift by adding boolean
+    public void deleteShift(boolean _total){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String shiftId = mShift.getPushId();
+        String organizationID = mShift.getOrganizationID();
+        String zipcode = String.valueOf(mShift.getZip());
+
+        List<String> userIds = mShift.getCurrentVolunteers();
+
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zipcode).child(shiftId).removeValue();
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_NODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
+
+        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
+        for(String user : userIds){
+            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).removeValue();
         }
 
-        // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
+        if(_total) {
+            dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).removeValue();
+        }
+
+    }
+
+    public void completeShift() {
+        String shiftId = mShift.getPushId();
+        deleteShift(false);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        List<String> userIds = mShift.getCurrentVolunteers();
+
+        for(String user: userIds) {
+            dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).setValue(mShift);
+        }
+        dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mShift.getOrganizationID()).child(shiftId).setValue(mShift);
+
     }
 
     public void quitShift(){

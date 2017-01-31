@@ -32,6 +32,9 @@ public class ProfileTab extends Fragment {
     int totalHoursWorked = 18; // Will be changed
     int currentdisplayhours = 0;
 
+    int circlespeed1 = 2000;
+    int circlespeed2 = 1000;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class ProfileTab extends Fragment {
         View view = inflater.inflate(R.layout.profile_tab, container, false);
         ButterKnife.bind(this, view);
 
+    if(once == false) {
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
                 .setRange(0, 100, 100)
@@ -50,16 +54,17 @@ public class ProfileTab extends Fragment {
         final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 245, 245, 0))
                 .setRange(0, 100, 0)
                 .setLineWidth(100f)
+                .setSpinDuration(circlespeed1)
                 .build();
 
         int series1Index = arcView.addSeries(seriesItem1);
 
         arcView.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
-                .setDelay(1000)
-                .setDuration(2000)
+                .setDelay(circlespeed1)
+                .setDuration(circlespeed1)
                 .build());
 
-        arcView.addEvent(new DecoEvent.Builder(trustmetric).setIndex(series1Index).setDelay(2000).build());
+        arcView.addEvent(new DecoEvent.Builder(trustmetric).setIndex(series1Index).setDelay(circlespeed1).build());
 
         final String format = "%.0f%%";
 
@@ -91,25 +96,25 @@ public class ProfileTab extends Fragment {
         final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.rgb(188, 231, 255))
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
-                .setSpinDuration(1000)
+                .setSpinDuration(circlespeed2)
                 .build();
 
         final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.rgb(150, 218, 255))
-                .setSpinDuration(1000)
+                .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
                 .build();
 
         final SeriesItem seriesItem4 = new SeriesItem.Builder(Color.rgb(114, 205, 255))
-                .setSpinDuration(1000)
+                .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
                 .build();
 
         final SeriesItem seriesItem5 = new SeriesItem.Builder(Color.rgb(61, 131, 244))
-                .setSpinDuration(1000)
+                .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
                 .setLineWidth(100f)
@@ -121,26 +126,23 @@ public class ProfileTab extends Fragment {
         final int series5Index = hoursArcView.addSeries(seriesItem5);
 
         hoursArcView.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
-                .setDelay(1000)
-                .setDuration(2000)
+                .setDelay(circlespeed2)
+                .setDuration(circlespeed2)
                 .build());
 
-        if(totalHoursWorked > 15){
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(1000).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(1800).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(2700).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(3600).build());
-        }
-        else if(totalHoursWorked > 10){
+        if (totalHoursWorked > 15) {
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(circlespeed2).build());
+        } else if (totalHoursWorked > 10) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(3800).build());
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 10).setIndex(series4Index).setDelay(5600).build());
-        }
-        else if(totalHoursWorked > 5) {
+        } else if (totalHoursWorked > 5) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 5).setIndex(series3Index).setDelay(3800).build());
-        }
-        else{
+        } else {
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked).setIndex(series2Index).setDelay(2000).build());
         }
 
@@ -170,7 +172,7 @@ public class ProfileTab extends Fragment {
             }
         });
 
-               seriesItem4.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
+        seriesItem4.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
                 totalHourstext.setText(String.valueOf((int) currentPosition + 10));
@@ -196,9 +198,9 @@ public class ProfileTab extends Fragment {
             }
         });
 
-
+        //once = true;
+    }
         return view;
-
     }
 
 }

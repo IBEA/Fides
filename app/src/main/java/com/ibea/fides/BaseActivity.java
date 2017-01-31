@@ -116,11 +116,7 @@ public class BaseActivity extends AppCompatActivity {
         else if (id == R.id.action_shifts){
             Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
             startActivity(intent);
-        }else if(id == R.id.action_dirty_shift_search) {
-            Intent intent = new Intent(mContext, ShiftSearchActivity.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_dirty_buttons_page) {
+        }else if(id == R.id.action_dirty_buttons_page) {
             Intent intent = new Intent(mContext, HomeActivity.class);
             startActivity(intent);
         }
