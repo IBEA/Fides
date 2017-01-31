@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.ibea.fides.ui.ProfileTab;
 import com.ibea.fides.ui.ShiftFragment;
+import com.ibea.fides.ui.ShiftsByZipcodeFragment;
 import com.ibea.fides.ui.hoursFragment;
 
 
@@ -21,7 +22,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     final int PAGE_COUNT = 4;
     // Tab Titles
-    private String tabtitles[] = new String[] { "Profile", "Search", "Shifts" , "Hours" };
+    private String tabtitles[] = new String[] { "Profile", "Shifts", "Find" , "History" };
     Context context;
 
     public ViewPagerAdapter(FragmentManager fm) {
@@ -49,8 +50,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
              //Open FragmentTab3.java
             case 2:
-                ShiftFragment fragmenttab3 = new ShiftFragment();
-                return fragmenttab3;
+                ShiftsByZipcodeFragment searchAsUserFragment = new ShiftsByZipcodeFragment();
+                return searchAsUserFragment;
 
             case 3:
                 hoursFragment fragmenttab2 = new hoursFragment();

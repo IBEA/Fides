@@ -16,7 +16,7 @@ import com.ibea.fides.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.ibea.fides.R.layout.shift_fragment;
+import static com.ibea.fides.R.layout.fragment_shift;
 
 /**
  * Created by N8Home on 1/27/17.
@@ -33,10 +33,10 @@ public class ShiftFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//         Get the view from shift_fragment.xml
-        View view = inflater.inflate(shift_fragment, container, false);
-        ButterKnife.bind(this, view);
-
+//         Get the view from fragment_shift.xml
+          View view = inflater.inflate(fragment_shift, container, false);
+        return view;
+    }
         mOrganizationName.setOnClickListener(this);
         mOrganizationContact.setOnClickListener(this);
         mOrganizationEditButton.setOnClickListener(this);

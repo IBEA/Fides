@@ -2,30 +2,31 @@ package com.ibea.fides.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
+
+
+import com.ibea.fides.BaseActivity;
+import com.astuetz.PagerSlidingTabStrip;
 
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.ViewPagerAdapter;
-import com.jjoe64.graphview.GraphView;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 // Main organization page, nested with profile and shift tab.
 
-public class UserProfileActivity extends AppCompatActivity{
+public class UserProfileActivity extends BaseActivity{
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_org_profile);
+        setContentView(R.layout.activity_user_profile);
 
-//        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        // Set the ViewPagerAdapter into ViewPager
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+//        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
+
     }
 
 }

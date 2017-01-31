@@ -120,6 +120,10 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(mContext, ShiftSearchActivity.class);
             startActivity(intent);
         }
+        else if(id == R.id.action_dirty_buttons_page) {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
