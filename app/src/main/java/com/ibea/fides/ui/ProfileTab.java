@@ -39,6 +39,7 @@ public class ProfileTab extends Fragment {
         View view = inflater.inflate(R.layout.profile_tab, container, false);
         ButterKnife.bind(this, view);
 
+    if(once == false) {
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
                 .setRange(0, 100, 100)
@@ -125,22 +126,19 @@ public class ProfileTab extends Fragment {
                 .setDuration(2000)
                 .build());
 
-        if(totalHoursWorked > 15){
+        if (totalHoursWorked > 15) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(1000).build());
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(1800).build());
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(2700).build());
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(3600).build());
-        }
-        else if(totalHoursWorked > 10){
+        } else if (totalHoursWorked > 10) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(3800).build());
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 10).setIndex(series4Index).setDelay(5600).build());
-        }
-        else if(totalHoursWorked > 5) {
+        } else if (totalHoursWorked > 5) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 5).setIndex(series3Index).setDelay(3800).build());
-        }
-        else{
+        } else {
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked).setIndex(series2Index).setDelay(2000).build());
         }
 
@@ -170,7 +168,7 @@ public class ProfileTab extends Fragment {
             }
         });
 
-               seriesItem4.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
+        seriesItem4.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
                 totalHourstext.setText(String.valueOf((int) currentPosition + 10));
@@ -196,9 +194,9 @@ public class ProfileTab extends Fragment {
             }
         });
 
-
+        once = true;
+    }
         return view;
-
     }
 
 }
