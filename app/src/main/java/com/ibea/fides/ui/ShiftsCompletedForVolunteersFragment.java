@@ -12,11 +12,17 @@ import com.ibea.fides.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsCompletedForVolunteers extends Fragment {
+public class ShiftsCompletedForVolunteersFragment extends Fragment {
 
 
-    public ShiftsCompletedForVolunteers() {
+    public ShiftsCompletedForVolunteersFragment() {
         // Required empty public constructor
+    }
+
+    // newInstance constructor for creating fragment with arguments
+    public static ShiftsSearchFragment newInstance(int page, String title) {
+        ShiftsSearchFragment fragmentFirst = new ShiftsSearchFragment();
+        return fragmentFirst;
     }
 
 

@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForOrganizations extends Fragment {
+public class ShiftsPendingForOrganizationsFragment extends Fragment {
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
@@ -42,7 +42,7 @@ public class ShiftsPendingForOrganizations extends Fragment {
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForOrganizations = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mCurrentUser.getUid());
 
-    public ShiftsPendingForOrganizations() {
+    public ShiftsPendingForOrganizationsFragment() {
         // Required empty public constructor
     }
 
@@ -73,8 +73,8 @@ public class ShiftsPendingForOrganizations extends Fragment {
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsPendingForOrganizations newInstance(int page, String title) {
-        ShiftsPendingForOrganizations fragmentFirst = new ShiftsPendingForOrganizations();
+    public static ShiftsPendingForOrganizationsFragment newInstance(int page, String title) {
+        ShiftsPendingForOrganizationsFragment fragmentFirst = new ShiftsPendingForOrganizationsFragment();
         return fragmentFirst;
     }
 

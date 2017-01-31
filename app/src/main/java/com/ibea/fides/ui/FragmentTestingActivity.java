@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -44,14 +43,14 @@ public class FragmentTestingActivity extends BaseActivity {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
                     Log.v("+++++", "First trigger");
-                    return ShiftsByZipcodeFragment.newInstance(0, "Volunteer Opportunities");
+                    return ShiftsSearchFragment.newInstance(0, "Volunteer Opportunities");
                 case 1:
                     Log.v("+++++", "Second trigger");
                     return ShiftsPendingForVolunteerFragment.newInstance(0, "Pending Shifts");
                 case 2:
-                    return ShiftsPendingForOrganizations.newInstance(0, "Pending Shifts for Orgs");
+                    return ShiftsPendingForOrganizationsFragment.newInstance(0, "Pending Shifts for Orgs");
                 case 3:
-                    return ShiftsCompletedForVolunteers.newInstance(0, "Pending Shifts for Orgs");
+                    return ShiftsCompletedForVolunteersFragment.newInstance(0, "Pending Shifts for Orgs");
                 default:
                     return null;
             }
