@@ -1,20 +1,34 @@
 package com.ibea.fides.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 //Fragment that holds Basic Profile Data, Trust, and Total Hours worked -- Garrett
 
@@ -26,6 +40,9 @@ public class ProfileTab extends Fragment {
     @Bind(R.id.dynamicArcView) DecoView arcView;
     @Bind(R.id.hoursArcView) DecoView hoursArcView;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     private boolean once = false;
 
     int trustmetric = 75; // Will be changed
@@ -35,9 +52,30 @@ public class ProfileTab extends Fragment {
     int circlespeed1 = 1000;
     int circlespeed2 = 400;
 
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
+
+    private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+    private Boolean isOrganization;
+
+    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference dbShiftsPendingForUser = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid());
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                username.setText(mCurrentUser.getDisplayName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         View view = inflater.inflate(R.layout.profile_tab, container, false);
         ButterKnife.bind(this, view);

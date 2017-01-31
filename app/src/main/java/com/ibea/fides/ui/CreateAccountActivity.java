@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
@@ -36,6 +37,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
     @Bind(R.id.volunteerRadio) RadioButton mVolunteerRadio;
     @Bind(R.id.organizationRadio) RadioButton mOrgRadio;
+    @Bind(R.id.radioGroup) RadioGroup mTypeGroup;
     @Bind(R.id.createButton) Button mCreateButton;
     @Bind(R.id.adminButton) Button mAdminButton;
 
