@@ -106,18 +106,18 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             }else if(function.equals("Cancel")){
                 quitShift();
             }else if(function.equals("Delete")){
-                deleteShift();
+                deleteShift(true);
             }else{
                 // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
             }
         }
         if(view == mCompleteButton) {
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
-            ref.addValueEventListener(new ValueEv
+            completeShift();
         }
     }
 
-    public void deleteShift(){
+    // Avoided duplicate functionality in completeShift by adding boolean
+    public void deleteShift(boolean _total){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         String shiftId = mShift.getPushId();
         String organizationID = mShift.getOrganizationID();
@@ -133,7 +133,17 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).removeValue();
         }
 
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).removeValue();
+        if(_total) {
+            dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).removeValue();
+        }
+
+    }
+
+    public void completeShift() {
+        String shiftId = mShift.getPushId();
+        deleteShift(false);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(shiftId).setValue(mShift);
     }
 
     public void quitShift(){
