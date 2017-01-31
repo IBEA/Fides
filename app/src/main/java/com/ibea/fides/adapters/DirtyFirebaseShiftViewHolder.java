@@ -25,6 +25,7 @@ import com.ibea.fides.utils.RecyclerItemListener;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alaina Traxler on 1/25/2017.
@@ -66,19 +67,21 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 mShift = shift;
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                if(isOrganization){
-                    mVolunteerButton.setText("Delete");
-                }else{
-                    if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-                        mVolunteerButton.setText("Cancel");
+                if(mShift != null){
+                    if(isOrganization){
+                        mVolunteerButton.setText("Delete");
                     }else{
-                        mVolunteerButton.setText("Volunteer");
-                    }
-                }
 
-                organizationTextView.setText(shift.getOrganizationName());
-                shortDescriptionTextView.setText(shift.getShortDescription());
-                zipCodeTextView.setText(String.valueOf(shift.getZip()));
+                        if(shift.getCurrentVolunteers().indexOf(userID) != -1){
+                            mVolunteerButton.setText("Cancel");
+                        }else{
+                            mVolunteerButton.setText("Volunteer");
+                        }
+                    }
+                    organizationTextView.setText(shift.getOrganizationName());
+                    shortDescriptionTextView.setText(shift.getShortDescription());
+                    zipCodeTextView.setText(String.valueOf(shift.getZip()));
+                }
             }
 
             @Override
@@ -107,7 +110,22 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     }
 
     public void deleteShift(){
-        Log.v(">>", "Delete");
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String shiftId = mShift.getPushId();
+        String organizationID = mShift.getOrganizationID();
+        String zipcode = String.valueOf(mShift.getZip());
+
+        List<String> userIds = mShift.getCurrentVolunteers();
+
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zipcode).child(shiftId).removeValue();
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_NODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
+
+        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
+        for(String user : userIds){
+            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).removeValue();
+        }
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).removeValue();
     }
 
     public void quitShift(){
