@@ -107,12 +107,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 quitShift();
             }else if(function.equals("Delete")){
                 deleteShift(true);
-            }else{
-                // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
             }
-        }
-        if(view == mCompleteButton) {
+        }else if(view == mCompleteButton) {
             completeShift();
+        }else{
+            // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
         }
     }
 
