@@ -21,7 +21,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.button_Dirty) Button mButton_Dirty;
     @Bind(R.id.button_Fragments) Button mButton_Fragments;
 
     @Override
@@ -30,7 +29,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        mButton_Dirty.setOnClickListener(this);
         mButton_Fragments.setOnClickListener(this);
 
         final Intent emptyIntent = new Intent();
@@ -69,35 +67,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v){
-        if(v == mButton_Dirty){
-            Intent intent = new Intent(mContext, ShiftsTestingActivity.class);
-            startActivity(intent);
-        }else if(v == mButton_Fragments){
+        if(v == mButton_Fragments){
             Intent intent = new Intent(mContext, FragmentTestingActivity.class);
             startActivity(intent);
         }
-
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_logout) {
-            logout();
-            return true;
-        }
-        else if (id == R.id.action_shifts){
-            Intent intent = new Intent(HomeActivity.this, ShiftsCreateActivity.class);
-            startActivity(intent);
-        }else if(id == R.id.action_admin) {
-            Log.d("Justin", "success");
-            Intent intent = new Intent(mContext, AdminActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     //Use this as a function Notification System
     private void Notify() {
