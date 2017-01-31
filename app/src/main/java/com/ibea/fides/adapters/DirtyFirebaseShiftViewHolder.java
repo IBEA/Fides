@@ -143,7 +143,14 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         String shiftId = mShift.getPushId();
         deleteShift(false);
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(shiftId).setValue(mShift);
+
+        List<String> userIds = mShift.getCurrentVolunteers();
+
+        for(String user: userIds) {
+            dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).setValue(mShift);
+        }
+        dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mShift.getOrganizationID()).child(shiftId).setValue(mShift);
+
     }
 
     public void quitShift(){
