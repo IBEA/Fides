@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -92,6 +93,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = new Intent(mContext, ShiftSearchActivity.class);
             startActivity(intent);
         }else if(id == R.id.action_admin) {
+            Log.d("Justin", "success");
             Intent intent = new Intent(mContext, AdminActivity.class);
             startActivity(intent);
         }

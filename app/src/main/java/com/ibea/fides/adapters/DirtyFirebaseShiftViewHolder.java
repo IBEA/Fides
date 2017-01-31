@@ -37,6 +37,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     Context mContext;
     Shift mShift;
     Button mVolunteerButton;
+    Button mCompleteButton;
     Boolean isOrganization;
 
     public DirtyFirebaseShiftViewHolder(View itemView) {
@@ -55,8 +56,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
         final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
-
+        mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
+        mCompleteButton.setOnClickListener(this);
+        mCompleteButton.setVisibility(View.GONE);
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
         ref.addValueEventListener(new ValueEventListener() {
@@ -68,10 +72,10 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 if(mShift != null){
-                    if(isOrganization){
+                    if(isOrganization && mShift.getOrganizationID().equals(userID)){
                         mVolunteerButton.setText("Delete");
+                        mCompleteButton.setVisibility(View.VISIBLE);
                     }else{
-
                         if(shift.getCurrentVolunteers().indexOf(userID) != -1){
                             mVolunteerButton.setText("Cancel");
                         }else{
@@ -106,6 +110,10 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             }else{
                 // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
             }
+        }
+        if(view == mCompleteButton) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
+            ref.addValueEventListener(new ValueEv
         }
     }
 
