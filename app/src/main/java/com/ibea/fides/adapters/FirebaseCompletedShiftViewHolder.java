@@ -42,6 +42,12 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
         isOrganization = _isOrganization;
 
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Name);
+
+        if(organizationTextView == null){
+            Log.d(">>>>", "textView is null");
+        }else{
+            Log.d(">>>>", "textView is not null");
+        }
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {

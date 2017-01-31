@@ -81,11 +81,11 @@ public class ShiftsPendingForOrganizationsFragment extends Fragment {
 
     private void setUpFirebaseAdapter() {
         Log.v(">>>>", "SfO adapter");
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbShiftsPendingForOrganizations) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
+                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
-            protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {
+            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
                 viewHolder.bindShift(shiftId, isOrganization);
             }
         };

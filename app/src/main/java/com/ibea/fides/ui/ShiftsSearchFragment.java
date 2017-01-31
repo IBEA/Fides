@@ -70,17 +70,19 @@ public class ShiftsSearchFragment extends Fragment {
 
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        dbRef.child(Constants.DB_NODE_USERS).child(currentUserId).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isOrganization =  dataSnapshot.getValue(Boolean.class);
-            }
+//        dbRef.child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                isOrganization =  dataSnapshot.getValue(Boolean.class);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        Log.d(">>isOrg>>", String.valueOf(isOrganization));
 
         mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -172,7 +174,7 @@ public class ShiftsSearchFragment extends Fragment {
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
                 Log.v("ShiftID:", shiftId);
-                viewHolder.bindShift(shiftId, isOrganization);
+                viewHolder.bindShift(shiftId, false);
             }
         };
         mRecyclerView.setHasFixedSize(true);
