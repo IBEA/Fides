@@ -94,6 +94,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = new Intent(mContext, AdminActivity.class);
             startActivity(intent);
         }
+
         return super.onOptionsItemSelected(item);
     }
 
