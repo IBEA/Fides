@@ -45,10 +45,29 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
         Log.v(">>>>>", "In Completed bindShift");
 
+        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Name);
+
         //!! Change volunteer button to cancel button if organization !!
 
 
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                mShift = shift;
+
+                if(mShift != null){
+                    organizationTextView.setText(mShift.getOrganizationName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 //        ref.addValueEventListener(new ValueEventListener() {
 //
