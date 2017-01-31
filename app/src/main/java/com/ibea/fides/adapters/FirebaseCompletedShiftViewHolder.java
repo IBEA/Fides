@@ -100,4 +100,4 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
 
 }
-}
+
