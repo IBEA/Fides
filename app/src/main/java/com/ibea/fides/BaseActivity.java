@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.HomeActivity;
 import com.ibea.fides.ui.LogInActivity;
 import com.ibea.fides.ui.ShiftSearchActivity;
@@ -124,6 +125,10 @@ public class BaseActivity extends AppCompatActivity {
         }
         else if (id == R.id.user_page) {
             Intent intent = new Intent(mContext, UserProfileActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.action_admin) {
+            Intent intent = new Intent(mContext, AdminActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

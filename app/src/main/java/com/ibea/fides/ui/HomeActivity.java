@@ -79,26 +79,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_logout) {
-            logout();
-            return true;
-        }
-        else if (id == R.id.action_shifts){
-            Intent intent = new Intent(HomeActivity.this, ShiftsCreateActivity.class);
-            startActivity(intent);
-        }else if(id == R.id.action_admin) {
-            Log.d("Justin", "success");
-            Intent intent = new Intent(mContext, AdminActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     //Use this as a function Notification System
     private void Notify() {
         Intent intent = new Intent(this, HomeActivity.class);

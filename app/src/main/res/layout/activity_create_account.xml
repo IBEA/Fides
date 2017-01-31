@@ -10,16 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ibea.fides.ui.CreateAccountActivity">
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Create Account"
-        android:id="@+id/createButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/passwordConfirmInput"
-        android:layout_alignEnd="@+id/passwordConfirmInput"
-        android:layout_marginBottom="81dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,47 +19,40 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/nameInput"
-        android:hint="Your Name"
+        android:hint="Full Name"
         android:layout_below="@+id/titleText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="6dp" />
+        android:layout_alignLeft="@+id/emailInput"
+        android:layout_alignStart="@+id/emailInput"
+        android:layout_alignRight="@+id/emailInput"
+        android:layout_alignEnd="@+id/emailInput" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/emailInput"
-        android:hint="Your Email Address"
+        android:hint="Email Address"
         android:layout_below="@+id/nameInput"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordInput"
-        android:inputType="textPassword"
-        android:hint="Your Password"
-        android:layout_below="@+id/nameInput"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="42dp" />
-
+        android:layout_alignLeft="@+id/passwordInput"
+        android:layout_alignStart="@+id/passwordInput"
+        android:layout_alignRight="@+id/passwordInput"
+        android:layout_alignEnd="@+id/passwordInput" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/passwordConfirmInput"
         android:inputType="textPassword"
-        android:hint="Your Password Confirmed"
-        android:layout_marginTop="15dp"
+        android:hint="Confirm Password"
         android:layout_below="@+id/passwordInput"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/passwordInput"
+        android:layout_alignStart="@+id/passwordInput"
+        android:layout_alignRight="@+id/passwordInput"
+        android:layout_alignEnd="@+id/passwordInput" />
 
     <RadioGroup
         android:layout_width="fill_parent"
@@ -77,39 +60,65 @@
         android:orientation="horizontal"
         android:weightSum="1"
         android:id="@+id/radioGroup"
-        android:layout_below="@+id/passwordConfirmInput"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+
         <RadioButton
-            android:text="I'm a Volunteer"
+            android:text="Volunteer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/volunteerRadio"
             android:onClick="onRadioButtonClicked"
+            android:layout_weight="0.08"
+            android:layout_below="@+id/passwordConfirmInput"
+            android:layout_toLeftOf="@+id/adminButton"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_weight="0.08" />
+            android:layout_alignParentStart="true" />
 
         <RadioButton
-            android:text="I'm an Organization"
-            android:layout_width="wrap_content"
+            android:text="Organization"
+            android:layout_width="177dp"
             android:layout_height="wrap_content"
             android:id="@+id/organizationRadio"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:layout_weight="0.08"
+            android:layout_below="@+id/passwordConfirmInput"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/adminButton"
+            android:layout_toEndOf="@+id/adminButton" />
 
     </RadioGroup>
+
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:id="@+id/createButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp" />
 
     <Button
         android:text="ADMIN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/createButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="90dp"
-        android:layout_marginStart="90dp"
-        android:layout_marginBottom="72dp"
-        android:id="@+id/adminButton" />
+        android:id="@+id/adminButton"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/radioGroup"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordInput"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:layout_below="@+id/emailInput"
+        android:layout_alignLeft="@+id/createButton"
+        android:layout_alignStart="@+id/createButton" />
 
 </RelativeLayout>
