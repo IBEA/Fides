@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 
 import com.ibea.fides.ui.ProfileTab;
-import com.ibea.fides.ui.ShiftFragment;
+import com.ibea.fides.ui.ShiftDetailsFragment;
 import com.ibea.fides.ui.ShiftsByZipcodeFragment;
 import com.ibea.fides.ui.hoursFragment;
 
@@ -45,7 +45,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
             // Open ShiftFragment.java
             case 1:
-                ShiftFragment organizationshiftfragment = new ShiftFragment();
+                ShiftDetailsFragment organizationshiftfragment = new ShiftDetailsFragment();
                 return organizationshiftfragment;
 
              //Open FragmentTab3.java
