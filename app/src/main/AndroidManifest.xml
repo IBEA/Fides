@@ -35,10 +35,10 @@
         <activity android:name=".ui.AdminActivity" />
         <activity android:name=".ui.IntroActivity" />
         <activity
-            android:name=".ui.UserProfileActivity"
+            android:name=".ui.MainActivity_User"
             android:exported="true" />
         <activity android:name=".ui.FragmentTestingActivity" />
-        <activity android:name=".ui.OrganizationProfileActivity"
+        <activity android:name=".ui.MainActivity_Organization"
             android:exported="true" ></activity>
     </application>
 

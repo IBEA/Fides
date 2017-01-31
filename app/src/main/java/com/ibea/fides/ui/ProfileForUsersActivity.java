@@ -32,7 +32,7 @@ import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 //Fragment that holds Basic Profile Data, Trust, and Total Hours worked -- Garrett
 
-public class ProfileTab extends Fragment {
+public class ProfileForUsersActivity extends Fragment {
 
     @Bind(R.id.usernametext) TextView username;
     @Bind(R.id.totalHours) TextView totalHourstext;

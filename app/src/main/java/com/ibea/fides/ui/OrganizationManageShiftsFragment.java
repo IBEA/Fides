@@ -12,7 +12,7 @@ import com.ibea.fides.R;
  * Created by N8Home on 1/30/17.
  */
 
-public class OrganizationManagmentShiftFragment extends Fragment {
+public class OrganizationManageShiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

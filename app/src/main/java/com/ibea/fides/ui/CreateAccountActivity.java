@@ -172,7 +172,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     if(mUserType.equals("org")) {
                         intent = new Intent(mContext, OrganizationApplicationActivity.class);
                     } else {
-                        intent = new Intent(mContext, UserProfileActivity.class);
+                        intent = new Intent(mContext, MainActivity_User.class);
                     }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
