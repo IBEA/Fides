@@ -29,8 +29,6 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
     View mView;
     Context mContext;
     Shift mShift;
-    Button mVolunteerButton;
-    Button mCompleteButton;
     Boolean isOrganization;
 
     public FirebaseCompletedShiftViewHolder(View itemView) {
@@ -43,13 +41,7 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
     public void bindShift(String shiftId, Boolean _isOrganization) {
         isOrganization = _isOrganization;
 
-        Log.v(">>>>>", "In Completed bindShift");
-
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Name);
-
-        //!! Change volunteer button to cancel button if organization !!
-
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,56 +60,12 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
             }
         });
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Shift shift = dataSnapshot.getValue(Shift.class);
-//                mShift = shift;
-//                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//
-//                if(mShift != null){
-//                    if(isOrganization && mShift.getOrganizationID().equals(userID)){
-//                        mVolunteerButton.setText("Delete");
-//                        mCompleteButton.setVisibility(View.VISIBLE);
-//                    }else{
-//                        if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-//                            mVolunteerButton.setText("Cancel");
-//                        }else{
-//                            mVolunteerButton.setText("Volunteer");
-//                        }
-//                    }
-//                    //!! Set text !!
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     @Override
     public void onClick(View view) {
-//        final ArrayList<Shift> shifts = new ArrayList<>();
-//        String function = mVolunteerButton.getText().toString();
+        //!! Front end, this is where you pack the shift off to shift details !!
 
-//        if(view == mVolunteerButton) {
-//            if(function.equals("Volunteer")){
-//                claimShift();
-//            }else if(function.equals("Cancel")){
-//                quitShift();
-//            }else if(function.equals("Delete")){
-//                deleteShift(true);
-//            }else{
-//                // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
-//            }
-//        }
-//        if(view == mCompleteButton) {
-//            completeShift();
-//        }
     }
 
 
