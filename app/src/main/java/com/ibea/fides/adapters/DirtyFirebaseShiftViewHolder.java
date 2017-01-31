@@ -71,7 +71,9 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                 mShift = shift;
                 String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
                 if(mShift != null){
+                    Log.v("+_+_+", String.valueOf(mShift.getOrganizationID().equals(userID)));
                     if(isOrganization && mShift.getOrganizationID().equals(userID)){
                         mVolunteerButton.setText("Delete");
                         mCompleteButton.setVisibility(View.VISIBLE);
@@ -146,9 +148,9 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         List<String> userIds = mShift.getCurrentVolunteers();
 
         for(String user: userIds) {
-            dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).setValue(mShift);
+            dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).setValue(shiftId);
         }
-        dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mShift.getOrganizationID()).child(shiftId).setValue(mShift);
+        dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mShift.getOrganizationID()).child(shiftId).setValue(shiftId);
 
     }
 

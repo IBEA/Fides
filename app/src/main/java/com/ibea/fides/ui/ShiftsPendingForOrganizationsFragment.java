@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -80,11 +81,11 @@ public class ShiftsPendingForOrganizationsFragment extends Fragment {
 
     private void setUpFirebaseAdapter() {
         Log.v(">>>>", "SfO adapter");
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
+                (String.class, R.layout.dirty_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+            protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {
                 viewHolder.bindShift(shiftId, isOrganization);
             }
         };

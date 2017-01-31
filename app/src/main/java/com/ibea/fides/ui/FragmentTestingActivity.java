@@ -42,15 +42,14 @@ public class FragmentTestingActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    Log.v("+++++", "First trigger");
                     return ShiftsSearchFragment.newInstance(0, "Volunteer Opportunities");
                 case 1:
-                    Log.v("+++++", "Second trigger");
                     return ShiftsPendingForVolunteerFragment.newInstance(0, "Pending Shifts");
                 case 2:
                     return ShiftsPendingForOrganizationsFragment.newInstance(0, "Pending Shifts for Orgs");
                 case 3:
-                    return ShiftsCompletedForVolunteersFragment.newInstance(0, "Pending Shifts for Orgs");
+                    Log.v("+++++", "Case triggered");
+                    return ShiftsCompletedForVolunteersFragment.newInstance(0, "Completed Shifts for Volunteers");
                 default:
                     return null;
             }

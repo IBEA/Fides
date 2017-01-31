@@ -35,16 +35,12 @@ public class ShiftSearchActivity extends BaseActivity implements View.OnClickLis
     private String zipcode;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
-    private RecyclerItemListener mTransfer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shift_search);
         ButterKnife.bind(this);
-
-        mTransfer = this;
 
         mSearchButton.setOnClickListener(this);
     }
