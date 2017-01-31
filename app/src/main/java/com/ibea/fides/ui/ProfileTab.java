@@ -32,8 +32,8 @@ public class ProfileTab extends Fragment {
     int totalHoursWorked = 18; // Will be changed
     int currentdisplayhours = 0;
 
-    int circlespeed1 = 2000;
-    int circlespeed2 = 1000;
+    int circlespeed1 = 1000;
+    int circlespeed2 = 400;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +53,7 @@ public class ProfileTab extends Fragment {
 //Create data series track
         final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 245, 245, 0))
                 .setRange(0, 100, 0)
+                .setSpinDuration(circlespeed1)
                 .setLineWidth(100f)
                 .setSpinDuration(circlespeed1)
                 .build();
@@ -132,9 +133,9 @@ public class ProfileTab extends Fragment {
 
         if (totalHoursWorked > 15) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(circlespeed2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(circlespeed2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(circlespeed2*2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(circlespeed2*3).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(circlespeed2*4).build());
         } else if (totalHoursWorked > 10) {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(3800).build());
@@ -198,7 +199,9 @@ public class ProfileTab extends Fragment {
             }
         });
 
-        //once = true;
+        circlespeed1 = 300;
+        circlespeed2 = 101;
+
     }
         return view;
     }

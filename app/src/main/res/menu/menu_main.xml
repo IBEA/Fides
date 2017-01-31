@@ -20,6 +20,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/user_page"
+        android:title="User Page"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_logout"
         android:title="Logout"
         android:visible="true"
