@@ -11,9 +11,11 @@
         app:pstsTextAllCaps="true"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:pstsDividerColor="@color/colorAccent"
-        app:pstsIndicatorColor="@color/colorPrimary"
-        app:pstsUnderlineColor="@color/colorPrimaryLight"
+        app:pstsIndicatorHeight="48dp"
+        app:pstsDividerColor="@color/colorPrimary"
+        app:pstsIndicatorColor="@color/colorAccent"
+        app:pstsUnderlineColor="@color/colorPrimary"
+        android:background="@color/colorPrimaryLight"
         />
 
     <android.support.v4.view.ViewPager
