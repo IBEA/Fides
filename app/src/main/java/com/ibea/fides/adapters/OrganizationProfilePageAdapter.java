@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.ibea.fides.ui.OrganizationManagmentShiftFragment;
 import com.ibea.fides.ui.OrganizationPastShiftFragment;
+import com.ibea.fides.ui.OrganizationPastUserFragment;
 import com.ibea.fides.ui.OrganizationProfileFragment;
 
 /**
@@ -15,7 +16,7 @@ import com.ibea.fides.ui.OrganizationProfileFragment;
 
 public class OrganizationProfilePageAdapter extends FragmentPagerAdapter {
 
-    final int PAGE_COUNT = 3;
+    final int PAGE_COUNT = 4;
     // Tab Titles
     private String tabtitles[] = new String[] { "Profile", "Manage Shift", "Past Shift", "Past User" };
     Context context;
@@ -33,20 +34,25 @@ public class OrganizationProfilePageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
 
-            // Open FragmentTab1.java
+            // Open  OrganizationProfileFragment.java
             case 0:
                 OrganizationProfileFragment organizationProfileFragment = new OrganizationProfileFragment();
                 return organizationProfileFragment;
 
-            // Open FragmentTab2.java
+            // Open OrganizationManagmentShiftFragment.java
             case 1:
                 OrganizationManagmentShiftFragment organizationManagmentShiftFragment = new OrganizationManagmentShiftFragment();
                 return organizationManagmentShiftFragment;
 
-            // Open FragmentTab3.java
+            // Open OrganizationPastShiftFragment.java
             case 2:
                OrganizationPastShiftFragment organizationPastShiftFragment = new OrganizationPastShiftFragment();
                 return organizationPastShiftFragment;
+
+            // Open OrganizationPastShiftFragment.java
+            case 3:
+                OrganizationPastUserFragment organizationPastUserFragment = new OrganizationPastUserFragment();
+                return organizationPastUserFragment;
         }
         return null;
     }
