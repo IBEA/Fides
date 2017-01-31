@@ -7,56 +7,89 @@
     android:weightSum="1">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.07">
+        android:layout_width="wrap_content"
+        android:layout_height="85dp"
+        android:layout_weight="0.06">
 
-        <TextView
-            android:text="Humane Society"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="21dp"
-            android:id="@+id/OrganizationName"
-            android:layout_toRightOf="@+id/OrganizationImageView"
-            android:layout_toEndOf="@+id/OrganizationImageView" />
-
-        <TextView
-            android:text="Volunteer Saturday, Jan 27 @ 9am"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/OrganizationShiftDetail"
-            android:layout_alignBottom="@+id/OrganizationImageView"
-            android:layout_toRightOf="@+id/OrganizationImageView"
-            android:layout_toEndOf="@+id/OrganizationImageView" />
-
-        <ImageView
-            android:layout_width="131dp"
-            android:layout_height="91dp"
-            app:srcCompat="@drawable/fides01"
-            android:id="@+id/OrganizationImageView"
-            android:layout_alignTop="@+id/OrganizationName"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/organizationEditTextButton"
+            android:layout_alignBottom="@+id/organizationDeleteButton"
+            android:layout_toLeftOf="@+id/organizationEditTextButton">
 
-        <TextView
+            <TextView
+                android:text="Humane Society"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:id="@+id/organizationNameTextView"
+                android:textStyle="normal|bold|italic"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/organizationContact"
+                android:text="1067 NE Columbia Blvd, Portland, OR 97211"
+                android:padding="2dp"
+                android:textAlignment="center"
+                android:layout_below="@+id/organizationNameTextView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="Volunteer Saturday, Jan 27 @ 9am"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:id="@+id/organizationShiftDetail"
+                android:textAlignment="center"
+                android:layout_below="@+id/organizationContact"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="# of volunteer: 3 / 10."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/organizationNumberOfVolunteer"
+                android:layout_below="@+id/organizationShiftDetail"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+        <Button
+            android:text="Edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/OrganizationContact"
-            android:text="1067 NE Columbia Blvd, Portland, OR 97211"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/OrganizationImageView"
-            android:layout_toEndOf="@+id/OrganizationImageView" />
+            android:id="@+id/organizationEditTextButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
+        <Button
+            android:text="Delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/organizationDeleteButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/organizationEditTextButton" />
 
     </RelativeLayout>
 
-    <TextView
-        android:text="This is to display list of shift"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_weight="0.07"
-        android:textAlignment="center"
-        android:textStyle="normal|bold" />
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_weight="0.01" />
+
 </LinearLayout>

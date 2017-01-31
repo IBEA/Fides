@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/fides01"
+                android:id="@+id/imageView2"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:text="Doctor Without Borders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/organizationNameTextView"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:text="333 7th Avenue, New York, NY 10001-5004"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/OrganizationContact"
+                android:textStyle="normal|bold"
+                android:textAlignment="center" />
+
+            <TextView
+                android:text="About: "
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/organizationAboutTextView"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:text="We are Doctors Without Borders/Médecins Sans Frontières (MSF). We help people worldwide where the need is greatest, delivering emergency medical aid to people affected by conflict, epidemics, disasters, or exclusion from health care."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/OrganizationAbout"
+                android:textStyle="normal|bold"
+                android:textSize="16sp"
+                android:padding="2dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:text="Upcoming Volunteering Event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/organizationNextVolunteeringEventTextView"
+                android:textAlignment="center"
+                android:textStyle="normal|bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_Organization"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:text="Organization Name"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_ShortDescription"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:text="Short Description"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:text="ZipCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_Zip" />
+
+                <Button
+                    android:text="Volunteer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_Volunteer" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
