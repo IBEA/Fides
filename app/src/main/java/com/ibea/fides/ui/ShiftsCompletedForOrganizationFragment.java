@@ -1,6 +1,7 @@
 package com.ibea.fides.ui;
 
-
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,17 +20,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
 import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ShiftsCompletedForVolunteersFragment extends Fragment {
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+public class ShiftsCompletedForOrganizationFragment extends Fragment {
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
     Boolean isOrganization;
@@ -37,14 +35,13 @@ public class ShiftsCompletedForVolunteersFragment extends Fragment {
     String mUserId;
 
 
-    public ShiftsCompletedForVolunteersFragment() {
+    public ShiftsCompletedForOrganizationFragment() {
         // Required empty public constructor
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsCompletedForVolunteersFragment newInstance(int page, String title) {
-        ShiftsCompletedForVolunteersFragment fragmentFirst = new ShiftsCompletedForVolunteersFragment();
-        Log.v("<<<<<", "ShiftsCompleted newInstance");
+    public static ShiftsCompletedForOrganizationFragment newInstance(int page, String title) {
+        ShiftsCompletedForOrganizationFragment fragmentFirst = new ShiftsCompletedForOrganizationFragment();
         return fragmentFirst;
     }
 
@@ -53,9 +50,8 @@ public class ShiftsCompletedForVolunteersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shifts_completed_for_volunteers, container, false);
+        View view = inflater.inflate(R.layout.fragment_shifts_completed_for_organization, container, false);
         ButterKnife.bind(this, view);
-        Log.v("<<<<<", "In onCreateView for Completed");
 
         mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -63,8 +59,6 @@ public class ShiftsCompletedForVolunteersFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
-                Log.d(">UserID", mUserId);
-                Log.d(">isOrg>", String.valueOf(isOrganization));
                 setUpFirebaseAdapter();
             }
 
@@ -78,17 +72,16 @@ public class ShiftsCompletedForVolunteersFragment extends Fragment {
     }
 
     private void setUpFirebaseAdapter() {
-        Log.v(">>>>>", "in CompletedSetup");
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference dbFirebaseNode;
 
-        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId);
+        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(currentUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
                 (String.class, R.layout.completed_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
 
             @Override
             protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, false);
+                viewHolder.bindShift(shiftId, true);
             }
         };
         mRecyclerView.setHasFixedSize(true);
