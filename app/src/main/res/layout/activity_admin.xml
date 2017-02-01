@@ -13,7 +13,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:id="@+id/recyclerView"
+        android:id="@+id/unratedRecyclerView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -22,7 +22,7 @@
         android:text="Unapproved Orgs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/recyclerView"
+        android:layout_above="@+id/unratedRecyclerView"
         android:layout_centerHorizontal="true"
         android:id="@+id/textView3" />
 

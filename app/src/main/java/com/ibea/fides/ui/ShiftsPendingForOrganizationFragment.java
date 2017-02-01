@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ShiftsPendingForOrganizationFragment extends Fragment {
-    @Bind(R.id.recyclerView)
+    @Bind(R.id.unratedRecyclerView)
     RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;

@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ShiftsCompletedForVolunteerFragment extends Fragment {
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
     Boolean isOrganization;
