@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 
 public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
-    @Bind(R.id.roleInput) EditText mRoleInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
     @Bind(R.id.addressInput) EditText mAddressInput;
     @Bind(R.id.zipcodeInput) EditText mZipInput;
@@ -56,7 +55,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
        Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
 
-       Intent intent = new Intent(mContext, LoginActivity.class);
+       Intent intent = new Intent(mContext, LogInActivity.class);
        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
        startActivity(intent);
        finish();

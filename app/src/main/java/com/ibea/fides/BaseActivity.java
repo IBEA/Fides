@@ -11,19 +11,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.MainActivity_Volunteer;
-import com.ibea.fides.ui._FORNOW_HomeActivity;
-import com.ibea.fides.ui.LoginActivity;
-
 import com.ibea.fides.ui.OrganizationSettingsActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
-
+import com.ibea.fides.ui._FORNOW_HomeActivity;
+import com.ibea.fides.ui.LogInActivity;
 import com.ibea.fides.ui.ShiftsCreateActivity;
 import com.ibea.fides.utils.Universal;
 
@@ -109,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
     public void logout() {
         //TODO: Destroy isOrganization in shared preferences
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+        Intent intent = new Intent(BaseActivity.this, LogInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

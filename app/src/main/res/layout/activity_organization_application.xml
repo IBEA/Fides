@@ -27,28 +27,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/roleInput"
-        android:layout_below="@+id/nameInput"
-        android:layout_alignLeft="@+id/nameInput"
-        android:layout_alignStart="@+id/nameInput"
-        android:inputType="text"
-        android:hint="Your Position in Company" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:id="@+id/organizationInput"
-        android:hint="Organization Name"
-        android:layout_below="@+id/roleInput"
-        android:layout_alignLeft="@+id/roleInput"
-        android:layout_alignStart="@+id/roleInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10"
         android:id="@+id/addressInput"
@@ -101,6 +79,17 @@
         android:id="@+id/submitButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/organizationInput"
+        android:hint="Organization Name"
+        android:layout_below="@+id/nameInput"
+        android:layout_alignRight="@+id/nameInput"
+        android:layout_alignEnd="@+id/nameInput" />
 
 
 </RelativeLayout>

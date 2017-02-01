@@ -37,10 +37,11 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
-    @Bind(R.id.volunteerRadio) RadioButton mVolunteerRadio;
-    @Bind(R.id.organizationRadio) RadioButton mOrgRadio;
-    @Bind(R.id.radioGroup) RadioGroup mTypeGroup;
-    @Bind(R.id.createButton) Button mCreateButton;
+//    @Bind(R.id.volunteerRadio) RadioButton mVolunteerRadio;
+//    @Bind(R.id.organizationRadio) RadioButton mOrgRadio;
+//    @Bind(R.id.radioGroup) RadioGroup mTypeGroup;
+    @Bind(R.id.createVolunteerButton) Button mCreateVolunteerButton;
+    @Bind(R.id.createOrganizationButton) Button mCreateOrganizationButton;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -65,9 +66,10 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         mUserType = "volunteer";
 
         // Set Click Listener
-        mCreateButton.setOnClickListener(this);
+        mCreateVolunteerButton.setOnClickListener(this);
+        mCreateOrganizationButton.setOnClickListener(this);
 
-        mVolunteerRadio.setChecked(true);
+//        mVolunteerRadio.setChecked(true);
 
         // Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
@@ -96,33 +98,40 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch (view.getId()) {
-            case R.id.volunteerRadio:
-                if (checked)
-                    mUserType = "volunteer";
-                break;
-            case R.id.organizationRadio:
-                if (checked)
-                    mUserType = "org";
-                break;
-        }
-    }
+//    public void onRadioButtonClicked(View view) {
+//        // Is the button now checked?
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//        // Check which radio button was clicked
+//        switch (view.getId()) {
+//            case R.id.volunteerRadio:
+//                if (checked)
+//                    mUserType = "volunteer";
+//                break;
+//            case R.id.organizationRadio:
+//                if (checked)
+//                    mUserType = "org";
+//                break;
+//        }
+//    }
 
     @Override
     public void onClick(View view) {
-        if(view == mCreateButton) {
-            createNewUser();
+        if(view == mCreateVolunteerButton) {
+            createUser();
+        } else if(view == mCreateOrganizationButton) {
+            createOrganization();
         }
 
     }
 
-    // Create New Account
-    private void createNewUser() {
+    // Create New Organization
+    private void createOrganization() {
+        Intent intent = new Intent(CreateAccountActivity.this, OrganizationApplicationActivity.class);
+    }
+
+    // Create New Volunteer Account
+    private void createUser() {
         String name = mNameInput.getText().toString().trim();
         String email = mEmailInput.getText().toString().trim();
         String password = mPasswordInput.getText().toString().trim();
@@ -170,7 +179,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     Intent intent;
 
                     if (isOrganization) {
-                        intent = new Intent(CreateAccountActivity.this, MainActivity_Organization.class);
+                        intent = new Intent(CreateAccountActivity.this, OrganizationApplicationActivity.class);
                     }
                     else {
                         intent = new Intent(CreateAccountActivity.this, MainActivity_Volunteer.class);
