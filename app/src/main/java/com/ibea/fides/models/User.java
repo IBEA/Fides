@@ -52,4 +52,7 @@ public class User {
     public List<Integer> getRanking() { return ranking; }
     public void setRanking(List<Integer> ranking) { this.ranking = ranking; }
 
+
+    // Returns the rank of the user in percentage
+    public int showRank() { return ((this.ranking.get(0)/this.ranking.get(1))*100); }
 }
