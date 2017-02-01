@@ -2,8 +2,10 @@ package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -62,6 +64,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
         ButterKnife.bind(this);
+
+        mUserType = "volunteer";
 
         // Set Click Listener
         mCreateButton.setOnClickListener(this);
@@ -151,7 +155,33 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
                 // If Auth Success, call function passing in User info. If Auth Not Successful, alert.
                 if(task.isSuccessful()) {
+                    Boolean isOrganization;
+
+                    Log.v(">>>>", mUserType);
+                    if(mUserType.equals("org")){
+                        isOrganization = true;
+                    }else{
+                        isOrganization = false;
+                    }
+
+                    Log.v(">>>>", String.valueOf(isOrganization));
+
                     createFirebaseUserProfile(task.getResult().getUser());
+                    //Put isOrganization Boolean into shared preferences.
+                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
+
+                    Intent intent;
+
+                    if (isOrganization) {
+                        intent = new Intent(CreateAccountActivity.this, MainActivity_Organization.class);
+                    }
+                    else {
+                        intent = new Intent(CreateAccountActivity.this, MainActivity_User.class);
+                    }
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(mContext, "Account Creation Failed", Toast.LENGTH_LONG).show();
                 }
@@ -168,18 +198,18 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 // If user is present, create new User, update Shared Preferences, send them to Account Setup, clear backstack, and destroy this activity
-                if(user != null) {
-                    // Send user to new intent
-                    Intent intent;
-                    if(mUserType.equals("org")) {
-                        intent = new Intent(mContext, OrganizationApplicationActivity.class);
-                    } else {
-                        intent = new Intent(mContext, MainActivity_User.class);
-                    }
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
+//                if(user != null) {
+//                    // Send user to new intent
+//                    Intent intent;
+//                    if(mUserType.equals("org")) {
+//                        intent = new Intent(mContext, OrganizationApplicationActivity.class);
+//                    } else {
+//                        intent = new Intent(mContext, MainActivity_User.class);
+//                    }
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    startActivity(intent);
+//                    finish();
+//                }
             }
         };
     }
