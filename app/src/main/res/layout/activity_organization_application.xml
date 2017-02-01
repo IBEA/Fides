@@ -13,20 +13,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_marginTop="13dp"
-        android:id="@+id/nameInput"
-        android:hint="Your Name"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/submitButton"
-        android:layout_alignEnd="@+id/submitButton"
-        android:layout_marginRight="7dp"
-        android:layout_marginEnd="7dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10"
         android:id="@+id/addressInput"
@@ -57,21 +43,6 @@
         android:layout_alignLeft="@+id/zipcodeInput"
         android:layout_alignStart="@+id/zipcodeInput" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_below="@+id/einInput"
-        android:id="@+id/descriptionInput"
-        android:hint="A short description of your organization"
-        android:lines="5"
-        android:maxLines="5"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/einInput"
-        android:layout_alignStart="@+id/einInput" />
-
     <Button
         android:text="Submit"
         android:layout_width="wrap_content"
@@ -90,6 +61,66 @@
         android:layout_below="@+id/nameInput"
         android:layout_alignRight="@+id/nameInput"
         android:layout_alignEnd="@+id/nameInput" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/nameInput"
+        android:hint="Your Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/submitButton"
+        android:layout_alignEnd="@+id/submitButton" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailInput"
+        android:hint="Email Address"
+        android:gravity="center"
+        android:layout_below="@+id/einInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordInput"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:gravity="center"
+        android:layout_below="@+id/emailInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordConfirmInput"
+        android:inputType="textPassword"
+        android:hint="Confirm Password"
+        android:gravity="center"
+        android:layout_above="@+id/descriptionInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/descriptionInput"
+        android:hint="A short description of your organization"
+        android:lines="3"
+        android:maxLines="3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/submitButton" />
 
 
 </RelativeLayout>

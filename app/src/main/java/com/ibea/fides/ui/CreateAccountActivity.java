@@ -128,6 +128,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     // Create New Organization
     private void createOrganization() {
         Intent intent = new Intent(CreateAccountActivity.this, OrganizationApplicationActivity.class);
+        startActivity(intent);
     }
 
     // Create New Volunteer Account
