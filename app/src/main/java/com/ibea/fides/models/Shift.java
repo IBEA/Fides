@@ -23,6 +23,7 @@ public class Shift {
     String date;
     int maxVolunteers;
     List<String> currentVolunteers = new ArrayList<String>();
+    List<String> ratedVolunteers = new ArrayList<>();
 
     public Shift(){}
     public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip, String _organizationName){
@@ -128,7 +129,15 @@ public class Shift {
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
+    public List<String> getRatedVolunteers() {
+        return ratedVolunteers;
+    }
 
+    public void setRatedVolunteers(List<String> ratedVolunteers) {
+        this.ratedVolunteers = ratedVolunteers;
+    }
+
+    public void addRated(String userId) { ratedVolunteers.add(userId); }
     public void addVolunteer(String userID){
         currentVolunteers.add(userID);
     }

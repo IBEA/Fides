@@ -54,7 +54,7 @@ public class ShiftDetailsActivity extends BaseActivity {
 
             @Override
             protected void populateViewHolder(DirtyFirebaseVolunteerViewHolder viewHolder, String userId, int position) {
-                viewHolder.bindUser(userId);
+                viewHolder.bindUser(userId, mShift.getPushId(), position);
             }
         };
         mRecyclerView.setHasFixedSize(true);

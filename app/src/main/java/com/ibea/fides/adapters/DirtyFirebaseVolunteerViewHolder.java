@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
 
 import java.util.List;
@@ -36,7 +37,9 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     int good = 2;
     int great = 4;
     int base = 2;
-
+    String shiftId;
+    String key;
+    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public DirtyFirebaseVolunteerViewHolder(View itemView) {
         super(itemView);
@@ -45,7 +48,7 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     }
 
-    public void bindUser(String userId) {
+    public void bindUser(String userId, String _shiftId, int position) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
 
         mBadButton = (Button) mView.findViewById(R.id.badButton);
@@ -58,6 +61,8 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
         mGoodButton.setOnClickListener(this);
         mGreatButton.setOnClickListener(this);
 
+        shiftId = _shiftId;
+        key = Integer.toString(position);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(userId);
         ref.addValueEventListener(new ValueEventListener() {
@@ -102,9 +107,26 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
             ranking.set(1, ranking.get(1) + base);
         }
 
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
-
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(key).removeValue();
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                shift.getCurrentVolunteers().remove(mUser.getPushId());
+                shift.addRated(mUser.getPushId());
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(shift.getRatedVolunteers());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }
