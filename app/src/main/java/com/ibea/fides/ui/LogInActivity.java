@@ -44,7 +44,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
     // Misc
     private ProgressDialog mAuthProgressDialog;
-    Context mThis = this;
+    Boolean isOrganization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +62,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
                     Intent intent;
-
-                    if (mIsOrganization) {
-                        intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
-                    }
-                    else {
-                        intent = new Intent(LogInActivity.this, MainActivity_User.class);
-                    }
-
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
                 }
             }
         };
@@ -146,10 +135,25 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Log.d(">>>>>", "In call");
-                            Boolean isOrganization = dataSnapshot.getValue(Boolean.class);
+                            isOrganization = dataSnapshot.getValue(Boolean.class);
                             Log.d(">>>>>", String.valueOf(isOrganization));
+
+
                             //Put isOrganization Boolean into shared preferences.
                             PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
+
+                            Intent intent;
+
+                            if (isOrganization) {
+                                intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                            }
+                            else {
+                                intent = new Intent(LogInActivity.this, MainActivity_User.class);
+                            }
+
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
                         }
 
                         @Override

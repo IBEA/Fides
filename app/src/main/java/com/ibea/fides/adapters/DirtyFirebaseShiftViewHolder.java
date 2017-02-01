@@ -19,8 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.ui.ShiftsTestingActivity;
-import com.ibea.fides.utils.RecyclerItemListener;
 
 import org.parceler.Parcels;
 

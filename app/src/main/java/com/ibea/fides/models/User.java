@@ -16,8 +16,10 @@ public class User {
     String email;
     boolean isOrganization = false;
     boolean isAdmin = false;
-    List<Integer> ranking = new ArrayList<>();
-
+    int currentPoints;
+    int maxPoints;
+//    List<Integer> ranking = new ArrayList<>();
+//
     // Empty Constructor for Parceler
     public User() {}
 
@@ -49,7 +51,15 @@ public class User {
     }
     public boolean getIsAdmin() { return isAdmin; }
     public void setIsAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
-    public List<Integer> getRanking() { return ranking; }
-    public void setRanking(List<Integer> ranking) { this.ranking = ranking; }
+    public int getMaxPoints() { return maxPoints; }
+    public void setMaxPoints(int maxPoints) { this.maxPoints = maxPoints; }
+    public int getCurrentPoints() { return currentPoints; }
+    public void setCurrentPoints(int currentPoints) { this.currentPoints = currentPoints; }
 
+//    public List<Integer> getRanking() { return ranking; }
+//    public void setRanking(List<Integer> ranking) { this.ranking = ranking; }
+
+
+    // Returns the rank of the user in percentage
+//    public int showRank() { return ((this.ranking.get(0)/this.ranking.get(1))*100); }
 }

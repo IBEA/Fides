@@ -32,6 +32,8 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     Button mPoorButton;
     Button mGoodButton;
     Button mGreatButton;
+
+    // Rating System
     int bad = -5;
     int poor = -2;
     int good = 2;
@@ -50,18 +52,24 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     }
 
-    public void bindUser(String userId, String _shiftId, int position) {
+    public void bindUser(String userId, String _shiftId, int position, boolean rated) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-
         mBadButton = (Button) mView.findViewById(R.id.badButton);
         mPoorButton = (Button) mView.findViewById(R.id.poorButton);
         mGoodButton = (Button) mView.findViewById(R.id.goodButton);
         mGreatButton = (Button) mView.findViewById(R.id.greatButton);
-
         mBadButton.setOnClickListener(this);
         mPoorButton.setOnClickListener(this);
         mGoodButton.setOnClickListener(this);
         mGreatButton.setOnClickListener(this);
+
+
+        if(rated) {
+            mBadButton.setVisibility(View.GONE);
+            mPoorButton.setVisibility(View.GONE);
+            mGoodButton.setVisibility(View.GONE);
+            mGreatButton.setVisibility(View.GONE);
+        }
 
         shiftId = _shiftId;
         indexKey = Integer.toString(position);
@@ -102,12 +110,20 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
         mGoodButton.setVisibility(View.GONE);
         mGreatButton.setVisibility(View.GONE);
 
-        List<Integer> ranking = mUser.getRanking();
+        int currentPoints = mUser.getCurrentPoints();
+        int maxPoints = mUser.getMaxPoints();
 
-        if(ranking.size() > 0) {
-            ranking.set(0, ranking.get(0) + rating);
-            ranking.set(1, ranking.get(1) + base);
+        currentPoints += rating;
+        maxPoints += base;
+
+
+        // Ensures that ranking doesn't drop below 0
+        if(currentPoints < 0) {
+            currentPoints = 0;
         }
+
+        mUser.setCurrentPoints(currentPoints);
+        mUser.setMaxPoints(maxPoints);
 
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
 

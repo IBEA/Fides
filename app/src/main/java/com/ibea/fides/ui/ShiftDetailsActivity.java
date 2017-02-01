@@ -3,11 +3,7 @@ package com.ibea.fides.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.RadioButton;
 import android.widget.TextView;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
@@ -27,9 +23,11 @@ public class ShiftDetailsActivity extends BaseActivity {
     @Bind(R.id.textView_Time) TextView mTime;
     @Bind(R.id.textView_Description) TextView mDescription;
     @Bind(R.id.textView_Zipcode) TextView mZip;
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.unratedRecyclerView) RecyclerView mUnratedRecyclerView;
+    @Bind(R.id.ratedRecyclerView) RecyclerView mRatedRecyclerView;
 
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private FirebaseRecyclerAdapter mFirebaseAdapterUnrated;
+    private FirebaseRecyclerAdapter mFirebaseAdapterRated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,20 +43,36 @@ public class ShiftDetailsActivity extends BaseActivity {
         mDescription.setText(mShift.getDescription());
         mZip.setText(Integer.toString(mShift.getZip()));
 
-        setUpFirebaseAdapter();
+        setUpFirebaseAdapterUnrated();
+        setUpFirebaseAdapterRated();
     }
 
-    private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseVolunteerViewHolder>
+    private void setUpFirebaseAdapterUnrated() {
+        mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, DirtyFirebaseVolunteerViewHolder>
                 (String.class, R.layout.volunteer_list_item, DirtyFirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
 
             @Override
             protected void populateViewHolder(DirtyFirebaseVolunteerViewHolder viewHolder, String userId, int position) {
-                viewHolder.bindUser(userId, mShift.getPushId(), position);
+                viewHolder.bindUser(userId, mShift.getPushId(), position, false);
             }
         };
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mFirebaseAdapter);
+        mUnratedRecyclerView.setHasFixedSize(true);
+        mUnratedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mUnratedRecyclerView.setAdapter(mFirebaseAdapterUnrated);
+    }
+
+    private void setUpFirebaseAdapterRated() {
+        mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, DirtyFirebaseVolunteerViewHolder>
+                (String.class, R.layout.volunteer_list_item, DirtyFirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
+
+            @Override
+            protected void populateViewHolder(DirtyFirebaseVolunteerViewHolder viewHolder, String userId, int position) {
+                viewHolder.bindUser(userId, mShift.getPushId(), position, true);
+            }
+        };
+        mRatedRecyclerView.setHasFixedSize(true);
+        mRatedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRatedRecyclerView.setAdapter(mFirebaseAdapterRated);
     }
 }
+// Rated users not showing up properly yet
