@@ -26,7 +26,7 @@
         <RadioButton android:id="@+id/badRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wretched"
+            android:text="Bad"
             android:onClick="onRadioButtonClicked"/>
         <RadioButton android:id="@+id/poorRadio"
             android:layout_width="wrap_content"
@@ -38,10 +38,10 @@
             android:layout_height="wrap_content"
             android:text="Good"
             android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/unicornRadio"
+        <RadioButton android:id="@+id/greatRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unicorn Level"
+            android:text="Great"
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
