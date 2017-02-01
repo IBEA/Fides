@@ -46,7 +46,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/nameInput"
-        android:hint="Full Name"
+        android:hint="Display Name"
         android:gravity="center"
         android:layout_below="@+id/titleText"
         android:layout_alignLeft="@+id/emailInput"
