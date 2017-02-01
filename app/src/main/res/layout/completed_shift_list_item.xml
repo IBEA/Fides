@@ -8,4 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_Name" />
+
+    <TextView
+        android:text="Date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_Date" />
+
+    <TextView
+        android:text="Short Description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_ShortDescription" />
 </LinearLayout>

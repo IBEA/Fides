@@ -1,6 +1,7 @@
 package com.ibea.fides.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.ui.ShiftDetailsActivity;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,8 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
         isOrganization = _isOrganization;
 
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Name);
+        final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
+        final TextView descriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
 
         if(organizationTextView == null){
             Log.d(">>>>", "textView is null");
@@ -58,6 +64,8 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
                 if(mShift != null){
                     organizationTextView.setText(mShift.getOrganizationName());
+                    dateTextView.setText(mShift.getDate());
+                    descriptionTextView.setText(mShift.getShortDescription());
                 }
             }
 
@@ -71,7 +79,9 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
     @Override
     public void onClick(View view) {
         //!! Front end, this is where you pack the shift off to shift details !!
-
+        Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
+        intent.putExtra("shift", Parcels.wrap(mShift));
+        mContext.startActivity(intent);
     }
 
 
