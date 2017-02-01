@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.OrganizationProfilePageAdapter;
+import com.ibea.fides.adapters.MainPagerAdapter_Organization;
 
-public class OrganizationProfileActivity extends AppCompatActivity {
+public class MainActivity_Organization extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
         //        // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        // Set the ViewPagerAdapter into ViewPager
-        viewPager.setAdapter(new OrganizationProfilePageAdapter(getSupportFragmentManager()));
+        // Set the MainPagerAdapter_User into ViewPager
+        viewPager.setAdapter(new MainPagerAdapter_Organization(getSupportFragmentManager()));
 
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip

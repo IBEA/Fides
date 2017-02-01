@@ -17,9 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.HomeActivity;
 import com.ibea.fides.ui.LogInActivity;
-import com.ibea.fides.ui.ShiftSearchActivity;
 import com.ibea.fides.ui.ShiftsCreateActivity;
-import com.ibea.fides.ui.UserProfileActivity;
+import com.ibea.fides.ui.MainActivity_User;
 import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {
@@ -71,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        // Check to see if a user is logged in, and ser dbReference.
+        // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){
             dbCurrentUser = dbUsers.child(mAuth.getCurrentUser().getUid());
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
@@ -125,7 +124,7 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if (id == R.id.user_page) {
-            Intent intent = new Intent(mContext, UserProfileActivity.class);
+            Intent intent = new Intent(mContext, MainActivity_User.class);
             startActivity(intent);
         }
         else if (id == R.id.action_admin) {

@@ -10,11 +10,11 @@ import com.ibea.fides.BaseActivity;
 import com.astuetz.PagerSlidingTabStrip;
 
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.ViewPagerAdapter;
+import com.ibea.fides.adapters.MainPagerAdapter_User;
 
 // Main organization page, nested with profile and shift tab.
 
-public class UserProfileActivity extends BaseActivity{
+public class MainActivity_User extends BaseActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class UserProfileActivity extends BaseActivity{
         Log.d("name" , "Does this work?" + name);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new MainPagerAdapter_User(getSupportFragmentManager()));
 
 //        // Get the ViewPager and set it's PagerAdapter so that it can display items
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
