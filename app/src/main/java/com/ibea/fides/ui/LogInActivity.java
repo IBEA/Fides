@@ -53,16 +53,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 if(user != null) {
                     Intent intent;
 
-                    // Clearly this is wrong.....meant to set intent based on isOrganization flag from current user
-
-//                    Query dbUser = dbUsers.orderByKey().equalTo(user.getUid());
-//                    if(dbUser.orderByChild("isOrganization").equalTo(true)) {
-//                        intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
-//                    }
-//                    else {
-//                        intent = new Intent(LogInActivity.this, MainActivity_User.class);
-//                    }
-
                     // Placeholder line while conditional is out of commission
                     intent = new Intent(LogInActivity.this, MainActivity_User.class);
 
