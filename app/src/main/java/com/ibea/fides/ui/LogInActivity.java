@@ -3,10 +3,9 @@ package com.ibea.fides.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -14,18 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import com.ibea.fides.BaseActivity;
-import com.ibea.fides.Constants;
-import com.ibea.fides.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 
 import butterknife.Bind;
@@ -54,6 +52,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_log_in);
         ButterKnife.bind(this);
 
+
+
         // Determine if user is already signed in. If so, direct to home page
         mAuth = getInstance();
         mAuthListener = new AuthStateListener() {
@@ -63,9 +63,12 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 if(user != null) {
                     Intent intent;
 
-                    // Placeholder line while conditional is out of commission
-                    intent = new Intent(LogInActivity.this, MainActivity_User.class);
-
+                    if (mIsOrganization) {
+                        intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                    }
+                    else {
+                        intent = new Intent(LogInActivity.this, MainActivity_User.class);
+                    }
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -82,7 +85,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         createAuthProgressDialog();
     }
 
-    //!! Plant o move this to BaseActivity to prevent fringe cases !!
+    //!! Plan to move this to BaseActivity to prevent fringe cases !!
 
     // Add AuthStateListener on Start
     @Override
