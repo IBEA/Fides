@@ -2,8 +2,8 @@ package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -11,18 +11,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ibea.fides.BaseActivity;
-import com.ibea.fides.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ibea.fides.BaseActivity;
+import com.ibea.fides.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.google.firebase.auth.FirebaseAuth.*;
+import static com.google.firebase.auth.FirebaseAuth.AuthStateListener;
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.emailInput) EditText mEmailInput;
@@ -50,7 +51,22 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
-                    Intent intent = new Intent(LogInActivity.this, MainActivity_User.class);
+                    Intent intent;
+
+                    // Clearly this is wrong.....meant to set intent based on isOrganization flag from current user
+
+//                    Query dbUser = dbUsers.orderByKey().equalTo(user.getUid());
+//                    if(dbUser.orderByChild("isOrganization").equalTo(true)) {
+//                        intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+//                    }
+//                    else {
+//                        intent = new Intent(LogInActivity.this, MainActivity_User.class);
+//                    }
+
+                    // Placeholder line while conditional is out of commission
+                    intent = new Intent(LogInActivity.this, MainActivity_User.class);
+
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("username", user.getDisplayName() );
                     startActivity(intent);

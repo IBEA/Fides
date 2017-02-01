@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        // Check to see if a user is logged in, and ser dbReference.
+        // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){
             dbCurrentUser = dbUsers.child(mAuth.getCurrentUser().getUid());
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
