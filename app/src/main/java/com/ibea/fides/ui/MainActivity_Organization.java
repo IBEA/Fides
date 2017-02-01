@@ -5,10 +5,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.MainPagerAdapter_Organization;
 
-public class MainActivity_Organization extends AppCompatActivity {
+public class MainActivity_Organization extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
