@@ -19,4 +19,7 @@ public class Constants {
     public static final String DB_SUBNODE_ZIPCODE = "zipcode";
     public static final String DB_SUBNODE_ORGANIZATIONS = "organizations";
     public static final String DB_SUBNODE_VOLUNTEERS = "volunteers";
+
+    //Keys
+    public static final String KEY_ISORGANIZATION = "isOrganization";
 }
