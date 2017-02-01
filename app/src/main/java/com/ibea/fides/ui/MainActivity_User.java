@@ -29,7 +29,7 @@ public class MainActivity_User extends BaseActivity{
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new MainPagerAdapter_User(getSupportFragmentManager()));
 
-//        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);

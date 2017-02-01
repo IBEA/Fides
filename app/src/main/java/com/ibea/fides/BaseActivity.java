@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -19,9 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.HomeActivity;
 import com.ibea.fides.ui.LogInActivity;
-
 import com.ibea.fides.ui.SettingsActivity;
-
 import com.ibea.fides.ui.ShiftsCreateActivity;
 import com.ibea.fides.ui.MainActivity_User;
 import com.ibea.fides.utils.Universal;
