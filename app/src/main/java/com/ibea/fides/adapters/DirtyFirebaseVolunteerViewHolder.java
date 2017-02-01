@@ -35,6 +35,7 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     int poor = -2;
     int good = 2;
     int great = 4;
+    int base = 2;
 
 
     public DirtyFirebaseVolunteerViewHolder(View itemView) {
@@ -96,8 +97,10 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
         List<Integer> ranking = mUser.getRanking();
 
-        ranking.set(0, ranking.get(0) + rating);
-        ranking.set(1, ranking.get(1) + rating);
+        if(ranking.size() > 0) {
+            ranking.set(0, ranking.get(0) + rating);
+            ranking.set(1, ranking.get(1) + base);
+        }
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 

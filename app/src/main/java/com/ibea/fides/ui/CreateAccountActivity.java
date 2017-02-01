@@ -24,6 +24,9 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -223,7 +226,10 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Construct new User and Add to Users Table
         User newUser = new User(user.getUid(), mName, mEmail);
-
+        List<Integer> rank = new ArrayList<>();
+        rank.add(0);
+        rank.add(0);
+        newUser.setRanking(rank);
 
         // Set User Type
         if(mUserType.equals("org")) {
