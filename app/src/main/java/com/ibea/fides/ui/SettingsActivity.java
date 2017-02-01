@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
@@ -86,8 +87,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         mState = state;
         mZip = zip;
 
-        //This data needs to be placed into the database by backend -- Garrett
+        streetedittext.getText().clear();
+        cityeedittext.getText().clear();
+        stateedittext.getText().clear();
+        zipedittext.getText().clear();
 
+        //This data needs to be placed into the database by backend -- Garrett
+        Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -101,6 +107,10 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         }
 
         mUsername = username;
+
+        useredittext.getText().clear();
+
+        Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
 
         //This data needs to be placed into the database by backend -- Garrett
     }
