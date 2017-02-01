@@ -1,5 +1,7 @@
 package com.ibea.fides.models;
 
+import android.util.Log;
+
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
@@ -135,7 +137,9 @@ public class Shift {
 
     public void removeVolunteer(String userID){
         //Untested
+        Log.v("Shift Model:", String.valueOf(currentVolunteers.size()));
         int index = currentVolunteers.indexOf(userID);
         currentVolunteers.remove(index);
+        Log.v("Shift Model:", String.valueOf(currentVolunteers.size()));
     }
 }
