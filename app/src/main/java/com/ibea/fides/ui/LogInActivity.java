@@ -1,7 +1,6 @@
 package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -148,7 +147,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                 intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
                             }
                             else {
-                                intent = new Intent(LogInActivity.this, MainActivity_User.class);
+                                intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
                             }
 
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

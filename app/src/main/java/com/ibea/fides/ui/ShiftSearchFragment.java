@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsSearchFragment extends Fragment {
+public class ShiftSearchFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -47,7 +47,7 @@ public class ShiftsSearchFragment extends Fragment {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.searchView_Zipcode) SearchView mSearchView_Zipcode;
 
-    public ShiftsSearchFragment() {
+    public ShiftSearchFragment() {
         // Required empty public constructor
     }
 
@@ -138,8 +138,8 @@ public class ShiftsSearchFragment extends Fragment {
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsSearchFragment newInstance(int page, String title) {
-        ShiftsSearchFragment fragmentFirst = new ShiftsSearchFragment();
+    public static ShiftSearchFragment newInstance(int page, String title) {
+        ShiftSearchFragment fragmentFirst = new ShiftSearchFragment();
         return fragmentFirst;
     }
 

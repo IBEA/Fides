@@ -2,12 +2,11 @@ package com.ibea.fides.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseReference;
+
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
@@ -17,7 +16,6 @@ import butterknife.ButterKnife;
 
 public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
-    @Bind(R.id.roleInput) EditText mRoleInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
     @Bind(R.id.addressInput) EditText mAddressInput;
     @Bind(R.id.zipcodeInput) EditText mZipInput;

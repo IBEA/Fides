@@ -9,8 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,7 +18,7 @@ import com.ibea.fides.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
+public class _FORNOW_HomeActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.button_Fragments) Button mButton_Fragments;
 
     @Override
@@ -35,7 +33,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Keep this to test intro
-        //Intent intent = new Intent(HomeActivity.this , IntroActivity.class);
+        //Intent intent = new Intent(_FORNOW_HomeActivity.this , IntroActivity.class);
         //startActivity(intent);
 
         //Use the following block of code for real app performance -- Will only run intro once
@@ -48,7 +46,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
 
                 if (isFirstStart) {
-                    Intent i = new Intent(HomeActivity.this, IntroActivity.class);
+                    Intent i = new Intent(_FORNOW_HomeActivity.this, IntroActivity.class);
                     startActivity(i);
 
                     SharedPreferences.Editor e = getPrefs.edit();
@@ -68,14 +66,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v){
         if(v == mButton_Fragments){
-            Intent intent = new Intent(mContext, FragmentTestingActivity.class);
+            Intent intent = new Intent(mContext, _FORNOW_FragmentTestingActivity.class);
             startActivity(intent);
         }
     }
 
     //Use this as a function Notification System
     private void Notify() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, _FORNOW_HomeActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder b = new NotificationCompat.Builder(this);

@@ -9,15 +9,17 @@ import android.view.ViewGroup;
 import com.ibea.fides.R;
 
 /**
- * Created by N8Home on 1/30/17.
+ * Created by N8Home on 1/31/17.
  */
 
-public class OrganizationManageShiftsFragment extends Fragment {
+public class _TOGO_OrganizationPastUserFragment extends Fragment {
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get the view from fragmenttab1.xml
-        View view = inflater.inflate(R.layout.organizationmanagmentshiftfragment, container, false);
+        // Get the view from organizationpastuserfragment.xml
+        View view = inflater.inflate(R.layout.organizationpastuserfragment, container, false);
         return view;
     }
 }

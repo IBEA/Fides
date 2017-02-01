@@ -18,7 +18,7 @@ import com.ibea.fides.utils.RecyclerItemListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftSearchActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
+public class _TOGO_ShiftsSearchActivity extends BaseActivity implements View.OnClickListener, RecyclerItemListener {
     @Bind(R.id.zipcodeRadio)
     RadioButton mZipRadio;
     @Bind(R.id.organizationRadio)

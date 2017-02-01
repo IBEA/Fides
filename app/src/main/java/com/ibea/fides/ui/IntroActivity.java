@@ -23,9 +23,9 @@ public class IntroActivity extends AppIntro {
 
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
-        addSlide(SampleSlide.newInstance(R.layout.slide_1));
-        addSlide(SampleSlide.newInstance(R.layout.slide_2));
-        addSlide(SampleSlide.newInstance(R.layout.slide_3));
+        addSlide(IntroSlideFragment.newInstance(R.layout.slide_1));
+        addSlide(IntroSlideFragment.newInstance(R.layout.slide_2));
+        addSlide(IntroSlideFragment.newInstance(R.layout.slide_3));
 
         //addSlide(AppIntroFragment.newInstance("Slide title", "Loong description here", R.drawable.common_full_open_on_phone, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null) ));
 
