@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.hoursFragment">
+    tools:context="com.ibea.fides.ui._TOGO_hoursFragment">
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"

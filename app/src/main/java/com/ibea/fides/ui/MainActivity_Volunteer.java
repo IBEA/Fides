@@ -14,7 +14,7 @@ import com.ibea.fides.adapters.MainPagerAdapter_User;
 
 // Main organization page, nested with profile and shift tab.
 
-public class MainActivity_User extends BaseActivity{
+public class MainActivity_Volunteer extends BaseActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -17,14 +17,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.ui.AdminActivity;
-import com.ibea.fides.ui.HomeActivity;
-import com.ibea.fides.ui.LogInActivity;
+import com.ibea.fides.ui.MainActivity_Volunteer;
+import com.ibea.fides.ui._FORNOW_HomeActivity;
+import com.ibea.fides.ui.LoginActivity;
 
 import com.ibea.fides.ui.OrganizationSettingsActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
 
 import com.ibea.fides.ui.ShiftsCreateActivity;
-import com.ibea.fides.ui.MainActivity_User;
 import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {
@@ -109,7 +109,7 @@ public class BaseActivity extends AppCompatActivity {
     public void logout() {
         //TODO: Destroy isOrganization in shared preferences
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(BaseActivity.this, LogInActivity.class);
+        Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -135,11 +135,11 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.action_dirty_buttons_page) {
-            Intent intent = new Intent(mContext, HomeActivity.class);
+            Intent intent = new Intent(mContext, _FORNOW_HomeActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.user_page) {
-            Intent intent = new Intent(mContext, MainActivity_User.class);
+            Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
             startActivity(intent);
         }
         else if (id == R.id.action_admin) {

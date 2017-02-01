@@ -26,9 +26,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -176,7 +173,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                         intent = new Intent(CreateAccountActivity.this, MainActivity_Organization.class);
                     }
                     else {
-                        intent = new Intent(CreateAccountActivity.this, MainActivity_User.class);
+                        intent = new Intent(CreateAccountActivity.this, MainActivity_Volunteer.class);
                     }
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -204,7 +201,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 //                    if(mUserType.equals("org")) {
 //                        intent = new Intent(mContext, OrganizationApplicationActivity.class);
 //                    } else {
-//                        intent = new Intent(mContext, MainActivity_User.class);
+//                        intent = new Intent(mContext, MainActivity_Volunteer.class);
 //                    }
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                    startActivity(intent);

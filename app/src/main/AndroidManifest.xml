@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.LogInActivity">
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,18 +26,18 @@
         </activity>
         <activity android:name=".BaseActivity" />
         <activity android:name=".ui.CreateAccountActivity" />
-        <activity android:name=".ui.HomeActivity" />
+        <activity android:name=".ui._FORNOW_HomeActivity" />
         <activity android:name=".ui.ShiftsCreateActivity" />
-        <activity android:name=".ui.ShiftsTestingActivity" />
-        <activity android:name=".ui.ShiftSearchActivity" />
+        <activity android:name=".ui._FORNOW_ShiftsTestingActivity" />
+        <activity android:name=".ui._TOGO_ShiftsSearchActivity" />
         <activity android:name=".ui.ShiftDetailsActivity" />
         <activity android:name=".ui.OrganizationApplicationActivity" />
         <activity android:name=".ui.AdminActivity" />
         <activity android:name=".ui.IntroActivity" />
         <activity
-            android:name=".ui.MainActivity_User"
+            android:name=".ui.MainActivity_Volunteer"
             android:exported="true" />
-        <activity android:name=".ui.FragmentTestingActivity" />
+        <activity android:name=".ui._FORNOW_FragmentTestingActivity" />
         <activity
             android:name=".ui.MainActivity_Organization"
             android:exported="true" />
