@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.ibea.fides.ui.OrganizationManageShiftsFragment;
-import com.ibea.fides.ui.OrganizationPastShiftFragment;
 import com.ibea.fides.ui.OrganizationPastUserFragment;
 import com.ibea.fides.ui.OrganizationProfileFragment;
+import com.ibea.fides.ui.ShiftsCompletedForOrganizationFragment;
+import com.ibea.fides.ui.ShiftsPendingForOrganizationsFragment;
 
 /**
  * Created by N8Home on 1/30/17.
@@ -41,13 +41,13 @@ public class MainPagerAdapter_Organization extends FragmentPagerAdapter {
 
             // Open OrganizationManageShiftsFragment.java
             case 1:
-                OrganizationManageShiftsFragment organizationManageShiftsFragment = new OrganizationManageShiftsFragment();
-                return organizationManageShiftsFragment;
+                ShiftsPendingForOrganizationsFragment pendingShiftsFragment = new ShiftsPendingForOrganizationsFragment();
+                return pendingShiftsFragment;
 
-            // Open OrganizationPastShiftFragment.java
+            // Open ShiftsCompletedForOrganizationFragment.java
             case 2:
-               OrganizationPastShiftFragment organizationPastShiftFragment = new OrganizationPastShiftFragment();
-                return organizationPastShiftFragment;
+               ShiftsCompletedForOrganizationFragment completedShiftsFragment = new ShiftsCompletedForOrganizationFragment();
+                return completedShiftsFragment;
 
             // Open OrganizationPastShiftFragment.java
             case 3:

@@ -2,6 +2,8 @@ package com.ibea.fides;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +40,10 @@ public class BaseActivity extends AppCompatActivity {
     public FirebaseAuth mAuth;
     public FirebaseUser mCurrentUser;
 
+    // Shared Preferences
+    public SharedPreferences mSharedPreferences;
+    public boolean mIsOrganization;
+
     // For Navigation
     public Context mContext;
 
@@ -69,6 +75,9 @@ public class BaseActivity extends AppCompatActivity {
         // There are currently NO PROTECTIONS in place for users not being logged in and on a page other than the login screen.
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 
         // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){

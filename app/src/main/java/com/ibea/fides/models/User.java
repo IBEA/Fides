@@ -2,6 +2,9 @@ package com.ibea.fides.models;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by KincaidJ on 1/24/17.
  */
@@ -13,6 +16,7 @@ public class User {
     String email;
     boolean isOrganization = false;
     boolean isAdmin = false;
+    List<Integer> ranking = new ArrayList<>();
 
     // Empty Constructor for Parceler
     public User() {}
@@ -45,5 +49,7 @@ public class User {
     }
     public boolean getIsAdmin() { return isAdmin; }
     public void setIsAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
+    public List<Integer> getRanking() { return ranking; }
+    public void setRanking(List<Integer> ranking) { this.ranking = ranking; }
 
 }
