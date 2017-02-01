@@ -1,9 +1,13 @@
 package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +46,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
     // Misc
     private ProgressDialog mAuthProgressDialog;
+    Context mThis = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +134,21 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 if(task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
 
+                    dbUsers.child(user.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d(">>>>>", "In call");
+                            Boolean isOrganization = dataSnapshot.getValue(Boolean.class);
+                            Log.d(">>>>>", String.valueOf(isOrganization));
+                            //Put isOrganization Boolean into shared preferences.
+                            PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 if(!task.isSuccessful()) {
                     Toast.makeText(LogInActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
