@@ -1,20 +1,11 @@
 package com.ibea.fides.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
@@ -26,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemListener{
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerItemListener mTransfer;

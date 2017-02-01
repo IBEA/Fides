@@ -52,18 +52,24 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     }
 
-    public void bindUser(String userId, String _shiftId, int position) {
+    public void bindUser(String userId, String _shiftId, int position, boolean rated) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-
         mBadButton = (Button) mView.findViewById(R.id.badButton);
         mPoorButton = (Button) mView.findViewById(R.id.poorButton);
         mGoodButton = (Button) mView.findViewById(R.id.goodButton);
         mGreatButton = (Button) mView.findViewById(R.id.greatButton);
-
         mBadButton.setOnClickListener(this);
         mPoorButton.setOnClickListener(this);
         mGoodButton.setOnClickListener(this);
         mGreatButton.setOnClickListener(this);
+
+
+        if(rated) {
+            mBadButton.setVisibility(View.GONE);
+            mPoorButton.setVisibility(View.GONE);
+            mGoodButton.setVisibility(View.GONE);
+            mGreatButton.setVisibility(View.GONE);
+        }
 
         shiftId = _shiftId;
         indexKey = Integer.toString(position);

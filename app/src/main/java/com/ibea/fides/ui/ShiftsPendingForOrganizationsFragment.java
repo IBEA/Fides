@@ -21,7 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
-import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ShiftsPendingForOrganizationsFragment extends Fragment {
-    @Bind(R.id.recyclerView)
+    @Bind(R.id.unratedRecyclerView)
     RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;

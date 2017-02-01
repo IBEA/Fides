@@ -51,20 +51,35 @@
         android:id="@+id/textView_Zipcode" />
 
     <TextView
-        android:text="Volunteers"
+        android:text="Unrated Volunteers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/textView2"
         android:layout_below="@+id/textView_Zipcode"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="94dp"
-        android:id="@+id/textView2" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Rated Volunteers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/unratedRecyclerView"
+        android:layout_centerHorizontal="true" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/recyclerView"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2" />
+        android:layout_below="@+id/textView8"
+        android:id="@+id/ratedRecyclerView" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/unratedRecyclerView"
+        android:layout_height="125dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
