@@ -32,6 +32,8 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     Button mPoorButton;
     Button mGoodButton;
     Button mGreatButton;
+
+    // Rating System
     int bad = -5;
     int poor = -2;
     int good = 2;
