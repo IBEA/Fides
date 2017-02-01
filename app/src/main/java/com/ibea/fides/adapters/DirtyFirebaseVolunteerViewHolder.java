@@ -35,10 +35,12 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     int bad = -5;
     int poor = -2;
     int good = 2;
-    int great = 4;
+    int great = 3;
     int base = 2;
+
+
     String shiftId;
-    String key;
+    String indexKey;
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public DirtyFirebaseVolunteerViewHolder(View itemView) {
@@ -62,7 +64,7 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
         mGreatButton.setOnClickListener(this);
 
         shiftId = _shiftId;
-        key = Integer.toString(position);
+        indexKey = Integer.toString(position);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(userId);
         ref.addValueEventListener(new ValueEventListener() {
@@ -109,12 +111,18 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
 
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(key).removeValue();
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(indexKey).removeValue();
 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 Shift shift = dataSnapshot.getValue(Shift.class);
+
+                // AJ VALIDATION
+                // If you remove the following code and instead manipulate the shift with .removeVolunteers and push it back
+                // up, then you should encounter the out of bounds error.. I think.
+
                 shift.getCurrentVolunteers().remove(mUser.getPushId());
                 shift.addRated(mUser.getPushId());
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
