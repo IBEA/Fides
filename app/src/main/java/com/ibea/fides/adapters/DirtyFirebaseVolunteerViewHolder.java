@@ -106,9 +106,15 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
         List<Integer> ranking = mUser.getRanking();
 
+        // TODO - Can take out conditional once everyone switches to new User model
         if(ranking.size() > 0) {
             ranking.set(0, ranking.get(0) + rating);
             ranking.set(1, ranking.get(1) + base);
+
+            // Ensures that ranking doesn't drop below 0
+            if(ranking.get(0) < 0) {
+                ranking.set(0, 0);
+            }
         }
 
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
