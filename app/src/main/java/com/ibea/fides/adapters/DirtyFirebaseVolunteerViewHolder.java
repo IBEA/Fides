@@ -16,6 +16,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.User;
 
+import java.util.List;
 
 
 /**
@@ -93,7 +94,14 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
         mGoodButton.setVisibility(View.GONE);
         mGreatButton.setVisibility(View.GONE);
 
+        List<Integer> ranking = mUser.getRanking();
+
+        ranking.set(0, ranking.get(0) + rating);
+        ranking.set(1, ranking.get(1) + rating);
+
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
+
+        dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
     }
 }
