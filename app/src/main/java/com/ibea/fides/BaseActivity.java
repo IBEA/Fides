@@ -20,7 +20,8 @@ import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.HomeActivity;
 import com.ibea.fides.ui.LogInActivity;
 
-import com.ibea.fides.ui.SettingsActivity;
+import com.ibea.fides.ui.OrganizationSettingsActivity;
+import com.ibea.fides.ui.VolunteerSettingsActivity;
 
 import com.ibea.fides.ui.ShiftsCreateActivity;
 import com.ibea.fides.ui.MainActivity_User;
@@ -81,6 +82,8 @@ public class BaseActivity extends AppCompatActivity {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+
+        Log.d("Is this true?" , "data +" + mIsOrganization);
 
         // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){
@@ -144,8 +147,13 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if (id == R.id.settings_page) {
-            Intent intent = new Intent(mContext, SettingsActivity.class);
-            startActivity(intent);
+            if(mIsOrganization) {
+                Intent intent = new Intent(mContext, OrganizationSettingsActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, VolunteerSettingsActivity.class);
+                startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }

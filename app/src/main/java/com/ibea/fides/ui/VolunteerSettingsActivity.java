@@ -21,7 +21,7 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SettingsActivity extends BaseActivity implements View.OnClickListener {
+public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.pictureButton) Button picturebutton;
     @Bind(R.id.usernameButton) Button userbutton;
