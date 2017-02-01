@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import static com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.logInButton) Button mLogInButton;
@@ -144,10 +144,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             Intent intent;
 
                             if (isOrganization) {
-                                intent = new Intent(LoginActivity.this, MainActivity_Organization.class);
+                                intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
                             }
                             else {
-                                intent = new Intent(LoginActivity.this, MainActivity_Volunteer.class);
+                                intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
                             }
 
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     });
                 }
                 if(!task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogInActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
