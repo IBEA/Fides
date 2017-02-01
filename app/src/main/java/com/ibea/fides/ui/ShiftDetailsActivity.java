@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -11,7 +13,6 @@ import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseVolunteerViewHolder;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.models.User;
 
 import org.parceler.Parcels;
 import butterknife.Bind;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 public class ShiftDetailsActivity extends BaseActivity {
     Shift mShift;
 
+    int rank;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.textView_Date) TextView mDate;
     @Bind(R.id.textView_Time) TextView mTime;

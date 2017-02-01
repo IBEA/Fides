@@ -3,47 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="Submit Rating"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonSubmit"
-        android:layout_marginTop="45dp"
-        android:layout_below="@+id/textView_Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/textView_Name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="11dp">
-        <RadioButton android:id="@+id/badRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bad"
-            android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/poorRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Poor"
-            android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/goodRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Good"
-            android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/greatRadio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Great"
-            android:onClick="onRadioButtonClicked"/>
-    </RadioGroup>
 
     <TextView
         android:text="Name"
@@ -54,6 +13,53 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textAlignment="center" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="21dp"
+        android:id="@+id/spinner_Rank" />
+
+    <Button
+        android:text="Bad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/badButton" />
+
+    <Button
+        android:text="Poor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Name"
+        android:layout_toRightOf="@+id/badButton"
+        android:layout_toEndOf="@+id/badButton"
+        android:id="@+id/poorButton" />
+
+    <Button
+        android:text="Good"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Name"
+        android:layout_toRightOf="@+id/poorButton"
+        android:layout_toEndOf="@+id/poorButton"
+        android:id="@+id/goodButton" />
+
+    <Button
+        android:text="Great"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Name"
+        android:layout_toRightOf="@+id/goodButton"
+        android:layout_toEndOf="@+id/goodButton"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:id="@+id/greatButton" />
 
 
 </RelativeLayout>

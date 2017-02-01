@@ -3,10 +3,8 @@ package com.ibea.fides.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +17,7 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.User;
 
 
+
 /**
  * Created by KincaidJ on 1/31/17.
  */
@@ -27,7 +26,15 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     View mView;
     Context mContext;
     User mUser;
-    Button mSubmitButton;
+    Button mBadButton;
+    Button mPoorButton;
+    Button mGoodButton;
+    Button mGreatButton;
+    int bad = -5;
+    int poor = -2;
+    int good = 2;
+    int great = 4;
+
 
     public DirtyFirebaseVolunteerViewHolder(View itemView) {
         super(itemView);
@@ -38,13 +45,17 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     public void bindUser(String userId) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-        final RadioButton badRadio = (RadioButton) mView.findViewById(R.id.badRadio);
-        final RadioButton poorRadio = (RadioButton) mView.findViewById(R.id.poorRadio);
-        final RadioButton goodRadio = (RadioButton) mView.findViewById(R.id.goodRadio);
-        final RadioButton greatRadio = (RadioButton) mView.findViewById(R.id.greatRadio);
-        mSubmitButton = (Button) mView.findViewById(R.id.buttonSubmit);
 
-        mSubmitButton.setOnClickListener(this);
+        mBadButton = (Button) mView.findViewById(R.id.badButton);
+        mPoorButton = (Button) mView.findViewById(R.id.poorButton);
+        mGoodButton = (Button) mView.findViewById(R.id.goodButton);
+        mGreatButton = (Button) mView.findViewById(R.id.greatButton);
+
+        mBadButton.setOnClickListener(this);
+        mPoorButton.setOnClickListener(this);
+        mGoodButton.setOnClickListener(this);
+        mGreatButton.setOnClickListener(this);
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(userId);
         ref.addValueEventListener(new ValueEventListener() {
@@ -53,7 +64,6 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 mUser = user;
-
                 userName.setText(mUser.getName());
             }
 
@@ -66,8 +76,24 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     @Override
     public void onClick(View view) {
-        if(view == mSubmitButton) {
-            Log.d("Justin", "WOOP");
+        if(view == mBadButton) {
+            rate(bad);
+        } else if(view == mPoorButton) {
+            rate(poor);
+        } else if(view == mGoodButton) {
+            rate(good);
+        } else if(view == mGreatButton) {
+            rate(great);
         }
+    }
+
+    public void rate(int rating) {
+        mBadButton.setVisibility(View.GONE);
+        mPoorButton.setVisibility(View.GONE);
+        mGoodButton.setVisibility(View.GONE);
+        mGreatButton.setVisibility(View.GONE);
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
     }
 }
