@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import static com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.logInButton) Button mLogInButton;
