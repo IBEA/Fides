@@ -23,36 +23,45 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:id="@+id/passwordConfirmInput"
+        android:inputType="textPassword"
+        android:hint="Confirm Password"
+        android:gravity="center"
+        android:layout_below="@+id/passwordInput"
+        android:layout_alignLeft="@+id/passwordInput"
+        android:layout_alignStart="@+id/passwordInput" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordInput"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:gravity="center"
+        android:layout_below="@+id/emailInput"
+        android:layout_alignLeft="@+id/createButton"
+        android:layout_alignStart="@+id/createButton" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:id="@+id/nameInput"
         android:hint="Full Name"
+        android:gravity="center"
         android:layout_below="@+id/titleText"
         android:layout_alignLeft="@+id/emailInput"
         android:layout_alignStart="@+id/emailInput"
-        android:layout_alignRight="@+id/emailInput"
-        android:layout_alignEnd="@+id/emailInput" />
+        android:layout_marginTop="48dp" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/emailInput"
         android:hint="Email Address"
+        android:gravity="center"
         android:layout_below="@+id/nameInput"
         android:layout_alignLeft="@+id/passwordInput"
-        android:layout_alignStart="@+id/passwordInput"
-        android:layout_alignRight="@+id/passwordInput"
-        android:layout_alignEnd="@+id/passwordInput" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordConfirmInput"
-        android:inputType="textPassword"
-        android:hint="Confirm Password"
-        android:layout_below="@+id/passwordInput"
-        android:layout_alignLeft="@+id/passwordInput"
-        android:layout_alignStart="@+id/passwordInput"
-        android:layout_alignRight="@+id/passwordInput"
-        android:layout_alignEnd="@+id/passwordInput" />
+        android:layout_alignStart="@+id/passwordInput" />
 
     <RadioGroup
         android:layout_width="fill_parent"
@@ -60,12 +69,15 @@
         android:orientation="horizontal"
         android:weightSum="1"
         android:id="@+id/radioGroup"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_below="@+id/passwordConfirmInput"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/titleText"
+        android:layout_alignStart="@+id/titleText">
 
 
         <RadioButton
+            android:layout_marginTop="20dp"
             android:text="Volunteer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,6 +91,7 @@
 
         <RadioButton
             android:text="Organization"
+            android:layout_marginTop="20dp"
             android:layout_width="177dp"
             android:layout_height="wrap_content"
             android:id="@+id/organizationRadio"
@@ -92,33 +105,13 @@
 
     </RadioGroup>
 
-
     <Button
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Create Account"
         android:id="@+id/createButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="43dp" />
-
-    <Button
-        android:text="ADMIN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/adminButton"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="60dp"
         android:layout_below="@+id/radioGroup"
         android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordInput"
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:layout_below="@+id/emailInput"
-        android:layout_alignLeft="@+id/createButton"
-        android:layout_alignStart="@+id/createButton" />
 
 </RelativeLayout>
