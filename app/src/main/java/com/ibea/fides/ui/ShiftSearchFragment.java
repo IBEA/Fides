@@ -3,11 +3,9 @@ package com.ibea.fides.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +32,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsSearchFragment extends Fragment {
+public class ShiftSearchFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -49,7 +47,7 @@ public class ShiftsSearchFragment extends Fragment {
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.searchView_Zipcode) SearchView mSearchView_Zipcode;
 
-    public ShiftsSearchFragment() {
+    public ShiftSearchFragment() {
         // Required empty public constructor
     }
 
@@ -140,8 +138,8 @@ public class ShiftsSearchFragment extends Fragment {
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsSearchFragment newInstance(int page, String title) {
-        ShiftsSearchFragment fragmentFirst = new ShiftsSearchFragment();
+    public static ShiftSearchFragment newInstance(int page, String title) {
+        ShiftSearchFragment fragmentFirst = new ShiftSearchFragment();
         return fragmentFirst;
     }
 

@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
 import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
 
 import butterknife.Bind;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsCompletedForVolunteersFragment extends Fragment {
+public class ShiftsCompletedForVolunteerFragment extends Fragment {
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
@@ -37,13 +36,13 @@ public class ShiftsCompletedForVolunteersFragment extends Fragment {
     String mUserId;
 
 
-    public ShiftsCompletedForVolunteersFragment() {
+    public ShiftsCompletedForVolunteerFragment() {
         // Required empty public constructor
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsCompletedForVolunteersFragment newInstance(int page, String title) {
-        ShiftsCompletedForVolunteersFragment fragmentFirst = new ShiftsCompletedForVolunteersFragment();
+    public static ShiftsCompletedForVolunteerFragment newInstance(int page, String title) {
+        ShiftsCompletedForVolunteerFragment fragmentFirst = new ShiftsCompletedForVolunteerFragment();
         Log.v("<<<<<", "ShiftsCompleted newInstance");
         return fragmentFirst;
     }

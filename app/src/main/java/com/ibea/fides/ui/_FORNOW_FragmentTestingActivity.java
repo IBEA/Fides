@@ -5,12 +5,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 
-public class FragmentTestingActivity extends BaseActivity {
+public class _FORNOW_FragmentTestingActivity extends BaseActivity {
     FragmentPagerAdapter adapterViewPager;
 
     @Override
@@ -42,13 +41,13 @@ public class FragmentTestingActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return ShiftsSearchFragment.newInstance(0, "Volunteer Opportunities");
+                    return ShiftSearchFragment.newInstance(0, "Volunteer Opportunities");
                 case 1:
                     return ShiftsPendingForVolunteerFragment.newInstance(0, "Pending Shifts");
                 case 2:
-                    return ShiftsPendingForOrganizationsFragment.newInstance(0, "Pending Shifts for Orgs");
+                    return ShiftsPendingForOrganizationFragment.newInstance(0, "Pending Shifts for Orgs");
                 case 3:
-                    return ShiftsCompletedForVolunteersFragment.newInstance(0, "Completed Shifts for Volunteers");
+                    return ShiftsCompletedForVolunteerFragment.newInstance(0, "Completed Shifts for Volunteers");
                 case 4:
                     return ShiftsCompletedForOrganizationFragment.newInstance(0, "Completed Shifts for Organizations");
                 default:

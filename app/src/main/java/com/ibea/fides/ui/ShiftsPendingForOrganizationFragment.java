@@ -21,7 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
-import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForOrganizationsFragment extends Fragment {
+public class ShiftsPendingForOrganizationFragment extends Fragment {
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
@@ -43,7 +42,7 @@ public class ShiftsPendingForOrganizationsFragment extends Fragment {
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForOrganizations = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mCurrentUser.getUid());
 
-    public ShiftsPendingForOrganizationsFragment() {
+    public ShiftsPendingForOrganizationFragment() {
         // Required empty public constructor
     }
 
@@ -74,8 +73,8 @@ public class ShiftsPendingForOrganizationsFragment extends Fragment {
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsPendingForOrganizationsFragment newInstance(int page, String title) {
-        ShiftsPendingForOrganizationsFragment fragmentFirst = new ShiftsPendingForOrganizationsFragment();
+    public static ShiftsPendingForOrganizationFragment newInstance(int page, String title) {
+        ShiftsPendingForOrganizationFragment fragmentFirst = new ShiftsPendingForOrganizationFragment();
         return fragmentFirst;
     }
 

@@ -25,7 +25,7 @@ import com.ibea.fides.utils.RecyclerItemListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftsTestingActivity extends BaseActivity implements RecyclerItemListener{
+public class _FORNOW_ShiftsTestingActivity extends BaseActivity implements RecyclerItemListener{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;

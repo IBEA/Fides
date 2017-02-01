@@ -12,12 +12,12 @@ import com.ibea.fides.R;
  * Created by N8Home on 1/30/17.
  */
 
-public class OrganizationPastShiftFragment extends Fragment {
+public class _TOGO_OrganizationManageShiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get the view from fragmenttab1.xml
-        View view = inflater.inflate(R.layout.organizationpastshiftfragment, container, false);
+        View view = inflater.inflate(R.layout.organizationmanagmentshiftfragment, container, false);
         return view;
     }
 }

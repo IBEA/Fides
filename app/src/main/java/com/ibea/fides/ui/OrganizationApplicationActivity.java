@@ -2,12 +2,11 @@ package com.ibea.fides.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseReference;
+
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
@@ -57,7 +56,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
        Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
 
-       Intent intent = new Intent(mContext, LogInActivity.class);
+       Intent intent = new Intent(mContext, LoginActivity.class);
        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
        startActivity(intent);
        finish();

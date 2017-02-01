@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.ibea.fides.ui.ProfileForUsersActivity;
-import com.ibea.fides.ui.ShiftsCompletedForVolunteersFragment;
+import com.ibea.fides.ui.ProfileForVolunteerFragment;
+import com.ibea.fides.ui.ShiftSearchFragment;
+import com.ibea.fides.ui.ShiftsCompletedForVolunteerFragment;
 import com.ibea.fides.ui.ShiftsPendingForVolunteerFragment;
-import com.ibea.fides.ui.ShiftsSearchFragment;
 
 
 /**
@@ -39,7 +39,7 @@ public class MainPagerAdapter_User extends FragmentPagerAdapter {
 
             // Open User Profile fragment
             case 0:
-                ProfileForUsersActivity userProfileFragment = new ProfileForUsersActivity();
+                ProfileForVolunteerFragment userProfileFragment = new ProfileForVolunteerFragment();
                 return userProfileFragment;
 
             // Open List of Upcoming Shifts fragment
@@ -49,11 +49,11 @@ public class MainPagerAdapter_User extends FragmentPagerAdapter {
 
              //Open Search for Shifts fragment
             case 2:
-                ShiftsSearchFragment shiftSearchFragment = new ShiftsSearchFragment();
+                ShiftSearchFragment shiftSearchFragment = new ShiftSearchFragment();
                 return shiftSearchFragment;
             // Open User's Shift History fragment
             case 3:
-                ShiftsCompletedForVolunteersFragment userShiftHistoryFragment = new ShiftsCompletedForVolunteersFragment();
+                ShiftsCompletedForVolunteerFragment userShiftHistoryFragment = new ShiftsCompletedForVolunteerFragment();
                 return userShiftHistoryFragment;
 
 

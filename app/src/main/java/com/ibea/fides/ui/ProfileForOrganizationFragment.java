@@ -12,7 +12,7 @@ import com.ibea.fides.R;
  * Created by N8Home on 1/30/17.
  */
 
-public class OrganizationProfileFragment extends Fragment {
+public class ProfileForOrganizationFragment extends Fragment {
 //    @Bind(R.id.button_Volunteer) Button mVolunteerButton;
 
 

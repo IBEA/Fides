@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 
 // Currently holds a bar graph that will later show hours volunteered -- Garrett
 
-public class hoursFragment extends android.support.v4.app.Fragment {
+public class _TOGO_hoursFragment extends android.support.v4.app.Fragment {
 
     @Bind(R.id.graph)
     GraphView graph;
