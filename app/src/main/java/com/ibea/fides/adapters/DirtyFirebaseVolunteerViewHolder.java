@@ -104,18 +104,20 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
         mGoodButton.setVisibility(View.GONE);
         mGreatButton.setVisibility(View.GONE);
 
-        List<Integer> ranking = mUser.getRanking();
+        int currentPoints = mUser.getCurrentPoints();
+        int maxPoints = mUser.getMaxPoints();
 
-        // TODO - Can take out conditional once everyone switches to new User model
-        if(ranking.size() > 0) {
-            ranking.set(0, ranking.get(0) + rating);
-            ranking.set(1, ranking.get(1) + base);
+        currentPoints += rating;
+        maxPoints += base;
 
-            // Ensures that ranking doesn't drop below 0
-            if(ranking.get(0) < 0) {
-                ranking.set(0, 0);
-            }
+
+        // Ensures that ranking doesn't drop below 0
+        if(currentPoints < 0) {
+            currentPoints = 0;
         }
+
+        mUser.setCurrentPoints(currentPoints);
+        mUser.setMaxPoints(maxPoints);
 
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
 
