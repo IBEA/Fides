@@ -24,6 +24,7 @@ import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
 
@@ -156,11 +157,31 @@ public class ShiftSearchFragment extends Fragment {
 
     private void setUpFirebaseAdapter(String query, String searchType) {
         //Where we should drop the switch in for query type
+
+        DatabaseReference dbNode;
+        if(searchType.equals("shiftsByZip")){
+            dbNode = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
+        }else{
+            dbNode = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
+        }
+
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsByZip.child(query)) {
+                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbNode) {
+
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, false, "ShiftsSearch");
+            protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Shift shift = dataSnapshot.getValue(Shift.class);
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForVol");
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         };
         mRecyclerView.setHasFixedSize(false);

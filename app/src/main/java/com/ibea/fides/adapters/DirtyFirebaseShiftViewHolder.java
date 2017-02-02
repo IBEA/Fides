@@ -47,7 +47,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(final String shiftId, Boolean _isOrganization, String _origin) {
+    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin) {
         isOrganization = _isOrganization;
         mOrigin = _origin;
 
@@ -62,42 +62,29 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         mCompleteButton.setOnClickListener(this);
         mCompleteButton.setVisibility(View.GONE);
 
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
-        ref.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Shift shift = dataSnapshot.getValue(Shift.class);
-                mShift = shift;
-                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mShift = shift;
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-                if(mShift != null){
-                    Log.d(mOrigin, mShift.getShortDescription());
-                    Log.d(mOrigin, shiftId);
+        if(mShift != null) {
+            Log.d(mOrigin, mShift.getShortDescription());
+            Log.d(mOrigin, shift.getPushId());
 
-                    if(isOrganization && mShift.getOrganizationID().equals(userID)){
-                        mVolunteerButton.setText("Delete");
-                        mCompleteButton.setVisibility(View.VISIBLE);
-                    }else{
-                        if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-                            mVolunteerButton.setText("Cancel");
-                        }else{
-                            mVolunteerButton.setText("Volunteer");
-                        }
-                    }
-                    organizationTextView.setText(shift.getOrganizationName());
-                    shortDescriptionTextView.setText(shift.getShortDescription());
-                    zipCodeTextView.setText(String.valueOf(shift.getZip()));
+            if (isOrganization && mShift.getOrganizationID().equals(userID)) {
+                mVolunteerButton.setText("Delete");
+                mCompleteButton.setVisibility(View.VISIBLE);
+            } else {
+                if (shift.getCurrentVolunteers().indexOf(userID) != -1) {
+                    mVolunteerButton.setText("Cancel");
+                } else {
+                    mVolunteerButton.setText("Volunteer");
                 }
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+            organizationTextView.setText(shift.getOrganizationName());
+            shortDescriptionTextView.setText(shift.getShortDescription());
+            zipCodeTextView.setText(String.valueOf(shift.getZip()));
+        }
     }
 
     @Override
