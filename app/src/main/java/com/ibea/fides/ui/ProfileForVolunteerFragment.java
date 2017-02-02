@@ -21,6 +21,7 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +56,11 @@ public class ProfileForVolunteerFragment extends Fragment {
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForUser = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid());
 
+    // newInstance constructor for creating fragment with arguments
+    public static ProfileForVolunteerFragment newInstance(User user) {
+        ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

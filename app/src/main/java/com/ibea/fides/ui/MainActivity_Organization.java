@@ -67,11 +67,11 @@ public class MainActivity_Organization extends BaseActivity {
 
         if(!isOrganization){
             //User is not an organization
-            //TODO: Add aailable shifts fragment
+            //TODO: Add available shifts fragment
             Log.v(TAG, "User is not an organization");
 
             tabTitles.add("Profile");
-            fragmentList.add(new ProfileForOrganizationFragment());
+            fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
         }else {
             if(mOrganization.getPushId().equals(currentUserId)) {
@@ -81,7 +81,7 @@ public class MainActivity_Organization extends BaseActivity {
                 tabTitles.add("Profile");
                 tabTitles.add("Upcoming");
                 tabTitles.add("History");
-                fragmentList.add(new ProfileForOrganizationFragment());
+                fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
                 fragmentList.add(new ShiftsPendingForOrganizationFragment());
                 fragmentList.add(new ShiftsCompletedForOrganizationFragment());
                 viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 3, tabTitles, fragmentList));
