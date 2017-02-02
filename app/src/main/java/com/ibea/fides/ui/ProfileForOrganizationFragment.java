@@ -31,7 +31,6 @@ public class ProfileForOrganizationFragment extends Fragment {
 
     private static Organization mOrganization;
 
-//    @Bind(R.id.button_Volunteer) Button mVolunteerButton;
     @Bind(R.id.organizationNameTextView) TextView username;
     @Bind(R.id.OrganizationContact) TextView organizationContact;
     @Bind(R.id.OrganizationAbout) TextView mBlurb;
