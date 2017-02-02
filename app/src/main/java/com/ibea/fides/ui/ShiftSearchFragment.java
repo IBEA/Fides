@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,9 @@ public class ShiftSearchFragment extends Fragment {
             public boolean onQueryTextSubmit(final String query) {
                 String onlyNumbers = "[0-9]+";
 
+                //If you remove this, the query double submits. I have no idea why.
+                mSearchView_Zipcode.clearFocus();
+
                 //Make sure the query is not empty
                 if(query.length() != 0){
                     //Check to see if it's a zipcode
@@ -85,8 +89,10 @@ public class ShiftSearchFragment extends Fragment {
                         //Setting vs swapping helps prevent index errors
                         //TODO: get this sorted out so that it's not redundant. We're setting the adapter IN the setup.
                         if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-                            mRecyclerView.swapAdapter(mFirebaseAdapter, true);
+                            Log.d(">>>>>", "Adapter is same");
+                            mRecyclerView.setAdapter(mFirebaseAdapter);
                         }else{
+                            Log.d(">>>>>", "Adapter is different");
                             mRecyclerView.setAdapter(mFirebaseAdapter);
                         }
 
