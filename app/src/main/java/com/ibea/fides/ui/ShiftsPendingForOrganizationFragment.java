@@ -2,6 +2,7 @@ package com.ibea.fides.ui;
 
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.models.Shift;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +56,8 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shifts_pending_for_organizations, container, false);
         ButterKnife.bind(this, view);
 
+        isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
+
         dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -84,8 +88,19 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, isOrganization, "ShiftsPendingForOrg");
+            protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Shift shift = dataSnapshot.getValue(Shift.class);
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForOrg");
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         };
         mRecyclerView.setHasFixedSize(true);

@@ -14,12 +14,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_dirty_buttons_page"
-        android:title="Dirty Buttons Page"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/user_page"
         android:title="User Page"
         android:visible="true"

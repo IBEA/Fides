@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.ibea.fides.ui._TOGO_OrganizationPastUserFragment;
 import com.ibea.fides.ui.ProfileForOrganizationFragment;
 import com.ibea.fides.ui.ShiftsCompletedForOrganizationFragment;
 import com.ibea.fides.ui.ShiftsPendingForOrganizationFragment;
@@ -50,9 +49,6 @@ public class MainPagerAdapter_Organization extends FragmentPagerAdapter {
                 return completedShiftsFragment;
 
             // Open _TOGO_OrganizationPastShiftFragment.java
-            case 3:
-                _TOGO_OrganizationPastUserFragment organizationPastUserFragment = new _TOGO_OrganizationPastUserFragment();
-                return organizationPastUserFragment;
         }
         return null;
     }

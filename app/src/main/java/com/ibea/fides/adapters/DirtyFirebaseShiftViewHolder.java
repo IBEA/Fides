@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.ui.ShiftDetailsActivity;
 
 import org.parceler.Parcels;
 
@@ -39,6 +42,9 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     Boolean isOrganization;
     String mOrigin;
 
+    LinearLayout mItemLayout;
+    ViewGroup.LayoutParams mItemLayoutParams;
+
 
     public DirtyFirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -47,62 +53,57 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(final String shiftId, Boolean _isOrganization, String _origin) {
+    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin) {
         isOrganization = _isOrganization;
         mOrigin = _origin;
 
-        //!! Change volunteer button to cancel button if organization !!
+        Log.d(mOrigin, "bindShift");
 
-        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
+        //!! Change volunteer button to cancel button if organization !!
+        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
-        final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
+
+        mItemLayout = (LinearLayout) mView.findViewById(R.id.linearLayout);
+        mItemLayoutParams = mItemLayout.getLayoutParams();
+
+        final TextView addressCodeTextView = (TextView) mView.findViewById(R.id.textView_Address);
+        final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
+        final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
+
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
         mCompleteButton.setOnClickListener(this);
         mCompleteButton.setVisibility(View.GONE);
 
+        mShift = shift;
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
-        ref.addValueEventListener(new ValueEventListener() {
+        if(mShift != null) {
+            if (isOrganization && mShift.getOrganizationID().equals(userID)) {
+                mVolunteerButton.setText("Delete");
+                mCompleteButton.setVisibility(View.VISIBLE);
+            } else {
+                Log.d(mOrigin, mShift.getShortDescription());
+                if (shift.getCurrentVolunteers().indexOf(userID) != -1) {
+                    mVolunteerButton.setText("Cancel");
+                } else {
+                    mVolunteerButton.setText("Volunteer");
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Shift shift = dataSnapshot.getValue(Shift.class);
-                mShift = shift;
-                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-
-                if(mShift != null){
-                    Log.d(mOrigin, mShift.getShortDescription());
-                    Log.d(mOrigin, shiftId);
-
-                    if(isOrganization && mShift.getOrganizationID().equals(userID)){
-                        mVolunteerButton.setText("Delete");
-                        mCompleteButton.setVisibility(View.VISIBLE);
-                    }else{
-                        if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-                            mVolunteerButton.setText("Cancel");
-                        }else{
-                            mVolunteerButton.setText("Volunteer");
-                        }
-                    }
-                    organizationTextView.setText(shift.getOrganizationName());
-                    shortDescriptionTextView.setText(shift.getShortDescription());
-                    zipCodeTextView.setText(String.valueOf(shift.getZip()));
                 }
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+            shortDescriptionTextView.setText(shift.getShortDescription());
+            addressCodeTextView.setText(Integer.toString(shift.getZip()));
+            timeTextView.setText(shift.getFrom() + "-" + shift.getUntil());
+            dateTextView.setText(shift.getDate());
+            organizationTextView.setText(shift.getOrganizationName());
+            shortDescriptionTextView.setText(shift.getShortDescription());
+        }
     }
 
     @Override
     public void onClick(View view) {
-        final ArrayList<Shift> shifts = new ArrayList<>();
         String function = mVolunteerButton.getText().toString();
 
         if(view == mVolunteerButton) {
@@ -116,9 +117,22 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         }else if(view == mCompleteButton) {
             completeShift();
         }else{
-            Log.d("ViewHolder: ", mShift.getPushId());
             // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
+            Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
+            intent.putExtra("shift", Parcels.wrap(mShift));
+            mContext.startActivity(intent);
         }
+    }
+
+    //TODO: Front, add some animations to this so that they slide open and closed
+    public void hideView(){
+        Log.d("Hiding ", mShift.getShortDescription());
+        mItemLayoutParams.height = 0;
+    }
+
+    public void showView(){
+        Log.d("Showing ", mShift.getShortDescription());
+        mItemLayoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT;
     }
 
     // Avoided duplicate functionality in completeShift by adding boolean

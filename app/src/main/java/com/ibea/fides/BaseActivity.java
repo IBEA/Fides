@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.LogInActivity;
+import com.ibea.fides.ui.MainActivity_Organization;
 import com.ibea.fides.ui.MainActivity_Volunteer;
 import com.ibea.fides.ui.OrganizationSettingsActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
@@ -81,8 +82,6 @@ public class BaseActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 
-        Log.d("Is this true?" , "data +" + mIsOrganization);
-
         // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){
             dbCurrentUser = dbUsers.child(mAuth.getCurrentUser().getUid());
@@ -132,13 +131,14 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
             startActivity(intent);
         }
-        else if(id == R.id.action_dirty_buttons_page) {
-            Intent intent = new Intent(mContext, _FORNOW_HomeActivity.class);
-            startActivity(intent);
-        }
         else if (id == R.id.user_page) {
-            Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
-            startActivity(intent);
+            if(mIsOrganization) {
+                Intent intent = new Intent(mContext, MainActivity_Organization.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
+                startActivity(intent);
+            }
         }
         else if (id == R.id.action_admin) {
             Intent intent = new Intent(mContext, AdminActivity.class);
