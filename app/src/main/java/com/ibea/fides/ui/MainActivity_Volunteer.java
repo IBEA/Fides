@@ -48,13 +48,13 @@ public class MainActivity_Volunteer extends BaseActivity{
 
             tabTitles.add("Profile");
             tabTitles.add("Opportunities");
-//            tabTitles.add("Upcoming Shifts");
-//            tabTitles.add("History");
+            tabTitles.add("Upcoming Shifts");
+            tabTitles.add("History");
             fragmentList.add(new ProfileForVolunteerFragment());
             fragmentList.add(new ShiftSearchFragment());
-//            fragmentList.add(new ShiftsPendingForVolunteerFragment());
-//            fragmentList.add(new ShiftsCompletedForVolunteerFragment());
-            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
+            fragmentList.add(new ShiftsPendingForVolunteerFragment());
+            fragmentList.add(new ShiftsCompletedForVolunteerFragment());
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 4, tabTitles, fragmentList));
         }
 
 

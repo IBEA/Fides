@@ -3,6 +3,7 @@ package com.ibea.fides.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +66,8 @@ public class ShiftSearchFragment extends Fragment {
 
         mView = view;
         final Context mContext = this.getContext();
+
+        isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
         //TODO: Set searchview up to autopopulate with user zipcode
         setUpFirebaseAdapter("97201", "shiftsByZip");
