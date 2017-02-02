@@ -37,9 +37,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
-//    @Bind(R.id.volunteerRadio) RadioButton mVolunteerRadio;
-//    @Bind(R.id.organizationRadio) RadioButton mOrgRadio;
-//    @Bind(R.id.radioGroup) RadioGroup mTypeGroup;
     @Bind(R.id.createVolunteerButton) Button mCreateVolunteerButton;
     @Bind(R.id.createOrganizationButton) Button mCreateOrganizationButton;
 
@@ -69,8 +66,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         mCreateVolunteerButton.setOnClickListener(this);
         mCreateOrganizationButton.setOnClickListener(this);
 
-//        mVolunteerRadio.setChecked(true);
-
         // Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
         createAuthStateListener();
@@ -97,23 +92,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
-//    public void onRadioButtonClicked(View view) {
-//        // Is the button now checked?
-//        boolean checked = ((RadioButton) view).isChecked();
-//
-//        // Check which radio button was clicked
-//        switch (view.getId()) {
-//            case R.id.volunteerRadio:
-//                if (checked)
-//                    mUserType = "volunteer";
-//                break;
-//            case R.id.organizationRadio:
-//                if (checked)
-//                    mUserType = "org";
-//                break;
-//        }
-//    }
 
     @Override
     public void onClick(View view) {
@@ -204,19 +182,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 // Get user info
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                // If user is present, create new User, update Shared Preferences, send them to Account Setup, clear backstack, and destroy this activity
-//                if(user != null) {
-//                    // Send user to new intent
-//                    Intent intent;
-//                    if(mUserType.equals("org")) {
-//                        intent = new Intent(mContext, OrganizationApplicationActivity.class);
-//                    } else {
-//                        intent = new Intent(mContext, MainActivity_Volunteer.class);
-//                    }
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    startActivity(intent);
-//                    finish();
-//                }
             }
         };
     }

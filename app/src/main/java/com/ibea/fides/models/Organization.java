@@ -16,10 +16,12 @@ public class Organization {
     String ein;
     String contactName;
     String address;
+    String contactEmail;
     String zipcode;
     String description;
     List<String> shiftsAvailable = new ArrayList<>();
     List<String> shiftsCompleted = new ArrayList<>();
+
 
     // Empty Constructor for Parceler
     public Organization() {}
@@ -78,6 +80,14 @@ public class Organization {
         return shiftsCompleted;
     }
     public void setShiftsCompleted(List<String> shiftsCompleted) { this.shiftsCompleted = shiftsCompleted; }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
 
     // Shift Functions
     public void addShift(String shiftToAdd) {

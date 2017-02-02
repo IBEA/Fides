@@ -51,8 +51,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         setContentView(R.layout.activity_log_in);
         ButterKnife.bind(this);
 
-
-
         // Determine if user is already signed in. If so, direct to home page
         mAuth = getInstance();
         mAuthListener = new AuthStateListener() {
@@ -130,6 +128,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 if(task.isSuccessful()) {
                     final FirebaseUser user = mAuth.getCurrentUser();
 
+                    Log.d(TAG, user.getUid());
                     dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
