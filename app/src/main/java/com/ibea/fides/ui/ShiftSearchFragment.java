@@ -41,6 +41,8 @@ public class ShiftSearchFragment extends Fragment {
     private Boolean isOrganization;
     private ArrayList<Organization> orgList = new ArrayList<Organization>();
 
+    private View mView;
+
     final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
     final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
@@ -60,6 +62,7 @@ public class ShiftSearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.shifts_available_for_volunteers, container, false);
         ButterKnife.bind(this, view);
 
+        mView = view;
         final Context mContext = this.getContext();
 
         //TODO: Set searchview up to autopopulate with user zipcode
@@ -90,6 +93,8 @@ public class ShiftSearchFragment extends Fragment {
                         //TODO: get this sorted out so that it's not redundant. We're setting the adapter IN the setup.
                         if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
                             Log.d(">>>>>", "Adapter is same");
+                            mRecyclerView = null;
+                            mRecyclerView = (RecyclerView) mView.findViewById(R.id.unratedRecyclerView);
                             mRecyclerView.setAdapter(mFirebaseAdapter);
                         }else{
                             Log.d(">>>>>", "Adapter is different");
@@ -155,10 +160,10 @@ public class ShiftSearchFragment extends Fragment {
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsByZip.child(query)) {
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, false);
+                viewHolder.bindShift(shiftId, false, "ShiftsSearch");
             }
         };
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 }

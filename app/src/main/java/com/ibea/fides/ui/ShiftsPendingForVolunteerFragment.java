@@ -2,6 +2,7 @@ package com.ibea.fides.ui;
 
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.DirtyFirebasePendingShiftViewHolder;
+import com.ibea.fides.models.Shift;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,21 +56,8 @@ public class ShiftsPendingForVolunteerFragment extends Fragment {
         Log.v(">>>>>", "ShiftsPending current user = " + mCurrentUser.getUid());
         Log.v(">>>>>", "In onCreateView for ShiftsPending");
 
-        dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isOrganization = dataSnapshot.getValue(Boolean.class);
-                if(isOrganization == false){
-                    setUpFirebaseAdapter();
-                }
-                Log.v("isOrganization: ", String.valueOf(isOrganization));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
+        setUpFirebaseAdapter();
 
         return view;
     }
@@ -90,16 +79,26 @@ public class ShiftsPendingForVolunteerFragment extends Fragment {
 
         Log.v(">>>>>", "In setupFirebaseAdapter for ShiftsPendingUsers");
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForUser) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebasePendingShiftViewHolder>
+                (String.class, R.layout.dirty_shift_list_item, DirtyFirebasePendingShiftViewHolder.class, dbShiftsPendingForUser) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                Log.v(">>>>>", shiftId);
-                viewHolder.bindShift(shiftId, isOrganization);
+            protected void populateViewHolder(final DirtyFirebasePendingShiftViewHolder viewHolder, final String shiftId, int position) {
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Shift shift = dataSnapshot.getValue(Shift.class);
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForVol");
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         };
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setAdapter(mFirebaseAdapter);
     }

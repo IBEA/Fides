@@ -54,7 +54,7 @@ public class _FORNOW_ShiftsTestingActivity extends BaseActivity implements Recyc
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
                 Log.v(TAG, "In populateViewHolder");
-                viewHolder.bindShift(shiftId, false);
+                viewHolder.bindShift(shiftId, false, "Shifts_Testing_Activity");
             }
         };
 

@@ -1,7 +1,6 @@
 package com.ibea.fides.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,8 +18,6 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +25,7 @@ import java.util.List;
  * Created by Alaina Traxler on 1/25/2017.
  */
 
-public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class DirtyFirebasePendingShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     View mView;
     Context mContext;
@@ -40,14 +36,14 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     String mOrigin;
 
 
-    public DirtyFirebaseShiftViewHolder(View itemView) {
+    public DirtyFirebasePendingShiftViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(final String shiftId, Boolean _isOrganization, String _origin) {
+    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin) {
         isOrganization = _isOrganization;
         mOrigin = _origin;
 
@@ -62,42 +58,29 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         mCompleteButton.setOnClickListener(this);
         mCompleteButton.setVisibility(View.GONE);
 
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(shiftId);
-        ref.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Shift shift = dataSnapshot.getValue(Shift.class);
-                mShift = shift;
-                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mShift = shift;
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-                if(mShift != null){
-                    Log.d(mOrigin, mShift.getShortDescription());
-                    Log.d(mOrigin, shiftId);
+        if(mShift != null) {
+            Log.d(mOrigin, mShift.getShortDescription());
+            Log.d(mOrigin, shift.getPushId());
 
-                    if(isOrganization && mShift.getOrganizationID().equals(userID)){
-                        mVolunteerButton.setText("Delete");
-                        mCompleteButton.setVisibility(View.VISIBLE);
-                    }else{
-                        if(shift.getCurrentVolunteers().indexOf(userID) != -1){
-                            mVolunteerButton.setText("Cancel");
-                        }else{
-                            mVolunteerButton.setText("Volunteer");
-                        }
-                    }
-                    organizationTextView.setText(shift.getOrganizationName());
-                    shortDescriptionTextView.setText(shift.getShortDescription());
-                    zipCodeTextView.setText(String.valueOf(shift.getZip()));
+            if (isOrganization && mShift.getOrganizationID().equals(userID)) {
+                mVolunteerButton.setText("Delete");
+                mCompleteButton.setVisibility(View.VISIBLE);
+            } else {
+                if (shift.getCurrentVolunteers().indexOf(userID) != -1) {
+                    mVolunteerButton.setText("Cancel");
+                } else {
+                    mVolunteerButton.setText("Volunteer");
                 }
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+            organizationTextView.setText(shift.getOrganizationName());
+            shortDescriptionTextView.setText(shift.getShortDescription());
+            zipCodeTextView.setText(String.valueOf(shift.getZip()));
+        }
     }
 
     @Override

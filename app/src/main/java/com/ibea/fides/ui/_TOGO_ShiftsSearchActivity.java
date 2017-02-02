@@ -82,7 +82,7 @@ public class _TOGO_ShiftsSearchActivity extends BaseActivity implements View.OnC
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, false);
+                viewHolder.bindShift(shiftId, false, "ShiftsSearchActivity");
             }
         };
         mRecyclerView.setHasFixedSize(true);

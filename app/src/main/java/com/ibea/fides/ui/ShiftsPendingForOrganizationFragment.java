@@ -85,7 +85,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(DirtyFirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, isOrganization);
+                viewHolder.bindShift(shiftId, isOrganization, "ShiftsPendingForOrg");
             }
         };
         mRecyclerView.setHasFixedSize(true);
