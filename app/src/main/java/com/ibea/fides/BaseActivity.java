@@ -131,10 +131,6 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
             startActivity(intent);
         }
-        else if(id == R.id.action_dirty_buttons_page) {
-            Intent intent = new Intent(mContext, _FORNOW_HomeActivity.class);
-            startActivity(intent);
-        }
         else if (id == R.id.user_page) {
             if(mIsOrganization) {
                 Intent intent = new Intent(mContext, MainActivity_Organization.class);
@@ -144,7 +140,6 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-
         else if (id == R.id.action_admin) {
             Intent intent = new Intent(mContext, AdminActivity.class);
             startActivity(intent);
