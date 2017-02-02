@@ -3,7 +3,6 @@ package com.ibea.fides.ui;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.ibea.fides.BaseActivity;
-import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import butterknife.Bind;
@@ -41,6 +39,11 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
     String mName;
     String mEmail;
+    String ein;
+    String userName;
+    String address;
+    String zip;
+    String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +85,11 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
     public void createOrganization() {
         String orgName = mOrganizationNameInput.getText().toString().trim();
-        String ein = mEinInput.getText().toString().trim();
-        String userName = mNameInput.getText().toString().trim();
-        String address = mAddressInput.getText().toString().trim();
-        String zip = mZipInput.getText().toString().trim();
-        String description = mDescriptionInput.getText().toString().trim();
+        ein = mEinInput.getText().toString().trim();
+        userName = mNameInput.getText().toString().trim();
+        address = mAddressInput.getText().toString().trim();
+        zip = mZipInput.getText().toString().trim();
+        description = mDescriptionInput.getText().toString().trim();
         String password = mPasswordInput.getText().toString().trim();
         String passwordConfirm = mPasswordConfirmInput.getText().toString().trim();
         String email = mEmailInput.getText().toString().trim();
@@ -101,7 +104,6 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
             return;
         }
 
-        submitOrganization(orgName, ein, userName, address, zip, description);
 
         mName = orgName;
         mEmail = email;
@@ -117,7 +119,6 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
                 // If Auth Success, call function passing in User info. If Auth Not Successful, alert.
                 if(task.isSuccessful()) {
-
                     createFirebaseUserProfile(task.getResult().getUser());
                     Intent intent = new Intent(mContext, LogInActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -180,19 +181,19 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Add Display Name to User Authentication in Firebase
+        Organization newOrg = new Organization(user.getUid(), mName, ein, userName, address, zip, description);
+        newOrg.setContactEmail(mEmail);
+        dbPendingOrganizations.child(user.getUid()).setValue(newOrg);
+
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder().setDisplayName(mName).build();
+        Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
+
+
         user.updateProfile(addProfileName).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {}
         });
     }
 
-    public void submitOrganization(String orgName, String ein, String userName, String address, String zip, String description) {
-       String uid = mCurrentUser.getUid();
-       Organization organization = new Organization(uid, orgName, ein, userName, address, zip, description);
-       dbPendingOrganizations.child(uid).setValue(organization);
 
-       Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
-
-   }
 }

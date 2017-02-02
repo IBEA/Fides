@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.models.User;
 
 
 /**
@@ -41,6 +42,11 @@ public class DirtyFirebaseOrganizationViewHolder extends RecyclerView.ViewHolder
     public void onClick(View view) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_ORGANIZATIONS);
         ref.child(mOrganization.getPushId()).setValue(mOrganization);
+
+        User newUser = new User(mOrganization.getPushId(), mOrganization.getName(), mOrganization.getContactEmail());
+        newUser.setIsOrganization(true);
+        ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS);
+        ref.child(mOrganization.getPushId()).setValue(newUser);
 
         DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_APPLICATIONS);
         oldRef.child(mOrganization.getPushId()).removeValue();
