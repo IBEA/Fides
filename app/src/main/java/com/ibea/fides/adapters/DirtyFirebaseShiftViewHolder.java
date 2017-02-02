@@ -49,10 +49,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         isOrganization = _isOrganization;
 
         //!! Change volunteer button to cancel button if organization !!
-
-        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
+        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
-        final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
+        final TextView addressCodeTextView = (TextView) mView.findViewById(R.id.textView_Address);
+        final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
+        final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
@@ -82,9 +83,12 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                             mVolunteerButton.setText("Volunteer");
                         }
                     }
+                    Log.d("JUSTIN", shift.getOrganizationName());
                     organizationTextView.setText(shift.getOrganizationName());
                     shortDescriptionTextView.setText(shift.getShortDescription());
-                    zipCodeTextView.setText(String.valueOf(shift.getZip()));
+                    addressCodeTextView.setText(shift.getAddress());
+                    timeTextView.setText(shift.getFrom() + "-" + shift.getUntil());
+                    dateTextView.setText(shift.getDate());
                 }
             }
 
