@@ -4,130 +4,278 @@
     android:id="@+id/activity_shifts_create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ibea.fides.ui.ShiftsCreateActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:theme="@style/LightOnDarkLayout"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="12dp"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="12dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/editText_From"
-        android:hint="From (h:mm)"
-        android:inputType="time" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/editText_From"
-        android:layout_alignLeft="@+id/editText_From"
-        android:layout_alignStart="@+id/editText_From"
-        android:id="@+id/editText_Until"
-        android:hint="Until (h:mm)"
-        android:inputType="time" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_startTimeLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Start Time:"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="false"
+                android:layout_centerVertical="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/editText_Until"
-        android:layout_alignRight="@+id/editText_Until"
-        android:layout_alignEnd="@+id/editText_Until"
-        android:id="@+id/editText_Date"
-        android:hint="Date (dd/mm/yyyy)"
-        android:inputType="date" />
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch_From"
+                android:textOn="PM"
+                android:textOff="AM"
+                android:checked="false"
+                android:splitTrack="false"
+                android:showText="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:thumbTint="@color/colorSecondaryText"
+                android:trackTint="@color/colorIcons"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@+id/editText_Date"
-        android:layout_alignLeft="@+id/editText_Date"
-        android:layout_alignStart="@+id/editText_Date"
-        android:id="@+id/editText_MaxVolunteers"
-        android:hint="Number of volunteers"
-        android:inputType="number" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:id="@+id/editText_From"
+                android:hint="From (h:mm)"
+                android:inputType="time"
+                android:gravity="center_vertical|end"
+                android:layout_alignBaseline="@+id/switch_From"
+                android:layout_alignBottom="@+id/switch_From"
+                android:layout_toLeftOf="@+id/switch_From" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_endTimeLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="End Time:"
+                android:layout_centerVertical="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:id="@+id/editText_Until"
+                android:hint="Until (h:mm)"
+                android:inputType="time"
+                android:gravity="right|center_vertical"
+                android:paddingRight="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/switch_To" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch_To"
+                android:textOn="PM"
+                android:textOff="AM"
+                android:showText="true"
+                android:gravity="center_vertical"
+                android:trackTint="@color/colorIcons"
+                android:thumbTint="@color/colorSecondaryText"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editText_Date"
+                android:hint="Date (dd/mm/yyyy)"
+                android:inputType="date"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_dateLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Date:"
+                android:layout_alignBaseline="@+id/editText_Date"
+                android:layout_alignBottom="@+id/editText_Date"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editText_MaxVolunteers"
+                android:hint="###"
+                android:inputType="number"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_volunteersNeededLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Volunteers Needed:"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText_Description"
+                android:hint="explain duties"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_descriptionLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Description:"
+                android:layout_alignBaseline="@+id/editText_Description"
+                android:layout_alignBottom="@+id/editText_Description"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_shortDescriptionLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Short Description:"
+                android:layout_alignBaseline="@+id/editText_ShortDescription"
+                android:layout_alignBottom="@+id/editText_ShortDescription"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText_ShortDescription"
+                android:hint="one-sentence max"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/editText_Address"
+                android:hint="full street address"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_address"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Address:"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_zipLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="ZIP Code:"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editText_Zip"
+                android:hint="zip code"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <Button
-        android:text="Let's Go"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_MaxVolunteers"
+        android:text="Post Shift"
+        android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
-        android:id="@+id/button_LetsGo" />
+        android:id="@+id/button_LetsGo"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryLight"
+        android:textSize="24sp"
+        android:height="64dp"
+        android:layout_height="wrap_content" />
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editText_Until"
-        android:layout_toRightOf="@+id/editText_From"
-        android:layout_toEndOf="@+id/editText_From"
-        android:id="@+id/switch_From"
-        android:textOn="PM"
-        android:textOff="AM"
-        android:checked="false"
-        android:splitTrack="false"
-        android:showText="true"
-        />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_From"
-        android:layout_toRightOf="@+id/editText_From"
-        android:layout_toEndOf="@+id/editText_From"
-        android:id="@+id/switch_To"
-        android:textOn="PM"
-        android:textOff="AM"
-        android:showText="true"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_below="@+id/button_LetsGo"
-        android:layout_alignRight="@+id/editText_MaxVolunteers"
-        android:layout_alignEnd="@+id/editText_MaxVolunteers"
-        android:layout_marginTop="11dp"
-        android:id="@+id/editText_Description"
-        android:hint="Description" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_below="@+id/editText_Description"
-        android:layout_alignLeft="@+id/editText_Description"
-        android:layout_alignStart="@+id/editText_Description"
-        android:id="@+id/editText_ShortDescription"
-        android:hint="Short Description" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText_Address"
-        android:layout_alignLeft="@+id/editText_Address"
-        android:layout_alignStart="@+id/editText_Address"
-        android:id="@+id/editText_Zip"
-        android:hint="Zip" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/editText_Address"
-        android:hint="Address"
-        android:layout_below="@+id/editText_ShortDescription"
-        android:layout_alignLeft="@+id/editText_ShortDescription"
-        android:layout_alignStart="@+id/editText_ShortDescription" />
 </RelativeLayout>
