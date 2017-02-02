@@ -15,6 +15,7 @@ import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,8 @@ public class ShiftSearchFragment extends Fragment {
 
     private View mView;
 
+    private String currentQuery;
+
     final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
     final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
@@ -68,12 +71,44 @@ public class ShiftSearchFragment extends Fragment {
         final Context mContext = this.getContext();
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
-
+        currentQuery = "97201";
         //TODO: Set searchview up to autopopulate with user zipcode
-        setUpFirebaseAdapter("97201", "shiftsByZip");
-        mRecyclerView.setAdapter(mFirebaseAdapter);
+        setUpFirebaseAdapter(currentQuery, "shiftsByZip");
 
+        mRecyclerView.setAdapter(mFirebaseAdapter);
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("ChildRemoved", "Triggered");
+
+                //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
+                if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                    mFirebaseAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //TODO: implement tag search
         //TODO: implement city search
@@ -83,6 +118,7 @@ public class ShiftSearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(final String query) {
                 String onlyNumbers = "[0-9]+";
+                currentQuery = query;
 
                 //If you remove this, the query double submits. I have no idea why.
                 mSearchView_Zipcode.clearFocus();
@@ -173,11 +209,12 @@ public class ShiftSearchFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
+                Log.d("ShiftsSearch", "triggered populateViewHolder");
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForVol");
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsSearch");
                     }
 
                     @Override

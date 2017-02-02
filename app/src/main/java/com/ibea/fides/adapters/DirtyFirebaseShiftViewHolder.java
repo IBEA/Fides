@@ -51,6 +51,8 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         isOrganization = _isOrganization;
         mOrigin = _origin;
 
+        Log.d(mOrigin, "bindShift");
+
         //!! Change volunteer button to cancel button if organization !!
 
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
@@ -67,13 +69,11 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
 
         if(mShift != null) {
-            Log.d(mOrigin, mShift.getShortDescription());
-            Log.d(mOrigin, shift.getPushId());
-
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
                 mVolunteerButton.setText("Delete");
                 mCompleteButton.setVisibility(View.VISIBLE);
             } else {
+                Log.d(mOrigin, mShift.getShortDescription());
                 if (shift.getCurrentVolunteers().indexOf(userID) != -1) {
                     mVolunteerButton.setText("Cancel");
                 } else {

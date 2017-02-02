@@ -93,7 +93,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForVol");
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForOrg");
                     }
 
                     @Override

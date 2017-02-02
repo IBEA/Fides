@@ -63,9 +63,6 @@ public class DirtyFirebasePendingShiftViewHolder extends RecyclerView.ViewHolder
 
 
         if(mShift != null) {
-            Log.d(mOrigin, mShift.getShortDescription());
-            Log.d(mOrigin, shift.getPushId());
-
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
                 mVolunteerButton.setText("Delete");
                 mCompleteButton.setVisibility(View.VISIBLE);
