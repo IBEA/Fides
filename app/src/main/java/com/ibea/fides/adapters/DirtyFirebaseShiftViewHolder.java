@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.ui.ShiftDetailsActivity;
 
 import org.parceler.Parcels;
 
@@ -98,7 +99,6 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
     @Override
     public void onClick(View view) {
-        final ArrayList<Shift> shifts = new ArrayList<>();
         String function = mVolunteerButton.getText().toString();
 
         if(view == mVolunteerButton) {
@@ -112,20 +112,20 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         }else if(view == mCompleteButton) {
             completeShift();
         }else{
-            Log.d("ViewHolder: ", mShift.getPushId());
             // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
+            Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
+            intent.putExtra("shift", Parcels.wrap(mShift));
+            mContext.startActivity(intent);
         }
     }
 
     //TODO: Front, add some animations to this so that they slide open and closed
     public void hideView(){
-//        itemView.setVisibility(View.GONE);
         Log.d("Hiding ", mShift.getShortDescription());
         mItemLayoutParams.height = 0;
     }
 
     public void showView(){
-//        itemView.setVisibility(View.VISIBLE);
         Log.d("Showing ", mShift.getShortDescription());
         mItemLayoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT;
     }
