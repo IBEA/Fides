@@ -43,7 +43,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     private AuthStateListener mAuthListener;
 
     public SharedPreferences mSharedPreferences;
-    public boolean mIsOrganization;
+    public boolean mPastOrganization;
 
     public boolean isOrganization;
 
@@ -57,7 +57,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         ButterKnife.bind(this);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+        mPastOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 
 
         // Determine if user is already signed in. If so, direct to home page
@@ -67,7 +67,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
-                    if(mIsOrganization){
+                    if(mPastOrganization){
                         Intent intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
