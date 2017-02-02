@@ -31,6 +31,7 @@ public class ProfileForOrganizationFragment extends Fragment {
     public static ProfileForOrganizationFragment newInstance(Organization organization) {
         mOrganization = organization;
         Log.d(">>>>>", mOrganization.getName());
+        Log.d(">>>>>", mOrganization.getContactEmail());
         ProfileForOrganizationFragment fragment = new ProfileForOrganizationFragment();
         return fragment;
     }
