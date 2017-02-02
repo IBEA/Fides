@@ -20,20 +20,13 @@ public class ProfileForOrganizationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Get the view from fragmenttab1.xml
+
         View view = inflater.inflate(R.layout.organizationprofilefragment, container, false);
 
 
-//        mVolunteerButton.setOnClickListener(this);
 
         return view;
     }
-//    @Override
-//    public void onClick(View v) {
-//        if (v == mVolunteerButton){
-//            Toast.makeText(getContext(), "Volunteer Button Is Click", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
 
 }

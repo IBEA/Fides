@@ -1,6 +1,8 @@
 package com.ibea.fides.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcel;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,9 @@ import android.widget.TextView;
 
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.ui.MainActivity_Organization;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -61,8 +66,10 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
 
         @Override
         public void onClick(View v){
-            //!! Fromt end, here's your breadcrumb, parcel your mOrganization and send it wherever you like !!
-            Log.v("Org Item", "Clicked on " + mOrganization.getName());
+            //!! Front end, here's your breadcrumb, parcel your mOrganization and send it wherever you like !!
+            Intent intent = new Intent(mContext, MainActivity_Organization.class);
+            intent.putExtra("organization", Parcels.wrap(mOrganization));
+            mContext.startActivity(intent);
         }
     }
 }
