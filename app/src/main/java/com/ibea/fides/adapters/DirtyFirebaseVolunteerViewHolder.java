@@ -28,18 +28,12 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     View mView;
     Context mContext;
     User mUser;
-    Button mBadButton;
-    Button mPoorButton;
-    Button mGoodButton;
-    Button mGreatButton;
+    Button mDislikeButton;
+    Button mLikeButton;
 
     // Rating System
-    int bad = -5;
-    int poor = -2;
-    int good = 2;
-    int great = 3;
-    int base = 2;
-
+    final int DISLIKE = 0;
+    final int LIKE = 3;
 
     String shiftId;
     String indexKey;
@@ -54,21 +48,16 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     public void bindUser(String userId, String _shiftId, int position, boolean rated) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-        mBadButton = (Button) mView.findViewById(R.id.badButton);
-        mPoorButton = (Button) mView.findViewById(R.id.poorButton);
-        mGoodButton = (Button) mView.findViewById(R.id.goodButton);
-        mGreatButton = (Button) mView.findViewById(R.id.greatButton);
-        mBadButton.setOnClickListener(this);
-        mPoorButton.setOnClickListener(this);
-        mGoodButton.setOnClickListener(this);
-        mGreatButton.setOnClickListener(this);
+        mDislikeButton = (Button) mView.findViewById(R.id.badButton);
+        mLikeButton = (Button) mView.findViewById(R.id.goodButton);
+
+        mDislikeButton.setOnClickListener(this);
+        mLikeButton.setOnClickListener(this);
 
 
         if(rated) {
-            mBadButton.setVisibility(View.GONE);
-            mPoorButton.setVisibility(View.GONE);
-            mGoodButton.setVisibility(View.GONE);
-            mGreatButton.setVisibility(View.GONE);
+            mLikeButton.setVisibility(View.GONE);
+            mDislikeButton.setVisibility(View.GONE);
         }
 
         shiftId = _shiftId;
@@ -93,37 +82,38 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     @Override
     public void onClick(View view) {
-        if(view == mBadButton) {
-            rate(bad);
-        } else if(view == mPoorButton) {
-            rate(poor);
-        } else if(view == mGoodButton) {
-            rate(good);
-        } else if(view == mGreatButton) {
-            rate(great);
+        if(view == mDislikeButton) {
+            rate(DISLIKE);
+        } else if(view == mLikeButton) {
+            rate(LIKE);
         }
     }
 
     public void rate(int rating) {
-        mBadButton.setVisibility(View.GONE);
-        mPoorButton.setVisibility(View.GONE);
-        mGoodButton.setVisibility(View.GONE);
-        mGreatButton.setVisibility(View.GONE);
-
-        int currentPoints = mUser.getCurrentPoints();
-        int maxPoints = mUser.getMaxPoints();
-
-        currentPoints += rating;
-        maxPoints += base;
+        mDislikeButton.setVisibility(View.GONE);
+        mLikeButton.setVisibility(View.GONE);
 
 
-        // Ensures that ranking doesn't drop below 0
-        if(currentPoints < 0) {
-            currentPoints = 0;
+        List<Integer> ratingHistory = mUser.getRatingHistory();
+        int size = ratingHistory.size();
+        ratingHistory.add(rating);
+        int modifiedRating = 0;
+        int modifiedMax = 0;
+        int index = 1;
+        int modifier = 0;
+
+        for(Integer rate : ratingHistory) {
+            modifier = index/size;
+            modifiedRating += (modifier * rate);
+            modifiedMax += (modifier * LIKE);
+            ++index;
         }
 
-        mUser.setCurrentPoints(currentPoints);
-        mUser.setMaxPoints(maxPoints);
+        int finalRating = (modifiedRating/modifiedMax) * 100 ;
+
+        mUser.setRating(finalRating);
+        mUser.setRatingHistory(ratingHistory);
+
 
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
 
