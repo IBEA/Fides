@@ -2,6 +2,7 @@ package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -41,15 +42,23 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private AuthStateListener mAuthListener;
 
+    public SharedPreferences mSharedPreferences;
+    public boolean mIsOrganization;
+
+    public boolean isOrganization;
+
     // Misc
     private ProgressDialog mAuthProgressDialog;
-    Boolean isOrganization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+
 
         // Determine if user is already signed in. If so, direct to home page
         mAuth = getInstance();
@@ -58,7 +67,17 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
-                    Intent intent;
+                    if(mIsOrganization){
+                        Intent intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else{
+                        Intent intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         };

@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:weightSum="1">
         <RelativeLayout
-            android:layout_width="256dp"
-            android:layout_height="109dp">
+            android:layout_width="262dp"
+            android:layout_height="114dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,13 +44,6 @@
                 android:textColor="@color/colorPrimary"/>
 
             <TextView
-                android:text="Address"
-                android:layout_below="@id/textView_ShortDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_Address" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_Time"
@@ -59,6 +52,15 @@
                 android:text="Time"
                 android:textColor="@color/colorPrimary"
                 android:layout_below="@+id/textView_Date"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_Address"
+                android:layout_below="@+id/textView_ShortDescription"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
