@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,9 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     Boolean isOrganization;
     String mOrigin;
 
+    LinearLayout mItemLayout;
+    ViewGroup.LayoutParams mItemLayoutParams;
+
 
     public DirtyFirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -58,6 +63,10 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
         final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
+
+        mItemLayout = (LinearLayout) mView.findViewById(R.id.linearLayout);
+        mItemLayoutParams = mItemLayout.getLayoutParams();
+
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
@@ -106,6 +115,18 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
             Log.d("ViewHolder: ", mShift.getPushId());
             // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
         }
+    }
+
+    public void hideView(){
+//        itemView.setVisibility(View.GONE);
+        Log.d("Hiding ", mShift.getShortDescription());
+        mItemLayoutParams.height = 0;
+    }
+
+    public void showView(){
+//        itemView.setVisibility(View.VISIBLE);
+        Log.d("Showing ", mShift.getShortDescription());
+        mItemLayoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT;
     }
 
     // Avoided duplicate functionality in completeShift by adding boolean

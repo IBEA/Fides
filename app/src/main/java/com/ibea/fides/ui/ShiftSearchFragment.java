@@ -41,6 +41,8 @@ public class ShiftSearchFragment extends Fragment {
     private RecyclerView.Adapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private Boolean lock = true;
+    private String currentUserId;
     private Boolean isOrganization;
     private ArrayList<Organization> orgList = new ArrayList<Organization>();
 
@@ -76,11 +78,16 @@ public class ShiftSearchFragment extends Fragment {
         setUpFirebaseAdapter(currentQuery, "shiftsByZip");
 
         mRecyclerView.setAdapter(mFirebaseAdapter);
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if(!lock){
+                    if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
+                }
             }
 
             @Override
@@ -109,6 +116,7 @@ public class ShiftSearchFragment extends Fragment {
 
             }
         });
+        lock = false;
 
         //TODO: implement tag search
         //TODO: implement city search
@@ -209,12 +217,20 @@ public class ShiftSearchFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
-                Log.d("ShiftsSearch", "triggered populateViewHolder");
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
+
                         viewHolder.bindShift(shift, isOrganization, "ShiftsSearch");
+                        Log.d("On " + shift.getShortDescription() + "?", String.valueOf(shift.getCurrentVolunteers().contains(currentUserId)));
+
+                        if(shift.getCurrentVolunteers().contains(currentUserId)){
+                            viewHolder.hideView();
+                        }else{
+                            viewHolder.showView();
+                        }
+
                     }
 
                     @Override
