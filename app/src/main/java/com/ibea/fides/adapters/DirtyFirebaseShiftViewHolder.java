@@ -117,6 +117,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         }
     }
 
+    //TODO: Front, add some animations to this so that they slide open and closed
     public void hideView(){
 //        itemView.setVisibility(View.GONE);
         Log.d("Hiding ", mShift.getShortDescription());
