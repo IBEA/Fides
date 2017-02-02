@@ -3,13 +3,13 @@ package com.ibea.fides.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.DirtyFirebaseVolunteerViewHolder;
 import com.ibea.fides.models.Shift;
-
 import org.parceler.Parcels;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +25,8 @@ public class ShiftDetailsActivity extends BaseActivity {
     @Bind(R.id.textView_Zipcode) TextView mZip;
     @Bind(R.id.unratedRecyclerView) RecyclerView mUnratedRecyclerView;
     @Bind(R.id.ratedRecyclerView) RecyclerView mRatedRecyclerView;
-
+    @Bind(R.id.textView2) TextView mHeaderOne;
+    @Bind(R.id.textView8) TextView mHeaderTwo;
     private FirebaseRecyclerAdapter mFirebaseAdapterUnrated;
     private FirebaseRecyclerAdapter mFirebaseAdapterRated;
 
@@ -43,8 +44,14 @@ public class ShiftDetailsActivity extends BaseActivity {
         mDescription.setText(mShift.getDescription());
         mZip.setText(Integer.toString(mShift.getZip()));
 
-        setUpFirebaseAdapterUnrated();
-        setUpFirebaseAdapterRated();
+        if(mIsOrganization) {
+            setUpFirebaseAdapterUnrated();
+            setUpFirebaseAdapterRated();
+        } else {
+            mHeaderOne.setVisibility(View.GONE);
+            mHeaderTwo.setVisibility(View.GONE);
+        }
+
     }
 
     private void setUpFirebaseAdapterUnrated() {
@@ -75,4 +82,3 @@ public class ShiftDetailsActivity extends BaseActivity {
         mRatedRecyclerView.setAdapter(mFirebaseAdapterRated);
     }
 }
-// Rated users not showing up properly yet
