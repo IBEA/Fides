@@ -82,8 +82,6 @@ public class BaseActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 
-        Log.d("Is this true?" , "data +" + mIsOrganization);
-
         // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){
             dbCurrentUser = dbUsers.child(mAuth.getCurrentUser().getUid());
