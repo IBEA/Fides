@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name=".ui.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +41,8 @@
         <activity
             android:name=".ui.MainActivity_Organization"
             android:exported="true" />
-        <activity android:name=".ui.SettingsActivity"></activity>
+        <activity android:name=".ui.VolunteerSettingsActivity" />
+        <activity android:name=".ui.OrganizationSettingsActivity"></activity>
     </application>
 
 </manifest>

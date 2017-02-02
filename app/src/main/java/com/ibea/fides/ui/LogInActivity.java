@@ -128,31 +128,46 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 mAuthProgressDialog.dismiss();
 
                 if(task.isSuccessful()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
+                    final FirebaseUser user = mAuth.getCurrentUser();
 
-                    dbUsers.child(user.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
+                    dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.d(">>>>>", "In call");
-                            isOrganization = dataSnapshot.getValue(Boolean.class);
-                            Log.d(">>>>>", String.valueOf(isOrganization));
+                            Boolean isUser = dataSnapshot.hasChild(user.getUid());
+                            if(!isUser) {
+                                Toast.makeText(LogInActivity.this, "Your Application is Under Review", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LogInActivity.this, LogInActivity.class);
+                                startActivity(intent);
+                            } else {
+                                dbUsers.child(user.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        isOrganization = dataSnapshot.getValue(Boolean.class);
+                                        Log.d(">>>>>", String.valueOf(isOrganization));
 
+                                        //Put isOrganization Boolean into shared preferences.
+                                        PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
 
-                            //Put isOrganization Boolean into shared preferences.
-                            PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
+                                        Intent intent;
 
-                            Intent intent;
+                                        if (isOrganization) {
+                                            intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                                        }
+                                        else {
+                                            intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
+                                        }
 
-                            if (isOrganization) {
-                                intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
-                            else {
-                                intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
-                            }
-
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
                         }
 
                         @Override
@@ -160,6 +175,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
                         }
                     });
+
                 }
                 if(!task.isSuccessful()) {
                     Toast.makeText(LogInActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
