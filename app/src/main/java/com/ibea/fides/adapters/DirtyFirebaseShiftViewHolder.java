@@ -60,13 +60,15 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
         Log.d(mOrigin, "bindShift");
 
         //!! Change volunteer button to cancel button if organization !!
-
-        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
+        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
-        final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
 
         mItemLayout = (LinearLayout) mView.findViewById(R.id.linearLayout);
         mItemLayoutParams = mItemLayout.getLayoutParams();
+
+        final TextView addressCodeTextView = (TextView) mView.findViewById(R.id.textView_Address);
+        final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
+        final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
 
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
@@ -76,7 +78,6 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
 
         mShift = shift;
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
 
         if(mShift != null) {
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
@@ -88,12 +89,16 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
                     mVolunteerButton.setText("Cancel");
                 } else {
                     mVolunteerButton.setText("Volunteer");
+
                 }
             }
 
+            shortDescriptionTextView.setText(shift.getShortDescription());
+            addressCodeTextView.setText(Integer.toString(shift.getZip()));
+            timeTextView.setText(shift.getFrom() + "-" + shift.getUntil());
+            dateTextView.setText(shift.getDate());
             organizationTextView.setText(shift.getOrganizationName());
             shortDescriptionTextView.setText(shift.getShortDescription());
-            zipCodeTextView.setText(String.valueOf(shift.getZip()));
         }
     }
 

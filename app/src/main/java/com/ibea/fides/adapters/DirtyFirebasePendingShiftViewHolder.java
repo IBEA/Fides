@@ -49,9 +49,8 @@ public class DirtyFirebasePendingShiftViewHolder extends RecyclerView.ViewHolder
 
         //!! Change volunteer button to cancel button if organization !!
 
-        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Organization);
+        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
-        final TextView zipCodeTextView = (TextView) mView.findViewById(R.id.textView_Zip);
         mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
@@ -76,7 +75,6 @@ public class DirtyFirebasePendingShiftViewHolder extends RecyclerView.ViewHolder
 
             organizationTextView.setText(shift.getOrganizationName());
             shortDescriptionTextView.setText(shift.getShortDescription());
-            zipCodeTextView.setText(String.valueOf(shift.getZip()));
         }
     }
 
