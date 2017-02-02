@@ -41,7 +41,8 @@
         <activity
             android:name=".ui.MainActivity_Organization"
             android:exported="true" />
-        <activity android:name=".ui.SettingsActivity"></activity>
+        <activity android:name=".ui.VolunteerSettingsActivity" />
+        <activity android:name=".ui.OrganizationSettingsActivity"></activity>
     </application>
 
 </manifest>

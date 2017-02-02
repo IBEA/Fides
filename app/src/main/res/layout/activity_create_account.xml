@@ -39,14 +39,14 @@
         android:hint="Password"
         android:gravity="center"
         android:layout_below="@+id/emailInput"
-        android:layout_alignLeft="@+id/createButton"
-        android:layout_alignStart="@+id/createButton" />
+        android:layout_alignLeft="@+id/createVolunteerButton"
+        android:layout_alignStart="@+id/createVolunteerButton" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/nameInput"
-        android:hint="Full Name"
+        android:hint="Display Name"
         android:gravity="center"
         android:layout_below="@+id/titleText"
         android:layout_alignLeft="@+id/emailInput"
@@ -63,55 +63,21 @@
         android:layout_alignLeft="@+id/passwordInput"
         android:layout_alignStart="@+id/passwordInput" />
 
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:id="@+id/radioGroup"
-        android:layout_below="@+id/passwordConfirmInput"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/titleText"
-        android:layout_alignStart="@+id/titleText">
-
-
-        <RadioButton
-            android:layout_marginTop="20dp"
-            android:text="Volunteer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/volunteerRadio"
-            android:onClick="onRadioButtonClicked"
-            android:layout_weight="0.08"
-            android:layout_below="@+id/passwordConfirmInput"
-            android:layout_toLeftOf="@+id/adminButton"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <RadioButton
-            android:text="Organization"
-            android:layout_marginTop="20dp"
-            android:layout_width="177dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/organizationRadio"
-            android:onClick="onRadioButtonClicked"
-            android:layout_weight="0.08"
-            android:layout_below="@+id/passwordConfirmInput"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/adminButton"
-            android:layout_toEndOf="@+id/adminButton" />
-
-    </RadioGroup>
-
     <Button
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Create Account"
-        android:id="@+id/createButton"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/radioGroup"
+        android:text="Create Volunteer Account"
+        android:id="@+id/createVolunteerButton"
+        android:layout_below="@+id/passwordConfirmInput"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="I'm An Organization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createVolunteerButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:id="@+id/createOrganizationButton" />
 
 </RelativeLayout>

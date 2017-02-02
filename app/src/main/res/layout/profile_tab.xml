@@ -56,14 +56,14 @@
         android:layout_marginRight="30dp"/>
 
     <TextView
-        android:text="Next Shift"
+        android:text="Trust"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:textSize="30sp"
-        android:layout_marginBottom="29dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/trusttext"
+        android:textSize="24sp"
+        android:layout_above="@+id/trustpercent"
+        android:layout_toRightOf="@+id/view2"
+        android:layout_toEndOf="@+id/view2" />
 
     <TextView
         android:text="Hours"
@@ -72,18 +72,8 @@
         android:id="@+id/nada"
         android:textSize="25sp"
         android:layout_below="@+id/usernametext"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
-
-    <TextView
-        android:text="Trust"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/trusttext"
-        android:textSize="24sp"
-        android:layout_alignBottom="@+id/nada"
-        android:layout_toLeftOf="@+id/view2"
-        android:layout_toStartOf="@+id/view2" />
+        android:layout_toLeftOf="@+id/usernametext"
+        android:layout_toStartOf="@+id/usernametext" />
 
     <TextView
         android:text="0%"
@@ -92,9 +82,10 @@
         android:id="@+id/trustpercent"
         android:textSize="35sp"
         android:textColor="@android:color/holo_orange_light"
-        android:layout_below="@+id/nada"
-        android:layout_toLeftOf="@+id/textView5"
-        android:layout_toStartOf="@+id/textView5" />
+        android:layout_alignBaseline="@+id/totalHours"
+        android:layout_alignBottom="@+id/totalHours"
+        android:layout_toLeftOf="@+id/view2"
+        android:layout_toStartOf="@+id/view2" />
 
     <TextView
         android:text="0"
@@ -103,7 +94,9 @@
         android:id="@+id/totalHours"
         android:textSize="36sp"
         android:layout_below="@+id/nada"
-        android:layout_toRightOf="@+id/view2"
-        android:layout_toEndOf="@+id/view2" />
+        android:layout_alignLeft="@+id/trusttext"
+        android:layout_alignStart="@+id/trusttext"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp" />
 
 </RelativeLayout>
