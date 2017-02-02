@@ -34,8 +34,6 @@ public class MainActivity_Volunteer extends BaseActivity{
         String name = intent.getStringExtra("username");
         Boolean isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
-        Log.d("name" , "Does this work?" + name);
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         //Profile only
@@ -67,7 +65,6 @@ public class MainActivity_Volunteer extends BaseActivity{
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
-
     }
 
 }
