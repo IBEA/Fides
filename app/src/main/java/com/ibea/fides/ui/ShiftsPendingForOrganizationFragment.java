@@ -1,6 +1,7 @@
 package com.ibea.fides.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,9 +32,9 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForOrganizationFragment extends Fragment {
-    @Bind(R.id.unratedRecyclerView)
-    RecyclerView mRecyclerView;
+public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener {
+    @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
@@ -48,6 +50,13 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onClick(View view){
+        if(view == mButton_CreateShift){
+            Intent intent = new Intent(this.getContext(), ShiftsCreateActivity.class);
+            startActivity(intent);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +82,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
             }
         });
 
+        mButton_CreateShift.setOnClickListener(this);
         return view;
     }
 
@@ -83,7 +93,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment {
     }
 
     private void setUpFirebaseAdapter() {
-        Log.v(">>>>", "SfO adapter");
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
                 (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
