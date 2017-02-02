@@ -21,8 +21,6 @@ import com.ibea.fides.ui.MainActivity_Organization;
 import com.ibea.fides.ui.MainActivity_Volunteer;
 import com.ibea.fides.ui.OrganizationSettingsActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
-import com.ibea.fides.ui._FORNOW_HomeActivity;
-import com.ibea.fides.ui.LogInActivity;
 import com.ibea.fides.ui.ShiftsCreateActivity;
 import com.ibea.fides.utils.Universal;
 

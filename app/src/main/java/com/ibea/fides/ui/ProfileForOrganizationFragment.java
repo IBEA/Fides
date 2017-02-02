@@ -45,21 +45,6 @@ public class ProfileForOrganizationFragment extends Fragment {
         View view = inflater.inflate(R.layout.organizationprofilefragment, container, false);
         ButterKnife.bind(this, view);
 
-        /*
-        dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                username.setText( (String) dataSnapshot.child("name").getValue());
-                mBlurb.setText( (String) dataSnapshot.child("description").getValue());
-                organizationContact.setText( (String) dataSnapshot.child("address").getValue());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        }); */
-
         username.setText(mOrganization.getName());
         mBlurb.setText(mOrganization.getDescription());
         organizationContact.setText(mOrganization.getAddress());
@@ -69,9 +54,7 @@ public class ProfileForOrganizationFragment extends Fragment {
 
     public static ProfileForOrganizationFragment newInstance(Organization organization) {
         mOrganization = organization;
-        Log.d(">>>>>", mOrganization.getName());
-        Log.d(">>>>>", "Description " + mOrganization.getDescription());
-        Log.d(">>>>>", "Address " +mOrganization.getAddress());
+
         ProfileForOrganizationFragment fragment = new ProfileForOrganizationFragment();
         return fragment;
     }

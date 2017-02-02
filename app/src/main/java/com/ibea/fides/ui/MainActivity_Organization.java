@@ -39,10 +39,12 @@ public class MainActivity_Organization extends BaseActivity {
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if(intent.getExtras() != null){
+            Log.d(">>>>>", "Found extras");
             mOrganization = Parcels.unwrap(intent.getExtras().getParcelable("organization"));
             populateTabs();
         }else{
-            FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            Log.d(">>>>>", "Did not find extras");
+            FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_ORGANIZATIONS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mOrganization = dataSnapshot.getValue(Organization.class);
@@ -86,7 +88,7 @@ public class MainActivity_Organization extends BaseActivity {
                 fragmentList.add(new ShiftsCompletedForOrganizationFragment());
                 viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 3, tabTitles, fragmentList));
             }else{
-
+                //Usr is organization, but it is not their page
             }
 
         }
