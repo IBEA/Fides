@@ -19,14 +19,14 @@ import java.util.ArrayList;
 
 // This Page Adapter is handling fragment for the profile and shift tab.
 
-public class MainPagerAdapter_User extends FragmentPagerAdapter {
+public class UniversalPagerAdapter extends FragmentPagerAdapter {
 
     int pageCount;
     // Tab Titles
     private ArrayList<String> tabtitles;
     private ArrayList<Fragment> fragmentList;
 
-    public MainPagerAdapter_User(FragmentManager fm, int _pageCount, ArrayList<String> _tabTitles, ArrayList<Fragment> _fragmentList) {
+    public UniversalPagerAdapter(FragmentManager fm, int _pageCount, ArrayList<String> _tabTitles, ArrayList<Fragment> _fragmentList) {
         super(fm);
 
         tabtitles = _tabTitles;

@@ -1,13 +1,10 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.BoolRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 
 import com.ibea.fides.BaseActivity;
@@ -15,7 +12,7 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.MainPagerAdapter_User;
+import com.ibea.fides.adapters.UniversalPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -45,7 +42,7 @@ public class MainActivity_Volunteer extends BaseActivity{
         if(isOrganization){
             tabTitles.add("Profile");
             fragmentList.add(new ProfileForVolunteerFragment());
-            viewPager.setAdapter(new MainPagerAdapter_User(getSupportFragmentManager(), 1, tabTitles, fragmentList));
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
         }else {
             //User is volunteer, and this is their page
 
@@ -57,7 +54,7 @@ public class MainActivity_Volunteer extends BaseActivity{
             fragmentList.add(new ShiftSearchFragment());
             fragmentList.add(new ShiftsPendingForVolunteerFragment());
             fragmentList.add(new ShiftsCompletedForVolunteerFragment());
-            viewPager.setAdapter(new MainPagerAdapter_User(getSupportFragmentManager(), 4, tabTitles, fragmentList));
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 4, tabTitles, fragmentList));
         }
 
 
