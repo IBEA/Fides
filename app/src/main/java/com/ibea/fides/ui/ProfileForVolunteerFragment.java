@@ -55,7 +55,6 @@ public class ProfileForVolunteerFragment extends Fragment {
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForUser = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid());
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
