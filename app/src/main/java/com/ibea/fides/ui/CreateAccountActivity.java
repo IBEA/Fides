@@ -227,8 +227,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Construct new User and Add to Users Table
         User newUser = new User(user.getUid(), mName, mEmail);
-        newUser.setCurrentPoints(0);
-        newUser.setMaxPoints(0);
 
         // Set User Type
         if(mUserType.equals("org")) {

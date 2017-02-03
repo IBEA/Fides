@@ -48,8 +48,8 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     public void bindUser(String userId, String _shiftId, int position, boolean rated) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-        mDislikeButton = (Button) mView.findViewById(R.id.badButton);
-        mLikeButton = (Button) mView.findViewById(R.id.goodButton);
+        mDislikeButton = (Button) mView.findViewById(R.id.dislikeButton);
+        mLikeButton = (Button) mView.findViewById(R.id.likeButton);
 
         mDislikeButton.setOnClickListener(this);
         mLikeButton.setOnClickListener(this);
