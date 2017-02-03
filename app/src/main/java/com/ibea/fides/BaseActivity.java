@@ -103,6 +103,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public void logout() {
         //TODO: Destroy isOrganization in shared preferences
+
+        this.getSharedPreferences("isOrganization", 0).edit().clear().commit();
+
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(BaseActivity.this, LogInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -135,9 +138,11 @@ public class BaseActivity extends AppCompatActivity {
         }
         else if (id == R.id.user_page) {
             if(mIsOrganization) {
+                Log.d(">>>>>", "Moving to org");
                 Intent intent = new Intent(mContext, MainActivity_Organization.class);
                 startActivity(intent);
             } else {
+                Log.d(">>>>>", "Moving to vol");
                 Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
                 startActivity(intent);
             }

@@ -38,10 +38,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.logInButton) Button mLogInButton;
     @Bind(R.id.newAccountText) TextView mNewAccountButton;
 
-    // Firebase
-    private FirebaseAuth mAuth;
-    private AuthStateListener mAuthListener;
-
     public SharedPreferences mSharedPreferences;
     public boolean mPastOrganization;
 
@@ -59,29 +55,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPastOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 
-
-        // Determine if user is already signed in. If so, direct to home page
-        mAuth = getInstance();
-        mAuthListener = new AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
-                    if(mPastOrganization){
-                        Intent intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    } else{
-                        Intent intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        };
-
         // Set Click Listeners
         mNewAccountButton.setOnClickListener(this);
         mLogInButton.setOnClickListener(this);
@@ -92,21 +65,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
     //!! Plan to move this to BaseActivity to prevent fringe cases !!
 
-    // Add AuthStateListener on Start
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    // Remove AuthStateListener on Activity Stop
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
 
     @Override
     public void onClick(View view) {

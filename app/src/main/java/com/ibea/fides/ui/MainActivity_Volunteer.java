@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 
 import com.ibea.fides.BaseActivity;
@@ -22,6 +23,8 @@ public class MainActivity_Volunteer extends BaseActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("MV", "Created");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
