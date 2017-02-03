@@ -47,8 +47,8 @@ public class MainActivity_Volunteer extends BaseActivity{
             //User is volunteer, and this is their page
 
             tabTitles.add("Profile");
+            tabTitles.add("Search");
             tabTitles.add("My Shifts");
-            tabTitles.add("Upcoming");
             tabTitles.add("History");
             fragmentList.add(new ProfileForVolunteerFragment());
             fragmentList.add(new ShiftSearchFragment());
