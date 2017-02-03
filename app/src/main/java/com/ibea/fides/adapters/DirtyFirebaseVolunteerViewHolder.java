@@ -3,6 +3,7 @@ package com.ibea.fides.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,18 +29,12 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     View mView;
     Context mContext;
     User mUser;
-    Button mBadButton;
-    Button mPoorButton;
-    Button mGoodButton;
-    Button mGreatButton;
+    Button mDislikeButton;
+    Button mLikeButton;
 
     // Rating System
-    int bad = -5;
-    int poor = -2;
-    int good = 2;
-    int great = 3;
-    int base = 2;
-
+    final int DISLIKE = 0;
+    final int LIKE = 3;
 
     String shiftId;
     String indexKey;
@@ -54,21 +49,16 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     public void bindUser(String userId, String _shiftId, int position, boolean rated) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-        mBadButton = (Button) mView.findViewById(R.id.badButton);
-        mPoorButton = (Button) mView.findViewById(R.id.poorButton);
-        mGoodButton = (Button) mView.findViewById(R.id.goodButton);
-        mGreatButton = (Button) mView.findViewById(R.id.greatButton);
-        mBadButton.setOnClickListener(this);
-        mPoorButton.setOnClickListener(this);
-        mGoodButton.setOnClickListener(this);
-        mGreatButton.setOnClickListener(this);
+        mDislikeButton = (Button) mView.findViewById(R.id.dislikeButton);
+        mLikeButton = (Button) mView.findViewById(R.id.likeButton);
+
+        mDislikeButton.setOnClickListener(this);
+        mLikeButton.setOnClickListener(this);
 
 
         if(rated) {
-            mBadButton.setVisibility(View.GONE);
-            mPoorButton.setVisibility(View.GONE);
-            mGoodButton.setVisibility(View.GONE);
-            mGreatButton.setVisibility(View.GONE);
+            mLikeButton.setVisibility(View.GONE);
+            mDislikeButton.setVisibility(View.GONE);
         }
 
         shiftId = _shiftId;
@@ -93,37 +83,48 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
     @Override
     public void onClick(View view) {
-        if(view == mBadButton) {
-            rate(bad);
-        } else if(view == mPoorButton) {
-            rate(poor);
-        } else if(view == mGoodButton) {
-            rate(good);
-        } else if(view == mGreatButton) {
-            rate(great);
+        if(view == mDislikeButton) {
+            rate(DISLIKE);
+        } else if(view == mLikeButton) {
+            rate(LIKE);
         }
     }
 
     public void rate(int rating) {
-        mBadButton.setVisibility(View.GONE);
-        mPoorButton.setVisibility(View.GONE);
-        mGoodButton.setVisibility(View.GONE);
-        mGreatButton.setVisibility(View.GONE);
-
-        int currentPoints = mUser.getCurrentPoints();
-        int maxPoints = mUser.getMaxPoints();
-
-        currentPoints += rating;
-        maxPoints += base;
+        mDislikeButton.setVisibility(View.GONE);
+        mLikeButton.setVisibility(View.GONE);
 
 
-        // Ensures that ranking doesn't drop below 0
-        if(currentPoints < 0) {
-            currentPoints = 0;
+        List<Integer> ratingHistory = mUser.getRatingHistory();
+        ratingHistory.add(rating);
+        float size = ratingHistory.size();
+        float modifiedRating = 0;
+        float modifiedMax = 0;
+        float index = 1;
+        float modifier = 0;
+
+        for(Integer rate : ratingHistory) {
+            Log.d("Justin Index: ", index + "");
+            Log.d("Justin Rate on Index: ", rate + "");
+            Log.d("Justin modifiedrating: ", modifiedRating + "");
+            Log.d("Justin modifiedMax: ", modifiedMax + "");
+            Log.d("Justin Size: ", size + "");
+            modifier = index/size;
+            modifiedRating += (modifier * rate);
+            modifiedMax += (modifier * LIKE);
+            ++index;
+            Log.d("Justin modifier: ", modifier + "");
         }
 
-        mUser.setCurrentPoints(currentPoints);
-        mUser.setMaxPoints(maxPoints);
+        Log.d("Justin FIndex: ", index + "");
+        Log.d("Justi Fmodifiedrating: ", modifiedRating + "");
+        Log.d("Justin FmodifiedMax: ", modifiedMax + "");
+        float finalFloatRating = (modifiedRating/modifiedMax) * 100 ;
+        Log.d("Justin finalRating: ", finalFloatRating + "");
+        int finalRating = Math.round(finalFloatRating);
+        mUser.setRating(finalRating);
+        mUser.setRatingHistory(ratingHistory);
+
 
         dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
 
