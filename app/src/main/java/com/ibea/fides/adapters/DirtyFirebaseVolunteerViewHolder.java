@@ -3,6 +3,7 @@ package com.ibea.fides.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -95,22 +96,32 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
 
 
         List<Integer> ratingHistory = mUser.getRatingHistory();
-        int size = ratingHistory.size();
         ratingHistory.add(rating);
-        int modifiedRating = 0;
-        int modifiedMax = 0;
-        int index = 1;
-        int modifier = 0;
+        float size = ratingHistory.size();
+        float modifiedRating = 0;
+        float modifiedMax = 0;
+        float index = 1;
+        float modifier = 0;
 
         for(Integer rate : ratingHistory) {
+            Log.d("Justin Index: ", index + "");
+            Log.d("Justin Rate on Index: ", rate + "");
+            Log.d("Justin modifiedrating: ", modifiedRating + "");
+            Log.d("Justin modifiedMax: ", modifiedMax + "");
+            Log.d("Justin Size: ", size + "");
             modifier = index/size;
             modifiedRating += (modifier * rate);
             modifiedMax += (modifier * LIKE);
             ++index;
+            Log.d("Justin modifier: ", modifier + "");
         }
 
-        int finalRating = (modifiedRating/modifiedMax) * 100 ;
-
+        Log.d("Justin FIndex: ", index + "");
+        Log.d("Justi Fmodifiedrating: ", modifiedRating + "");
+        Log.d("Justin FmodifiedMax: ", modifiedMax + "");
+        float finalFloatRating = (modifiedRating/modifiedMax) * 100 ;
+        Log.d("Justin finalRating: ", finalFloatRating + "");
+        int finalRating = Math.round(finalFloatRating);
         mUser.setRating(finalRating);
         mUser.setRatingHistory(ratingHistory);
 
