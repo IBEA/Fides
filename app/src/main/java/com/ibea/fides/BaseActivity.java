@@ -74,21 +74,23 @@ public class BaseActivity extends AppCompatActivity {
         dbShiftsPending = db.child(Constants.DB_NODE_SHIFTSPENDING);
 
         // Set auth references
-        // There are currently NO PROTECTIONS in place for users not being logged in and on a page other than the login screen.
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
-
-        // Check to see if a user is logged in, and set dbReference.
+        //TODO: Add protections for deleted users and associated redirects. TEST THOROUGHLY
         if(mCurrentUser != null){
             uId = mAuth.getCurrentUser().getUid();
             dbCurrentUser = dbUsers.child(uId);
+            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
         }else{
+            this.getSharedPreferences("isOrganization", 0).edit().clear().apply();
             Log.v(TAG, "No user logged in");
         }
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
     }
 
     // On Start Override
