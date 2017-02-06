@@ -213,7 +213,7 @@ public class ShiftSearchFragment extends Fragment {
         }
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, FirebaseShiftViewHolder.class, dbNode) {
+                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbNode) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {

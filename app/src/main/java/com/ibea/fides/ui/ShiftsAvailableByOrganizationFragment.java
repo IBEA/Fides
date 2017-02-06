@@ -104,7 +104,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         Log.d(">SABO ORG ID>", organizationID);
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, FirebaseShiftViewHolder.class, dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID)) {
+                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID)) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
