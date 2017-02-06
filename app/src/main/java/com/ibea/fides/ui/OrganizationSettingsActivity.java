@@ -116,6 +116,11 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         //This data needs to be placed into the database by backend -- Garrett
         Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
+        dbOrganizations.child(uId).child("streetAddress").setValue(street);
+        dbOrganizations.child(uId).child("cityAddress").setValue(city);
+        dbOrganizations.child(uId).child("stateAddress").setValue(state);
+        dbOrganizations.child(uId).child("zipcode").setValue(zip);
+
     }
 
     private void createNewUsername() {
