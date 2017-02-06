@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
     @Bind(R.id.editText_Address) EditText mEditText_Address;
+    @Bind(R.id.editText_City) EditText mEditText_City;
+    @Bind(R.id.editText_State) EditText mEditText_State;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
     @Bind(R.id.startTimeButton) Button startTimeButton;
     @Bind(R.id.textView_dateTextView) TextView mTextView_Date;
@@ -57,11 +60,15 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
+    Organization thisOrg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shifts_create);
         ButterKnife.bind(this);
+
+        autoFill();
 
         mButton_LetsGo.setOnClickListener(this);
         startTimeButton.setOnClickListener(this);
@@ -100,9 +107,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String description = mEditText_Descritpion.getText().toString();
         String shortDescription = mEditText_ShortDescritpion.getText().toString();
         String address = mEditText_Address.getText().toString();
-        int zip = Integer.parseInt(mEditText_Zip.getText().toString());
+        String city = mEditText_City.getText().toString();
+        String state = mEditText_State.getText().toString();
+        String zip = mEditText_Zip.getText().toString();
 
-        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, zip, _organizationName);
+        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, state, zip, _organizationName);
     }
 
     public void pushData(Shift _shift){
@@ -117,6 +126,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsAvailable fields
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(shiftId);
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATE).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
 
         // Add shift to shiftsPending for organization
@@ -130,9 +140,38 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mEditText_Address.getText().clear();
         mEditText_Descritpion.getText().clear();
         mEditText_ShortDescritpion.getText().clear();
-        mEditText_Zip.getText().clear();
     }
 
+    public void autoFill() {
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
+                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            thisOrg = dataSnapshot.getValue(Organization.class);
+                            mEditText_Address.setText(thisOrg.getStreetAddress());
+                            mEditText_City.setText(thisOrg.getCityAddress());
+                            mEditText_State.setText(thisOrg.getStateAddress());
+                            mEditText_Zip.setText(thisOrg.getZipcode());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     @Override
     public void onClick(View v){
 

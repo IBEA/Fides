@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.ShiftsCreateActivity">
 
+    <Button
+        android:text="Post Shift"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button_LetsGo"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryLight"
+        android:textSize="24sp"
+        android:height="64dp"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -225,7 +236,7 @@
                 android:inputType="textPostalAddress"
                 android:ems="10"
                 android:id="@+id/editText_Address"
-                android:hint="full street address"
+                android:hint="street address"
                 android:gravity="center_vertical|end"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
@@ -237,6 +248,59 @@
                 android:id="@+id/textView_address"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Address:"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/editText_City"
+                android:hint="City Address"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_City"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="City:"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/editText_State"
+                android:hint="State"
+                android:gravity="center_vertical|end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_state"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="State:"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -270,17 +334,6 @@
         </RelativeLayout>
 
     </LinearLayout>
-
-    <Button
-        android:text="Post Shift"
-        android:layout_width="match_parent"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button_LetsGo"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryLight"
-        android:textSize="24sp"
-        android:height="64dp"
-        android:layout_height="wrap_content" />
 
 </RelativeLayout>
 

@@ -24,6 +24,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,12 +32,15 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener {
+public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener, AdapterUpdateInterface {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
+
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private AdapterUpdateInterface mThis;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForOrganizations = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mCurrentUser.getUid());
@@ -59,6 +63,8 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shifts_pending_for_organizations, container, false);
         ButterKnife.bind(this, view);
+
+        mThis = this;
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
@@ -86,8 +92,13 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
         return new ShiftsPendingForOrganizationFragment();
     }
 
+    @Override
+    public void updateAdapter(){
+        mFirebaseAdapter.notifyDataSetChanged();
+    }
+
     private void setUpFirebaseAdapter() {
-        FirebaseRecyclerAdapter mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
                 (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
@@ -96,7 +107,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForOrg");
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForOrg", mThis);
                     }
 
                     @Override

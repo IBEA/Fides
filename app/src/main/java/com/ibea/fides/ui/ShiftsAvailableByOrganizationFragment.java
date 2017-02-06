@@ -23,6 +23,7 @@ import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsAvailableByOrganizationFragment extends Fragment {
+public class ShiftsAvailableByOrganizationFragment extends Fragment implements AdapterUpdateInterface{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     static Organization mOrganization;
@@ -40,7 +41,9 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
 
     private Boolean lock = true;
     private String mCurrentUserId;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private ShiftsAvailableByOrganizationFragment mThis;
 
     public ShiftsAvailableByOrganizationFragment() {
         // Required empty public constructor
@@ -51,6 +54,10 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         return new ShiftsAvailableByOrganizationFragment();
     }
 
+    @Override
+    public void updateAdapter(){
+        mFirebaseAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +65,8 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shifts_available_by_organization, container, false);
         ButterKnife.bind(this, view);
         String organizationId = mOrganization.getPushId();
+
+        mThis = this;
 
         if(mAuth.getCurrentUser() != null){
             mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -115,7 +124,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, false, "ShiftsByOrganization");
+                        viewHolder.bindShift(shift, false, "ShiftsByOrganization", mThis);
 
                         if(shift.getCurrentVolunteers().contains(mCurrentUserId)){
                             viewHolder.hideView();

@@ -14,22 +14,23 @@ import java.util.List;
 @Parcel
 public class Shift {
     String pushId;
-    String address;
+    String streetAddress;
+    String city;
+    String state;
     String from;
     String until;
     String organizationID;
     String description;
     String shortDescription;
     String organizationName;
-    //TODO: Make string
-    int zip;
+    String zip;
     String date;
     int maxVolunteers;
     List<String> currentVolunteers = new ArrayList<String>();
     List<String> ratedVolunteers = new ArrayList<>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, int _zip, String _organizationName){
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
         from = _from;
         until = _until;
         organizationID = _OID;
@@ -37,7 +38,9 @@ public class Shift {
         shortDescription = _shortDescription;
         date = _date;
         maxVolunteers = _maxVolunteers;
-        address = _address;
+        streetAddress = _address;
+        city = _city;
+        state = _state;
         zip = _zip;
         organizationName = _organizationName;
     }
@@ -45,20 +48,36 @@ public class Shift {
     // Getters and Setters
     public String getPushId() { return pushId; }
     public void setPushId(String pushId) { this.pushId = pushId; }
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreetAddress(String address) {
+        this.streetAddress = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getShortDescription() {
