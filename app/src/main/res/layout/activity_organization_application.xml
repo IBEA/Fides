@@ -13,28 +13,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:id="@+id/addressInput"
-        android:hint="Address of Organization"
-        android:layout_below="@+id/organizationInput"
-        android:layout_alignLeft="@+id/organizationInput"
-        android:layout_alignStart="@+id/organizationInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/addressInput"
-        android:layout_alignRight="@+id/addressInput"
-        android:layout_alignEnd="@+id/addressInput"
-        android:id="@+id/zipcodeInput"
-        android:hint="Zipcode" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/einInput"
         android:inputType="text"
@@ -54,17 +32,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:id="@+id/organizationInput"
-        android:hint="Organization Name"
-        android:layout_below="@+id/nameInput"
-        android:layout_alignRight="@+id/nameInput"
-        android:layout_alignEnd="@+id/nameInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/nameInput"
@@ -72,8 +39,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/submitButton"
-        android:layout_alignEnd="@+id/submitButton" />
+        android:layout_toLeftOf="@+id/submitButton"
+        android:layout_toStartOf="@+id/submitButton" />
 
     <EditText
         android:layout_width="300dp"
@@ -121,6 +88,64 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/submitButton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/organizationInput"
+        android:hint="Organization Name"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nameInput"
+        android:layout_toEndOf="@+id/nameInput" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/addressInput"
+        android:hint="Street Address of Organization"
+        android:layout_below="@+id/nameInput"
+        android:layout_alignRight="@+id/submitButton"
+        android:layout_alignEnd="@+id/submitButton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/zipcodeInput"
+        android:hint="Zipcode"
+        android:layout_marginTop="66dp"
+        android:layout_below="@+id/addressInput"
+        android:layout_alignLeft="@+id/addressInput"
+        android:layout_alignStart="@+id/addressInput" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/addressInput"
+        android:layout_alignLeft="@+id/addressInput"
+        android:layout_alignStart="@+id/addressInput"
+        android:id="@+id/cityInput"
+        android:inputType="text"
+        android:hint="City of Org" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:layout_alignBottom="@+id/cityInput"
+        android:layout_toRightOf="@+id/nameInput"
+        android:layout_toEndOf="@+id/nameInput"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp"
+        android:id="@+id/stateInput"
+        android:hint="State" />
 
 
 </RelativeLayout>

@@ -24,6 +24,8 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
     @Bind(R.id.addressInput) EditText mAddressInput;
+    @Bind(R.id.cityInput) EditText mCityInput;
+    @Bind(R.id.stateInput) EditText mStateInput;
     @Bind(R.id.zipcodeInput) EditText mZipInput;
     @Bind(R.id.einInput) EditText mEinInput;
     @Bind(R.id.descriptionInput) EditText mDescriptionInput;
@@ -41,6 +43,8 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     String ein;
     String userName;
     String address;
+    String city;
+    String state;
     String zip;
     String description;
 
@@ -87,6 +91,8 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         ein = mEinInput.getText().toString().trim();
         userName = mNameInput.getText().toString().trim();
         address = mAddressInput.getText().toString().trim();
+        city = mCityInput.getText().toString().trim();
+        state = mStateInput.getText().toString().trim();
         zip = mZipInput.getText().toString().trim();
         description = mDescriptionInput.getText().toString().trim();
         String password = mPasswordInput.getText().toString().trim();
@@ -180,7 +186,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Add Display Name to User Authentication in Firebase
-        Organization newOrg = new Organization(user.getUid(), mName, ein, userName, address, zip, description);
+        Organization newOrg = new Organization(user.getUid(), mName, ein, userName, address, city, state, zip, description);
         newOrg.setContactEmail(mEmail);
         dbPendingOrganizations.child(user.getUid()).setValue(newOrg);
 

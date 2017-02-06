@@ -15,7 +15,10 @@ public class Organization {
     String name;
     String ein;
     String contactName;
-    String address;
+//    String address;
+    String streetAddress;
+    String cityAddress;
+    String stateAddress;
     String contactEmail;
     String zipcode;
     String description;
@@ -27,12 +30,15 @@ public class Organization {
     public Organization() {}
 
     // Basic Constructor
-    public Organization(String pushId, String orgName, String ein, String contactName, String address, String zip, String description) {
+    public Organization(String pushId, String orgName, String ein, String contactName, String streetAddress, String cityAddress, String stateAddress, String zip, String description) {
         this.pushId = pushId;
         this.name = orgName;
         this.ein = ein;
         this.contactName = contactName;
-        this.address = address;
+//        this.address = address;
+        this.streetAddress = streetAddress;
+        this.cityAddress = cityAddress;
+        this.stateAddress = stateAddress;
         this.zipcode = zip;
         this.description = description;
     }
@@ -54,12 +60,37 @@ public class Organization {
     public void setEin(String ein) { this.ein = ein; }
     public String getContactName() { return contactName; }
     public void setContactName(String contactName) { this.contactName = contactName; }
-    public String getAddress() {
-        return address;
+//    public String getAddress() {
+//        return address;
+//    }
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+
+    public String getStreetAddress() {
+        return streetAddress;
     }
-    public void setAddress(String address) {
-        this.address = address;
+
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
+
+    public String getCityAddress() {
+        return cityAddress;
+    }
+
+    public void setCityAddress(String cityAddress) {
+        this.cityAddress = cityAddress;
+    }
+
+    public String getStateAddress() {
+        return stateAddress;
+    }
+
+    public void setStateAddress(String stateAddress) {
+        this.stateAddress = stateAddress;
+    }
+
     public String getZipcode() {
         return zipcode;
     }

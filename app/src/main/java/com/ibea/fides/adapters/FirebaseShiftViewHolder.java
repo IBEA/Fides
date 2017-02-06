@@ -22,6 +22,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.ShiftDetailsActivity;
+import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import org.parceler.Parcels;
 
@@ -34,16 +35,18 @@ import java.util.List;
 
 public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    View mView;
-    Context mContext;
-    Shift mShift;
-    Button mVolunteerButton;
-    Button mCompleteButton;
-    Boolean isOrganization;
-    String mOrigin;
+    private View mView;
+    private Context mContext;
+    private Shift mShift;
+    private Button mVolunteerButton;
+    private Button mCompleteButton;
+    private Boolean isOrganization;
+    private String mOrigin;
 
-    LinearLayout mItemLayout;
-    ViewGroup.LayoutParams mItemLayoutParams;
+    private LinearLayout mItemLayout;
+    private ViewGroup.LayoutParams mItemLayoutParams;
+
+    private AdapterUpdateInterface mInterface;
 
 
     public FirebaseShiftViewHolder(View itemView) {
@@ -53,13 +56,13 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin) {
+    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin, AdapterUpdateInterface _interface) {
         isOrganization = _isOrganization;
         mOrigin = _origin;
+        mInterface = _interface;
 
-        Log.d(mOrigin, "bindShift");
+        Log.d(mOrigin, " in bindShift");
 
-        //!! Change volunteer button to cancel button if organization !!
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
 
@@ -80,12 +83,14 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if(mShift != null) {
+            //Change button to delete if user is an organization
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
                 mVolunteerButton.setText("Delete");
                 mCompleteButton.setVisibility(View.VISIBLE);
             } else {
+                //If user is not an organization, change button based on whether or not user has already signed up for shift
                 Log.d(mOrigin, mShift.getShortDescription());
-                if (shift.getCurrentVolunteers().indexOf(userID) != -1) {
+                if (shift.getCurrentVolunteers().contains(userID)) {
                     mVolunteerButton.setText("Cancel");
                 } else {
                     mVolunteerButton.setText("Volunteer");
@@ -94,7 +99,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             }
 
             shortDescriptionTextView.setText(shift.getShortDescription());
-            addressCodeTextView.setText(Integer.toString(shift.getZip()));
+            addressCodeTextView.setText(shift.getZip());
             timeTextView.setText(shift.getFrom() + "-" + shift.getUntil());
             dateTextView.setText(shift.getDate());
             organizationTextView.setText(shift.getOrganizationName());
@@ -107,12 +112,23 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         String function = mVolunteerButton.getText().toString();
 
         if(view == mVolunteerButton) {
-            if(function.equals("Volunteer")){
-                claimShift();
-            }else if(function.equals("Cancel")){
-                quitShift();
-            }else if(function.equals("Delete")){
-                deleteShift(true);
+            switch (function) {
+                case "Volunteer":
+                    Log.d(mOrigin, "Volunteer clicked");
+                    claimShift();
+                    hideView();
+//                    mInterface.updateAdapter();
+                    break;
+                case "Cancel":
+                    Log.d(mOrigin, "Cancel clicked");
+                    quitShift();
+//                    mInterface.updateAdapter();
+                    break;
+                case "Delete":
+                    Log.d(mOrigin, "Delete clicked");
+                    deleteShift(true);
+//                    mInterface.updateAdapter();
+                    break;
             }
         }else if(view == mCompleteButton) {
             completeShift();
