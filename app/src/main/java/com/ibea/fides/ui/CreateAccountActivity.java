@@ -202,8 +202,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             mEmailInput.setError("Please enter a valid email address");
             return false;
         }
-        //TODO: Always returns true. Is this necessary? Are we validating through the input field?
-        return isGoodEmail;
+        return true;
     }
 
     private boolean isValidPassword(String password, String confirmPassword) {
