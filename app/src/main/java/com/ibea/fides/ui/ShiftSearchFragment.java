@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterface{
+public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterface, View.OnClickListener{
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
 
@@ -57,6 +58,9 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
 
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.searchView_Zipcode) SearchView mSearchView_Zipcode;
+    @Bind(R.id.radioButton_Cause) RadioButton mRadioButton_Cause;
+    @Bind(R.id.radioButton_Organization) RadioButton mRadioButton_Organization;
+    @Bind(R.id.radioButton_Location) RadioButton mRadioButton_Location;
 
     public ShiftSearchFragment() {
         // Required empty public constructor
@@ -189,6 +193,10 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
             });
         }
 
+        mRadioButton_Cause.setOnClickListener(this);
+        mRadioButton_Organization.setOnClickListener(this);
+        mRadioButton_Location.setOnClickListener(this);
+
         return view;
     }
 
@@ -204,6 +212,11 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     @Override
     public void updateAdapter(){
         mFirebaseAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View view){
+
     }
 
     // newInstance constructor for creating fragment with arguments
