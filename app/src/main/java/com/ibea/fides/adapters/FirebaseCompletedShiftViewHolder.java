@@ -30,10 +30,9 @@ import java.util.List;
  */
 
 public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    View mView;
-    Context mContext;
-    Shift mShift;
-    Boolean isOrganization;
+    private View mView;
+    private Context mContext;
+    private Shift mShift;
 
     public FirebaseCompletedShiftViewHolder(View itemView) {
         super(itemView);
@@ -43,7 +42,6 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
     }
 
     public void bindShift(String shiftId, Boolean _isOrganization) {
-        isOrganization = _isOrganization;
 
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_Name);
         final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
@@ -59,8 +57,7 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Shift shift = dataSnapshot.getValue(Shift.class);
-                mShift = shift;
+                mShift = dataSnapshot.getValue(Shift.class);
 
                 if(mShift != null){
                     organizationTextView.setText(mShift.getOrganizationName());
