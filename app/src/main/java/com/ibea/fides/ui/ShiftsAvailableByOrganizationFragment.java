@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +40,8 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
+    private Boolean lock = true;
+
     public ShiftsAvailableByOrganizationFragment() {
         // Required empty public constructor
     }
@@ -55,6 +58,42 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shifts_available_by_organization, container, false);
         ButterKnife.bind(this, view);
+        String organizationId = mOrganization.getPushId();
+
+        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if(!lock){
+                    Log.d(">>>>>", "OnChildAdded");
+                    mFirebaseAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                if(!lock){
+                    Log.d(">>>>>", "OnChildRemoved");
+                    mFirebaseAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lock = false;
 
         setUpFirebaseAdapter();
         return view;
