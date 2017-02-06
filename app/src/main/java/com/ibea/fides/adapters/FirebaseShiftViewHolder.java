@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +25,6 @@ import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,7 +72,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
         final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
 
-        mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
+        mVolunteerButton = (Button) mView.findViewById(R.id.button_Variable);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
         mCompleteButton.setOnClickListener(this);
@@ -86,18 +84,18 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         if(mShift != null) {
             //Change button to delete if user is an organization
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
-//                mVolunteerButton.setText("Delete");
                 mButtonState = "Delete";
+                mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
                 mCompleteButton.setVisibility(View.VISIBLE);
             } else {
                 //If user is not an organization, change button based on whether or not user has already signed up for shift
                 Log.d(mOrigin, mShift.getShortDescription());
                 if (shift.getCurrentVolunteers().contains(userID)) {
-//                    mVolunteerButton.setText("Cancel");
                     mButtonState = "Cancel";
+                    mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
                 } else {
-//                    mVolunteerButton.setText("Volunteer");
                     mButtonState = "Volunteer";
+                    mVolunteerButton.setBackgroundResource(R.drawable.ic_add_black_24dp);
                 }
             }
 
