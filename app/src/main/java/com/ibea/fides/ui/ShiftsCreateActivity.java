@@ -117,6 +117,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsAvailable fields
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(shiftId);
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATE).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
 
         // Add shift to shiftsPending for organization
@@ -129,7 +130,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mEditText_Date.getText().clear();
         mEditText_Descritpion.getText().clear();
         mEditText_ShortDescritpion.getText().clear();
-        mEditText_Zip.getText().clear();
     }
 
     public void autoFill() {
@@ -144,6 +144,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                             mEditText_Address.setText(thisOrg.getStreetAddress());
                             mEditText_City.setText(thisOrg.getCityAddress());
                             mEditText_State.setText(thisOrg.getStateAddress());
+                            mEditText_Zip.setText(thisOrg.getZipcode());
                         }
 
                         @Override
