@@ -22,7 +22,6 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder impl
     private View mView;
     private Organization mOrganization;
 
-
     public FirebaseOrganizationViewHolder(View itemView) {
         super(itemView);
         mView = itemView;

@@ -26,25 +26,22 @@ import java.util.List;
  */
 
 public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    View mView;
-    Context mContext;
-    User mUser;
-    Button mDislikeButton;
-    Button mLikeButton;
+    private View mView;
+    private User mUser;
+    private Button mDislikeButton;
+    private Button mLikeButton;
 
     // Rating System
-    final int DISLIKE = 0;
-    final int LIKE = 3;
+    final private int DISLIKE = 0;
+    final private int LIKE = 3;
 
-    String shiftId;
-    String indexKey;
-    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    private  String shiftId;
+    private String indexKey;
+    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public FirebaseVolunteerViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-        mContext = itemView.getContext();
-
     }
 
     public void bindUser(String userId, String _shiftId, int position, boolean rated) {
@@ -69,8 +66,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                mUser = user;
+                mUser = dataSnapshot.getValue(User.class);
                 userName.setText(mUser.getName());
             }
 
@@ -90,7 +86,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         }
     }
 
-    public void rate(int rating) {
+    private void rate(int rating) {
         mDislikeButton.setVisibility(View.GONE);
         mLikeButton.setVisibility(View.GONE);
 

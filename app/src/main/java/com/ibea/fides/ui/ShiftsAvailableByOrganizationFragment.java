@@ -39,6 +39,8 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     private Boolean lock = true;
+    private String mCurrentUserId;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public ShiftsAvailableByOrganizationFragment() {
         // Required empty public constructor
@@ -46,8 +48,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
 
     public static ShiftsAvailableByOrganizationFragment newInstance(Organization organization) {
         mOrganization = organization;
-        ShiftsAvailableByOrganizationFragment fragment = new ShiftsAvailableByOrganizationFragment();
-        return fragment;
+        return new ShiftsAvailableByOrganizationFragment();
     }
 
 
@@ -58,46 +59,47 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         ButterKnife.bind(this, view);
         String organizationId = mOrganization.getPushId();
 
-        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(!lock){
-                    Log.d(">>>>>", "OnChildAdded");
-                    mFirebaseAdapter.notifyDataSetChanged();
+        if(mAuth.getCurrentUser() != null){
+            mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUserId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if(!lock){
+                        Log.d(">>>>>", "OnChildAdded");
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(!lock){
-                    Log.d(">>>>>", "OnChildRemoved");
-                    mFirebaseAdapter.notifyDataSetChanged();
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 }
-            }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    if(!lock){
+                        Log.d(">>>>>", "OnChildRemoved");
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
+                }
 
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
 
-            }
-        });
-        lock = false;
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-        setUpFirebaseAdapter();
+                }
+            });
+            lock = false;
+
+            setUpFirebaseAdapter();
+        }
+
         return view;
     }
     private void setUpFirebaseAdapter() {
-        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String organizationID = mOrganization.getPushId();
 
         Log.d(">>>>>", "In SABO setup");
@@ -115,7 +117,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                         Shift shift = dataSnapshot.getValue(Shift.class);
                         viewHolder.bindShift(shift, false, "ShiftsByOrganization");
 
-                        if(shift.getCurrentVolunteers().contains(currentUserId)){
+                        if(shift.getCurrentVolunteers().contains(mCurrentUserId)){
                             viewHolder.hideView();
                         }else{
                             viewHolder.showView();

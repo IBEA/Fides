@@ -21,6 +21,7 @@ public class Shift {
     String description;
     String shortDescription;
     String organizationName;
+    //TODO: Make string
     int zip;
     String date;
     int maxVolunteers;
