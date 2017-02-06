@@ -112,6 +112,16 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         // Add shift to shiftsPending for organization
         dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
+
+        //clear fields
+        mEditText_MaxVolunteers.getText().clear();
+        mEditText_From.getText().clear();
+        mEditText_Until.getText().clear();
+        mEditText_Address.getText().clear();
+        mEditText_Date.getText().clear();
+        mEditText_Descritpion.getText().clear();
+        mEditText_ShortDescritpion.getText().clear();
+        mEditText_Zip.getText().clear();
     }
 
     @Override

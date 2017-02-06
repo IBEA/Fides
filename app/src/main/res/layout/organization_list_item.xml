@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryLight"
+    android:padding="6dp"
+    android:layout_marginBottom="12dp">
 
-    <TextView
-        android:text="Name of Organization"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light"
+        android:id="@+id/imageView_orgThumbnail"
+        android:layout_alignTop="@+id/relativeLayout"
+        android:layout_alignBottom="@+id/relativeLayout"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nameText" />
-</LinearLayout>
+        android:layout_toRightOf="@+id/imageView_orgThumbnail"
+        android:paddingLeft="6dp"
+        android:id="@+id/relativeLayout">
+        <TextView
+            android:text="Name of Organization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameText"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true" />
+        <TextView
+            android:text="Zipcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/zipcodeText"
+            android:textSize="16sp"
+            android:layout_below="@+id/nameText"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

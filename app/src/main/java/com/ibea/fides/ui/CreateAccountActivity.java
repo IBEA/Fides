@@ -111,7 +111,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
     // Create New Volunteer Account
     private void createUser() {
-        String name = mNameInput.getText().toString().trim();
+        final String name = mNameInput.getText().toString().trim();
         String email = mEmailInput.getText().toString().trim();
         String password = mPasswordInput.getText().toString().trim();
         String passwordConfirm = mPasswordConfirmInput.getText().toString().trim();
@@ -162,6 +162,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     }
                     else {
                         intent = new Intent(CreateAccountActivity.this, MainActivity_Volunteer.class);
+                        intent.putExtra("username", name);
                     }
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -227,8 +228,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Construct new User and Add to Users Table
         User newUser = new User(user.getUid(), mName, mEmail);
-        newUser.setCurrentPoints(0);
-        newUser.setMaxPoints(0);
 
         // Set User Type
         if(mUserType.equals("org")) {

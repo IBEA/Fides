@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_admin"
+        android:title="Admin"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/user_page"
+        android:title="Profile Page"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/settings_page"
+        android:title="Settings"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout"
+        android:visible="true"
+        app:showAsAction="never" />
+
+</menu>

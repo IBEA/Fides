@@ -15,42 +15,21 @@
         android:textAlignment="center" />
 
     <Button
-        android:text="Bad"
+        android:text="Dislike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView_Name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/badButton" />
+        android:id="@+id/dislikeButton" />
 
     <Button
-        android:text="Poor"
+        android:text="Like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView_Name"
-        android:layout_toRightOf="@+id/badButton"
-        android:layout_toEndOf="@+id/badButton"
-        android:id="@+id/poorButton" />
-
-    <Button
-        android:text="Good"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_Name"
-        android:layout_toRightOf="@+id/poorButton"
-        android:layout_toEndOf="@+id/poorButton"
-        android:id="@+id/goodButton" />
-
-    <Button
-        android:text="Great"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_Name"
-        android:layout_toRightOf="@+id/goodButton"
-        android:layout_toEndOf="@+id/goodButton"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:id="@+id/greatButton" />
-
+        android:layout_toRightOf="@+id/dislikeButton"
+        android:layout_toEndOf="@+id/dislikeButton"
+        android:id="@+id/likeButton" />
 
 </RelativeLayout>
