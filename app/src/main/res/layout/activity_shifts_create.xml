@@ -19,7 +19,8 @@
         android:paddingTop="12dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,32 +35,29 @@
                 android:layout_alignParentStart="false"
                 android:layout_centerVertical="true" />
 
-            <Switch
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch_From"
-                android:textOn="PM"
-                android:textOff="AM"
-                android:checked="false"
-                android:splitTrack="false"
-                android:showText="true"
-                android:layout_alignParentTop="true"
+                android:id="@+id/textView_startTimetext"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0:00"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/textView_startTimeLabel"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="false"
+                android:layout_centerVertical="true" />
+
+            <Button
+                android:text="Start Time"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:thumbTint="@color/colorSecondaryText"
-                android:trackTint="@color/colorIcons"/>
+                android:layout_marginRight="67dp"
+                android:layout_marginEnd="67dp"
+                android:id="@+id/startTimeButton" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="8"
-                android:id="@+id/editText_From"
-                android:hint="From (h:mm)"
-                android:inputType="time"
-                android:gravity="center_vertical|end"
-                android:layout_alignBaseline="@+id/switch_From"
-                android:layout_alignBottom="@+id/switch_From"
-                android:layout_toLeftOf="@+id/switch_From" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -73,48 +71,35 @@
                 android:text="End Time:"
                 android:layout_centerVertical="true" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="8"
-                android:id="@+id/editText_Until"
-                android:hint="Until (h:mm)"
-                android:inputType="time"
-                android:gravity="right|center_vertical"
-                android:paddingRight="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/switch_To" />
 
-            <Switch
+            <Button
+                android:text="End Time"
+                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:id="@+id/endTimeButton"
+                android:layout_marginLeft="22dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView_endTimeText"
+                android:layout_toEndOf="@+id/textView_endTimeText" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch_To"
-                android:textOn="PM"
-                android:textOff="AM"
-                android:showText="true"
-                android:gravity="center_vertical"
-                android:trackTint="@color/colorIcons"
-                android:thumbTint="@color/colorSecondaryText"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:id="@+id/textView_endTimeText"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0:00"
+                android:layout_marginLeft="28dp"
+                android:layout_alignBaseline="@+id/endTimeButton"
+                android:layout_alignBottom="@+id/endTimeButton"
+                android:layout_toRightOf="@+id/textView_endTimeLabel"
+                android:layout_toEndOf="@+id/textView_endTimeLabel"
+                android:layout_marginStart="28dp" />
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/editText_Date"
-                android:hint="Date (dd/mm/yyyy)"
-                android:inputType="date"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -122,10 +107,29 @@
                 android:id="@+id/textView_dateLabel"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Date:"
-                android:layout_alignBaseline="@+id/editText_Date"
-                android:layout_alignBottom="@+id/editText_Date"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_dateTextView"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0/00/0000:"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView_dateLabel"
+                android:layout_toEndOf="@+id/textView_dateLabel" />
+
+            <Button
+                android:text="Calendar"
+                android:id="@+id/calendarButton"
+                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView_dateTextView"
+                android:layout_toEndOf="@+id/textView_dateTextView"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -159,6 +163,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_descriptionLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Description:"
+                android:layout_alignBaseline="@+id/editText_Description"
+                android:layout_alignBottom="@+id/editText_Description"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -170,17 +185,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_descriptionLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Description:"
-                android:layout_alignBaseline="@+id/editText_Description"
-                android:layout_alignBottom="@+id/editText_Description"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -279,3 +283,4 @@
         android:layout_height="wrap_content" />
 
 </RelativeLayout>
+
