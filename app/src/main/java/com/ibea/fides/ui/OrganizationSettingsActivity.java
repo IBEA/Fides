@@ -24,15 +24,18 @@ import butterknife.ButterKnife;
 public class OrganizationSettingsActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.pictureButton) Button picturebutton;
-    @Bind(R.id.usernameButton) Button userbutton;
+    @Bind(R.id.userNameButton) Button userbutton;
     @Bind(R.id.addressButton) Button addressbutton;
     @Bind(R.id.blurbButton) Button blurbbutton;
-    @Bind(R.id.streetedittext) EditText streetedittext;
-    @Bind(R.id.usernameedittext) EditText useredittext;
-    @Bind(R.id.cityedittext) EditText cityeedittext;
-    @Bind(R.id.stateedittext) EditText stateedittext;
-    @Bind(R.id.zipedittext) EditText zipedittext;
-    @Bind(R.id.blurbeditText) EditText blurbedittext;
+    @Bind(R.id.streetEditText) EditText streetedittext;
+    @Bind(R.id.userNameEditText) EditText useredittext;
+    @Bind(R.id.cityEditText) EditText cityeedittext;
+    @Bind(R.id.stateEditText) EditText stateedittext;
+    @Bind(R.id.zipEditText) EditText zipedittext;
+    @Bind(R.id.blurbEditText) EditText blurbedittext;
+    @Bind(R.id.tagEditText) EditText mTagEditText;
+    @Bind(R.id.tagButton) Button mTagButton;
+
 
     String mStreet;
     String mCity;
@@ -53,6 +56,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         userbutton.setOnClickListener(this);
         addressbutton.setOnClickListener(this);
         blurbbutton.setOnClickListener(this);
+        mTagButton.setOnClickListener(this);
     }
 
     public void onClick(View view) {
@@ -69,6 +73,9 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
         else if (view == blurbbutton){
             createNewBlurb();
+        }
+        else if (view == mTagButton) {
+            addTag();
         }
     }
 
@@ -134,6 +141,17 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
     }
 
+    private void addTag() {
+        if(mTagEditText.getText().toString().equals("")) {
+            mTagEditText.setError("Please enter a tag");
+        } else  {
+            String mTag = mTagEditText.getText().toString().trim();
+            mTagEditText.getText().clear();
+            Toast.makeText(mContext, "Tag Added", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
     private boolean isValidStreet(String data) {
         if (data.equals("")) {
             streetedittext.setError("Please enter your street");

@@ -186,7 +186,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Add Display Name to User Authentication in Firebase
-        Organization newOrg = new Organization(user.getUid(), mName, ein, userName, address, city, state, zip, description);
+        Organization newOrg = new Organization(user.getUid(), mName, userName, address, city, state, zip, description);
         newOrg.setContactEmail(mEmail);
         dbPendingOrganizations.child(user.getUid()).setValue(newOrg);
 
