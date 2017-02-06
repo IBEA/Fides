@@ -58,7 +58,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     final DatabaseReference dbOrganizations = dbRef.child(Constants.DB_NODE_ORGANIZATIONS);
 
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.searchView_Zipcode) SearchView mSearchView_Zipcode;
+    @Bind(R.id.searchView) SearchView mSearchView;
     @Bind(R.id.radioButton_Cause) RadioButton mRadioButton_Cause;
     @Bind(R.id.radioButton_Organization) RadioButton mRadioButton_Organization;
     @Bind(R.id.radioButton_Location) RadioButton mRadioButton_Location;
@@ -82,7 +82,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
         currentQuery = "97201";
         //TODO: Set searchview up to autopopulate with user zipcode
-        setUpFirebaseAdapter(currentQuery, "shiftsByZip");
+        setUpFirebaseAdapter(currentQuery, dbShiftsByZip);
 
         mRecyclerView.setAdapter(mFirebaseAdapter);
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
@@ -131,23 +131,21 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
             //TODO: implement state search
 
             //We're passing shiftsByZip in anticipation of further options like tags and cities
-            mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(final String query) {
                     String onlyNumbers = "[0-9]+";
                     currentQuery = query;
 
                     //If you remove this, the query double submits. I have no idea why.
-                    mSearchView_Zipcode.clearFocus();
+                    mSearchView.clearFocus();
 
                     //Make sure the query is not empty
                     if(query.length() != 0){
                         //Check to see if it's a zipcode
                         if(query.length() == 5 && query.matches(onlyNumbers)){
-                            setUpFirebaseAdapter(query, "shiftsByZip");
+                            setUpFirebaseAdapter(query, dbShiftsByZip);
 
-                            //Setting vs swapping helps prevent index errors
-                            //TODO: get this sorted out so that it's not redundant. We're setting the adapter IN the setup.
                             if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
                                 Log.d(">>>>>", "Adapter is same");
                                 mRecyclerView = null;
@@ -228,18 +226,11 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
         return new ShiftSearchFragment();
     }
 
-    private void setUpFirebaseAdapter(String query, String searchType) {
+    private void setUpFirebaseAdapter(String query, DatabaseReference dbCurrentNode) {
         //Where we should drop the switch in for query type
 
-        DatabaseReference dbNode;
-        if(searchType.equals("shiftsByZip")){
-            dbNode = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(query);
-        }else{
-            dbNode = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(query);
-        }
-
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbNode) {
+                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbCurrentNode.child(query)) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {

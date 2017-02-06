@@ -9,7 +9,7 @@
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView_Zipcode"
+        android:id="@+id/searchView"
         android:inputType="text"
         android:background="@color/colorPrimaryLight" >
     </SearchView>
