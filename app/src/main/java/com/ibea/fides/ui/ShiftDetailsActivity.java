@@ -40,7 +40,7 @@ public class ShiftDetailsActivity extends BaseActivity {
         mDate.setText(mShift.getDate());
         mTime.setText("From " + mShift.getFrom() + " to " + mShift.getUntil());
         mDescription.setText(mShift.getDescription());
-        mZip.setText(Integer.toString(mShift.getZip()));
+        mZip.setText(mShift.getZip());
 
         if(mIsOrganization) {
             setUpFirebaseAdapterUnrated();
