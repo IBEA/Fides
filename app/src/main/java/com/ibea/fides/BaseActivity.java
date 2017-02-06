@@ -102,10 +102,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void logout() {
-        //TODO: Destroy isOrganization in shared preferences
-
-        this.getSharedPreferences("isOrganization", 0).edit().clear().commit();
-
+        this.getSharedPreferences("isOrganization", 0).edit().clear().apply();
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(BaseActivity.this, LogInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
