@@ -19,15 +19,13 @@ import com.ibea.fides.models.User;
  */
 
 public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    View mView;
-    Context mContext;
-    Organization mOrganization;
+    private View mView;
+    private Organization mOrganization;
 
 
     public FirebaseOrganizationViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-        mContext = itemView.getContext();
         itemView.setOnClickListener(this);
     }
 
