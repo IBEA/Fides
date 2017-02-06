@@ -35,10 +35,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
 
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
-    private RecyclerView.Adapter mRecyclerAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
 
@@ -87,12 +83,11 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
 
     // newInstance constructor for creating fragment with arguments
     public static ShiftsPendingForOrganizationFragment newInstance(int page, String title) {
-        ShiftsPendingForOrganizationFragment fragmentFirst = new ShiftsPendingForOrganizationFragment();
-        return fragmentFirst;
+        return new ShiftsPendingForOrganizationFragment();
     }
 
     private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+        FirebaseRecyclerAdapter mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
                 (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override

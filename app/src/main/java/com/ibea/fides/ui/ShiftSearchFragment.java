@@ -121,6 +121,7 @@ public class ShiftSearchFragment extends Fragment {
 
             //TODO: implement tag search
             //TODO: implement city search
+            //TODO: implement state search
 
             //We're passing shiftsByZip in anticipation of further options like tags and cities
             mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
