@@ -27,6 +27,7 @@ import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftSearchFragment extends Fragment {
+public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterface{
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
 
@@ -46,6 +47,7 @@ public class ShiftSearchFragment extends Fragment {
     private ArrayList<Organization> orgList = new ArrayList<Organization>();
 
     private View mView;
+    private ShiftSearchFragment mThis;
 
     private String currentQuery;
 
@@ -68,6 +70,7 @@ public class ShiftSearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.shifts_available_for_volunteers, container, false);
         ButterKnife.bind(this, view);
 
+        mThis = this;
         mView = view;
         final Context mContext = this.getContext();
 
@@ -198,6 +201,7 @@ public class ShiftSearchFragment extends Fragment {
 
     }
 
+    @Override
     public void updateAdapter(){
         mFirebaseAdapter.notifyDataSetChanged();
     }
@@ -227,7 +231,7 @@ public class ShiftSearchFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
 
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsSearch", this);
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsSearch", mThis);
                         Log.d("On " + shift.getShortDescription() + "?", String.valueOf(shift.getCurrentVolunteers().contains(currentUserId)));
 
                         if(shift.getCurrentVolunteers().contains(currentUserId)){

@@ -22,6 +22,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.ShiftDetailsActivity;
+import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import org.parceler.Parcels;
 
@@ -34,16 +35,18 @@ import java.util.List;
 
 public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    View mView;
-    Context mContext;
-    Shift mShift;
-    Button mVolunteerButton;
-    Button mCompleteButton;
-    Boolean isOrganization;
-    String mOrigin;
+    private View mView;
+    private Context mContext;
+    private Shift mShift;
+    private Button mVolunteerButton;
+    private Button mCompleteButton;
+    private Boolean isOrganization;
+    private String mOrigin;
 
-    LinearLayout mItemLayout;
-    ViewGroup.LayoutParams mItemLayoutParams;
+    private LinearLayout mItemLayout;
+    private ViewGroup.LayoutParams mItemLayoutParams;
+
+    private AdapterUpdateInterface mInterface;
 
 
     public FirebaseShiftViewHolder(View itemView) {
@@ -53,9 +56,10 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin) {
+    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin, AdapterUpdateInterface _interface) {
         isOrganization = _isOrganization;
         mOrigin = _origin;
+        mInterface = _interface;
 
         Log.d(mOrigin, " in bindShift");
 
