@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/blurbEditText"
+                android:id="@+id/descriptionEditText"
                 android:hint="Change Description"
                 android:layout_below="@+id/pictureButton"
                 android:layout_marginTop="14dp" />
@@ -119,16 +119,16 @@
                 android:text="Update Blurb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/blurbButton"
+                android:id="@+id/descriptionButton"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/blurbEditText"/>
+                android:layout_below="@id/descriptionEditText"/>
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tagEditText"
                 android:hint="Enter a Tag"
-                android:layout_below="@id/blurbButton"
+                android:layout_below="@id/descriptionButton"
                 android:layout_alignParentLeft="true"/>
             <Button
                 android:layout_width="wrap_content"
@@ -136,7 +136,7 @@
                 android:text="Add Tag"
                 android:id="@+id/tagButton"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/blurbButton"/>
+                android:layout_below="@id/descriptionButton"/>
 
 
 

@@ -29,16 +29,16 @@ import butterknife.ButterKnife;
 
 public class OrganizationSettingsActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.pictureButton) Button picturebutton;
-    @Bind(R.id.userNameButton) Button userbutton;
-    @Bind(R.id.addressButton) Button addressbutton;
-    @Bind(R.id.blurbButton) Button blurbbutton;
+    @Bind(R.id.pictureButton) Button pictureButton;
+    @Bind(R.id.userNameButton) Button userButton;
+    @Bind(R.id.addressButton) Button addressButton;
+    @Bind(R.id.descriptionButton) Button descriptionButton;
     @Bind(R.id.streetEditText) EditText streetEditText;
     @Bind(R.id.userNameEditText) EditText userEditText;
     @Bind(R.id.cityEditText) EditText cityEditText;
     @Bind(R.id.stateEditText) EditText stateEditText;
     @Bind(R.id.zipEditText) EditText zipEditText;
-    @Bind(R.id.blurbEditText) EditText blurbEditText;
+    @Bind(R.id.descriptionEditText) EditText descriptionEditText;
     @Bind(R.id.tagEditText) EditText mTagEditText;
     @Bind(R.id.tagButton) Button mTagButton;
 
@@ -48,7 +48,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     String mState;
     String mZip;
     String mUsername;
-    String mBlurb;
+    String mDescription;
     String mTag;
 
     public static final int GET_FROM_GALLERY = 3;
@@ -59,10 +59,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         setContentView(R.layout.activity_organization_settings);
         ButterKnife.bind(this);
 
-        picturebutton.setOnClickListener(this);
-        userbutton.setOnClickListener(this);
-        addressbutton.setOnClickListener(this);
-        blurbbutton.setOnClickListener(this);
+        pictureButton.setOnClickListener(this);
+        userButton.setOnClickListener(this);
+        addressButton.setOnClickListener(this);
+        descriptionButton.setOnClickListener(this);
         mTagButton.setOnClickListener(this);
 
         dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,6 +74,8 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                 stateEditText.setText(editOrg.getStateAddress());
                 zipEditText.setText(editOrg.getZipcode());
                 userEditText.setText(editOrg.getName());
+                descriptionEditText.setText(editOrg.getDescription());
+                
             }
 
             @Override
@@ -85,18 +87,18 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     public void onClick(View view) {
         // On Log In Request
-        if(view == picturebutton) {
+        if(view == pictureButton) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
-        else if (view == userbutton){
+        else if (view == userButton){
 
             createNewUsername();
         }
-        else if (view == addressbutton){
+        else if (view == addressButton){
             createNewAddress();
         }
-        else if (view == blurbbutton){
-            createNewBlurb();
+        else if (view == descriptionButton){
+            createNewDescription();
         }
         else if (view == mTagButton) {
             addTag();
@@ -155,16 +157,15 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("name").setValue(username);
     }
 
-    private void createNewBlurb() {
-        if (blurbEditText.getText().toString().trim().equals("")) {
-            blurbEditText.setError("Please enter your blurb");
+    private void createNewDescription() {
+        if (descriptionEditText.getText().toString().trim().equals("")) {
+            descriptionEditText.setError("Please enter your blurb");
         }
         else{
-            mBlurb = blurbEditText.getText().toString();
-            blurbEditText.getText().clear();
+            mDescription = descriptionEditText.getText().toString();
+            descriptionEditText.getText().clear();
             Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT).show();
-
-            //This blurb needs to be placed into the database by backend -- Garrett
+            dbOrganizations.child(uId).child("description").setValue(mDescription);
         }
     }
 
