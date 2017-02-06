@@ -83,42 +83,42 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-//            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
-//                @Override
-//                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                    if(!lock){
-//                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-//                            mFirebaseAdapter.notifyDataSetChanged();
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//                }
-//
-//                @Override
-//                public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                    Log.d("ChildRemoved", "Triggered");
-//
-//                    //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
-//                    if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-//                        mFirebaseAdapter.notifyDataSetChanged();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
+            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if(!lock){
+                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                            mFirebaseAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Log.d("ChildRemoved", "Triggered");
+
+                    //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
+                    if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             lock = false;
 
             //TODO: implement tag search
