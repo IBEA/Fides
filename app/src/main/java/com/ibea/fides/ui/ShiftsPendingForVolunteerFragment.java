@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebasePendingShiftViewHolder;
 import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
 import com.ibea.fides.models.Shift;
 
