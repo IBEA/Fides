@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
@@ -44,13 +45,19 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
     @Bind(R.id.editText_Address) EditText mEditText_Address;
+    @Bind(R.id.editText_City) EditText mEditText_City;
+    @Bind(R.id.editText_State) EditText mEditText_State;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
+
+    Organization thisOrg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shifts_create);
         ButterKnife.bind(this);
+
+        autoFill();
 
         mButton_LetsGo.setOnClickListener(this);
     }
@@ -89,9 +96,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String description = mEditText_Descritpion.getText().toString();
         String shortDescription = mEditText_ShortDescritpion.getText().toString();
         String address = mEditText_Address.getText().toString();
+        String city = mEditText_City.getText().toString();
+        String state = mEditText_State.getText().toString();
         int zip = Integer.parseInt(mEditText_Zip.getText().toString());
 
-        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, zip, _organizationName);
+        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, state, zip, _organizationName);
 
         return shift;
     }
@@ -117,13 +126,41 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mEditText_MaxVolunteers.getText().clear();
         mEditText_From.getText().clear();
         mEditText_Until.getText().clear();
-        mEditText_Address.getText().clear();
         mEditText_Date.getText().clear();
         mEditText_Descritpion.getText().clear();
         mEditText_ShortDescritpion.getText().clear();
         mEditText_Zip.getText().clear();
     }
 
+    public void autoFill() {
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
+                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            thisOrg = dataSnapshot.getValue(Organization.class);
+                            mEditText_Address.setText(thisOrg.getStreetAddress());
+                            mEditText_City.setText(thisOrg.getCityAddress());
+                            mEditText_State.setText(thisOrg.getStateAddress());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     @Override
     public void onClick(View v){
         if(v == mButton_LetsGo){
