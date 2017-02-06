@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
@@ -212,11 +212,11 @@ public class ShiftSearchFragment extends Fragment {
             dbNode = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(query);
         }
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbNode) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+                (String.class, R.layout.dirty_shift_list_item, FirebaseShiftViewHolder.class, dbNode) {
 
             @Override
-            protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
+            protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
