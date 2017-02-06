@@ -51,6 +51,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     private ShiftSearchFragment mThis;
 
     private String currentQuery;
+    private String mButtonState = "Location";
 
     final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     final DatabaseReference dbShiftsByZip = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE);
@@ -200,9 +201,6 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
         return view;
     }
 
-    // Store instance variables
-
-    // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,7 +214,13 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
 
     @Override
     public void onClick(View view){
-
+        if(view == mRadioButton_Cause){
+            mButtonState = "Cause";
+        }else if(view == mRadioButton_Location){
+            mButtonState = "Location";
+        }else if(view == mRadioButton_Organization){
+            mButtonState = "Organization";
+        }
     }
 
     // newInstance constructor for creating fragment with arguments
