@@ -8,15 +8,15 @@
     android:padding="12dp"
     android:layout_marginBottom="12dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
         <RelativeLayout
-            android:layout_width="262dp"
-            android:layout_height="114dp">
+            android:id="@+id/shiftListItemTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +47,9 @@
                     android:textSize="15dp"
                     android:textStyle="bold"
                     android:text="Date"
-                    android:layout_toRightOf="@+id/textView_Time"/>
+                    android:layout_toRightOf="@+id/textView_Time"
+                    android:paddingLeft="12dp"
+                    android:paddingStart="12dp"/>
             </RelativeLayout>
 
             <TextView
@@ -55,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_Address"
+                android:textSize="15dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/layoutTimeDate"/>
@@ -69,28 +72,36 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/shiftListItemButtonLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <Button
-            android:text="Volunteer"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:id="@+id/button_Volunteer"
+            android:orientation="vertical"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true">
 
-        <Button
-                android:text="Complete"
-                android:layout_width="114dp"
-                android:layout_height="36dp"
-                android:id="@+id/button_Complete"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_Complete"
+                android:layout_below="@+id/button_Volunteer"
+                android:background="@drawable/ic_done_black_24dp"
+                android:minWidth="40dp"
+                android:minHeight="40dp" />
 
-        </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_Volunteer"
+                android:background="@drawable/ic_add_black_24dp"
+                android:minWidth="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:minHeight="40dp" />
+        </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 
