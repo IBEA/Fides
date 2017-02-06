@@ -38,8 +38,7 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
 
     // newInstance constructor for creating fragment with arguments
     public static ShiftsCompletedForOrganizationFragment newInstance(int page, String title) {
-        ShiftsCompletedForOrganizationFragment fragmentFirst = new ShiftsCompletedForOrganizationFragment();
-        return fragmentFirst;
+        return new ShiftsCompletedForOrganizationFragment();
     }
 
 
@@ -74,10 +73,9 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
     }
 
     private void setUpFirebaseAdapter() {
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference dbFirebaseNode;
 
-        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(currentUserId);
+        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
                 (String.class, R.layout.completed_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
 
