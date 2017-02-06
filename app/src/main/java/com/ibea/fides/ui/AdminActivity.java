@@ -9,7 +9,7 @@ import android.view.View;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseOrganizationViewHolder;
+import com.ibea.fides.adapters.FirebaseOrganizationViewHolder;
 import com.ibea.fides.models.Organization;
 
 import butterknife.Bind;
@@ -34,11 +34,11 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Organization, DirtyFirebaseOrganizationViewHolder>
-                (Organization.class, R.layout.organization_list_item, DirtyFirebaseOrganizationViewHolder.class, dbPendingOrganizations) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Organization, FirebaseOrganizationViewHolder>
+                (Organization.class, R.layout.organization_list_item, FirebaseOrganizationViewHolder.class, dbPendingOrganizations) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseOrganizationViewHolder viewHolder, Organization org, int position) {
+            protected void populateViewHolder(FirebaseOrganizationViewHolder viewHolder, Organization org, int position) {
                 viewHolder.bindOrganization(org);
             }
         };

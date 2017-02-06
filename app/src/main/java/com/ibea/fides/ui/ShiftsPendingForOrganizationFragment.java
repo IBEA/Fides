@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Shift;
 
 import butterknife.Bind;
@@ -93,11 +92,11 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
     }
 
     private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
-            protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
+            protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

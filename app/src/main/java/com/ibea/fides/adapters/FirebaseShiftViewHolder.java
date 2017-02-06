@@ -32,7 +32,7 @@ import java.util.List;
  * Created by Alaina Traxler on 1/25/2017.
  */
 
-public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     View mView;
     Context mContext;
@@ -46,7 +46,7 @@ public class DirtyFirebaseShiftViewHolder extends RecyclerView.ViewHolder implem
     ViewGroup.LayoutParams mItemLayoutParams;
 
 
-    public DirtyFirebaseShiftViewHolder(View itemView) {
+    public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();

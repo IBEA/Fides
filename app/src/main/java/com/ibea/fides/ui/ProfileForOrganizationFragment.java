@@ -54,7 +54,6 @@ public class ProfileForOrganizationFragment extends Fragment {
 
     public static ProfileForOrganizationFragment newInstance(Organization organization) {
         mOrganization = organization;
-
         ProfileForOrganizationFragment fragment = new ProfileForOrganizationFragment();
         return fragment;
     }

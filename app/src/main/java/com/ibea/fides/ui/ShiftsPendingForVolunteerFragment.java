@@ -21,8 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebasePendingShiftViewHolder;
-import com.ibea.fides.adapters.DirtyFirebaseShiftViewHolder;
+import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Shift;
 
 import butterknife.Bind;
@@ -80,11 +79,11 @@ public class ShiftsPendingForVolunteerFragment extends Fragment {
 
         Log.v(">>>>>", "In setupFirebaseAdapter for ShiftsPendingUsers");
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, DirtyFirebaseShiftViewHolder>
-                (String.class, R.layout.dirty_shift_list_item, DirtyFirebaseShiftViewHolder.class, dbShiftsPendingForUser) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForUser) {
 
             @Override
-            protected void populateViewHolder(final DirtyFirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
+            protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

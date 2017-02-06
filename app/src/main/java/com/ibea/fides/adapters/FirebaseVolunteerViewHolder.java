@@ -25,7 +25,7 @@ import java.util.List;
  * Created by KincaidJ on 1/31/17.
  */
 
-public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     View mView;
     Context mContext;
     User mUser;
@@ -40,7 +40,7 @@ public class DirtyFirebaseVolunteerViewHolder extends RecyclerView.ViewHolder im
     String indexKey;
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
-    public DirtyFirebaseVolunteerViewHolder(View itemView) {
+    public FirebaseVolunteerViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();

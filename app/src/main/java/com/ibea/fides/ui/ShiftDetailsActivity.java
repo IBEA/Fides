@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.DirtyFirebaseVolunteerViewHolder;
+import com.ibea.fides.adapters.FirebaseVolunteerViewHolder;
 import com.ibea.fides.models.Shift;
 import org.parceler.Parcels;
 import butterknife.Bind;
@@ -55,11 +55,11 @@ public class ShiftDetailsActivity extends BaseActivity {
     }
 
     private void setUpFirebaseAdapterUnrated() {
-        mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, DirtyFirebaseVolunteerViewHolder>
-                (String.class, R.layout.volunteer_list_item, DirtyFirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
+        mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
+                (String.class, R.layout.volunteer_list_item, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseVolunteerViewHolder viewHolder, String userId, int position) {
+            protected void populateViewHolder(FirebaseVolunteerViewHolder viewHolder, String userId, int position) {
                 viewHolder.bindUser(userId, mShift.getPushId(), position, false);
             }
         };
@@ -69,11 +69,11 @@ public class ShiftDetailsActivity extends BaseActivity {
     }
 
     private void setUpFirebaseAdapterRated() {
-        mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, DirtyFirebaseVolunteerViewHolder>
-                (String.class, R.layout.volunteer_list_item, DirtyFirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
+        mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
+                (String.class, R.layout.volunteer_list_item, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
 
             @Override
-            protected void populateViewHolder(DirtyFirebaseVolunteerViewHolder viewHolder, String userId, int position) {
+            protected void populateViewHolder(FirebaseVolunteerViewHolder viewHolder, String userId, int position) {
                 viewHolder.bindUser(userId, mShift.getPushId(), position, true);
             }
         };
