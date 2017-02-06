@@ -35,7 +35,6 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     String mUserId;
 
-
     public ShiftsCompletedForVolunteerFragment() {
         // Required empty public constructor
     }

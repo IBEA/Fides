@@ -41,8 +41,6 @@ public class ProfileForVolunteerFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    private boolean once = false;
-
     int trustmetric = 75; // Will be changed
     int totalHoursWorked = 18; // Will be changed
     int currentdisplayhours = 0;
@@ -83,7 +81,6 @@ public class ProfileForVolunteerFragment extends Fragment {
         View view = inflater.inflate(R.layout.profile_tab, container, false);
         ButterKnife.bind(this, view);
 
-    if(once == false) {
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
                 .setRange(0, 100, 100)
@@ -243,7 +240,6 @@ public class ProfileForVolunteerFragment extends Fragment {
         circlespeed1 = 300;
         circlespeed2 = 101;
 
-    }
         return view;
     }
 
