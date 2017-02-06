@@ -46,8 +46,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
 
     public static ShiftsAvailableByOrganizationFragment newInstance(Organization organization) {
         mOrganization = organization;
-        ShiftsAvailableByOrganizationFragment fragment = new ShiftsAvailableByOrganizationFragment();
-        return fragment;
+        return new ShiftsAvailableByOrganizationFragment();
     }
 
 
@@ -58,42 +57,47 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         ButterKnife.bind(this, view);
         String organizationId = mOrganization.getPushId();
 
-        final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String currentUserId;
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(!lock){
-                    Log.d(">>>>>", "OnChildAdded");
-                    mFirebaseAdapter.notifyDataSetChanged();
+        if(auth.getCurrentUser() != null){
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if(!lock){
+                        Log.d(">>>>>", "OnChildAdded");
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(!lock){
-                    Log.d(">>>>>", "OnChildRemoved");
-                    mFirebaseAdapter.notifyDataSetChanged();
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 }
-            }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    if(!lock){
+                        Log.d(">>>>>", "OnChildRemoved");
+                        mFirebaseAdapter.notifyDataSetChanged();
+                    }
+                }
 
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
 
-            }
-        });
-        lock = false;
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-        setUpFirebaseAdapter();
+                }
+            });
+            lock = false;
+
+            setUpFirebaseAdapter();
+        }
+
         return view;
     }
     private void setUpFirebaseAdapter() {
