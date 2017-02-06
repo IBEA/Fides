@@ -72,7 +72,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
         final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
 
-        mVolunteerButton = (Button) mView.findViewById(R.id.button_Volunteer);
+        mVolunteerButton = (Button) mView.findViewById(R.id.button_Variable);
         mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
         mVolunteerButton.setOnClickListener(this);
         mCompleteButton.setOnClickListener(this);
