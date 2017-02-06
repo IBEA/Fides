@@ -12,11 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +49,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     String mZip;
     String mUsername;
     String mBlurb;
+    String mTag;
 
     public static final int GET_FROM_GALLERY = 3;
 
@@ -145,11 +152,23 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         if(mTagEditText.getText().toString().equals("")) {
             mTagEditText.setError("Please enter a tag");
         } else  {
-            String mTag = mTagEditText.getText().toString().trim();
+            mTag = mTagEditText.getText().toString().trim();
             mTagEditText.getText().clear();
             Toast.makeText(mContext, "Tag Added", Toast.LENGTH_SHORT).show();
 
+            dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Organization editOrg = dataSnapshot.getValue(Organization.class);
+                    editOrg.getTags().add(mTag);
+                    dbOrganizations.child(uId).setValue(editOrg);
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
     private boolean isValidStreet(String data) {
