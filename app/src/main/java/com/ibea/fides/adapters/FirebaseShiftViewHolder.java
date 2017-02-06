@@ -117,14 +117,17 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                     Log.d(mOrigin, "Volunteer clicked");
                     claimShift();
                     hideView();
+//                    mInterface.updateAdapter();
                     break;
                 case "Cancel":
                     Log.d(mOrigin, "Cancel clicked");
                     quitShift();
+//                    mInterface.updateAdapter();
                     break;
                 case "Delete":
                     Log.d(mOrigin, "Delete clicked");
                     deleteShift(true);
+//                    mInterface.updateAdapter();
                     break;
             }
         }else if(view == mCompleteButton) {
