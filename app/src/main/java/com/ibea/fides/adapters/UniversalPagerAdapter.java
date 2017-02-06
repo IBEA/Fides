@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class UniversalPagerAdapter extends FragmentPagerAdapter {
 
-    int pageCount;
+    private int pageCount;
     // Tab Titles
     private ArrayList<String> tabtitles;
     private ArrayList<Fragment> fragmentList;
@@ -41,29 +41,6 @@ public class UniversalPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-//        switch (position) {
-//
-//            // Open User Profile fragment
-//            case 0:
-//                ProfileForVolunteerFragment userProfileFragment = new ProfileForVolunteerFragment();
-//                return userProfileFragment;
-//
-//            // Open List of Upcoming Shifts fragment
-//            case 1:
-//                ShiftsPendingForVolunteerFragment upcomingUserShiftsFragment = new ShiftsPendingForVolunteerFragment();
-//                return upcomingUserShiftsFragment;
-//
-//             //Open Search for Shifts fragment
-//            case 2:
-//                ShiftSearchFragment shiftSearchFragment = new ShiftSearchFragment();
-//                return shiftSearchFragment;
-//            // Open User's Shift History fragment
-//            case 3:
-//                ShiftsCompletedForVolunteerFragment userShiftHistoryFragment = new ShiftsCompletedForVolunteerFragment();
-//                return userShiftHistoryFragment;
-//
-//
-//        }
         return fragmentList.get(position);
     }
 

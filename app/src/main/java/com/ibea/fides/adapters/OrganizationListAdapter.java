@@ -23,11 +23,9 @@ import butterknife.ButterKnife;
 
 public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationListAdapter.OrganizationViewHolder> {
     private ArrayList<Organization> mOrganizations = new ArrayList<>();
-    private Context mContext;
     private Organization mOrganization;
 
     public OrganizationListAdapter(Context context, ArrayList<Organization> organizations) {
-        mContext = context;
         mOrganizations = organizations;
     }
 
