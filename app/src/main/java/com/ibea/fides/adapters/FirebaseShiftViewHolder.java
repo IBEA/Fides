@@ -102,7 +102,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             }
 
             shortDescriptionTextView.setText(shift.getShortDescription());
-            addressCodeTextView.setText(Integer.toString(shift.getZip()));
+            addressCodeTextView.setText(shift.getZip());
             timeTextView.setText(shift.getFrom() + "-" + shift.getUntil());
             dateTextView.setText(shift.getDate());
             organizationTextView.setText(shift.getOrganizationName());

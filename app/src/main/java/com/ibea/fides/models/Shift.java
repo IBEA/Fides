@@ -23,15 +23,14 @@ public class Shift {
     String description;
     String shortDescription;
     String organizationName;
-    //TODO: Make string
-    int zip;
+    String zip;
     String date;
     int maxVolunteers;
     List<String> currentVolunteers = new ArrayList<String>();
     List<String> ratedVolunteers = new ArrayList<>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, int _zip, String _organizationName){
+    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
         from = _from;
         until = _until;
         organizationID = _OID;
@@ -49,11 +48,11 @@ public class Shift {
     // Getters and Setters
     public String getPushId() { return pushId; }
     public void setPushId(String pushId) { this.pushId = pushId; }
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
