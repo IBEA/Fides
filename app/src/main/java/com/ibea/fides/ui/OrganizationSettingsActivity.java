@@ -33,12 +33,12 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     @Bind(R.id.userNameButton) Button userbutton;
     @Bind(R.id.addressButton) Button addressbutton;
     @Bind(R.id.blurbButton) Button blurbbutton;
-    @Bind(R.id.streetEditText) EditText streetedittext;
-    @Bind(R.id.userNameEditText) EditText useredittext;
-    @Bind(R.id.cityEditText) EditText cityeedittext;
-    @Bind(R.id.stateEditText) EditText stateedittext;
-    @Bind(R.id.zipEditText) EditText zipedittext;
-    @Bind(R.id.blurbEditText) EditText blurbedittext;
+    @Bind(R.id.streetEditText) EditText streetEditText;
+    @Bind(R.id.userNameEditText) EditText userEditText;
+    @Bind(R.id.cityEditText) EditText cityEditText;
+    @Bind(R.id.stateEditText) EditText stateEditText;
+    @Bind(R.id.zipEditText) EditText zipEditText;
+    @Bind(R.id.blurbEditText) EditText blurbEditText;
     @Bind(R.id.tagEditText) EditText mTagEditText;
     @Bind(R.id.tagButton) Button mTagButton;
 
@@ -64,6 +64,19 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         addressbutton.setOnClickListener(this);
         blurbbutton.setOnClickListener(this);
         mTagButton.setOnClickListener(this);
+
+        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Organization editOrg = dataSnapshot.getValue(Organization.class);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void onClick(View view) {
@@ -87,10 +100,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     }
 
     private void createNewAddress() {
-        String street = streetedittext.getText().toString().trim();
-        String city = cityeedittext.getText().toString().trim();
-        String state = stateedittext.getText().toString().trim();
-        String zip = zipedittext.getText().toString().trim();
+        String street = streetEditText.getText().toString().trim();
+        String city = cityEditText.getText().toString().trim();
+        String state = stateEditText.getText().toString().trim();
+        String zip = zipEditText.getText().toString().trim();
 
         // Confirm validity of inputs
         boolean validStreet = isValidStreet(street);
@@ -108,12 +121,11 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         mState = state;
         mZip = zip;
 
-        streetedittext.getText().clear();
-        cityeedittext.getText().clear();
-        stateedittext.getText().clear();
-        zipedittext.getText().clear();
+        streetEditText.getText().clear();
+        cityEditText.getText().clear();
+        stateEditText.getText().clear();
+        zipEditText.getText().clear();
 
-        //This data needs to be placed into the database by backend -- Garrett
         Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
         dbOrganizations.child(uId).child("streetAddress").setValue(street);
@@ -124,7 +136,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     }
 
     private void createNewUsername() {
-        String username = useredittext.getText().toString().trim();
+        String username = userEditText.getText().toString().trim();
         boolean validName = isValidUsername(username);
 
         if(!validName){
@@ -133,19 +145,19 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         mUsername = username;
 
-        useredittext.getText().clear();
+        userEditText.getText().clear();
 
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
         dbOrganizations.child(uId).child("name").setValue(username);
     }
 
     private void createNewBlurb() {
-        if (blurbedittext.getText().toString().trim().equals("")) {
-            blurbedittext.setError("Please enter your blurb");
+        if (blurbEditText.getText().toString().trim().equals("")) {
+            blurbEditText.setError("Please enter your blurb");
         }
         else{
-            mBlurb = blurbedittext.getText().toString();
-            blurbedittext.getText().clear();
+            mBlurb = blurbEditText.getText().toString();
+            blurbEditText.getText().clear();
             Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT).show();
 
             //This blurb needs to be placed into the database by backend -- Garrett
@@ -177,7 +189,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     }
     private boolean isValidStreet(String data) {
         if (data.equals("")) {
-            streetedittext.setError("Please enter your street");
+            streetEditText.setError("Please enter your street");
             return false;
         }
         return true;
@@ -185,7 +197,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidCity(String data) {
         if (data.equals("")) {
-            cityeedittext.setError("Please enter your city");
+            cityEditText.setError("Please enter your city");
             return false;
         }
         return true;
@@ -193,7 +205,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidState(String data) {
         if (data.equals("")) {
-            stateedittext.setError("Please enter your state");
+            stateEditText.setError("Please enter your state");
             return false;
         }
         return true;
@@ -201,7 +213,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidPassword(String data) {
         if (data.equals("")) {
-            zipedittext.setError("Please enter your zip code");
+            zipEditText.setError("Please enter your zip code");
             return false;
         }
         return true;
@@ -209,7 +221,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidUsername(String data) {
         if (data.equals("")) {
-            useredittext.setError("Please enter your new username");
+            userEditText.setError("Please enter your new username");
             return false;
         }
         return true;
