@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_Complete"
-                android:layout_below="@+id/button_Volunteer"
+                android:layout_below="@+id/button_Variable"
                 android:background="@drawable/ic_done_black_24dp"
                 android:minWidth="40dp"
                 android:minHeight="40dp" />
@@ -94,7 +94,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_Volunteer"
+                android:id="@+id/button_Variable"
                 android:background="@drawable/ic_add_black_24dp"
                 android:minWidth="40dp"
                 android:layout_alignParentTop="true"

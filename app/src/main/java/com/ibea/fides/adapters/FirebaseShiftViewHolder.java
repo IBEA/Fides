@@ -46,6 +46,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
     private AdapterUpdateInterface mInterface;
 
+    private String mButtonState;
 
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -83,17 +84,17 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         if(mShift != null) {
             //Change button to delete if user is an organization
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
-                mVolunteerButton.setText("Delete");
+                mButtonState = "Delete";
                 mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
                 mCompleteButton.setVisibility(View.VISIBLE);
             } else {
                 //If user is not an organization, change button based on whether or not user has already signed up for shift
                 Log.d(mOrigin, mShift.getShortDescription());
                 if (shift.getCurrentVolunteers().contains(userID)) {
-                    mVolunteerButton.setText("Cancel");
+                    mButtonState = "Cancel";
                     mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
                 } else {
-                    mVolunteerButton.setText("Volunteer");
+                    mButtonState = "Volunteer";
                     mVolunteerButton.setBackgroundResource(R.drawable.ic_add_black_24dp);
                 }
             }
@@ -109,10 +110,10 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
     @Override
     public void onClick(View view) {
-        String function = mVolunteerButton.getText().toString();
+//        String function = mVolunteerButton.getText().toString();
 
         if(view == mVolunteerButton) {
-            switch (function) {
+            switch (mButtonState) {
                 case "Volunteer":
                     Log.d(mOrigin, "Volunteer clicked");
                     claimShift();
@@ -200,7 +201,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
                     Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
                 }else{
-                    mVolunteerButton.setText("Volunteer");
+//                    mVolunteerButton.setText("Volunteer");
+                    mButtonState = "Volunteer";
 
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
@@ -244,7 +246,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                 if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
                     Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
                 }else{
-                    mVolunteerButton.setText("Cancel");
+//                    mVolunteerButton.setText("Cancel");
+                    mButtonState = "Cancel";
 
                     // Assign to shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).setValue(shiftId);
