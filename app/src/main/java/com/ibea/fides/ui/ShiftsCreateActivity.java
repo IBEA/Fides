@@ -1,5 +1,7 @@
 package com.ibea.fides.ui;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,26 +33,32 @@ import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.ibea.fides.R.id.endTimeButton;
+
 public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener{
-    @Bind(R.id.editText_From) EditText mEditText_From;
-    @Bind(R.id.editText_Until) EditText mEditText_Until;
-    @Bind(R.id.editText_Date) EditText mEditText_Date;
+    @Bind(R.id.textView_endTimeText) TextView mTextView_Until;
+    @Bind(R.id.textView_startTimetext) TextView mTextView_Start;
     @Bind(R.id.editText_MaxVolunteers) EditText mEditText_MaxVolunteers;
     @Bind(R.id.button_LetsGo) Button mButton_LetsGo;
-    @Bind((R.id.switch_From)) Switch mSwitch_From;
-    @Bind(R.id.switch_To) Switch mSwitch_To;
     @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
     @Bind(R.id.editText_Address) EditText mEditText_Address;
     @Bind(R.id.editText_City) EditText mEditText_City;
     @Bind(R.id.editText_State) EditText mEditText_State;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
+    @Bind(R.id.startTimeButton) Button startTimeButton;
+    @Bind(R.id.textView_dateTextView) TextView mTextView_Date;
+    @Bind(R.id.endTimeButton) Button endTimeButton;
+    @Bind(R.id.calendarButton) Button calendarButton;
+
+    private int mYear, mMonth, mDay, mHour, mMinute;
 
     Organization thisOrg;
 
@@ -60,12 +71,13 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         autoFill();
 
         mButton_LetsGo.setOnClickListener(this);
+        startTimeButton.setOnClickListener(this);
+        endTimeButton.setOnClickListener(this);
+        calendarButton.setOnClickListener(this);
     }
 
     // !! Checks to make sure all fields are filled out correctly !!
     public boolean validateFields(){
-
-
         return true;
     }
 
@@ -88,11 +100,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
     // Reads all fields and returns constructed shift
     public Shift createShift(String _organizationName, String _pushId){
-        String from = convertTime(mEditText_From.getText().toString(), mSwitch_From.isChecked());
-        String until = convertTime(mEditText_Until.getText().toString(), mSwitch_To.isChecked());
-
+        String until = (mTextView_Start.getText().toString());
+        String from = (mTextView_Until.getText().toString());
         int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
-        String date = mEditText_Date.getText().toString();
+        String date = mTextView_Date.getText().toString();
         String description = mEditText_Descritpion.getText().toString();
         String shortDescription = mEditText_ShortDescritpion.getText().toString();
         String address = mEditText_Address.getText().toString();
@@ -123,9 +134,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         //clear fields
         mEditText_MaxVolunteers.getText().clear();
-        mEditText_From.getText().clear();
-        mEditText_Until.getText().clear();
-        mEditText_Date.getText().clear();
+        mTextView_Until.setText("0:00");
+        mTextView_Start.setText("0:00");
+        mTextView_Date.setText("0-0-0000");
+        mEditText_Address.getText().clear();
         mEditText_Descritpion.getText().clear();
         mEditText_ShortDescritpion.getText().clear();
     }
@@ -162,6 +174,71 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
     @Override
     public void onClick(View v){
+
+        if(v == startTimeButton){
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            mTextView_Start.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+
+        if(v == endTimeButton){
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            mTextView_Until.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+
+        if (v == calendarButton) {
+
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            mTextView_Date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        }
+
+
+
         if(v == mButton_LetsGo){
             dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -192,6 +269,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 }
             });
         }
+
+
     }
 
 }
