@@ -75,8 +75,10 @@ public class MainActivity_Organization extends BaseActivity {
             Log.v(TAG, "User is not an organization");
 
             tabTitles.add("Profile");
+            tabTitles.add("Opportunities");
             fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
-            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
+            fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization));
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
         }else {
             if(mOrganization.getPushId().equals(currentUserId)) {
                 //User is organization, and this is their page

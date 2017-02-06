@@ -30,8 +30,6 @@ public class ProfileForOrganizationFragment extends Fragment {
     // newInstance constructor for creating fragment with arguments
     public static ProfileForOrganizationFragment newInstance(Organization organization) {
         mOrganization = organization;
-        Log.d(">>>>>", mOrganization.getName());
-        Log.d(">>>>>", mOrganization.getContactEmail());
         ProfileForOrganizationFragment fragment = new ProfileForOrganizationFragment();
         return fragment;
     }
