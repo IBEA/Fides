@@ -27,8 +27,6 @@ public class ShiftDetailsActivity extends BaseActivity {
     @Bind(R.id.ratedRecyclerView) RecyclerView mRatedRecyclerView;
     @Bind(R.id.textView2) TextView mHeaderOne;
     @Bind(R.id.textView8) TextView mHeaderTwo;
-    private FirebaseRecyclerAdapter mFirebaseAdapterUnrated;
-    private FirebaseRecyclerAdapter mFirebaseAdapterRated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,7 @@ public class ShiftDetailsActivity extends BaseActivity {
     }
 
     private void setUpFirebaseAdapterUnrated() {
-        mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
+        FirebaseRecyclerAdapter mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
                 (String.class, R.layout.volunteer_list_item, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
 
             @Override
@@ -69,7 +67,7 @@ public class ShiftDetailsActivity extends BaseActivity {
     }
 
     private void setUpFirebaseAdapterRated() {
-        mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
+        FirebaseRecyclerAdapter mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
                 (String.class, R.layout.volunteer_list_item, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
 
             @Override
