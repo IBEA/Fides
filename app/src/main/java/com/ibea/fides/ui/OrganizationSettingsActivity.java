@@ -69,7 +69,11 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Organization editOrg = dataSnapshot.getValue(Organization.class);
-
+                streetEditText.setText(editOrg.getStreetAddress());
+                cityEditText.setText(editOrg.getCityAddress());
+                stateEditText.setText(editOrg.getStateAddress());
+                zipEditText.setText(editOrg.getZipcode());
+                userEditText.setText(editOrg.getName());
             }
 
             @Override
