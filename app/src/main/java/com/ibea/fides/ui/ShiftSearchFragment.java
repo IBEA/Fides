@@ -67,7 +67,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.shifts_available_for_volunteers, container, false);
+        View view = inflater.inflate(R.layout.fragment_shifts_search, container, false);
         ButterKnife.bind(this, view);
 
         mThis = this;
