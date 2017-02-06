@@ -73,7 +73,7 @@
             android:orientation="vertical">
 
         <Button
-            android:text="Volunteer"
+            android:text="Variable"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:id="@+id/button_Volunteer"
