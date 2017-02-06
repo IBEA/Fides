@@ -91,9 +91,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String address = mEditText_Address.getText().toString();
         int zip = Integer.parseInt(mEditText_Zip.getText().toString());
 
-        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, zip, _organizationName);
-
-        return shift;
+        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, zip, _organizationName);
     }
 
     public void pushData(Shift _shift){
@@ -130,7 +128,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if((Boolean) dataSnapshot.child("isOrganization").getValue() == true){
+                    if((Boolean) dataSnapshot.child("isOrganization").getValue()){
                         String organizationName = dataSnapshot.child("name").getValue().toString();
                         Log.v("Here:", organizationName);
 

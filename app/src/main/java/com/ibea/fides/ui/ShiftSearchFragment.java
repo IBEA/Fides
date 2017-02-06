@@ -78,111 +78,113 @@ public class ShiftSearchFragment extends Fragment {
         setUpFirebaseAdapter(currentQuery, "shiftsByZip");
 
         mRecyclerView.setAdapter(mFirebaseAdapter);
-        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(!lock){
+            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if(!lock){
+                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                            mFirebaseAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Log.d("ChildRemoved", "Triggered");
+
+                    //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
                     if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
                         mFirebaseAdapter.notifyDataSetChanged();
                     }
-                }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("ChildRemoved", "Triggered");
-
-                //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
-                if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-                    mFirebaseAdapter.notifyDataSetChanged();
                 }
 
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            lock = false;
 
-            }
-        });
-        lock = false;
+            //TODO: implement tag search
+            //TODO: implement city search
 
-        //TODO: implement tag search
-        //TODO: implement city search
+            //We're passing shiftsByZip in anticipation of further options like tags and cities
+            mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(final String query) {
+                    String onlyNumbers = "[0-9]+";
+                    currentQuery = query;
 
-        //We're passing shiftsByZip in anticipation of further options like tags and cities
-        mSearchView_Zipcode.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(final String query) {
-                String onlyNumbers = "[0-9]+";
-                currentQuery = query;
+                    //If you remove this, the query double submits. I have no idea why.
+                    mSearchView_Zipcode.clearFocus();
 
-                //If you remove this, the query double submits. I have no idea why.
-                mSearchView_Zipcode.clearFocus();
+                    //Make sure the query is not empty
+                    if(query.length() != 0){
+                        //Check to see if it's a zipcode
+                        if(query.length() == 5 && query.matches(onlyNumbers)){
+                            setUpFirebaseAdapter(query, "shiftsByZip");
 
-                //Make sure the query is not empty
-                if(query.length() != 0){
-                    //Check to see if it's a zipcode
-                    if(query.length() == 5 && query.matches(onlyNumbers)){
-                        setUpFirebaseAdapter(query, "shiftsByZip");
+                            //Setting vs swapping helps prevent index errors
+                            //TODO: get this sorted out so that it's not redundant. We're setting the adapter IN the setup.
+                            if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+                                Log.d(">>>>>", "Adapter is same");
+                                mRecyclerView = null;
+                                mRecyclerView = (RecyclerView) mView.findViewById(R.id.unratedRecyclerView);
+                                mRecyclerView.setAdapter(mFirebaseAdapter);
+                            }else{
+                                Log.d(">>>>>", "Adapter is different");
+                                mRecyclerView.setAdapter(mFirebaseAdapter);
+                            }
 
-                        //Setting vs swapping helps prevent index errors
-                        //TODO: get this sorted out so that it's not redundant. We're setting the adapter IN the setup.
-                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-                            Log.d(">>>>>", "Adapter is same");
-                            mRecyclerView = null;
-                            mRecyclerView = (RecyclerView) mView.findViewById(R.id.unratedRecyclerView);
-                            mRecyclerView.setAdapter(mFirebaseAdapter);
                         }else{
-                            Log.d(">>>>>", "Adapter is different");
-                            mRecyclerView.setAdapter(mFirebaseAdapter);
-                        }
-
-                    }else{
-                        //Go get a list of orgs, and filter them by the query
-                        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                orgList.clear();
-                                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                    Organization organization = snapshot.getValue(Organization.class);
-                                    if(organization.getName().toLowerCase().contains(query.toLowerCase())){
-                                        orgList.add(organization);
+                            //Go get a list of orgs, and filter them by the query
+                            dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    orgList.clear();
+                                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                        Organization organization = snapshot.getValue(Organization.class);
+                                        if(organization.getName().toLowerCase().contains(query.toLowerCase())){
+                                            orgList.add(organization);
+                                        }
+                                    }
+                                    mRecyclerAdapter = new OrganizationListAdapter(mContext, orgList);
+                                    //Setting vs swapping helps prevent index errors
+                                    if(mRecyclerView.getAdapter().getClass() == mRecyclerAdapter.getClass()){
+                                        mRecyclerView.swapAdapter(mRecyclerAdapter, true);
+                                    }else{
+                                        mRecyclerView.setAdapter(mRecyclerAdapter);
                                     }
                                 }
-                                mRecyclerAdapter = new OrganizationListAdapter(mContext, orgList);
-                                //Setting vs swapping helps prevent index errors
-                                if(mRecyclerView.getAdapter().getClass() == mRecyclerAdapter.getClass()){
-                                       mRecyclerView.swapAdapter(mRecyclerAdapter, true);
-                                }else{
-                                    mRecyclerView.setAdapter(mRecyclerAdapter);
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
                                 }
-                            }
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                            }
-                        });
+                            });
+                        }
                     }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+        }
 
         return view;
     }
@@ -198,8 +200,7 @@ public class ShiftSearchFragment extends Fragment {
 
     // newInstance constructor for creating fragment with arguments
     public static ShiftSearchFragment newInstance(int page, String title) {
-        ShiftSearchFragment fragmentFirst = new ShiftSearchFragment();
-        return fragmentFirst;
+        return new ShiftSearchFragment();
     }
 
     private void setUpFirebaseAdapter(String query, String searchType) {
