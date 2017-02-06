@@ -167,7 +167,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if((Boolean) dataSnapshot.child("isOrganization").getValue() == true){
+                    if((Boolean) dataSnapshot.child("isOrganization").getValue()){
                         String organizationName = dataSnapshot.child("name").getValue().toString();
                         Log.v("Here:", organizationName);
 
