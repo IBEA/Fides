@@ -50,20 +50,25 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shifts_completed_for_organization, container, false);
         ButterKnife.bind(this, view);
 
-        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String currentUserId;
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
-                setUpFirebaseAdapter();
-            }
+        if(auth.getCurrentUser() != null){
+            mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
+                    setUpFirebaseAdapter();
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
 
         return view;
     }
