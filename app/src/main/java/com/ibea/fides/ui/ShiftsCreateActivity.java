@@ -100,9 +100,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String state = mEditText_State.getText().toString();
         int zip = Integer.parseInt(mEditText_Zip.getText().toString());
 
-        Shift shift = new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, state, zip, _organizationName);
-
-        return shift;
+        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, state, zip, _organizationName);
     }
 
     public void pushData(Shift _shift){

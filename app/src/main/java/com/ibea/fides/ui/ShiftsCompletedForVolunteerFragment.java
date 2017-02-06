@@ -35,7 +35,6 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     String mUserId;
 
-
     public ShiftsCompletedForVolunteerFragment() {
         // Required empty public constructor
     }
@@ -56,32 +55,34 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         ButterKnife.bind(this, view);
         Log.v("<<<<<", "In onCreateView for Completed");
 
-        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
-                Log.d(">UserID", mUserId);
-                Log.d(">isOrg>", String.valueOf(isOrganization));
-                setUpFirebaseAdapter();
-            }
+            dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
+                    Log.d(">UserID", mUserId);
+                    Log.d(">isOrg>", String.valueOf(isOrganization));
+                    setUpFirebaseAdapter();
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+
 
         return view;
     }
 
     private void setUpFirebaseAdapter() {
         Log.v(">>>>>", "in CompletedSetup");
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference dbFirebaseNode;
 
-        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId);
+        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
                 (String.class, R.layout.completed_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
 

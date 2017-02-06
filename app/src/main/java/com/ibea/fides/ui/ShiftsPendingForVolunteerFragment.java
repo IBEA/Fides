@@ -33,8 +33,6 @@ import butterknife.ButterKnife;
 public class ShiftsPendingForVolunteerFragment extends Fragment {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
 
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
-
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
 
@@ -79,7 +77,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment {
 
         Log.v(">>>>>", "In setupFirebaseAdapter for ShiftsPendingUsers");
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+        FirebaseRecyclerAdapter mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
                 (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForUser) {
 
             @Override

@@ -18,8 +18,6 @@ import butterknife.ButterKnife;
 public class AdminActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
 
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Organization, FirebaseOrganizationViewHolder>
+        FirebaseRecyclerAdapter mFirebaseAdapter = new FirebaseRecyclerAdapter<Organization, FirebaseOrganizationViewHolder>
                 (Organization.class, R.layout.organization_list_item, FirebaseOrganizationViewHolder.class, dbPendingOrganizations) {
 
             @Override
