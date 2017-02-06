@@ -47,7 +47,7 @@ public class ProfileForOrganizationFragment extends Fragment {
 
         username.setText(mOrganization.getName());
         mBlurb.setText(mOrganization.getDescription());
-        organizationContact.setText(mOrganization.getAddress());
+        organizationContact.setText(mOrganization.getStreetAddress() + ", " + mOrganization.getCityAddress() + ", " + mOrganization.getStateAddress());
 
         return view;
     }

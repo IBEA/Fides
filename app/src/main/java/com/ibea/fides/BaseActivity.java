@@ -52,6 +52,7 @@ public class BaseActivity extends AppCompatActivity {
     public Universal mUniversal;
 
     public String TAG;
+    public String uId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,8 @@ public class BaseActivity extends AppCompatActivity {
 
         // Check to see if a user is logged in, and set dbReference.
         if(mCurrentUser != null){
-            dbCurrentUser = dbUsers.child(mAuth.getCurrentUser().getUid());
+            uId = mAuth.getCurrentUser().getUid();
+            dbCurrentUser = dbUsers.child(uId);
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
         }else{
             Log.v(TAG, "No user logged in");

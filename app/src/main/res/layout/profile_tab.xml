@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
         android:text="Username"
+        android:textColor="@color/colorSecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -56,27 +59,8 @@
         android:layout_marginRight="30dp"/>
 
     <TextView
-        android:text="Trust"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/trusttext"
-        android:textSize="24sp"
-        android:layout_above="@+id/trustpercent"
-        android:layout_toRightOf="@+id/view2"
-        android:layout_toEndOf="@+id/view2" />
-
-    <TextView
-        android:text="Hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/nada"
-        android:textSize="25sp"
-        android:layout_below="@+id/usernametext"
-        android:layout_toLeftOf="@+id/usernametext"
-        android:layout_toStartOf="@+id/usernametext" />
-
-    <TextView
         android:text="0%"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/trustpercent"
@@ -91,6 +75,7 @@
         android:text="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_blue_bright"
         android:id="@+id/totalHours"
         android:textSize="36sp"
         android:layout_below="@+id/nada"
@@ -98,5 +83,27 @@
         android:layout_alignStart="@+id/trusttext"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp" />
+
+    <TextView
+        android:text="Trust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nada"
+        android:textSize="25sp"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_below="@+id/usernametext"
+        android:layout_alignRight="@+id/trustpercent"
+        android:layout_alignEnd="@+id/trustpercent" />
+
+    <TextView
+        android:text="Hours"
+        android:textColor="@android:color/holo_blue_bright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/trusttext"
+        android:textSize="24sp"
+        android:layout_below="@+id/usernametext"
+        android:layout_toRightOf="@+id/view2"
+        android:layout_toEndOf="@+id/view2" />
 
 </RelativeLayout>
