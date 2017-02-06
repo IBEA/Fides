@@ -37,6 +37,8 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder impl
 
     @Override
     public void onClick(View view) {
+        //TODO: Add rejection option
+        //TODO: Clean and comment
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_ORGANIZATIONS);
         ref.child(mOrganization.getPushId()).setValue(mOrganization);
 

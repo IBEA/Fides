@@ -39,7 +39,6 @@ import butterknife.ButterKnife;
 public class ShiftSearchFragment extends Fragment {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
     private RecyclerView.Adapter mRecyclerAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     private Boolean lock = true;
     private String currentUserId;
@@ -81,42 +80,42 @@ public class ShiftSearchFragment extends Fragment {
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    if(!lock){
-                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-                            mFirebaseAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    Log.d("ChildRemoved", "Triggered");
-
-                    //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
-                    if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
-                        mFirebaseAdapter.notifyDataSetChanged();
-                    }
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+//            dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(currentUserId).addChildEventListener(new ChildEventListener() {
+//                @Override
+//                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                    if(!lock){
+//                        if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+//                            mFirebaseAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//                }
+//
+//                @Override
+//                public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                    Log.d("ChildRemoved", "Triggered");
+//
+//                    //TODO: Move query functionality into separate function, store current query type in member variable and update appropriately
+//                    if(mRecyclerView.getAdapter().getClass() == mFirebaseAdapter.getClass()){
+//                        mFirebaseAdapter.notifyDataSetChanged();
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
             lock = false;
 
             //TODO: implement tag search
@@ -199,6 +198,10 @@ public class ShiftSearchFragment extends Fragment {
 
     }
 
+    public void updateAdapter(){
+        mFirebaseAdapter.notifyDataSetChanged();
+    }
+
     // newInstance constructor for creating fragment with arguments
     public static ShiftSearchFragment newInstance(int page, String title) {
         return new ShiftSearchFragment();
@@ -224,7 +227,7 @@ public class ShiftSearchFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
 
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsSearch");
+                        viewHolder.bindShift(shift, isOrganization, "ShiftsSearch", this);
                         Log.d("On " + shift.getShortDescription() + "?", String.valueOf(shift.getCurrentVolunteers().contains(currentUserId)));
 
                         if(shift.getCurrentVolunteers().contains(currentUserId)){

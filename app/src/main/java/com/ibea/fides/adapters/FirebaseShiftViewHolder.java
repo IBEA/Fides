@@ -57,9 +57,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         isOrganization = _isOrganization;
         mOrigin = _origin;
 
-        Log.d(mOrigin, "bindShift");
+        Log.d(mOrigin, " in bindShift");
 
-        //!! Change volunteer button to cancel button if organization !!
         final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
         final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
 
@@ -80,12 +79,14 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if(mShift != null) {
+            //Change button to delete if user is an organization
             if (isOrganization && mShift.getOrganizationID().equals(userID)) {
                 mVolunteerButton.setText("Delete");
                 mCompleteButton.setVisibility(View.VISIBLE);
             } else {
+                //If user is not an organization, change button based on whether or not user has already signed up for shift
                 Log.d(mOrigin, mShift.getShortDescription());
-                if (shift.getCurrentVolunteers().indexOf(userID) != -1) {
+                if (shift.getCurrentVolunteers().contains(userID)) {
                     mVolunteerButton.setText("Cancel");
                 } else {
                     mVolunteerButton.setText("Volunteer");
@@ -107,12 +108,20 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         String function = mVolunteerButton.getText().toString();
 
         if(view == mVolunteerButton) {
-            if(function.equals("Volunteer")){
-                claimShift();
-            }else if(function.equals("Cancel")){
-                quitShift();
-            }else if(function.equals("Delete")){
-                deleteShift(true);
+            switch (function) {
+                case "Volunteer":
+                    Log.d(mOrigin, "Volunteer clicked");
+                    claimShift();
+                    hideView();
+                    break;
+                case "Cancel":
+                    Log.d(mOrigin, "Cancel clicked");
+                    quitShift();
+                    break;
+                case "Delete":
+                    Log.d(mOrigin, "Delete clicked");
+                    deleteShift(true);
+                    break;
             }
         }else if(view == mCompleteButton) {
             completeShift();
