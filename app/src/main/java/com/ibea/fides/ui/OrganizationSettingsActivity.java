@@ -131,8 +131,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         useredittext.getText().clear();
 
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
-
-        //TODO This address needs to be placed into the database by backend -- Garrett
+        dbOrganizations.child(uId).child("name").setValue(username);
     }
 
     private void createNewBlurb() {
