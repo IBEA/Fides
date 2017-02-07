@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +33,10 @@ public class NewShiftSearchFragment extends Fragment {
     @Bind(R.id.searchView_City) SearchView mSearchView_City;
     @Bind(R.id.searchView_State) SearchView mSearchView_State;
 
-    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+    private final String TAG = "NewShiftsSearchFragment";
+    private ArrayList<Shift> shifts = new ArrayList<>();
 
     public NewShiftSearchFragment() {
         // Required empty public constructor
@@ -49,8 +53,9 @@ public class NewShiftSearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mSearchView_City.clearFocus();
-                ArrayList<String> shiftIds = fetchShifts(query, "OR");
-                ArrayList<Shift> filteredShifts = filterShifts(shiftIds);
+
+                //Sets of a series of functions that fetches shift Ids, resolves them, and then filters them.
+                fetchShiftsAndFilter(query, "OR");
                 //TODO: Send filteredShifts to a RecyclerAdapter
                 return false;
             }
@@ -66,8 +71,10 @@ public class NewShiftSearchFragment extends Fragment {
     }
 
     //Retrieves full list of shiftIDs
-    public ArrayList<String> fetchShifts(String _city, String _state){
-        Log.d("NewShiftSearchFragment", "in fetchShifts");
+    public void fetchShiftsAndFilter(String _city, String _state){
+        Log.d(TAG, "in fetchShifts");
+
+        shifts.clear();
 
         final ArrayList<String> shiftIds = new ArrayList<>();
         DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
@@ -76,12 +83,13 @@ public class NewShiftSearchFragment extends Fragment {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("NewShiftSearchFragment", "fetching shifts");
+                Log.d(TAG, "fetching shifts");
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    String catcher = snapshot.getValue(String.class);
-                    shiftIds.add(catcher);
-                    Log.d(">>>>>", catcher);
+                    String shiftId = snapshot.getValue(String.class);
+                    Shift shift = fetchShift(shiftId);
+                    shifts.add(shift);
                 }
+                Log.d(TAG, "Outside for loop, starting filters");
             }
 
             @Override
@@ -89,13 +97,26 @@ public class NewShiftSearchFragment extends Fragment {
 
             }
         });
-        return shiftIds;
     }
 
-    public ArrayList<Shift> filterShifts(ArrayList<String> _shiftIds){
-        Log.d("NewShiftSearchFragment", "in filterShifts");
-        ArrayList<Shift> filteredShifts = new ArrayList<>();
-        return filteredShifts;
+    public Shift fetchShift(String _shiftId){
+        //Array type is necessary for use in dbRef call
+        final Shift[] shift = new Shift[1];
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                shift[0] = dataSnapshot.getValue(Shift.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return shift[0];
     }
+
 
 }
