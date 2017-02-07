@@ -3,11 +3,11 @@ package com.ibea.fides.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +23,7 @@ import com.ibea.fides.models.Shift;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,12 +42,14 @@ public class NewShiftSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_new_shift_search, container, false);
+        ButterKnife.bind(this, view);
 
         mSearchView_City.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mSearchView_City.clearFocus();
-                ArrayList<String> shiftIds = fetchShifts();
+                ArrayList<String> shiftIds = fetchShifts(query, "OR");
                 ArrayList<Shift> filteredShifts = filterShifts(shiftIds);
                 //TODO: Send filteredShifts to a RecyclerAdapter
                 return false;
@@ -59,17 +62,21 @@ public class NewShiftSearchFragment extends Fragment {
         });
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_shift_search, container, false);
+        return view;
     }
 
     //Retrieves full list of shiftIDs
-    public ArrayList<String> fetchShifts(){
-        ArrayList<String> shiftIds = new ArrayList<>();
+    public ArrayList<String> fetchShifts(String _city, String _state){
+        Log.d("NewShiftSearchFragment", "in fetchShifts");
 
-        Query query = dbRef.child(Constants.DB_NODE_SHIFTS).orderByKey().limitToFirst(100);
+        ArrayList<String> shiftIds = new ArrayList<>();
+        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
+
+        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByKey().limitToFirst(100);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("NewShiftSearchFragment", "fetching shifts");
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String catcher = snapshot.getValue(String.class);
                     Log.d(">>>>>", catcher);
@@ -85,6 +92,7 @@ public class NewShiftSearchFragment extends Fragment {
     }
 
     public ArrayList<Shift> filterShifts(ArrayList<String> _shiftIds){
+        Log.d("NewShiftSearchFragment", "in filterShifts");
         ArrayList<Shift> filteredShifts = new ArrayList<>();
         return filteredShifts;
     }

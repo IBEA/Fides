@@ -53,11 +53,13 @@ public class MainActivity_Volunteer extends BaseActivity{
             tabTitles.add("Search");
             tabTitles.add("My Shifts");
             tabTitles.add("History");
+            tabTitles.add("Testing");
             fragmentList.add(new ProfileForVolunteerFragment());
             fragmentList.add(new ShiftSearchFragment());
             fragmentList.add(new ShiftsPendingForVolunteerFragment());
             fragmentList.add(new ShiftsCompletedForVolunteerFragment());
-            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 4, tabTitles, fragmentList));
+            fragmentList.add(new NewShiftSearchFragment());
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 5, tabTitles, fragmentList));
         }
 
 
