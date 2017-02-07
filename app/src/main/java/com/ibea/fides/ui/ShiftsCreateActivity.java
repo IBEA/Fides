@@ -173,7 +173,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mStartTimeInput.setText(hourOfDay + ":" + minute);
+                    mStartTimeInput.setText(convertTime( hourOfDay + ":" + minute));
                 }
             }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -193,7 +193,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
-                            mEndTimeInput.setText(hourOfDay + ":" + minute);
+                            mEndTimeInput.setText( convertTime( hourOfDay + ":" + minute) );
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
