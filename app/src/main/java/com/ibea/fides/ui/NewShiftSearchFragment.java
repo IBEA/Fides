@@ -57,10 +57,13 @@ public class NewShiftSearchFragment extends Fragment {
         ButterKnife.bind(this, view);
         mContext = this.getContext();
 
-//        mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
-//        mRecyclerView.setHasFixedSize(false);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//        mRecyclerView.setAdapter(mRecyclerAdapter);
+
+
+        mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
+        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
 
         mSearchView_City.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -103,12 +106,9 @@ public class NewShiftSearchFragment extends Fragment {
                     shifts.add(shift);
                 }
                 Log.d(TAG, "Outside for loop, starting filters");
-//               mRecyclerAdapter.notifyDataSetChanged();
-                Log.d(TAG, "Shifts: " + shifts.size());
-                mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
-                mRecyclerView.setHasFixedSize(false);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                mRecyclerView.setAdapter(mRecyclerAdapter);
+                mRecyclerAdapter.notifyDataSetChanged();
+
+
             }
 
             @Override

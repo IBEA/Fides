@@ -31,7 +31,7 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
     private final String TAG = "NewShiftSearchAdapter";
 
     public NewShiftSearchAdapter(Context context, ArrayList<Shift> shifts) {
-    //        mShifts = shifts;
+            mShifts = shifts;
             }
 
     @Override
@@ -56,6 +56,7 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
         public NewShiftSearchViewHolder(View itemView) {
             super(itemView);
+            Log.d(TAG, "in NewShiftSearchViewHolder");
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
