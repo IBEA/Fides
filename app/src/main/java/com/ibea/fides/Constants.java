@@ -4,7 +4,6 @@ package com.ibea.fides;
  * Created by KincaidJ on 1/24/17.
  */
 
-
 public class Constants {
     //Base nodes
     public static final String DB_NODE_USERS = "users";
@@ -20,7 +19,7 @@ public class Constants {
     public static final String DB_SUBNODE_ZIPCODE = "zipcode";
     public static final String DB_SUBNODE_ORGANIZATIONS = "organizations";
     public static final String DB_SUBNODE_VOLUNTEERS = "volunteers";
-    public static final String DB_SUBNODE_STATECITY = "stateCity";
+    public static final String DB_SUBNODE_STATE = "stateCity";
 
     //Keys
     public static final String KEY_ISORGANIZATION = "isOrganization";

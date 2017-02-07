@@ -14,6 +14,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,7 @@ public class NewShiftSearchFragment extends Fragment {
     private ArrayList<Shift> shifts = new ArrayList<>();
     private RecyclerView.Adapter mRecyclerAdapter;
     private Context mContext;
+    private String zipQuery;
 
     public NewShiftSearchFragment() {
         // Required empty public constructor
@@ -91,21 +93,25 @@ public class NewShiftSearchFragment extends Fragment {
     public void fetchShiftIds(String _city, String _state){
         Log.d(TAG, "in fetchShifts");
 
+        int itemCount = shifts.size();
         shifts.clear();
+        mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
 
         final ArrayList<String> shiftIds = new ArrayList<>();
-        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
+        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATE);
 
-        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByKey().limitToFirst(100);
+        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByKey().limitToFirst(25);
+        Log.d(TAG, String.valueOf(shifts.size()));
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "fetching shifts");
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String shiftId = snapshot.getValue(String.class);
-                    shiftIds.add(shiftId);
+                    fetchShift(shiftId);
                 }
-                resolveShiftsandFilter(shiftIds);
+                Log.d(TAG, String.valueOf(shifts.size()));
+
             }
 
             @Override
@@ -113,50 +119,29 @@ public class NewShiftSearchFragment extends Fragment {
 
             }
         });
-
-        Log.d(TAG, "Outside for loop, starting filters");
-
-        String zipQuery = mSearchView_Zip.getQuery().toString();
-
-//                if(validateZip(query)){
-//                    Log.d(TAG, "Valid Zip, filtering");
-//                    filterByZip(query);
-//                }
-        Log.d(TAG, "Size: " + shifts.size());
-        mRecyclerAdapter.notifyDataSetChanged();
     }
 
-//    public void fetchShift(String _shiftId){
-//        //Array type is necessary for use in dbRef call
-//
-//        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Shift shift = dataSnapshot.getValue(Shift.class);
-//                Log.d(TAG, shift.getOrganizationName());
-//                shifts.add(shift);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+    public void fetchShift(String _shiftId){
+        final String zipQuery = mSearchView_Zip.getQuery().toString();
+        Boolean filterByZip = false;
+        if(zipQuery.length() != 0){
+            if(validateZip(zipQuery)){
+                filterByZip = true;
+            }
+        }
 
-    public void resolveShiftsandFilter(ArrayList<String> _shiftIds){
-        fetchShifts(_shiftIds, 0);
-    }
-
-    public void fetchShifts(final ArrayList<String> _shiftIds, final int _position){
-        Log.d(TAG, String.valueOf(_position));
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftIds.get(_position)).addListenerForSingleValueEvent(new ValueEventListener() {
+        final Boolean finalFilterByZip = filterByZip;
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
-                shifts.add(shift);
-                if(_position != _shiftIds.size() - 1){
-                    fetchShifts(_shiftIds, _position + 1);
+
+                if(finalFilterByZip && filterByZip(shift, zipQuery)){
+                    shifts.add(shift);
+                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                }else if(!finalFilterByZip){
+                    shifts.add(shift);
+                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                 }
             }
 
@@ -167,13 +152,11 @@ public class NewShiftSearchFragment extends Fragment {
         });
     }
 
-    public ArrayList<Shift> filterByZip(String _query){
-        for(int i = 0; i < shifts.size(); i++){
-            if(!shifts.get(i).getZip().equals(_query)){
-                shifts.remove(i);
-            }
-        }
-        return shifts;
+
+    public Boolean filterByZip(Shift _shift, String zipQuery){
+        if(_shift.getZip().equals(zipQuery)){
+            return true;
+        }else return false;
     }
 
     public Boolean validateZip(String _query){
@@ -183,6 +166,7 @@ public class NewShiftSearchFragment extends Fragment {
             if(_query.length() == 5 && _query.matches(onlyNumbers)){
                 return true;
             }else{
+                //TODO: Zack fix this toast
                 Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
                 return false;
             }
