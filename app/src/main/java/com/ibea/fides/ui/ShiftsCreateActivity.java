@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import android.support.v7.view.menu.ListMenuItemView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -182,13 +183,14 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,  R.style.TimePicker, new TimePickerDialog.OnTimeSetListener() {
 
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
                             mTextView_Start.setText(hourOfDay + ":" + minute);
+                            mTextView_Start.setGravity(Gravity.RIGHT);
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -201,7 +203,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
                     new TimePickerDialog.OnTimeSetListener() {
 
                         @Override
@@ -223,7 +225,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
                     new DatePickerDialog.OnDateSetListener() {
 
                         @Override
