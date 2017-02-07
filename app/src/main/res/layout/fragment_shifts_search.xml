@@ -6,6 +6,51 @@
     android:orientation="vertical"
     tools:context="com.ibea.fides.ui.ShiftSearchFragment">
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView"
+        android:inputType="text"
+        android:background="@color/colorPrimaryLight" >
+    </SearchView>
 
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <RadioButton
+                    android:text="Organization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton_Organization"
+                    android:layout_weight="1" />
+                <RadioButton
+                    android:text="Location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton_Location"
+                    android:layout_weight="1"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:text="Cause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButton_Cause"
+                    android:layout_weight="1" />
+
+        </RadioGroup>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/unratedRecyclerView"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        />
 
 </LinearLayout>

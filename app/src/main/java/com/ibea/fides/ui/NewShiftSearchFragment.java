@@ -4,13 +4,19 @@ package com.ibea.fides.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 
@@ -59,6 +65,22 @@ public class NewShiftSearchFragment extends Fragment {
     //Retrieves full list of shiftIDs
     public ArrayList<String> fetchShifts(){
         ArrayList<String> shiftIds = new ArrayList<>();
+
+        Query query = dbRef.child(Constants.DB_NODE_SHIFTS).orderByKey().limitToFirst(100);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    String catcher = snapshot.getValue(String.class);
+                    Log.d(">>>>>", catcher);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return shiftIds;
     }
 
