@@ -9,12 +9,16 @@
         android:text="Create Shift"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_CreateShift" />
+        android:id="@+id/button_CreateShift"
+        android:background="@color/colorPrimaryLight" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/unratedRecyclerView"/>
+        android:id="@+id/unratedRecyclerView"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"/>
 
 
 </LinearLayout>
