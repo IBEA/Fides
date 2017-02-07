@@ -61,7 +61,7 @@ public class FirebaseCompletedShiftViewHolder extends RecyclerView.ViewHolder im
 
                 if(mShift != null){
                     organizationTextView.setText(mShift.getOrganizationName());
-                    dateTextView.setText(mShift.getDate());
+                    dateTextView.setText(mShift.getStartDate());
                     descriptionTextView.setText(mShift.getShortDescription());
                 }
             }
