@@ -2,12 +2,14 @@ package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,6 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -197,7 +200,8 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         // Create Toast, overriding background property of activity
         Toast toast = Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG);
         View view = toast.getView();
-        view.setBackgroundResource(R.color.colorBlack);
+        view.setBackgroundColor(Color.argb(150,0,0,0));
+        view.setPadding(30,30,30,30);
         toast.setView(view);
         toast.show();
 
