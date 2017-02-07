@@ -158,10 +158,13 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         String shiftId = mShift.getPushId();
         String organizationID = mShift.getOrganizationID();
         String zipcode = String.valueOf(mShift.getZip());
+        String state = mShift.getState();
+        String city = mShift.getCity();
 
         List<String> userIds = mShift.getCurrentVolunteers();
 
         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zipcode).child(shiftId).removeValue();
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).removeValue();
         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_NODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
 
         dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
@@ -217,8 +220,11 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                     if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
                         String zip = String.valueOf(shift.getZip());
                         String organizationID = shift.getOrganizationID();
+                        String state = shift.getState();
+                        String city = shift.getCity();
 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).setValue(shiftId);
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).setValue(shiftId);
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).setValue(shiftId);
                     }
 
@@ -260,8 +266,12 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                     //check if shift has slots left. If not, remove from shiftsAvailable
                     String organizationID = shift.getOrganizationID();
                     String zip = String.valueOf(shift.getZip());
+                    String state = shift.getState();
+                    String city = shift.getCity();
+
 
                     if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 0){
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).removeValue();
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).removeValue();
                     }
