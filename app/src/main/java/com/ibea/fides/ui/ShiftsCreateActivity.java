@@ -37,9 +37,12 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -262,9 +265,26 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             return false;
         }
 
-        return true;
+        return compareDate(mStartDate, mEndDate);
+
     }
 
+    public boolean compareDate(String dateOne, String dateTwo) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            Date date1 = sdf.parse(dateOne);
+            Date date2 = sdf.parse(dateTwo);
+
+            if(!date1.after(date2)) {
+                return true;
+            }
+
+        } catch (ParseException ex){
+            ex.printStackTrace();
+
+        }
+        return false;
+    }
 
 
     // Reads all fields and returns constructed shift
