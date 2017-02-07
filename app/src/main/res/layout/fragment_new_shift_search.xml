@@ -35,7 +35,8 @@
         android:background="@color/colorPrimaryLight"
         app:iconifiedByDefault="false"
         android:queryHint="Zip Code"
-        android:iconifiedByDefault="false">
+        android:iconifiedByDefault="false"
+        tools:inputType="number">
     </SearchView>
 
     <android.support.v7.widget.RecyclerView

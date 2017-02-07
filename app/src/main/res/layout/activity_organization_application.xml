@@ -134,18 +134,14 @@
         android:inputType="text"
         android:hint="City of Org" />
 
-    <EditText
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
         android:layout_alignBottom="@+id/cityInput"
-        android:layout_toRightOf="@+id/nameInput"
-        android:layout_toEndOf="@+id/nameInput"
-        android:layout_marginLeft="45dp"
-        android:layout_marginStart="45dp"
-        android:id="@+id/stateInput"
-        android:hint="State" />
+        android:layout_alignTop="@+id/cityInput"
+        android:layout_below="@+id/addressInput"
+        android:layout_toRightOf="@+id/cityInput"
+        android:id="@+id/stateSpinner" />
 
 
 </RelativeLayout>

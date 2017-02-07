@@ -6,334 +6,136 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.ShiftsCreateActivity">
 
-    <Button
-        android:text="Post Shift"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/button_LetsGo"
+        android:id="@+id/titleText"
+        android:text="Create Shift Form"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleText"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/startTimeInput"
+        android:text="Start Time"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleText"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/toTimeText"
+        android:text="to"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleText"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/endTimeInput"
+        android:text="End Time"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toTimeText"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/startDateInput"
+        android:text="Start Date"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toTimeText"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/toDateText"
+        android:text="to"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toTimeText"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/endDateInput"
+        android:text="End Date"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/endDateInput"
+        android:inputType="textMultiLine"
+        android:minLines="2"
+        android:id="@+id/shortDescriptionInput"
+        android:hint="Short Description of Shift"
+        android:textSize="20sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shortDescriptionInput"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:id="@+id/longDescriptionInput"
+        android:hint="Long Description of Shift"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/longDescriptionInput"
+        android:id="@+id/streetInput"
+        android:hint="Street Address"
+        android:textSize="20sp"/>
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/streetInput"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/cityInput"
+        android:hint="City"
+        android:textSize="20sp"/>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cityInput"
+        android:layout_alignTop="@+id/cityInput"
+        android:layout_below="@+id/streetInput"
+        android:layout_toRightOf="@+id/cityInput"
+        android:id="@+id/stateSpinner" />
+    <EditText
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/streetInput"
+        android:layout_alignParentRight="true"
+        android:id="@+id/zipcodeInput"
+        android:hint="Zipcode"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zipcodeInput"
+        android:id="@+id/volunteerSizeInput"
+        android:hint="Number of Volunteers"
+        android:textSize="20sp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/submitShiftButton"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimaryLight"
-        android:textSize="24sp"
-        android:height="64dp"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:theme="@style/LightOnDarkLayout"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="12dp"
-        android:paddingEnd="24dp"
-        android:paddingStart="24dp"
-        android:paddingTop="12dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_startTimeLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Start Time:"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="false"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_startTimetext"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="0:00"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/textView_startTimeLabel"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="false"
-                android:layout_centerVertical="true" />
-
-            <Button
-                android:text="Start Time"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="67dp"
-                android:layout_marginEnd="67dp"
-                android:id="@+id/startTimeButton" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_endTimeLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="End Time:"
-                android:layout_centerVertical="true" />
-
-
-            <Button
-                android:text="End Time"
-                android:layout_height="40dp"
-                android:layout_width="100dp"
-                android:id="@+id/endTimeButton"
-                android:layout_marginLeft="22dp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView_endTimeText"
-                android:layout_toEndOf="@+id/textView_endTimeText" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_endTimeText"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="0:00"
-                android:layout_marginLeft="28dp"
-                android:layout_alignBaseline="@+id/endTimeButton"
-                android:layout_alignBottom="@+id/endTimeButton"
-                android:layout_toRightOf="@+id/textView_endTimeLabel"
-                android:layout_toEndOf="@+id/textView_endTimeLabel"
-                android:layout_marginStart="28dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_dateLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Date:"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_dateTextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="0/00/0000:"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView_dateLabel"
-                android:layout_toEndOf="@+id/textView_dateLabel" />
-
-            <Button
-                android:text="Calendar"
-                android:id="@+id/calendarButton"
-                android:layout_height="40dp"
-                android:layout_width="100dp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/textView_dateTextView"
-                android:layout_toEndOf="@+id/textView_dateTextView"
-                android:layout_marginLeft="32dp"
-                android:layout_marginStart="32dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/editText_MaxVolunteers"
-                android:hint="###"
-                android:inputType="number"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_volunteersNeededLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Volunteers Needed:"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_descriptionLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Description:"
-                android:layout_alignBaseline="@+id/editText_Description"
-                android:layout_alignBottom="@+id/editText_Description"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/editText_Description"
-                android:hint="explain duties"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_shortDescriptionLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Short Description:"
-                android:layout_alignBaseline="@+id/editText_ShortDescription"
-                android:layout_alignBottom="@+id/editText_ShortDescription"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/editText_ShortDescription"
-                android:hint="one-sentence max"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:ems="10"
-                android:id="@+id/editText_Address"
-                android:hint="street address"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_address"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Address:"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:ems="10"
-                android:id="@+id/editText_City"
-                android:hint="City Address"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_City"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="City:"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:ems="10"
-                android:id="@+id/editText_State"
-                android:hint="State"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_state"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="State:"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_zipLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="ZIP Code:"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editText_Zip"
-                android:hint="zip code"
-                android:gravity="center_vertical|end"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
+        android:text="Post Shift"
+        android:textSize="25sp"/>
 </RelativeLayout>
 

@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,12 +23,13 @@ import com.ibea.fides.models.Organization;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener {
+public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
     @Bind(R.id.addressInput) EditText mAddressInput;
     @Bind(R.id.cityInput) EditText mCityInput;
-    @Bind(R.id.stateInput) EditText mStateInput;
+    @Bind(R.id.stateSpinner) Spinner mStateSpinner;
+
     @Bind(R.id.zipcodeInput) EditText mZipInput;
     @Bind(R.id.einInput) EditText mEinInput;
     @Bind(R.id.descriptionInput) EditText mDescriptionInput;
@@ -44,7 +48,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     String userName;
     String address;
     String city;
-    String state;
+    String mState;
     String zip;
     String description;
 
@@ -56,6 +60,11 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
         mAuth = FirebaseAuth.getInstance();
         createAuthStateListener();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mStateSpinner.setAdapter(adapter);
+        mStateSpinner.setOnItemSelectedListener(this);
 
         // Set Click Listener
         mSubmitButton.setOnClickListener(this);
@@ -92,13 +101,11 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         userName = mNameInput.getText().toString().trim();
         address = mAddressInput.getText().toString().trim();
         city = mCityInput.getText().toString().trim();
-        state = mStateInput.getText().toString().trim();
         zip = mZipInput.getText().toString().trim();
         description = mDescriptionInput.getText().toString().trim();
         String password = mPasswordInput.getText().toString().trim();
         String passwordConfirm = mPasswordConfirmInput.getText().toString().trim();
         String email = mEmailInput.getText().toString().trim();
-
 
         // Confirm validity of inputs
         boolean validName = isValidName(orgName);
@@ -134,6 +141,9 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
                 }
             }
         });
+    }
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        mState = parent.getItemAtPosition(pos).toString();
     }
 
     private void createAuthStateListener() {
@@ -186,7 +196,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
         // Add Display Name to User Authentication in Firebase
-        Organization newOrg = new Organization(user.getUid(), mName, userName, address, city, state, zip, description);
+        Organization newOrg = new Organization(user.getUid(), mName, userName, address, city, mState, zip, description);
         newOrg.setContactEmail(mEmail);
         dbPendingOrganizations.child(user.getUid()).setValue(newOrg);
 

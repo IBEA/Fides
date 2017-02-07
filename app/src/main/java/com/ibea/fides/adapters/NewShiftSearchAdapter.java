@@ -52,19 +52,19 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
             }
 
     public class NewShiftSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        @Bind(R.id.textView_OrganizationName) TextView mTextView_OrganizationName;
         private Context mContext;
 
         public NewShiftSearchViewHolder(View itemView) {
             super(itemView);
-            Log.d(TAG, "in NewShiftSearchViewHolder");
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
         }
 
         public void bindShift(Shift shift) {
-            Log.d(TAG, "in bindShift");
             mShift = shift;
+            mTextView_OrganizationName.setText(mShift.getOrganizationName());
         }
 
         @Override

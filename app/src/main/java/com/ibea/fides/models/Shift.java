@@ -24,19 +24,21 @@ public class Shift {
     String shortDescription;
     String organizationName;
     String zip;
-    String date;
+    String startDate;
+    String endDate;
     int maxVolunteers;
     List<String> currentVolunteers = new ArrayList<String>();
     List<String> ratedVolunteers = new ArrayList<>();
 
     public Shift(){}
-    public Shift(String _from, String _until, String _date, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
+    public Shift(String _from, String _until, String _startDate, String _endDate, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
         from = _from;
         until = _until;
         organizationID = _OID;
         description = _description;
         shortDescription = _shortDescription;
-        date = _date;
+        startDate = _startDate;
+        endDate = _endDate;
         maxVolunteers = _maxVolunteers;
         streetAddress = _address;
         city = _city;
@@ -50,6 +52,22 @@ public class Shift {
     public void setPushId(String pushId) { this.pushId = pushId; }
     public String getZip() {
         return zip;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public void setZip(String zip) {
@@ -118,14 +136,6 @@ public class Shift {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public int getMaxVolunteers() {

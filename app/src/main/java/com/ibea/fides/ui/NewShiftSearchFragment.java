@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 public class NewShiftSearchFragment extends Fragment {
     @Bind(R.id.searchView_City) SearchView mSearchView_City;
     @Bind(R.id.searchView_State) SearchView mSearchView_State;
+    @Bind(R.id.searchView_Zip) SearchView mSearchView_Zip;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
@@ -70,8 +71,8 @@ public class NewShiftSearchFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mSearchView_City.clearFocus();
 
-                //Sets of a series of functions that fetches shift Ids, resolves them, and then filters them.
-                fetchShiftsAndFilter(query, "OR");
+                //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
+                fetchShiftIds(query, "OR");
                 //TODO: Send filteredShifts to a RecyclerAdapter
                 return false;
             }
@@ -87,7 +88,7 @@ public class NewShiftSearchFragment extends Fragment {
     }
 
     //Retrieves full list of shiftIDs
-    public void fetchShiftsAndFilter(String _city, String _state){
+    public void fetchShiftIds(String _city, String _state){
         Log.d(TAG, "in fetchShifts");
 
         shifts.clear();
@@ -102,13 +103,9 @@ public class NewShiftSearchFragment extends Fragment {
                 Log.d(TAG, "fetching shifts");
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String shiftId = snapshot.getValue(String.class);
-                    Shift shift = fetchShift(shiftId);
-                    shifts.add(shift);
+                    shiftIds.add(shiftId);
                 }
-                Log.d(TAG, "Outside for loop, starting filters");
-                mRecyclerAdapter.notifyDataSetChanged();
-
-
+                resolveShiftsandFilter(shiftIds);
             }
 
             @Override
@@ -116,16 +113,51 @@ public class NewShiftSearchFragment extends Fragment {
 
             }
         });
+
+        Log.d(TAG, "Outside for loop, starting filters");
+
+        String zipQuery = mSearchView_Zip.getQuery().toString();
+
+//                if(validateZip(query)){
+//                    Log.d(TAG, "Valid Zip, filtering");
+//                    filterByZip(query);
+//                }
+        Log.d(TAG, "Size: " + shifts.size());
+        mRecyclerAdapter.notifyDataSetChanged();
     }
 
-    public Shift fetchShift(String _shiftId){
-        //Array type is necessary for use in dbRef call
-        final Shift[] shift = new Shift[1];
+//    public void fetchShift(String _shiftId){
+//        //Array type is necessary for use in dbRef call
+//
+//        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Shift shift = dataSnapshot.getValue(Shift.class);
+//                Log.d(TAG, shift.getOrganizationName());
+//                shifts.add(shift);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void resolveShiftsandFilter(ArrayList<String> _shiftIds){
+        fetchShifts(_shiftIds, 0);
+    }
+
+    public void fetchShifts(final ArrayList<String> _shiftIds, final int _position){
+        Log.d(TAG, String.valueOf(_position));
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftIds.get(_position)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                shift[0] = dataSnapshot.getValue(Shift.class);
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                shifts.add(shift);
+                if(_position != _shiftIds.size() - 1){
+                    fetchShifts(_shiftIds, _position + 1);
+                }
             }
 
             @Override
@@ -133,9 +165,28 @@ public class NewShiftSearchFragment extends Fragment {
 
             }
         });
-
-        return shift[0];
     }
 
+    public ArrayList<Shift> filterByZip(String _query){
+        for(int i = 0; i < shifts.size(); i++){
+            if(!shifts.get(i).getZip().equals(_query)){
+                shifts.remove(i);
+            }
+        }
+        return shifts;
+    }
 
+    public Boolean validateZip(String _query){
+        String onlyNumbers = "[0-9]+";
+
+        if(_query.length() != 0){
+            if(_query.length() == 5 && _query.matches(onlyNumbers)){
+                return true;
+            }else{
+                Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }else return false;
+
+    }
 }

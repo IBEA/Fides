@@ -36,7 +36,6 @@ public class MainActivity_Organization extends BaseActivity {
         setContentView(R.layout.activity_organization_profile);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra("username");
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
