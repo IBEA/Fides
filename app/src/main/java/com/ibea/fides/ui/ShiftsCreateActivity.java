@@ -3,6 +3,7 @@ package com.ibea.fides.ui;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,35 +37,37 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ibea.fides.R.id.endTimeButton;
 
 public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    @Bind(R.id.textView_endTimeText) TextView mTextView_Until;
-    @Bind(R.id.textView_startTimetext) TextView mTextView_Start;
-    @Bind(R.id.editText_MaxVolunteers) EditText mEditText_MaxVolunteers;
-    @Bind(R.id.button_LetsGo) Button mButton_LetsGo;
-    @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
-    @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
-    @Bind(R.id.editText_Address) EditText mEditText_Address;
-    @Bind(R.id.editText_City) EditText mEditText_City;
-    @Bind(R.id.editText_Zip) EditText mEditText_Zip;
-    @Bind(R.id.startTimeButton) Button startTimeButton;
-    @Bind(R.id.textView_dateTextView) TextView mTextView_Date;
-    @Bind(R.id.endTimeButton) Button endTimeButton;
-    @Bind(R.id.calendarButton) Button calendarButton;
+    @Bind(R.id.startTimeInput) TextView mStartTimeInput;
+    @Bind(R.id.endTimeInput) TextView mEndTimeInput;
+    @Bind(R.id.startDateInput) TextView mStartDateInput;
+    @Bind(R.id.endDateInput) TextView mEndDateInput;
+    @Bind(R.id.volunteerSizeInput) EditText mVolunteerSizeInput;
+    @Bind(R.id.shortDescriptionInput) EditText mShortDescriptionInput;
+    @Bind(R.id.longDescriptionInput) EditText mLongDescriptionInput;
+    @Bind(R.id.streetInput) EditText mStreetInput;
+    @Bind(R.id.cityInput) EditText mCityInput;
     @Bind(R.id.stateSpinner) Spinner mStateSpinner;
+    @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
+    @Bind(R.id.submitShiftButton) Button mSubmitButton;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    String mState;
 
+    private String mStartTime, mEndTime, mStartDate, mEndDate, mShortDescription, mLongDescription, mStreet, mCity, mState, mZipcode;
+    private int mVolunteerSize;
 
     Organization thisOrg;
 
@@ -80,59 +83,214 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mStateSpinner.setAdapter(adapter);
 
-        mButton_LetsGo.setOnClickListener(this);
-        startTimeButton.setOnClickListener(this);
-        endTimeButton.setOnClickListener(this);
-        calendarButton.setOnClickListener(this);
+        mStartTimeInput.setOnClickListener(this);
+        mEndTimeInput.setOnClickListener(this);
+        mStartDateInput.setOnClickListener(this);
+        mEndDateInput.setOnClickListener(this);
         mStateSpinner.setOnItemSelectedListener(this);
+        mSubmitButton.setOnClickListener(this);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
+    public void autoFill() {
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
+                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            thisOrg = dataSnapshot.getValue(Organization.class);
+                            mStreetInput.setText(thisOrg.getStreetAddress());
+                            mCityInput.setText(thisOrg.getCityAddress());
+                            mZipcodeInput.setText(thisOrg.getZipcode());
+                            String state = thisOrg.getStateAddress();
+
+                            Resources res = getResources();
+                            String[] states = res.getStringArray(R.array.states_array);
+                            int index = Arrays.asList(states).indexOf(state);
+
+
+                            mStateSpinner.setSelection(index);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mState = parent.getItemAtPosition(pos).toString();
-        Log.d("JUSTIN", mState);
     }
 
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
-    }
+    @Override
+    public void onClick(View v) {
+        if (v == mStartTimeInput) {
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
 
-    // !! Checks to make sure all fields are filled out correctly !!
-    public boolean validateFields(){
-        return true;
-    }
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker, new TimePickerDialog.OnTimeSetListener() {
 
-    //Converts to military time
-    public String convertTime(String _time, boolean _isChecked){
-        int marker = _time.indexOf(":");
-        int hour = Integer.parseInt(_time.substring(0, marker));
-        String minutes = _time.substring(marker, _time.length());
-
-        if(_isChecked && hour != 12) {
-            hour = hour + 12;
-        }else if (!_isChecked && hour == 12) {
-            hour = 0;
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    mStartTimeInput.setText(hourOfDay + ":" + minute);
+                }
+            }, mHour, mMinute, false);
+            timePickerDialog.show();
         }
 
-        _time = hour + minutes;
-//        Toast.makeText(mContext, _time, Toast.LENGTH_SHORT).show();
-        return _time;
+        if (v == mEndTimeInput) {
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            mEndTimeInput.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+
+        if (v == mStartDateInput) {
+
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            mStartDateInput.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                            mEndDateInput.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        }
+
+
+        if (v == mEndDateInput) {
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            mEndDateInput.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        }
+
+        if (v == mSubmitButton) {
+            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if ((Boolean) dataSnapshot.child("isOrganization").getValue()) {
+                        String organizationName = dataSnapshot.child("name").getValue().toString();
+                        Log.v("Here:", organizationName);
+
+                        String pushId = dataSnapshot.child("pushId").getValue().toString();
+
+                        Log.v("There:", pushId);
+
+                        if (validateFields()) {
+                            Shift shift = createShift(organizationName, pushId);
+
+                            //Push data
+                            pushData(shift);
+                        }
+                    } else {
+                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
+
+
+    public boolean validateFields(){
+        mStartTime = mStartTimeInput.getText().toString();
+        mEndTime = mEndTimeInput.getText().toString();
+        mStartDate = mStartDateInput.getText().toString();
+        mEndDate = mEndDateInput.getText().toString();
+        mVolunteerSize = Integer.parseInt(mVolunteerSizeInput.getText().toString());
+        mShortDescription = mShortDescriptionInput.getText().toString();
+        mLongDescription = mLongDescriptionInput.getText().toString();
+        mStreet = mStreetInput.getText().toString();
+        mCity = mCityInput.getText().toString();
+        mZipcode = mZipcodeInput.getText().toString();
+
+        if(mStartTime.equals("") || mEndTime.equals("") || mStartDate.equals("") || !(mVolunteerSize > 0) || mShortDescription.equals("") || mLongDescription.equals("") || mStreet.equals("") || mCity.equals("") || mZipcode.equals("")) {
+            return false;
+        }
+
+        return compareDate(mStartDate, mEndDate);
+
+    }
+
+    public boolean compareDate(String dateOne, String dateTwo) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            Date date1 = sdf.parse(dateOne);
+            Date date2 = sdf.parse(dateTwo);
+
+            if(!date1.after(date2)) {
+                return true;
+            }
+
+        } catch (ParseException ex){
+            ex.printStackTrace();
+
+        }
+        return false;
+    }
+
 
     // Reads all fields and returns constructed shift
     public Shift createShift(String _organizationName, String _pushId){
-        String until = (mTextView_Start.getText().toString());
-        String from = (mTextView_Until.getText().toString());
-        int maxVolunteers = Integer.parseInt(mEditText_MaxVolunteers.getText().toString());
-        String date = mTextView_Date.getText().toString();
-        String description = mEditText_Descritpion.getText().toString();
-        String shortDescription = mEditText_ShortDescritpion.getText().toString();
-        String address = mEditText_Address.getText().toString();
-        String city = mEditText_City.getText().toString();
-//        String state = mEditText_State.getText().toString();
-        String zip = mEditText_Zip.getText().toString();
+        return new Shift(mStartTime, mEndTime, mStartDate, mEndDate, mLongDescription, mShortDescription, mVolunteerSize, _pushId, mStreet, mCity, mState, mZipcode, _organizationName);
 
-        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, "OR", zip, _organizationName);
     }
 
     public void pushData(Shift _shift){
@@ -153,145 +311,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsPending for organization
         dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
 
-        //clear fields
-        mEditText_MaxVolunteers.getText().clear();
-        mTextView_Until.setText("0:00");
-        mTextView_Start.setText("0:00");
-        mTextView_Date.setText("0-0-0000");
-        mEditText_Descritpion.getText().clear();
-        mEditText_ShortDescritpion.getText().clear();
     }
 
-    public void autoFill() {
-        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
-                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            thisOrg = dataSnapshot.getValue(Organization.class);
-                            mEditText_Address.setText(thisOrg.getStreetAddress());
-                            mEditText_City.setText(thisOrg.getCityAddress());
-//                            mEditText_State.setText(thisOrg.getStateAddress());
-                            mEditText_Zip.setText(thisOrg.getZipcode());
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-    @Override
-    public void onClick(View v){
-
-        if(v == startTimeButton){
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
-
-            // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this,  R.style.TimePicker, new TimePickerDialog.OnTimeSetListener() {
-
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-
-                            mTextView_Start.setText(hourOfDay + ":" + minute);
-                            mTextView_Start.setGravity(Gravity.RIGHT);
-                        }
-                    }, mHour, mMinute, false);
-            timePickerDialog.show();
-        }
-
-        if(v == endTimeButton){
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
-
-            // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
-                    new TimePickerDialog.OnTimeSetListener() {
-
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-
-                            mTextView_Until.setText(hourOfDay + ":" + minute);
-                        }
-                    }, mHour, mMinute, false);
-            timePickerDialog.show();
-        }
-
-        if (v == calendarButton) {
-
-            // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-
-                            mTextView_Date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                        }
-                    }, mYear, mMonth, mDay);
-            datePickerDialog.show();
-        }
-
-
-
-        if(v == mButton_LetsGo){
-            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if((Boolean) dataSnapshot.child("isOrganization").getValue()){
-                        String organizationName = dataSnapshot.child("name").getValue().toString();
-                        Log.v("Here:", organizationName);
-
-                        String pushId = dataSnapshot.child("pushId").getValue().toString();
-
-                        Log.v("There:", pushId);
-
-                        if(validateFields()){
-                            //Harvest data
-                            Shift shift = createShift(organizationName, pushId);
-
-                            //Push data
-                            pushData(shift);
-                        }
-                    }else {
-                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-
-    }
 
 }
+
+
