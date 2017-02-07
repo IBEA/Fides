@@ -31,7 +31,6 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
     @Bind(R.id.stateSpinner) Spinner mStateSpinner;
 
     @Bind(R.id.zipcodeInput) EditText mZipInput;
-    @Bind(R.id.einInput) EditText mEinInput;
     @Bind(R.id.descriptionInput) EditText mDescriptionInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
@@ -97,7 +96,6 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
     public void createOrganization() {
         String orgName = mOrganizationNameInput.getText().toString().trim();
-        ein = mEinInput.getText().toString().trim();
         userName = mNameInput.getText().toString().trim();
         address = mAddressInput.getText().toString().trim();
         city = mCityInput.getText().toString().trim();
