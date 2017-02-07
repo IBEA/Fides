@@ -20,6 +20,8 @@ import com.ibea.fides.models.Organization;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.widget.Toast.makeText;
+
 public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
@@ -130,7 +132,7 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(mContext, "Account Creation Failed", Toast.LENGTH_LONG).show();
+                    makeText(mContext, "Account Creation Failed", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -191,7 +193,13 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         dbPendingOrganizations.child(user.getUid()).setValue(newOrg);
 
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder().setDisplayName(mName).build();
-        Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG).show();
+
+        // Create Toast, overriding background property of activity
+        Toast toast = Toast.makeText(mContext, "Your Application Has Been Received", Toast.LENGTH_LONG);
+        View view = toast.getView();
+        view.setBackgroundResource(R.color.colorBlack);
+        toast.setView(view);
+        toast.show();
 
 
         user.updateProfile(addProfileName).addOnCompleteListener(new OnCompleteListener<Void>() {
