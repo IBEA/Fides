@@ -4,6 +4,7 @@ package com.ibea.fides;
  * Created by KincaidJ on 1/24/17.
  */
 
+
 public class Constants {
     //Base nodes
     public static final String DB_NODE_USERS = "users";
