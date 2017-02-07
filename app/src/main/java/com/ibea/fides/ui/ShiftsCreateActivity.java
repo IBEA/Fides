@@ -104,7 +104,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
             if(hour > 12) {
                 hour = hour - 12;
-
                 return hour + minutes + " P.M.";
             }
             else if (hour == 0) {
@@ -275,7 +274,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             });
         }
     }
-
 
     public boolean validateFields(){
         mStartTime = mStartTimeInput.getText().toString();
