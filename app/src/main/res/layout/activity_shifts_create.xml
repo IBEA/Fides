@@ -69,13 +69,13 @@
         android:text="End Date"
         android:textSize="20sp"/>
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/startDateInput"
         android:layout_centerHorizontal="true"
         android:id="@+id/volunteerSizeInput"
-        android:text="Number of Volunteers"
+        android:hint="Number of Volunteers"
         android:textSize="20sp"/>
 
     <EditText

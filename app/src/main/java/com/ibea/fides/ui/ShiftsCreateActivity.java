@@ -47,24 +47,23 @@ import butterknife.OnClick;
 import static com.ibea.fides.R.id.endTimeButton;
 
 public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    @Bind(R.id.textView_endTimeText) TextView mTextView_Until;
-    @Bind(R.id.textView_startTimetext) TextView mTextView_Start;
-    @Bind(R.id.editText_MaxVolunteers) EditText mEditText_MaxVolunteers;
-    @Bind(R.id.button_LetsGo) Button mButton_LetsGo;
-    @Bind(R.id.editText_Description) EditText mEditText_Descritpion;
-    @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
-    @Bind(R.id.editText_Address) EditText mEditText_Address;
-    @Bind(R.id.editText_City) EditText mEditText_City;
-    @Bind(R.id.editText_Zip) EditText mEditText_Zip;
-    @Bind(R.id.startTimeButton) Button startTimeButton;
-    @Bind(R.id.textView_dateTextView) TextView mTextView_Date;
-    @Bind(R.id.endTimeButton) Button endTimeButton;
-    @Bind(R.id.calendarButton) Button calendarButton;
+    @Bind(R.id.startTimeInput) TextView mStartTimeInput;
+    @Bind(R.id.endTimeInput) TextView mEndTimeInput;
+    @Bind(R.id.startDateInput) TextView mStartDateInput;
+    @Bind(R.id.endDateInput) TextView mEndDateInput;
+    @Bind(R.id.volunteerSizeInput) EditText mVolunteerSizeInput;
+    @Bind(R.id.shortDescriptionInput) EditText mShortDescriptionInput;
+    @Bind(R.id.longDescriptionInput) EditText mLongDescriptionInput;
+    @Bind(R.id.streetInput) EditText mStreetInput;
+    @Bind(R.id.cityInput) EditText mCityInput;
     @Bind(R.id.stateSpinner) Spinner mStateSpinner;
+    @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
+    @Bind(R.id.submitShiftButton) Button mSubmitButton;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    String mState;
 
+    private String mStartTime, mEndTime, mStartDate, mEndDate, mShortDescription, mLongDescription, mStreet, mCity, mState, mZipcode;
+    private int mVolunteerSize;
 
     Organization thisOrg;
 
@@ -80,24 +79,52 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mStateSpinner.setAdapter(adapter);
 
-        mButton_LetsGo.setOnClickListener(this);
-        startTimeButton.setOnClickListener(this);
-        endTimeButton.setOnClickListener(this);
-        calendarButton.setOnClickListener(this);
+        mStartTimeInput.setOnClickListener(this);
+        mEndTimeInput.setOnClickListener(this);
+        mStartDateInput.setOnClickListener(this);
+        mEndDateInput.setOnClickListener(this);
         mStateSpinner.setOnItemSelectedListener(this);
+        mSubmitButton.setOnClickListener(this);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
+    public void autoFill() {
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
+                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            thisOrg = dataSnapshot.getValue(Organization.class);
+                            mStreetInput.setText(thisOrg.getStateAddress());
+                            mCityInput.setText(thisOrg.getCityAddress());
+                            mZipcodeInput.setText(thisOrg.getZipcode());
+
+
+
+                            mStateSpinner.set)
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mState = parent.getItemAtPosition(pos).toString();
-        Log.d("JUSTIN", mState);
     }
 
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
-    }
-
-    // !! Checks to make sure all fields are filled out correctly !!
     public boolean validateFields(){
         return true;
     }
@@ -162,36 +189,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mEditText_ShortDescritpion.getText().clear();
     }
 
-    public void autoFill() {
-        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
-                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            thisOrg = dataSnapshot.getValue(Organization.class);
-                            mEditText_Address.setText(thisOrg.getStreetAddress());
-                            mEditText_City.setText(thisOrg.getCityAddress());
-//                            mEditText_State.setText(thisOrg.getStateAddress());
-                            mEditText_Zip.setText(thisOrg.getZipcode());
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
     @Override
     public void onClick(View v){
 
