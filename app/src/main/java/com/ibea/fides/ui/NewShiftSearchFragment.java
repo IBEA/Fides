@@ -69,7 +69,7 @@ public class NewShiftSearchFragment extends Fragment {
     public ArrayList<String> fetchShifts(String _city, String _state){
         Log.d("NewShiftSearchFragment", "in fetchShifts");
 
-        ArrayList<String> shiftIds = new ArrayList<>();
+        final ArrayList<String> shiftIds = new ArrayList<>();
         DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
         Query query = dbShiftsByStateCity.child(_state).child(_city).orderByKey().limitToFirst(100);
@@ -79,6 +79,7 @@ public class NewShiftSearchFragment extends Fragment {
                 Log.d("NewShiftSearchFragment", "fetching shifts");
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String catcher = snapshot.getValue(String.class);
+                    shiftIds.add(catcher);
                     Log.d(">>>>>", catcher);
                 }
             }
