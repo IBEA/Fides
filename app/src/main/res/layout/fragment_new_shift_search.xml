@@ -12,7 +12,8 @@
         android:id="@+id/searchView_City"
         android:inputType="text"
         android:background="@color/colorPrimaryLight"
-        app:queryHint="City">
+        android:queryHint="City"
+        android:iconifiedByDefault="false">
     </SearchView>
 
     <SearchView
@@ -21,13 +22,26 @@
         android:id="@+id/searchView_State"
         android:inputType="text"
         android:background="@color/colorPrimaryLight"
-        app:queryHint="State">
+        app:iconifiedByDefault="false"
+        android:queryHint="State"
+        android:iconifiedByDefault="false">
+    </SearchView>
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView_Zip"
+        android:inputType="text"
+        android:background="@color/colorPrimaryLight"
+        app:iconifiedByDefault="false"
+        android:queryHint="Zip Code"
+        android:iconifiedByDefault="false">
     </SearchView>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/unratedRecyclerView"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="12dp"

@@ -1,8 +1,11 @@
 package com.ibea.fides.ui;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
@@ -32,11 +36,14 @@ import butterknife.ButterKnife;
 public class NewShiftSearchFragment extends Fragment {
     @Bind(R.id.searchView_City) SearchView mSearchView_City;
     @Bind(R.id.searchView_State) SearchView mSearchView_State;
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     private final String TAG = "NewShiftsSearchFragment";
     private ArrayList<Shift> shifts = new ArrayList<>();
+    private RecyclerView.Adapter mRecyclerAdapter;
+    private Context mContext;
 
     public NewShiftSearchFragment() {
         // Required empty public constructor
@@ -48,6 +55,12 @@ public class NewShiftSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_shift_search, container, false);
         ButterKnife.bind(this, view);
+        mContext = this.getContext();
+
+//        mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
+//        mRecyclerView.setHasFixedSize(false);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        mRecyclerView.setAdapter(mRecyclerAdapter);
 
         mSearchView_City.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -90,6 +103,12 @@ public class NewShiftSearchFragment extends Fragment {
                     shifts.add(shift);
                 }
                 Log.d(TAG, "Outside for loop, starting filters");
+//               mRecyclerAdapter.notifyDataSetChanged();
+                Log.d(TAG, "Shifts: " + shifts.size());
+                mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
+                mRecyclerView.setHasFixedSize(false);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                mRecyclerView.setAdapter(mRecyclerAdapter);
             }
 
             @Override
