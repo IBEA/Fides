@@ -44,9 +44,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ibea.fides.R.id.endTimeButton;
 
-public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+public class ShiftsCreateActivity extends BaseActivity {
+
     @Bind(R.id.textView_endTimeText) TextView mTextView_Until;
     @Bind(R.id.textView_startTimetext) TextView mTextView_Start;
     @Bind(R.id.editText_MaxVolunteers) EditText mEditText_MaxVolunteers;

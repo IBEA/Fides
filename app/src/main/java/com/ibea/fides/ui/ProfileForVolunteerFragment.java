@@ -23,6 +23,7 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.User;
 
 import butterknife.Bind;
@@ -31,6 +32,8 @@ import butterknife.ButterKnife;
 //Fragment that holds Basic Profile Data, Trust, and Total Hours worked -- Garrett
 
 public class ProfileForVolunteerFragment extends Fragment {
+
+    private static User mUser;
 
     @Bind(R.id.usernametext) TextView username;
     @Bind(R.id.totalHours) TextView totalHourstext;
@@ -48,15 +51,9 @@ public class ProfileForVolunteerFragment extends Fragment {
     int circlespeed1 = 1000;
     int circlespeed2 = 400;
 
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
-
-    private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-    private Boolean isOrganization;
-
-    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
     // newInstance constructor for creating fragment with arguments
     public static ProfileForVolunteerFragment newInstance(User user) {
+        mUser = user;
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
         return fragment;
     }
@@ -65,21 +62,10 @@ public class ProfileForVolunteerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                username.setText(mCurrentUser.getDisplayName());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
         View view = inflater.inflate(R.layout.profile_tab, container, false);
         ButterKnife.bind(this, view);
+
+        username.setText(mUser.getName());
 
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))

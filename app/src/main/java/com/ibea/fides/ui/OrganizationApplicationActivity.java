@@ -99,7 +99,6 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         String passwordConfirm = mPasswordConfirmInput.getText().toString().trim();
         String email = mEmailInput.getText().toString().trim();
 
-
         // Confirm validity of inputs
         boolean validName = isValidName(orgName);
         boolean validEmail = isValidEmail(email);
