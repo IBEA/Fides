@@ -14,9 +14,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -43,7 +46,7 @@ import butterknife.OnClick;
 
 import static com.ibea.fides.R.id.endTimeButton;
 
-public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener{
+public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     @Bind(R.id.textView_endTimeText) TextView mTextView_Until;
     @Bind(R.id.textView_startTimetext) TextView mTextView_Start;
     @Bind(R.id.editText_MaxVolunteers) EditText mEditText_MaxVolunteers;
@@ -52,14 +55,16 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.editText_ShortDescription) EditText mEditText_ShortDescritpion;
     @Bind(R.id.editText_Address) EditText mEditText_Address;
     @Bind(R.id.editText_City) EditText mEditText_City;
-    @Bind(R.id.editText_State) EditText mEditText_State;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
     @Bind(R.id.startTimeButton) Button startTimeButton;
     @Bind(R.id.textView_dateTextView) TextView mTextView_Date;
     @Bind(R.id.endTimeButton) Button endTimeButton;
     @Bind(R.id.calendarButton) Button calendarButton;
+    @Bind(R.id.stateSpinner) Spinner mStateSpinner;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
+    String mState;
+
 
     Organization thisOrg;
 
@@ -71,10 +76,25 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         autoFill();
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mStateSpinner.setAdapter(adapter);
+
         mButton_LetsGo.setOnClickListener(this);
         startTimeButton.setOnClickListener(this);
         endTimeButton.setOnClickListener(this);
         calendarButton.setOnClickListener(this);
+        mStateSpinner.setOnItemSelectedListener(this);
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        mState = parent.getItemAtPosition(pos).toString();
+        Log.d("JUSTIN", mState);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
     // !! Checks to make sure all fields are filled out correctly !!
@@ -109,10 +129,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         String shortDescription = mEditText_ShortDescritpion.getText().toString();
         String address = mEditText_Address.getText().toString();
         String city = mEditText_City.getText().toString();
-        String state = mEditText_State.getText().toString();
+//        String state = mEditText_State.getText().toString();
         String zip = mEditText_Zip.getText().toString();
 
-        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, state, zip, _organizationName);
+        return new Shift(from, until, date, description, shortDescription, maxVolunteers, _pushId, address, city, "OR", zip, _organizationName);
     }
 
     public void pushData(Shift _shift){
@@ -153,7 +173,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                             thisOrg = dataSnapshot.getValue(Organization.class);
                             mEditText_Address.setText(thisOrg.getStreetAddress());
                             mEditText_City.setText(thisOrg.getCityAddress());
-                            mEditText_State.setText(thisOrg.getStateAddress());
+//                            mEditText_State.setText(thisOrg.getStateAddress());
                             mEditText_Zip.setText(thisOrg.getZipcode());
                         }
 
