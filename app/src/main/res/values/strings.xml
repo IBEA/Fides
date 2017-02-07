@@ -7,7 +7,7 @@
     <string name="Fragment1">This is Fragment 1</string>
     <string name="OrganizationShiftFragment">This is a organization fragment</string>
 
-    <string-array name="planets_array">
+    <string-array name="states_array">
         <item>AL</item>
         <item>AK</item>
         <item>AZ</item>
