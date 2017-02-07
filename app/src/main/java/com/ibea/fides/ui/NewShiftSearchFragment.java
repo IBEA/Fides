@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class NewShiftSearchFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mSearchView_City.clearFocus();
                 ArrayList<String> shiftIds = fetchShifts();
+                ArrayList<Shift> filteredShifts = filterShifts(shiftIds);
+                //TODO: Send filteredShifts to a RecyclerAdapter
                 return false;
             }
 
@@ -55,7 +58,13 @@ public class NewShiftSearchFragment extends Fragment {
 
     //Retrieves full list of shiftIDs
     public ArrayList<String> fetchShifts(){
+        ArrayList<String> shiftIds = new ArrayList<>();
+        return shiftIds;
+    }
 
+    public ArrayList<Shift> filterShifts(ArrayList<String> _shiftIds){
+        ArrayList<Shift> filteredShifts = new ArrayList<>();
+        return filteredShifts;
     }
 
 }
