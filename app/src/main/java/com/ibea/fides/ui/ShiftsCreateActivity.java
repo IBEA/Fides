@@ -102,20 +102,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 minutes = ":0" + minutes.substring(1);
             }
 
-            if(hour > 12) {
-                hour = hour - 12;
-                return hour + minutes + " P.M.";
-            }
-            else if (hour == 0) {
-                hour = 12;
+            _time = hour + minutes;
 
-                _time = hour + minutes;
-//        Toast.makeText(mContext, _time, Toast.LENGTH_SHORT).show();
-                return _time + " A.M.";
-            }
-            else{
-                return hour + minutes + " A.M.";
-            }
+            return _time;
+
         }
 
     public void autoFill() {
