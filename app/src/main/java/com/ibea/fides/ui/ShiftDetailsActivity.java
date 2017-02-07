@@ -37,7 +37,7 @@ public class ShiftDetailsActivity extends BaseActivity {
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
 
         mOrgName.setText(mShift.getOrganizationName());
-        mDate.setText(mShift.getDate());
+        mDate.setText(mShift.getStartDate());
         mTime.setText("From " + mShift.getFrom() + " to " + mShift.getUntil());
         mDescription.setText(mShift.getDescription());
         mZip.setText(mShift.getZip());
