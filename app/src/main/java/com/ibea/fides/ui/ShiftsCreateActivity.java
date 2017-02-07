@@ -37,6 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
+
 public class ShiftsCreateActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     @Bind(R.id.startTimeInput) TextView mStartTimeInput;
     @Bind(R.id.endTimeInput) TextView mEndTimeInput;
@@ -77,6 +78,22 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mStateSpinner.setOnItemSelectedListener(this);
         mSubmitButton.setOnClickListener(this);
     }
+
+        public String convertTime(String _time) {
+            int marker = _time.indexOf(":");
+            int hour = Integer.parseInt(_time.substring(0, marker));
+            String minutes = _time.substring(marker, _time.length());
+
+            Log.d("Let's Rip it!", "Test This" + minutes.substring(1));
+            if(Integer.parseInt(minutes.substring(1)) < 10){
+                minutes = ":0" + minutes.substring(1);
+            }
+
+            _time = hour + minutes;
+
+            return _time;
+
+        }
 
     public void autoFill() {
         dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -133,7 +150,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mStartTimeInput.setText(hourOfDay + ":" + minute);
+                    mStartTimeInput.setText(convertTime( hourOfDay + ":" + minute));
                 }
             }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -153,7 +170,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
-                            mEndTimeInput.setText(hourOfDay + ":" + minute);
+                            mEndTimeInput.setText( convertTime( hourOfDay + ":" + minute) );
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
@@ -221,6 +238,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                             //Push data
                             pushData(shift);
+                        } else {
+                            Log.d("Justin", "Rejected");
                         }
                     } else {
                         // Create Toast, overriding background property of activity
@@ -241,7 +260,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-
     public boolean validateFields(){
         mStartTime = mStartTimeInput.getText().toString();
         mEndTime = mEndTimeInput.getText().toString();
@@ -255,23 +273,38 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mZipcode = mZipcodeInput.getText().toString();
 
         if(mStartTime.equals("") || mEndTime.equals("") || mStartDate.equals("") || !(mVolunteerSize > 0) || mShortDescription.equals("") || mLongDescription.equals("") || mStreet.equals("") || mCity.equals("") || mZipcode.equals("")) {
+            Log.d("Justin", "Rejected at Input");
             return false;
         }
-
-        return compareDate(mStartDate, mEndDate);
+        Log.d("Justin", "Comparing Date");
+        return compareDate(mStartDate, mEndDate, mStartTime, mEndTime);
 
     }
 
-    public boolean compareDate(String dateOne, String dateTwo) {
+    public boolean compareDate(String dateOne, String dateTwo, String timeOne, String timeTwo) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+            Log.d("Justin, Date Form", dateOne);
             Date date1 = sdf.parse(dateOne);
             Date date2 = sdf.parse(dateTwo);
+            Log.d("Justin, Time form:", timeOne);
+            SimpleDateFormat sdfTime = new SimpleDateFormat("kk:mm");
+            Date time1 = sdfTime.parse(timeOne);
+            Date time2 = sdfTime.parse(timeTwo);
 
-            if(!date1.after(date2)) {
+            if(date1.after(date2)) {
+                Log.d("Justin", "Rejected at Date");
+                return false;
+            } else if(date1.equals(date2)) {
+                if(time1.after(time2)) {
+                    Log.d("Justin", "Rejected at Time");
+                    Log.d("Justin Time One: ", time1 + "");
+                    Log.d("Justin Time Two: ", time2 + "");
+                    return false;
+                }
                 return true;
             }
-
+            return true;
         } catch (ParseException ex){
             ex.printStackTrace();
 
@@ -298,7 +331,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsAvailable fields
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(shiftId);
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATE).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
+
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
 
         // Create Toast, overriding background property of activity
         Toast toast = Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT);

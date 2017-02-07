@@ -162,7 +162,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     }
                     else {
                         intent = new Intent(CreateAccountActivity.this, MainActivity_Volunteer.class);
-                        intent.putExtra("username", name);
+
                     }
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
