@@ -8,5 +8,6 @@
     <color name="colorSecondaryText">#bdbdbd</color>
     <color name="colorIcons">#ffffff</color>
     <color name="colorDivider">#9FA8DA</color>
+    <color name="colorProfileBackground">#7986cb</color>
 
 </resources>

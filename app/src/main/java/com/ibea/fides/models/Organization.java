@@ -13,9 +13,7 @@ import java.util.List;
 public class Organization {
     String pushId;
     String name;
-    String ein;
     String contactName;
-//    String address;
     String streetAddress;
     String cityAddress;
     String stateAddress;
@@ -24,18 +22,17 @@ public class Organization {
     String description;
     List<String> shiftsAvailable = new ArrayList<>();
     List<String> shiftsCompleted = new ArrayList<>();
+    List<String> tags = new ArrayList<>();
 
 
     // Empty Constructor for Parceler
     public Organization() {}
 
     // Basic Constructor
-    public Organization(String pushId, String orgName, String ein, String contactName, String streetAddress, String cityAddress, String stateAddress, String zip, String description) {
+    public Organization(String pushId, String orgName, String contactName, String streetAddress, String cityAddress, String stateAddress, String zip, String description) {
         this.pushId = pushId;
         this.name = orgName;
-        this.ein = ein;
         this.contactName = contactName;
-//        this.address = address;
         this.streetAddress = streetAddress;
         this.cityAddress = cityAddress;
         this.stateAddress = stateAddress;
@@ -56,41 +53,24 @@ public class Organization {
     public void setName(String orgName) {
         this.name = orgName;
     }
-    public String getEin() { return ein; }
-    public void setEin(String ein) { this.ein = ein; }
     public String getContactName() { return contactName; }
     public void setContactName(String contactName) { this.contactName = contactName; }
-//    public String getAddress() {
-//        return address;
-//    }
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
-
     public String getStreetAddress() {
         return streetAddress;
     }
-
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
-
     public String getCityAddress() {
         return cityAddress;
     }
-
     public void setCityAddress(String cityAddress) {
         this.cityAddress = cityAddress;
     }
-
     public String getStateAddress() {
         return stateAddress;
     }
-
-    public void setStateAddress(String stateAddress) {
-        this.stateAddress = stateAddress;
-    }
-
+    public void setStateAddress(String stateAddress) { this.stateAddress = stateAddress; }
     public String getZipcode() {
         return zipcode;
     }
@@ -111,14 +91,14 @@ public class Organization {
         return shiftsCompleted;
     }
     public void setShiftsCompleted(List<String> shiftsCompleted) { this.shiftsCompleted = shiftsCompleted; }
-
     public String getContactEmail() {
         return contactEmail;
     }
-
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
     }
+    public List<String> getTags() { return tags; }
+    public void setTags(List<String> tags) { this.tags = tags; }
 
     // Shift Functions
     public void addShift(String shiftToAdd) {

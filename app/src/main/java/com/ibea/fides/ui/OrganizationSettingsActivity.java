@@ -12,34 +12,44 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class OrganizationSettingsActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.pictureButton) Button picturebutton;
-    @Bind(R.id.usernameButton) Button userbutton;
-    @Bind(R.id.addressButton) Button addressbutton;
-    @Bind(R.id.blurbButton) Button blurbbutton;
-    @Bind(R.id.streetedittext) EditText streetedittext;
-    @Bind(R.id.usernameedittext) EditText useredittext;
-    @Bind(R.id.cityedittext) EditText cityeedittext;
-    @Bind(R.id.stateedittext) EditText stateedittext;
-    @Bind(R.id.zipedittext) EditText zipedittext;
-    @Bind(R.id.blurbeditText) EditText blurbedittext;
+    @Bind(R.id.pictureButton) Button pictureButton;
+    @Bind(R.id.userNameButton) Button userButton;
+    @Bind(R.id.addressButton) Button addressButton;
+    @Bind(R.id.descriptionButton) Button descriptionButton;
+    @Bind(R.id.streetEditText) EditText streetEditText;
+    @Bind(R.id.userNameEditText) EditText userEditText;
+    @Bind(R.id.cityEditText) EditText cityEditText;
+    @Bind(R.id.stateEditText) EditText stateEditText;
+    @Bind(R.id.zipEditText) EditText zipEditText;
+    @Bind(R.id.descriptionEditText) EditText descriptionEditText;
+    @Bind(R.id.tagEditText) EditText mTagEditText;
+    @Bind(R.id.tagButton) Button mTagButton;
+
 
     String mStreet;
     String mCity;
     String mState;
     String mZip;
     String mUsername;
-    String mBlurb;
+    String mDescription;
+    String mTag;
 
     public static final int GET_FROM_GALLERY = 3;
 
@@ -49,34 +59,57 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         setContentView(R.layout.activity_organization_settings);
         ButterKnife.bind(this);
 
-        picturebutton.setOnClickListener(this);
-        userbutton.setOnClickListener(this);
-        addressbutton.setOnClickListener(this);
-        blurbbutton.setOnClickListener(this);
+        pictureButton.setOnClickListener(this);
+        userButton.setOnClickListener(this);
+        addressButton.setOnClickListener(this);
+        descriptionButton.setOnClickListener(this);
+        mTagButton.setOnClickListener(this);
+
+        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Organization editOrg = dataSnapshot.getValue(Organization.class);
+                streetEditText.setText(editOrg.getStreetAddress());
+                cityEditText.setText(editOrg.getCityAddress());
+                stateEditText.setText(editOrg.getStateAddress());
+                zipEditText.setText(editOrg.getZipcode());
+                userEditText.setText(editOrg.getName());
+                descriptionEditText.setText(editOrg.getDescription());
+                
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void onClick(View view) {
         // On Log In Request
-        if(view == picturebutton) {
+        if(view == pictureButton) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
-        else if (view == userbutton){
+        else if (view == userButton){
 
             createNewUsername();
         }
-        else if (view == addressbutton){
+        else if (view == addressButton){
             createNewAddress();
         }
-        else if (view == blurbbutton){
-            createNewBlurb();
+        else if (view == descriptionButton){
+            createNewDescription();
+        }
+        else if (view == mTagButton) {
+            addTag();
         }
     }
 
     private void createNewAddress() {
-        String street = streetedittext.getText().toString().trim();
-        String city = cityeedittext.getText().toString().trim();
-        String state = stateedittext.getText().toString().trim();
-        String zip = zipedittext.getText().toString().trim();
+        String street = streetEditText.getText().toString().trim();
+        String city = cityEditText.getText().toString().trim();
+        String state = stateEditText.getText().toString().trim();
+        String zip = zipEditText.getText().toString().trim();
 
         // Confirm validity of inputs
         boolean validStreet = isValidStreet(street);
@@ -94,18 +127,22 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         mState = state;
         mZip = zip;
 
-        streetedittext.getText().clear();
-        cityeedittext.getText().clear();
-        stateedittext.getText().clear();
-        zipedittext.getText().clear();
+        streetEditText.getText().clear();
+        cityEditText.getText().clear();
+        stateEditText.getText().clear();
+        zipEditText.getText().clear();
 
-        //This data needs to be placed into the database by backend -- Garrett
         Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
+
+        dbOrganizations.child(uId).child("streetAddress").setValue(street);
+        dbOrganizations.child(uId).child("cityAddress").setValue(city);
+        dbOrganizations.child(uId).child("stateAddress").setValue(state);
+        dbOrganizations.child(uId).child("zipcode").setValue(zip);
 
     }
 
     private void createNewUsername() {
-        String username = useredittext.getText().toString().trim();
+        String username = userEditText.getText().toString().trim();
         boolean validName = isValidUsername(username);
 
         if(!validName){
@@ -114,29 +151,50 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         mUsername = username;
 
-        useredittext.getText().clear();
+        userEditText.getText().clear();
 
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
-
-        //This address needs to be placed into the database by backend -- Garrett
+        dbOrganizations.child(uId).child("name").setValue(username);
     }
 
-    private void createNewBlurb() {
-        if (blurbedittext.getText().toString().trim().equals("")) {
-            blurbedittext.setError("Please enter your blurb");
+    private void createNewDescription() {
+        if (descriptionEditText.getText().toString().trim().equals("")) {
+            descriptionEditText.setError("Please enter your blurb");
         }
         else{
-            mBlurb = blurbedittext.getText().toString();
-            blurbedittext.getText().clear();
+            mDescription = descriptionEditText.getText().toString();
+            descriptionEditText.getText().clear();
             Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT).show();
-
-            //This blurb needs to be placed into the database by backend -- Garrett
+            dbOrganizations.child(uId).child("description").setValue(mDescription);
         }
     }
 
+    private void addTag() {
+        if(mTagEditText.getText().toString().equals("")) {
+            mTagEditText.setError("Please enter a tag");
+        } else  {
+            mTag = mTagEditText.getText().toString().trim();
+            mTagEditText.getText().clear();
+            Toast.makeText(mContext, "Tag Added", Toast.LENGTH_SHORT).show();
+
+            dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Organization editOrg = dataSnapshot.getValue(Organization.class);
+                    editOrg.getTags().add(mTag);
+                    dbOrganizations.child(uId).setValue(editOrg);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
     private boolean isValidStreet(String data) {
         if (data.equals("")) {
-            streetedittext.setError("Please enter your street");
+            streetEditText.setError("Please enter your street");
             return false;
         }
         return true;
@@ -144,7 +202,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidCity(String data) {
         if (data.equals("")) {
-            cityeedittext.setError("Please enter your city");
+            cityEditText.setError("Please enter your city");
             return false;
         }
         return true;
@@ -152,7 +210,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidState(String data) {
         if (data.equals("")) {
-            stateedittext.setError("Please enter your state");
+            stateEditText.setError("Please enter your state");
             return false;
         }
         return true;
@@ -160,7 +218,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidPassword(String data) {
         if (data.equals("")) {
-            zipedittext.setError("Please enter your zip code");
+            zipEditText.setError("Please enter your zip code");
             return false;
         }
         return true;
@@ -168,7 +226,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidUsername(String data) {
         if (data.equals("")) {
-            useredittext.setError("Please enter your new username");
+            userEditText.setError("Please enter your new username");
             return false;
         }
         return true;

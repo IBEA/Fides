@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/linearLayout"
-    android:theme="@style/DarkOnLightLayout"
-    android:padding="12dp"
-    android:layout_marginBottom="12dp">
+    android:theme="@style/DarkOnLightLayout" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -70,7 +69,6 @@
                 android:textSize="15dp"
                 android:text="Short Description"
                 android:layout_below="@+id/textView_Address"/>
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -81,7 +79,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true">
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +87,6 @@
                 android:background="@drawable/ic_done_black_24dp"
                 android:minWidth="40dp"
                 android:minHeight="40dp" />
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,7 +100,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
-
 
 </LinearLayout>

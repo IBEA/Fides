@@ -138,7 +138,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mTextView_Until.setText("0:00");
         mTextView_Start.setText("0:00");
         mTextView_Date.setText("0-0-0000");
-        mEditText_Address.getText().clear();
         mEditText_Descritpion.getText().clear();
         mEditText_ShortDescritpion.getText().clear();
     }
