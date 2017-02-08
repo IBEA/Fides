@@ -141,7 +141,12 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
                     startActivity(intent);
                     finish();
                 } else {
-                    makeText(mContext, "Account Creation Failed", Toast.LENGTH_LONG).show();
+                    Toast toast = makeText(mContext, "Account Creation Failed", Toast.LENGTH_LONG);
+                    View view = toast.getView();
+                    view.setBackgroundColor(Color.argb(150,0,0,0));
+                    view.setPadding(30,30,30,30);
+                    toast.setView(view);
+                    toast.show();
                 }
             }
         });
