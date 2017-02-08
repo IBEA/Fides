@@ -48,4 +48,5 @@ public class UniversalPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return tabtitles.get(position);
     }
+
 }
