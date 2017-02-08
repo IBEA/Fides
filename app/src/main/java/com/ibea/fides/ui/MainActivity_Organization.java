@@ -33,7 +33,7 @@ public class MainActivity_Organization extends BaseActivity {
         Log.d("MO", "Created");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_organization_profile);
+        setContentView(R.layout.activity_organization_home);
 
         Intent intent = getIntent();
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);

@@ -67,7 +67,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.shifts_available_for_volunteers, container, false);
+        View view = inflater.inflate(R.layout.fragment_volunteer_shifts_search, container, false);
         ButterKnife.bind(this, view);
 
         mThis = this;
@@ -222,7 +222,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
         }
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbNode) {
+                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbNode) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {

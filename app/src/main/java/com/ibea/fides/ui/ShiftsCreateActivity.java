@@ -62,7 +62,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shifts_create);
+        setContentView(R.layout.activity_organization_shift_create);
         ButterKnife.bind(this);
 
         autoFill();
