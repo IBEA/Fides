@@ -63,6 +63,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     @Bind(R.id.radioButton_Organization) RadioButton mRadioButton_Organization;
     @Bind(R.id.radioButton_Location) RadioButton mRadioButton_Location;
 
+
     public ShiftSearchFragment() {
         // Required empty public constructor
     }
@@ -72,7 +73,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_volunteer_shifts_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_shifts_search, container, false);
         ButterKnife.bind(this, view);
 
         mThis = this;
