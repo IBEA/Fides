@@ -4,9 +4,6 @@
     android:id="@+id/activity_new_organization"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-
     tools:context="com.ibea.fides.ui.OrganizationApplicationActivity">
 
     <Button
@@ -16,8 +13,20 @@
         android:id="@+id/submitButton"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimaryLight"
+        android:layout_marginTop="40dp"
         android:text="Submit"
         android:textSize="25sp" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/submitButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <EditText
         android:layout_width="wrap_content"
@@ -64,18 +73,7 @@
         android:layout_below="@+id/cityInput"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordInput"
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:ems="12"
-        android:layout_below="@+id/emailInput" />
-
-    <EditText
+        <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/passwordConfirmInput"
@@ -92,10 +90,9 @@
         android:inputType="textMultiLine"
         android:id="@+id/descriptionInput"
         android:layout_centerHorizontal="true"
-        android:hint="A short description of your organization"
+        android:hint="A short description"
         android:gravity="center"
-        android:lines="3"
-        android:maxLines="3"
+        android:ems = "12"
         android:layout_below="@+id/passwordConfirmInput" />
 
     <EditText
@@ -141,5 +138,19 @@
         android:layout_toLeftOf="@+id/stateSpinner"
         android:layout_toStartOf="@+id/stateSpinner" />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordInput"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:gravity="center"
+            android:ems="12"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/emailInput" />
+
+    </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
