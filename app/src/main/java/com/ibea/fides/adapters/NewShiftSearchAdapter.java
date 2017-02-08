@@ -21,6 +21,7 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.MainActivity_Organization;
+import com.ibea.fides.ui.ShiftDetailsActivity;
 
 import org.parceler.Parcels;
 
@@ -82,6 +83,9 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
         @Override
         public void onClick(View v){
             //TODO: Parcel shift and send to shift details
+            Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
+            intent.putExtra("shift", Parcels.wrap(mShifts.get(this.getAdapterPosition())));
+            mContext.startActivity(intent);
         }
 
         public void claimShift(int _position){

@@ -126,11 +126,6 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment implements A
                         Shift shift = dataSnapshot.getValue(Shift.class);
                         viewHolder.bindShift(shift, false, "ShiftsByOrganization", mThis);
 
-                        if(shift.getCurrentVolunteers().contains(mCurrentUserId)){
-                            viewHolder.hideView();
-                        }else{
-                            viewHolder.showView();
-                        }
                     }
 
                     @Override
