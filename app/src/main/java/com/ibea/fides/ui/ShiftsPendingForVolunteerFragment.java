@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,7 @@ import butterknife.ButterKnife;
  */
 public class ShiftsPendingForVolunteerFragment extends Fragment implements AdapterUpdateInterface {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.textView_emptyList_Pending) TextView mEmptyWarning;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
@@ -108,6 +110,22 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+
+
+
+
+        // Check whether the list is empty, and display message if so
+//TODO: Deal with Asynchronicity issue, causing getItemCount() to always return 0
+//        Toast.makeText(getActivity(), mFirebaseAdapter.getItemCount()+"", Toast.LENGTH_SHORT).show();
+//
+//        if(mFirebaseAdapter.getItemCount() > 0){
+//            mEmptyWarning.setVisibility(View.INVISIBLE);
+//            mRecyclerView.setVisibility(View.VISIBLE);
+//        }
+//        else {
+//            mEmptyWarning.setVisibility(View.VISIBLE);
+//            mRecyclerView.setVisibility(View.INVISIBLE);
+//        }
     }
 
 }
