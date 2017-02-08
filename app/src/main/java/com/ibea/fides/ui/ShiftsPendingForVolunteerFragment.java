@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
+import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.utils.AdapterUpdateInterface;
 
@@ -67,6 +69,8 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
         setUpFirebaseAdapter();
+
+        setRecyclerViewItemTouchListener();
 
         return view;
     }
@@ -126,6 +130,25 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
 //            mEmptyWarning.setVisibility(View.VISIBLE);
 //            mRecyclerView.setVisibility(View.INVISIBLE);
 //        }
+    }
+
+    private void setRecyclerViewItemTouchListener() {
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                if(swipeDir == 4){
+                    ((FirebaseShiftViewHolder) viewHolder).quitShift();
+                }
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
 }
