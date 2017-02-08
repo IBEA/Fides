@@ -2,9 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
 
     @Override
     public OrganizationListAdapter.OrganizationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.organization_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_organization, parent, false);
         OrganizationViewHolder viewHolder = new OrganizationViewHolder(view);
         return viewHolder;
     }

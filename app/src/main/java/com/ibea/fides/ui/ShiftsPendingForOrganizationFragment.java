@@ -99,7 +99,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
 
     private void setUpFirebaseAdapter() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
+                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {

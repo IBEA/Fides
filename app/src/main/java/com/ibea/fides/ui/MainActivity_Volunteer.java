@@ -7,20 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
-
+import com.astuetz.PagerSlidingTabStrip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
-import com.astuetz.PagerSlidingTabStrip;
-
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
-import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.User;
 
 import org.parceler.Parcels;
@@ -39,7 +36,7 @@ public class MainActivity_Volunteer extends BaseActivity{
         Log.d("MV", "Created");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_volunteer_home);
 
         //TODO: Eventually will have user objects pacakaged in when navigating to this activity from a searched user list, typically indicating that the viewing user is not the same.
 
@@ -86,8 +83,8 @@ public class MainActivity_Volunteer extends BaseActivity{
             //User is volunteer, and this is their page
 
             tabTitles.add("Profile");
-            tabTitles.add("Search");
-            tabTitles.add("My Shifts");
+            tabTitles.add("Find");
+            tabTitles.add("Shifts");
             tabTitles.add("History");
             tabTitles.add("Testing");
             fragmentList.add(new ProfileForVolunteerFragment().newInstance(mUser));

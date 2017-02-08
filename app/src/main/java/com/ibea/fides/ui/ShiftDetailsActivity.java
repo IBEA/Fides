@@ -54,7 +54,7 @@ public class ShiftDetailsActivity extends BaseActivity {
 
     private void setUpFirebaseAdapterUnrated() {
         FirebaseRecyclerAdapter mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
-                (String.class, R.layout.volunteer_list_item, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
+                (String.class, R.layout.list_item_volunteer, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
 
             @Override
             protected void populateViewHolder(FirebaseVolunteerViewHolder viewHolder, String userId, int position) {
@@ -68,7 +68,7 @@ public class ShiftDetailsActivity extends BaseActivity {
 
     private void setUpFirebaseAdapterRated() {
         FirebaseRecyclerAdapter mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
-                (String.class, R.layout.volunteer_list_item, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
+                (String.class, R.layout.list_item_volunteer, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
 
             @Override
             protected void populateViewHolder(FirebaseVolunteerViewHolder viewHolder, String userId, int position) {

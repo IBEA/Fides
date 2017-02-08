@@ -63,6 +63,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
     @Bind(R.id.radioButton_Organization) RadioButton mRadioButton_Organization;
     @Bind(R.id.radioButton_Location) RadioButton mRadioButton_Location;
 
+
     public ShiftSearchFragment() {
         // Required empty public constructor
     }
@@ -230,7 +231,7 @@ public class ShiftSearchFragment extends Fragment implements AdapterUpdateInterf
         //Where we should drop the switch in for query type
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.shift_list_item, FirebaseShiftViewHolder.class, dbCurrentNode.child(query)) {
+                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbCurrentNode.child(query)) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {

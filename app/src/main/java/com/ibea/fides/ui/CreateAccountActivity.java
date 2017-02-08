@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
@@ -57,7 +55,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_account);
+        setContentView(R.layout.activity_volunteer_account_create);
         ButterKnife.bind(this);
 
         mUserType = "volunteer";
