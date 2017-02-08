@@ -81,7 +81,7 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
         @Override
         public void onClick(View v){
-            //TODO: Parcel mShift and send to shift details
+            //TODO: Parcel shift and send to shift details
         }
 
         public void claimShift(int _position){
