@@ -1,109 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:elevation="12dp"
+                android:id="@+id/view2"
+                app:cardCornerRadius="40dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                android:layout_marginTop="15dp">
+
+            <ImageView
+                android:layout_height="150dp"
+                android:layout_width="match_parent"
+                android:id="@+id/imageView1"
+                android:src="@drawable/common_google_signin_btn_icon_dark"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true">
+            </ImageView>
+
+        </android.support.v7.widget.CardView>
 
     <TextView
         android:text="Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:id="@+id/usernametext"
-        android:textSize="24sp"
-        android:layout_below="@+id/view2"
-        android:layout_centerHorizontal="true" />
+        android:textSize="24sp" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:elevation="12dp"
-        android:id="@+id/view2"
-        app:cardCornerRadius="40dp"
-        android:innerRadius="0dp"
-        android:shape="ring"
-        android:thicknessRatio="1.9"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-        <ImageView
-            android:layout_height="150dp"
-            android:layout_width="match_parent"
-            android:id="@+id/imageView1"
-            android:src="@drawable/common_google_signin_btn_icon_dark"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
-        </ImageView>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-    <com.hookedonplay.decoviewlib.DecoView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/dynamicArcView"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="100dp"
-        android:layout_marginRight="220dp" />
-
-
-    <com.hookedonplay.decoviewlib.DecoView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/hoursArcView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="220dp"
-        android:layout_marginBottom="100dp"
-        android:layout_marginRight="30dp"/>
-
-    <TextView
-        android:text="0%"
-
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/trustpercent"
-        android:textSize="35sp"
-        android:textColor="@android:color/holo_orange_light"
-        android:layout_alignBaseline="@+id/totalHours"
-        android:layout_alignBottom="@+id/totalHours"
-        android:layout_toLeftOf="@+id/view2"
-        android:layout_toStartOf="@+id/view2" />
+        android:layout_below="@id/usernametext"
+        android:weightSum="2">
 
-    <TextView
-        android:text="0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_blue_bright"
-        android:id="@+id/totalHours"
-        android:textSize="36sp"
-        android:layout_below="@+id/nada"
-        android:layout_alignLeft="@+id/trusttext"
-        android:layout_alignStart="@+id/trusttext"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
-    <TextView
-        android:text="Trust"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/nada"
-        android:textSize="25sp"
-        android:textColor="@android:color/holo_orange_light"
-        android:layout_below="@+id/usernametext"
-        android:layout_alignRight="@+id/trustpercent"
-        android:layout_alignEnd="@+id/trustpercent" />
+        <TextView
+            android:text="Trust"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/trusttext"
+            android:textSize="40sp"
+            android:textColor="@android:color/holo_orange_light" />
 
-    <TextView
-        android:text="Hours"
-        android:textColor="@android:color/holo_blue_bright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/trusttext"
-        android:textSize="24sp"
-        android:layout_below="@+id/usernametext"
-        android:layout_toRightOf="@+id/view2"
-        android:layout_toEndOf="@+id/view2" />
+            <com.hookedonplay.decoviewlib.DecoView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dynamicArcView" />
 
-</RelativeLayout>
+            <TextView
+                android:text="0%"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/trustpercent"
+                android:textSize="35sp"
+                android:textColor="@android:color/holo_orange_light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Hours"
+                android:textColor="@android:color/holo_blue_bright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/hourstext"
+                android:textSize="40sp" />
+
+            <com.hookedonplay.decoviewlib.DecoView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/hoursArcView" />
+
+            <TextView
+                android:text="0"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_blue_bright"
+                android:id="@+id/totalHours"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

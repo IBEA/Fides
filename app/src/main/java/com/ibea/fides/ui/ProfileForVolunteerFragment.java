@@ -41,11 +41,8 @@ public class ProfileForVolunteerFragment extends Fragment {
     @Bind(R.id.dynamicArcView) DecoView arcView;
     @Bind(R.id.hoursArcView) DecoView hoursArcView;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
-    int trustmetric = 75; // Will be changed
-    int totalHoursWorked = 18; // Will be changed
+    int trustmetric; // Will be changed
+    int totalHoursWorked; // Will be changed
     int currentdisplayhours = 0;
 
     int circlespeed1 = 1000;
@@ -67,18 +64,22 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         username.setText(mUser.getName());
 
+        trustmetric = mUser.getRating();
+
+        totalHoursWorked = 11; //TODO once hours are implemented, return hours
+
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
                 .setRange(0, 100, 100)
                 .setInitialVisibility(false)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .build());
 
 //Create data series track
         final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 245, 245, 0))
                 .setRange(0, 100, 0)
                 .setSpinDuration(circlespeed1)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .setSpinDuration(circlespeed1)
                 .build();
 
@@ -161,14 +162,14 @@ public class ProfileForVolunteerFragment extends Fragment {
             hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(circlespeed2*3).build());
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(circlespeed2*4).build());
         } else if (totalHoursWorked > 10) {
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(3800).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 10).setIndex(series4Index).setDelay(5600).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(circlespeed2*2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 10).setIndex(series4Index).setDelay(circlespeed2*3).build());
         } else if (totalHoursWorked > 5) {
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(2000).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 5).setIndex(series3Index).setDelay(3800).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 5).setIndex(series3Index).setDelay(circlespeed2*2).build());
         } else {
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked).setIndex(series2Index).setDelay(2000).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked).setIndex(series2Index).setDelay(circlespeed2).build());
         }
 
         seriesItem2.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
