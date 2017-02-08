@@ -43,7 +43,6 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     int trustmetric; // Will be changed
     int totalHoursWorked; // Will be changed
-    int currentdisplayhours = 0;
 
     int circlespeed1 = 1000;
     int circlespeed2 = 400;
@@ -64,7 +63,7 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         username.setText(mUser.getName());
 
-        trustmetric = mUser.getRating();
+        trustmetric = 75;
 
         totalHoursWorked = 11; //TODO once hours are implemented, return hours
 
@@ -76,7 +75,7 @@ public class ProfileForVolunteerFragment extends Fragment {
                 .build());
 
 //Create data series track
-        final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 245, 245, 0))
+        final SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#F57C00"))
                 .setRange(0, 100, 0)
                 .setSpinDuration(circlespeed1)
                 .setLineWidth(70f)
@@ -112,38 +111,38 @@ public class ProfileForVolunteerFragment extends Fragment {
         });
 
         // Create background track
-        hoursArcView.addSeries(new SeriesItem.Builder(Color.rgb(216, 241, 255))
+        hoursArcView.addSeries(new SeriesItem.Builder(Color.parseColor("#E0F2F1"))
                 .setRange(0, 5, 5)
                 .setInitialVisibility(false)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .build());
 
 //Create data series track
-        final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.rgb(188, 231, 255))
+        final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#B2DFDB"))
                 .setRange(0, 5, 0)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .setSpinDuration(circlespeed2)
                 .build();
 
-        final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.rgb(150, 218, 255))
+        final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.parseColor("#80CBC4"))
                 .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .build();
 
-        final SeriesItem seriesItem4 = new SeriesItem.Builder(Color.rgb(114, 205, 255))
+        final SeriesItem seriesItem4 = new SeriesItem.Builder(Color.parseColor("#4DB6AC"))
                 .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .build();
 
-        final SeriesItem seriesItem5 = new SeriesItem.Builder(Color.rgb(61, 131, 244))
+        final SeriesItem seriesItem5 = new SeriesItem.Builder(Color.parseColor("#009688"))
                 .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
                 .setRange(0, 5, 0)
-                .setLineWidth(100f)
+                .setLineWidth(70f)
                 .build();
 
         final int series2Index = hoursArcView.addSeries(seriesItem2);
@@ -202,7 +201,6 @@ public class ProfileForVolunteerFragment extends Fragment {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
                 totalHourstext.setText(String.valueOf((int) currentPosition + 10));
-
             }
 
             @Override
@@ -215,7 +213,6 @@ public class ProfileForVolunteerFragment extends Fragment {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
                 totalHourstext.setText(String.valueOf((int) currentPosition + 15));
-
             }
 
             @Override
