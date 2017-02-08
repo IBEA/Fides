@@ -285,6 +285,5 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
             }
         });
-        //!! Put protections in for shifts that have been claimed before the interface updates !!
     }
 }

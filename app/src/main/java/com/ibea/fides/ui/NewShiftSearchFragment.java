@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +50,8 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     private RecyclerView.Adapter mRecyclerAdapter;
     private Context mContext;
 
+    private String userId;
+
     public NewShiftSearchFragment() {
         // Required empty public constructor
     }
@@ -60,6 +63,8 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_new_shift_search, container, false);
         ButterKnife.bind(this, view);
         mContext = this.getContext();
+
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //TODO: Replace with population from users once all users are required to have these fields. Don't forget you're doing this in onResume as well!
 
@@ -157,24 +162,25 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                 Shift shift = dataSnapshot.getValue(Shift.class);
 
                 //TODO: Is there a better way to do this? Because this feels clunky
-                if(filterByOrg && filterByZip && checkIfZipMatches(shift, zipQuery) && checkIfOrgMatches(shift, orgQuery)){
-                    Log.d(TAG, "Passed both filters");
-                    shifts.add(shift);
-                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                }else if(filterByOrg && !filterByZip && checkIfOrgMatches(shift, orgQuery)){
-                    Log.d(TAG, "Passed org filter");
-                    shifts.add(shift);
-                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                }else if(filterByZip && !filterByOrg && checkIfZipMatches(shift, zipQuery)){
-                    Log.d(TAG, "Passed zip filter");
-                    shifts.add(shift);
-                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                }else if (!filterByOrg && !filterByZip){
-                    Log.d(TAG, "Unfiltered");
-                    shifts.add(shift);
-                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                if(!shift.getCurrentVolunteers().contains(userId)){
+                    if(filterByOrg && filterByZip && checkIfZipMatches(shift, zipQuery) && checkIfOrgMatches(shift, orgQuery)){
+//                        Log.d(TAG, "Passed both filters");
+                        shifts.add(shift);
+                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                    }else if(filterByOrg && !filterByZip && checkIfOrgMatches(shift, orgQuery)){
+//                        Log.d(TAG, "Passed org filter");
+                        shifts.add(shift);
+                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                    }else if(filterByZip && !filterByOrg && checkIfZipMatches(shift, zipQuery)){
+//                        Log.d(TAG, "Passed zip filter");
+                        shifts.add(shift);
+                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                    }else if (!filterByOrg && !filterByZip){
+//                        Log.d(TAG, "Unfiltered");
+                        shifts.add(shift);
+                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                    }
                 }
-
             }
 
             @Override
@@ -231,10 +237,12 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
+                Log.d("Adapter Position: ", String.valueOf(position));
 
                 if(swipeDir == 8){
-
+                    ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
                 }
+                shifts.remove(position);
                 mRecyclerView.getAdapter().notifyItemRemoved(position);
             }
         };
