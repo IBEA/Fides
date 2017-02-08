@@ -2,18 +2,10 @@ package com.ibea.fides.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.renderscript.Sampler;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
-
-import android.support.v7.view.menu.ListMenuItemView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +13,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,7 +20,6 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
@@ -39,15 +29,12 @@ import com.ibea.fides.models.Shift;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 
@@ -255,7 +242,13 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                             Log.d("Justin", "Rejected");
                         }
                     } else {
-                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
+                        // Create Toast, overriding background property of activity
+                        Toast toast = Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT);
+                        View view = toast.getView();
+                        view.setBackgroundColor(Color.argb(150,0,0,0));
+                        view.setPadding(30,30,30,30);
+                        toast.setView(view);
+                        toast.show();
                     }
                 }
 
@@ -338,8 +331,16 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsAvailable fields
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(shiftId);
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATE).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
-        Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
+
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
+
+        // Create Toast, overriding background property of activity
+        Toast toast = Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.argb(150,0,0,0));
+        view.setPadding(30,30,30,30);
+        toast.setView(view);
+        toast.show();
 
         // Add shift to shiftsPending for organization
         dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
