@@ -116,6 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/streetInput"
         android:layout_alignParentRight="true"
+        android:inputType="number"
         android:id="@+id/zipcodeInput"
         android:hint="Zipcode"
         android:textSize="20sp"/>
@@ -124,6 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/zipcodeInput"
+        android:inputType="number"
         android:id="@+id/volunteerSizeInput"
         android:hint="Number of Volunteers"
         android:textSize="20sp"/>
