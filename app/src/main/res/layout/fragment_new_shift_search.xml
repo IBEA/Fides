@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ibea.fides.ui.NewShiftSearchFragment">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView_Organization"
+        android:inputType="text"
+        android:background="@color/colorPrimaryLight"
+        app:iconifiedByDefault="false"
+        android:queryHint="Organization"
+        android:iconifiedByDefault="false"
+        tools:inputType="text"
+        >
+    </SearchView>
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView_City"
+        android:inputType="text"
+        android:background="@color/colorPrimaryLight"
+        android:queryHint="City"
+        android:iconifiedByDefault="false"
+        >
+    </SearchView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:orientation="horizontal">
+
+        <SearchView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_Zip"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            app:iconifiedByDefault="false"
+            android:queryHint="Zip"
+            android:iconifiedByDefault="false"
+            tools:inputType="number"
+            android:layout_weight="2">
+        </SearchView>
+
+        <SearchView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_State"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            app:iconifiedByDefault="false"
+            android:queryHint="State"
+            android:iconifiedByDefault="false"
+            android:layout_weight="1">
+        </SearchView>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find Opportunities"
+        android:background="@color/colorAccent"
+        android:id="@+id/button_Search"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        />
+
+</LinearLayout>

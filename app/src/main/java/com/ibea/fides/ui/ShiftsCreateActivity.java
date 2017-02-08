@@ -79,21 +79,21 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mSubmitButton.setOnClickListener(this);
     }
 
-        public String convertTime(String _time) {
-            int marker = _time.indexOf(":");
-            int hour = Integer.parseInt(_time.substring(0, marker));
-            String minutes = _time.substring(marker, _time.length());
+    public String convertTime(String _time) {
+        int marker = _time.indexOf(":");
+        int hour = Integer.parseInt(_time.substring(0, marker));
+        String minutes = _time.substring(marker, _time.length());
 
-            Log.d("Let's Rip it!", "Test This" + minutes.substring(1));
-            if(Integer.parseInt(minutes.substring(1)) < 10){
-                minutes = ":0" + minutes.substring(1);
-            }
-
-            _time = hour + minutes;
-
-            return _time;
-
+        Log.d("Let's Rip it!", "Test This" + minutes.substring(1));
+        if(Integer.parseInt(minutes.substring(1)) < 10){
+            minutes = ":0" + minutes.substring(1);
         }
+
+        _time = hour + minutes;
+
+        return _time;
+
+    }
 
     public void autoFill() {
         dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -351,5 +351,3 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
 
 }
-
-
