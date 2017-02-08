@@ -231,8 +231,11 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
-                Toast.makeText(mContext, String.valueOf(swipeDir), Toast.LENGTH_SHORT).show();
-//                mRecyclerView.getAdapter().notifyItemRemoved(position);
+
+                if(swipeDir == 8){
+
+                }
+                mRecyclerView.getAdapter().notifyItemRemoved(position);
             }
         };
 
