@@ -71,11 +71,11 @@ public class NewShiftSearchFragment extends Fragment {
         mSearchView_City.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                //TODO: Stop focus from jumping to profile tab
                 mSearchView_City.clearFocus();
 
                 //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
                 fetchShiftIds(query, "OR");
-                //TODO: Send filteredShifts to a RecyclerAdapter
                 return false;
             }
 
@@ -172,5 +172,13 @@ public class NewShiftSearchFragment extends Fragment {
             }
         }else return false;
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSearchView_Zip.setQuery("", false);
+        mSearchView_City.setQuery("", false);
+        mSearchView_State.setQuery("", false);
     }
 }
