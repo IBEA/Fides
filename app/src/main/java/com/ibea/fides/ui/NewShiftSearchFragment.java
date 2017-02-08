@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         ButterKnife.bind(this, view);
         mContext = this.getContext();
 
-        //TODO: Replace with population from users once all users are required to have these fields
+        //TODO: Replace with population from users once all users are required to have these fields. Don't forget you're doing this in onResume as well!
 
         mSearchView_State.setQuery("OR", false);
         mSearchView_City.setQuery("Portland", false);
@@ -70,6 +71,8 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
+        setRecyclerViewItemTouchListener();
+
         mButton_Search.setOnClickListener(this);
 
         // Inflate the layout for this fragment
@@ -78,6 +81,9 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        //TODO: Allow searches when the zipcode, but not the city, is in.
+        //TODO: Consider abandoning zipcode searches
+
         if(view == mButton_Search){
             //TODO: Lowercase cityQuery once database also has lowercase city nodes
             String cityQuery = mSearchView_City.getQuery().toString();
@@ -179,8 +185,6 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     }
 
     private boolean checkIfOrgMatches(Shift _shift, String _orgQuery) {
-        Log.d(TAG, _orgQuery + " vs " + _shift.getOrganizationName());
-        Log.d(TAG, String.valueOf(_shift.getOrganizationName().toLowerCase().contains(_orgQuery.toLowerCase())));
         return _shift.getOrganizationName().toLowerCase().contains(_orgQuery.toLowerCase());
     }
 
@@ -204,8 +208,35 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
-//        mSearchView_Zip.setQuery("", false);
-//        mSearchView_City.setQuery("", false);
-//        mSearchView_State.setQuery("", false);
+        mSearchView_Zip.setQuery("", false);
+        mSearchView_City.setQuery("", false);
+        mSearchView_State.setQuery("", false);
+        mSearchView_Organization.setQuery("", false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSearchView_State.setQuery("OR", false);
+        mSearchView_City.setQuery("Portland", false);
+    }
+
+    private void setRecyclerViewItemTouchListener() {
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+                Toast.makeText(mContext, String.valueOf(swipeDir), Toast.LENGTH_SHORT).show();
+//                mRecyclerView.getAdapter().notifyItemRemoved(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 }

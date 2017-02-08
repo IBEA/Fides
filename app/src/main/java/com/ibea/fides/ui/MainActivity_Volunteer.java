@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
 import com.ibea.fides.models.User;
 
@@ -66,7 +67,7 @@ public class MainActivity_Volunteer extends BaseActivity{
 
     public void populateTabs(){
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        SwipelessViewPager viewPager = (SwipelessViewPager) findViewById(R.id.viewpager);
 
         //Profile only
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();

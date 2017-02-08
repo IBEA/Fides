@@ -8,5 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_OrganizationName"
-        style="@style/AppTheme"/>
+        style="@style/AppTheme"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp" />
 </LinearLayout>
