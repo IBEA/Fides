@@ -39,8 +39,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private View mView;
     private Context mContext;
     private Shift mShift;
-    private Button mVolunteerButton;
-    private Button mCompleteButton;
     private Boolean isOrganization;
     private String mOrigin;
 
@@ -73,29 +71,11 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
         final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
 
-        mVolunteerButton = (Button) mView.findViewById(R.id.button_Variable);
-        mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
-        mVolunteerButton.setOnClickListener(this);
-        mCompleteButton.setOnClickListener(this);
-        mCompleteButton.setVisibility(View.GONE);
-
         mShift = shift;
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if(mShift != null) {
             //Change button to delete if user is an organization
-            if (isOrganization && mShift.getOrganizationID().equals(userID)) {
-                mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
-                mCompleteButton.setVisibility(View.VISIBLE);
-            } else {
-                //If user is not an organization, change button based on whether or not user has already signed up for shift
-                Log.d(mOrigin, mShift.getShortDescription());
-                if (shift.getCurrentVolunteers().contains(userID)) {
-                    mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
-                } else {
-                    mVolunteerButton.setBackgroundResource(R.drawable.ic_add_black_24dp);
-                }
-            }
 
             shortDescriptionTextView.setText(shift.getShortDescription());
             addressCodeTextView.setText(shift.getZip());
@@ -166,8 +146,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
                     makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
                 }else{
-//                    mVolunteerButton.setText("Volunteer");
-
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
 
@@ -177,7 +155,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                     dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
 
                     //Check if shift was full. If so, repopulate to shiftsAvailable
-                    //!! Currently untestable !!
                     if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
                         String zip = String.valueOf(shift.getZip());
                         String organizationID = shift.getOrganizationID();
