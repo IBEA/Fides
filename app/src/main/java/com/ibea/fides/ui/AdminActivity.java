@@ -33,7 +33,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
 
     private void setUpFirebaseAdapter() {
         FirebaseRecyclerAdapter mFirebaseAdapter = new FirebaseRecyclerAdapter<Organization, FirebaseOrganizationViewHolder>
-                (Organization.class, R.layout.organization_list_item, FirebaseOrganizationViewHolder.class, dbPendingOrganizations) {
+                (Organization.class, R.layout.list_item_organization, FirebaseOrganizationViewHolder.class, dbPendingOrganizations) {
 
             @Override
             protected void populateViewHolder(FirebaseOrganizationViewHolder viewHolder, Organization org, int position) {

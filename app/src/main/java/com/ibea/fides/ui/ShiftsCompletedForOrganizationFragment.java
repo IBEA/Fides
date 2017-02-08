@@ -77,7 +77,7 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
 
         dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
-                (String.class, R.layout.completed_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
+                (String.class, R.layout.list_item_shift_complete, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
 
             @Override
             protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {

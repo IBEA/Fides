@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ import butterknife.ButterKnife;
  */
 public class ShiftsCompletedForVolunteerFragment extends Fragment {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.textView_emptyList_History) TextView mEmptyWarning;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
     Boolean isOrganization;
@@ -74,7 +76,6 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
             });
         }
 
-
         return view;
     }
 
@@ -84,7 +85,7 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
 
         dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
-                (String.class, R.layout.completed_shift_list_item, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
+                (String.class, R.layout.list_item_shift_complete, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
 
             @Override
             protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {
@@ -95,5 +96,18 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setAdapter(mFirebaseAdapter);
 
+
+        // Check whether the list is empty, and display message if so
+// TODO: Deal with Asynchronicity issue, causing getItemCount() to always return 0
+//        Toast.makeText(getActivity(), mFirebaseAdapter.getItemCount()+"", Toast.LENGTH_SHORT).show();
+//
+//        if(mFirebaseAdapter.getItemCount() > 0){
+//            mEmptyWarning.setVisibility(View.INVISIBLE);
+//            mRecyclerView.setVisibility(View.VISIBLE);
+//        }
+//        else {
+//            mEmptyWarning.setVisibility(View.VISIBLE);
+//            mRecyclerView.setVisibility(View.INVISIBLE);
+//        }
     }
 }

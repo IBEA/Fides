@@ -2,7 +2,6 @@ package com.ibea.fides.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +9,10 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,7 +36,7 @@ public class ProfileForOrganizationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.organizationprofilefragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_organization_profile, container, false);
         ButterKnife.bind(this, view);
 
         username.setText(mOrganization.getName());

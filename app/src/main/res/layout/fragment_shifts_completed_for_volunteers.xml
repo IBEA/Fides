@@ -4,6 +4,17 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.ShiftsCompletedForVolunteerFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textView_emptyList_History"
+        android:text="It looks like you haven't completed any volunteer shifts yet.\n\nWhen you do, you will be able to see information on those shifts here! "
+        android:visibility="invisible"
+        android:padding="36dp"
+        android:gravity="center_vertical|center"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="20sp" />
+
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

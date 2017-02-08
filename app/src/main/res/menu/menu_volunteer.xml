@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_admin"
-        android:title="Admin"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/user_page"
-        android:title="Profile Page"
+        android:title="Home"
         android:visible="true"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/settings_page"
-        android:title="Settings"
+        android:title="Account Settings"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_admin"
+        android:title="Admin"
         android:visible="true"
         app:showAsAction="never" />
 
