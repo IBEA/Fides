@@ -25,7 +25,6 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.utils.CustomItemTouchHelperCallback;
 
 import java.util.ArrayList;
 
@@ -47,7 +46,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
     private final String TAG = "NewShiftsSearchFragment";
     private ArrayList<Shift> shifts = new ArrayList<>();
-    private NewShiftSearchAdapter mRecyclerAdapter;
+    private RecyclerView.Adapter mRecyclerAdapter;
     private Context mContext;
 
     public NewShiftSearchFragment() {
@@ -223,10 +222,26 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     }
 
     private void setRecyclerViewItemTouchListener() {
-        ItemTouchHelper.Callback itemTouchCallback = new CustomItemTouchHelperCallback(mRecyclerAdapter);
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+                Log.d("Adapter Position: ", String.valueOf(position));
+
+                if(swipeDir == 8){
+                    ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
+                }
+                shifts.remove(position);
+                mRecyclerView.getAdapter().notifyItemRemoved(position);
+            }
+        };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
-
 }

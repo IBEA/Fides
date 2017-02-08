@@ -35,7 +35,6 @@ import butterknife.ButterKnife;
 
 public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAdapter.NewShiftSearchViewHolder> {
     private ArrayList<Shift> mShifts = new ArrayList<>();
-    private Shift mShift;
     private String mUserId;
     private final String TAG = "NewShiftSearchAdapter";
 
@@ -63,6 +62,8 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
     public class NewShiftSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.textView_OrganizationName) TextView mTextView_OrganizationName;
+        @Bind(R.id.textView_ShortDesc) TextView mTextView_ShortDesc;
+
         private Context mContext;
 
         public NewShiftSearchViewHolder(View itemView) {
@@ -73,8 +74,9 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
         }
 
         public void bindShift(Shift shift) {
-            mShift = shift;
-            mTextView_OrganizationName.setText(mShift.getOrganizationName());
+//            mShift = shift;
+            mTextView_OrganizationName.setText(shift.getOrganizationName());
+            mTextView_ShortDesc.setText(shift.getShortDescription());
         }
 
         @Override
@@ -82,9 +84,11 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
             //TODO: Parcel mShift and send to shift details
         }
 
-        public void claimShift(){
-            final String shiftId = mShift.getPushId();
-            Log.v("In claimShift:", shiftId);
+        public void claimShift(int _position){
+            Shift shift = mShifts.get(_position);
+            final String shiftId = shift.getPushId();
+            Log.d("In claimShift:", shiftId);
+            Log.d("Shift desc: ", shift.getShortDescription());
 
             final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
