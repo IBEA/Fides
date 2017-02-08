@@ -9,35 +9,65 @@
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView_City"
-        android:inputType="text"
-        android:background="@color/colorPrimaryLight"
-        android:queryHint="City"
-        android:iconifiedByDefault="false">
-    </SearchView>
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView_State"
+        android:id="@+id/searchView_Organization"
         android:inputType="text"
         android:background="@color/colorPrimaryLight"
         app:iconifiedByDefault="false"
-        android:queryHint="State"
-        android:iconifiedByDefault="false">
-    </SearchView>
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView_Zip"
-        android:inputType="text"
-        android:background="@color/colorPrimaryLight"
-        app:iconifiedByDefault="false"
-        android:queryHint="Zip Code"
+        android:queryHint="Organization"
         android:iconifiedByDefault="false"
-        tools:inputType="number">
+        tools:inputType="text">
     </SearchView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_City"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            android:queryHint="City"
+            android:iconifiedByDefault="false"
+            android:layout_weight="1">
+        </SearchView>
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_State"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            app:iconifiedByDefault="false"
+            android:queryHint="State"
+            android:iconifiedByDefault="false"
+            android:layout_weight="1">
+        </SearchView>
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_Zip"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            app:iconifiedByDefault="false"
+            android:queryHint="Zip"
+            android:iconifiedByDefault="false"
+            tools:inputType="number"
+            android:layout_weight="1">
+        </SearchView>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find Opportunities"
+        android:background="@color/colorAccent"
+        android:id="@+id/button_Search"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

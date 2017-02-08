@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -34,11 +35,12 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewShiftSearchFragment extends Fragment {
+public class NewShiftSearchFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.searchView_City) SearchView mSearchView_City;
     @Bind(R.id.searchView_State) SearchView mSearchView_State;
     @Bind(R.id.searchView_Zip) SearchView mSearchView_Zip;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.button_Search) Button mButton_Search;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -60,37 +62,54 @@ public class NewShiftSearchFragment extends Fragment {
         ButterKnife.bind(this, view);
         mContext = this.getContext();
 
+        //TODO: Replace with population from users once all users are required to have these fields
 
+        mSearchView_State.setQuery("OR", false);
+        mSearchView_City.setQuery("Portland", false);
 
         mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
-
-        mSearchView_City.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //TODO: Stop focus from jumping to profile tab
-                mSearchView_City.clearFocus();
-
-                //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
-                fetchShiftIds(query, "OR");
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+        mButton_Search.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return view;
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view == mButton_Search){
+            //TODO: Lowercase cityQuery once database also has lowercase city nodes
+            String cityQuery = mSearchView_City.getQuery().toString();
+            String stateQuery = mSearchView_State.getQuery().toString();
+            String zipQuery = mSearchView_Zip.getQuery().toString();
+
+            //TODO: Remove stateQuery check once state dropdown is in
+            if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
+                Boolean filterByZip;
+                if(zipQuery.length() == 0){
+                    filterByZip = false;
+                }else filterByZip = true;
+                fetchShiftIds(cityQuery, stateQuery, filterByZip);
+            }else{
+                if(cityQuery.length() == 0){
+                    Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
+                }
+                if(stateQuery.length() == 0){
+                    Toast.makeText(mContext, "Please enter a valid state", Toast.LENGTH_SHORT).show();
+                }
+                if(!validateZip(zipQuery)){
+                    Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
+                }
+            }
+            //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
+        }
+    }
+
     //Retrieves full list of shiftIDs
-    public void fetchShiftIds(String _city, String _state){
+    public void fetchShiftIds(String _city, String _state, final Boolean filterByZip){
         Log.d(TAG, "in fetchShifts");
 
         int itemCount = shifts.size();
@@ -98,7 +117,7 @@ public class NewShiftSearchFragment extends Fragment {
         mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
 
         final ArrayList<String> shiftIds = new ArrayList<>();
-        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATE);
+        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
         Query query = dbShiftsByStateCity.child(_state).child(_city).orderByKey().limitToFirst(25);
         Log.d(TAG, String.valueOf(shifts.size()));
@@ -108,7 +127,7 @@ public class NewShiftSearchFragment extends Fragment {
                 Log.d(TAG, "fetching shifts");
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String shiftId = snapshot.getValue(String.class);
-                    fetchShift(shiftId);
+                    fetchShift(shiftId, filterByZip);
                 }
                 Log.d(TAG, String.valueOf(shifts.size()));
 
@@ -121,25 +140,18 @@ public class NewShiftSearchFragment extends Fragment {
         });
     }
 
-    public void fetchShift(String _shiftId){
+    public void fetchShift(String _shiftId, final Boolean filterByZip){
         final String zipQuery = mSearchView_Zip.getQuery().toString();
-        Boolean filterByZip = false;
-        if(zipQuery.length() != 0){
-            if(validateZip(zipQuery)){
-                filterByZip = true;
-            }
-        }
 
-        final Boolean finalFilterByZip = filterByZip;
         dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
 
-                if(finalFilterByZip && filterByZip(shift, zipQuery)){
+                if(filterByZip && filterByZip(shift, zipQuery)){
                     shifts.add(shift);
                     mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                }else if(!finalFilterByZip){
+                }else if(!filterByZip){
                     shifts.add(shift);
                     mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                 }
@@ -170,8 +182,7 @@ public class NewShiftSearchFragment extends Fragment {
                 Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
                 return false;
             }
-        }else return false;
-
+        }else return true;
     }
 
     @Override
