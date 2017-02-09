@@ -128,46 +128,49 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         final String zipQuery = mSearchView_Zip.getQuery().toString();
         final String orgQuery = mSearchView_Organization.getQuery().toString().toLowerCase();
 
-        String w = "(.*)";
-        final String query = w + zipQuery + w + orgQuery + w;
-        Log.d(TAG, "Query: " + query);
+        if(validateZip(zipQuery)){
+            String w = "(.*)";
+            final String query = w + zipQuery + w + orgQuery + w;
+            Log.d(TAG, "Query: " + query);
 
-        int itemCount = shifts.size();
-        shifts.clear();
-        mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
+            int itemCount = shifts.size();
+            shifts.clear();
+            mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
 
-        final ArrayList<String> shiftIds = new ArrayList<>();
-        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
+            final ArrayList<String> shiftIds = new ArrayList<>();
+            DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
-        Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
-        Log.d(TAG, "State: " + _state);
-        Log.d(TAG, "City: " + _city);
-        dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
+            Log.d(TAG, "State: " + _state);
+            Log.d(TAG, "City: " + _city);
+            dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //"zam productions|portland|or|97201|dogs"
-                Log.d(TAG, "fetching shifts");
-                Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    String searchKey = snapshot.getValue(String.class);
-                    String shiftId = snapshot.getKey();
+                    Log.d(TAG, "fetching shifts");
+                    Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                        String searchKey = snapshot.getValue(String.class);
+                        String shiftId = snapshot.getKey();
 
-                    if(searchKey.matches(query)){
-                        Log.d(TAG, "Query matches!");
-                        fetchShift(shiftId, filterByZip, filterByOrg);
+                        Log.d(TAG, searchKey);
+
+                        if(searchKey.matches(query)){
+                            Log.d(TAG, "Query matches!");
+                            fetchShift(shiftId, filterByZip, filterByOrg);
+                        }
+
                     }
+                    Log.d(TAG, String.valueOf(shifts.size()));
 
                 }
-                Log.d(TAG, String.valueOf(shifts.size()));
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                }
+            });
+        }
     }
 
     public void fetchShift(String _shiftId, final Boolean filterByZip, final Boolean filterByOrg){
@@ -193,14 +196,6 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
             }
         });
-    }
-
-    private boolean checkIfOrgMatches(Shift _shift, String _orgQuery) {
-        return _shift.getOrganizationName().toLowerCase().contains(_orgQuery.toLowerCase());
-    }
-
-    public Boolean checkIfZipMatches(Shift _shift, String zipQuery){
-        return _shift.getZip().equals(zipQuery);
     }
 
     public Boolean validateZip(String _query){

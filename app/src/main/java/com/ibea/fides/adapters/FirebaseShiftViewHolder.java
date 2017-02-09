@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +78,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
             shortDescriptionTextView.setText(shift.getShortDescription());
             addressCodeTextView.setText(shift.getZip());
-            timeTextView.setText(shift.getFrom() + "-" + shift.getUntil());
+            timeTextView.setText(shift.getStartTime() + "-" + shift.getEndTime());
             dateTextView.setText(shift.getStartDate());
             organizationTextView.setText(shift.getOrganizationName());
             shortDescriptionTextView.setText(shift.getShortDescription());

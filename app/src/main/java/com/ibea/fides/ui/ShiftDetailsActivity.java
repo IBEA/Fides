@@ -38,7 +38,7 @@ public class ShiftDetailsActivity extends BaseActivity {
 
         mOrgName.setText(mShift.getOrganizationName());
         mDate.setText(mShift.getStartDate());
-        mTime.setText("From " + mShift.getFrom() + " to " + mShift.getUntil());
+        mTime.setText("From " + mShift.getStartTime() + " to " + mShift.getEndTime());
         mDescription.setText(mShift.getDescription());
         mZip.setText(mShift.getZip());
 

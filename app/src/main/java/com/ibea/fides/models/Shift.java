@@ -17,8 +17,8 @@ public class Shift {
     String streetAddress;
     String city;
     String state;
-    String from;
-    String until;
+    String startTime;
+    String endTime;
     String organizationID;
     String description;
     String shortDescription;
@@ -32,8 +32,8 @@ public class Shift {
 
     public Shift(){}
     public Shift(String _from, String _until, String _startDate, String _endDate, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
-        from = _from;
-        until = _until;
+        startTime = _from;
+        endTime = _until;
         organizationID = _OID;
         description = _description;
         shortDescription = _shortDescription;
@@ -106,20 +106,20 @@ public class Shift {
         this.shortDescription = shortDescription;
     }
 
-    public String getFrom() {
-        return from;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public String getUntil() {
-        return until;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setUntil(String until) {
-        this.until = until;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getOrganizationID() {
