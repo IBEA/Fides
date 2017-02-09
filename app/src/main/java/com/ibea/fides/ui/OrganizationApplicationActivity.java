@@ -50,7 +50,6 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
 
     String mName;
     String mEmail;
-    String ein;
     String userName;
     String address;
     String city;
