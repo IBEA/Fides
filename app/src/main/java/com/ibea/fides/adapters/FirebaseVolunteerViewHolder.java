@@ -43,13 +43,13 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     private Button mLikeButton;
 
     // Popup
-    PopupWindow mPopUp;
+    private PopupWindow mPopUp;
     private View mPop;
-    Button mNoShowButton;
-    Button mShowButton;
-    EditText mHoursInput;
+    private Button mNoShowButton;
+    private Button mShowButton;
+    private EditText mHoursInput;
     private String mHours;
-    String mDiffInput;
+    private String mDiffInput;
 
     // Rating System
     final private int DISLIKE = 0;
