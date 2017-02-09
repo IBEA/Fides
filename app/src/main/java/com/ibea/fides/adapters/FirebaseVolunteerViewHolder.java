@@ -1,9 +1,6 @@
 package com.ibea.fides.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,14 +18,12 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.Bind;
 
 
 /**
@@ -43,27 +37,25 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     private Button mLikeButton;
 
     // Popup
-    PopupWindow mPopUp;
+    private PopupWindow mPopUp;
     private View mPop;
-    Button mNoShowButton;
-    Button mShowButton;
-    EditText mHoursInput;
+    private Button mNoShowButton;
+    private Button mShowButton;
+    private EditText mHoursInput;
     private String mHours;
-    String mDiffInput;
+    private String mDiffInput;
 
     // Rating System
     final private int DISLIKE = 0;
     final private int LIKE = 3;
 
-    private  String shiftId;
+    private String shiftId;
     private String indexKey;
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public FirebaseVolunteerViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-
-        // Feel free to rewrite this, Alaina. Just tell me what you do.
         mPop = LayoutInflater.from(itemView.getContext()).inflate(R.layout.popup_rating, (ViewGroup)mView.getParent(), false);
     }
 
@@ -75,15 +67,17 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         mDislikeButton.setOnClickListener(this);
         mLikeButton.setOnClickListener(this);
 
+        shiftId = _shiftId;
+        indexKey = Integer.toString(position);
 
+
+        // Remove buttons if the user has already been rated
         if(rated) {
             mLikeButton.setVisibility(View.GONE);
             mDislikeButton.setVisibility(View.GONE);
         }
 
-        shiftId = _shiftId;
-        indexKey = Integer.toString(position);
-
+        // Retrieve appropriate User from database
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(userId);
         ref.addValueEventListener(new ValueEventListener() {
 
@@ -95,7 +89,6 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
@@ -112,6 +105,91 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         } else if(view == mNoShowButton) {
             dataUpdate(mHours, false);
         }
+    }
+
+    private void rate(int rating) {
+        // Remove rating buttons from display for user
+        mDislikeButton.setVisibility(View.GONE);
+        mLikeButton.setVisibility(View.GONE);
+
+        // Retrieve User's rating history and calculate new rating
+        List<Integer> ratingHistory = mUser.getRatingHistory();
+        ratingHistory.add(rating);
+        float size = ratingHistory.size();
+        float modifiedRating = 0;
+        float modifiedMax = 0;
+        float index = 1;
+        float modifier = 0;
+
+        for(Integer rate : ratingHistory) {
+            modifier = index/size;
+            modifiedRating += (modifier * rate);
+            modifiedMax += (modifier * LIKE);
+            ++index;
+        }
+        float finalFloatRating = (modifiedRating/modifiedMax) * 100 ;
+        int finalRating = Math.round(finalFloatRating);
+        mUser.setRating(finalRating);
+        mUser.setRatingHistory(ratingHistory);
+
+        // Update Database with new User info and remove User from rated shift
+        dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(indexKey).removeValue();
+
+        // Retrieve duration of shift information
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+
+                // Start and End times/dates
+                String startDate = shift.getStartDate();
+                String endDate = shift.getEndDate();
+                String from = shift.getStartTime();
+                String to = shift.getEndTime();
+
+                // Time and Date format
+                SimpleDateFormat tFormat = new SimpleDateFormat("kk:mm");
+                SimpleDateFormat dFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+                try {
+                    double difference = 0.00;
+
+                    // If dates aren't equal, calculate difference
+                    if(!startDate.equals(endDate)) {
+                        Date date1 = dFormat.parse(startDate);
+                        Date date2 = dFormat.parse(endDate);
+                        difference = date2.getTime() - date1.getTime();
+                    }
+
+                    // Calculate difference for the times
+                    Date time1 = tFormat.parse(from);
+                    Date time2 = tFormat.parse(to);
+                    difference += time2.getTime() - time1.getTime();
+
+                    // Convert difference to hours and format correctly
+                    difference = (difference/(60 * 60 * 1000));
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    mDiffInput = df.format(difference);
+
+                } catch (ParseException ex){
+                    ex.printStackTrace();
+                }
+
+                // Move User from current volunteers on shift to rated volunteers
+                shift.getCurrentVolunteers().remove(mUser.getPushId());
+                shift.addRated(mUser.getPushId());
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(shift.getRatedVolunteers());
+
+                // Call popup
+                popup();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     private void popup() {
@@ -139,96 +217,5 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         mPopUp.dismiss();
     }
 
-    private void rate(int rating) {
-        mDislikeButton.setVisibility(View.GONE);
-        mLikeButton.setVisibility(View.GONE);
 
-
-        List<Integer> ratingHistory = mUser.getRatingHistory();
-        ratingHistory.add(rating);
-        float size = ratingHistory.size();
-        float modifiedRating = 0;
-        float modifiedMax = 0;
-        float index = 1;
-        float modifier = 0;
-
-        for(Integer rate : ratingHistory) {
-            Log.d("Justin Index: ", index + "");
-            Log.d("Justin Rate on Index: ", rate + "");
-            Log.d("Justin modifiedrating: ", modifiedRating + "");
-            Log.d("Justin modifiedMax: ", modifiedMax + "");
-            Log.d("Justin Size: ", size + "");
-            modifier = index/size;
-            modifiedRating += (modifier * rate);
-            modifiedMax += (modifier * LIKE);
-            ++index;
-            Log.d("Justin modifier: ", modifier + "");
-        }
-
-        Log.d("Justin FIndex: ", index + "");
-        Log.d("Justi Fmodifiedrating: ", modifiedRating + "");
-        Log.d("Justin FmodifiedMax: ", modifiedMax + "");
-        float finalFloatRating = (modifiedRating/modifiedMax) * 100 ;
-        Log.d("Justin finalRating: ", finalFloatRating + "");
-        int finalRating = Math.round(finalFloatRating);
-        mUser.setRating(finalRating);
-        mUser.setRatingHistory(ratingHistory);
-
-
-        dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
-
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(indexKey).removeValue();
-
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Shift shift = dataSnapshot.getValue(Shift.class);
-
-                String startDate = shift.getStartDate();
-                String endDate = shift.getEndDate();
-                String from = shift.getStartTime();
-                String to = shift.getEndTime();
-
-                SimpleDateFormat format = new SimpleDateFormat("kk:mm");
-                SimpleDateFormat dFormat = new SimpleDateFormat("MM-dd-yyyy");
-                try {
-                    double mDifference = 0.00;
-                    if(!startDate.equals(endDate)) {
-                        Date date1 = dFormat.parse(startDate);
-                        Date date2 = dFormat.parse(endDate);
-
-                        mDifference = date2.getTime() - date1.getTime();
-                    }
-
-                    Date time1 = format.parse(from);
-                    Date time2 = format.parse(shift.getEndTime());
-                    mDifference += time2.getTime() - time1.getTime();
-
-                    Log.d("JUSTIN First Run:", mDifference + "");
-                    mDifference = (mDifference/(60 * 60 * 1000));
-                    DecimalFormat df = new DecimalFormat("0.00");
-
-                    mDiffInput = df.format(mDifference);
-
-                } catch (ParseException ex){
-                    ex.printStackTrace();
-                }
-
-
-                shift.getCurrentVolunteers().remove(mUser.getPushId());
-                shift.addRated(mUser.getPushId());
-                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
-                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(shift.getRatedVolunteers());
-                popup();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
 }
