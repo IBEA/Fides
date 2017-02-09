@@ -124,7 +124,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment implements A
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, false, "ShiftsByOrganization", mThis);
+                        viewHolder.bindShift(shift, "ShiftsByOrganization");
 
                     }
 

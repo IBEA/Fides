@@ -27,6 +27,9 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static android.widget.Toast.makeText;
 
 /**
@@ -34,42 +37,30 @@ import static android.widget.Toast.makeText;
  */
 
 public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Bind(R.id.textView_OrganizationName) TextView mTextView_OrganizationName;
+    @Bind(R.id.textView_StartTime) TextView mTextView_StartTime;
+    @Bind(R.id.textView_EndTime) TextView mTextView_EndTime;
+    @Bind(R.id.textView_StartDate) TextView mTextView_StartDate;
+    @Bind(R.id.textView_ShortDesc) TextView mTextView_ShortDesc;
 
     private View mView;
     private Context mContext;
     private Shift mShift;
-    private Boolean isOrganization;
     private String mOrigin;
     private Boolean mIsComplete;
 
-    private LinearLayout mItemLayout;
-    private ViewGroup.LayoutParams mItemLayoutParams;
-
-    private AdapterUpdateInterface mInterface;
-
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
         mView = itemView;
         mContext = itemView.getContext();
         itemView.setOnClickListener(this);
     }
 
-    public void bindShift(final Shift shift, Boolean _isOrganization, String _origin, AdapterUpdateInterface _interface) {
-        isOrganization = _isOrganization;
+    public void bindShift(final Shift shift, String _origin) {
         mOrigin = _origin;
-        mInterface = _interface;
 
         Log.d(mOrigin, " in bindShift");
-
-        final TextView organizationTextView = (TextView) mView.findViewById(R.id.textView_OrgName);
-        final TextView shortDescriptionTextView = (TextView) mView.findViewById(R.id.textView_ShortDescription);
-
-        mItemLayout = (LinearLayout) mView.findViewById(R.id.linearLayout);
-        mItemLayoutParams = mItemLayout.getLayoutParams();
-
-        final TextView addressCodeTextView = (TextView) mView.findViewById(R.id.textView_Address);
-        final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
-        final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
 
         mShift = shift;
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -77,12 +68,11 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         if(mShift != null) {
             //Change button to delete if user is an organization
 
-            shortDescriptionTextView.setText(shift.getShortDescription());
-            addressCodeTextView.setText(shift.getStreetAddress());
-            timeTextView.setText(shift.getStartTime() + "-" + shift.getEndTime());
-            dateTextView.setText(shift.getStartDate());
-            organizationTextView.setText(shift.getOrganizationName());
-            shortDescriptionTextView.setText(shift.getShortDescription());
+            mTextView_OrganizationName.setText(shift.getOrganizationName());
+            mTextView_StartTime.setText(shift.getStartTime());
+            mTextView_EndTime.setText(shift.getEndTime());
+            mTextView_StartDate.setText(shift.getStartDate());
+            mTextView_ShortDesc.setText(shift.getShortDescription());
         }
     }
 

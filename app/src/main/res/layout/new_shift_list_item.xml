@@ -29,7 +29,53 @@
                 android:id="@+id/textView_OrganizationName"
                 style="@style/AppTheme"
                 android:fontFamily="sans-serif"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_StartTime"
+                    style="@style/AppTheme"
+                    android:fontFamily="sans-serif"
+                    android:text="Start" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AppTheme"
+                    android:fontFamily="sans-serif"
+                    android:text=" - " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_EndTime"
+                    style="@style/AppTheme"
+                    android:fontFamily="sans-serif"
+                    android:text="End" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AppTheme"
+                    android:fontFamily="sans-serif"
+                    android:text=" on " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_StartDate"
+                    style="@style/AppTheme"
+                    android:fontFamily="sans-serif"
+                    android:text="Date" />
+
+            </LinearLayout>
 
             <TextView
                 android:text="ShortDesc"
