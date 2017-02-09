@@ -2,6 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ import com.ibea.fides.utils.AdapterUpdateInterface;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import static android.widget.Toast.makeText;
 
 /**
  * Created by Alaina Traxler on 1/25/2017.
@@ -141,7 +144,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
-                    Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+                    makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
                 }else{
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
@@ -163,7 +166,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).setValue(shiftId);
                     }
 
-                    Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
+                    makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -185,7 +188,12 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
-                    Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
+                    Toast toast = makeText(mContext, "Shift full", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.setBackgroundColor(Color.argb(150,0,0,0));
+                    view.setPadding(30,30,30,30);
+                    toast.setView(view);
+                    toast.show();
                 }else{
 //                    mVolunteerButton.setText("Cancel");
 
@@ -210,7 +218,12 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).removeValue();
                     }
 
-                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.setBackgroundColor(Color.argb(150,0,0,0));
+                    view.setPadding(30,30,30,30);
+                    toast.setView(view);
+                    toast.show();
                 }
             }
 
