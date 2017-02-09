@@ -1,92 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_shifts_create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:background="@color/colorPrimaryLight"
     tools:context="com.ibea.fides.ui.ShiftsCreateActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/submitButton">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:orientation="vertical">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/titleText"
+        android:gravity="center"
         android:text="Create Shift Form"
         android:textSize="30sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titleText"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/startTimeInput"
-        android:text="Start Time"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleText"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/startTimeInput"
+            android:gravity="center"
+            android:text="Time"
+            android:textSize="20sp"
+            android:layout_weight="2"/>
+
+        <TextView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/titleText"
         android:layout_centerHorizontal="true"
         android:id="@+id/toTimeText"
+            android:gravity="center"
         android:text="to"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleText"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:id="@+id/endTimeInput"
-        android:text="End Time"
+        android:layout_weight="1"
         android:textSize="20sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toTimeText"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/startDateInput"
-        android:text="Start Date"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toTimeText"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/toDateText"
-        android:text="to"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toTimeText"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:id="@+id/endDateInput"
-        android:text="End Date"
-        android:textSize="20sp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleText"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:id="@+id/endTimeInput"
+            android:layout_weight="2"
+            android:text="Time"
+            android:textSize="20sp"/>
 
-    <EditText
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/endDateInput"
-        android:inputType="textMultiLine"
-        android:minLines="2"
-        android:id="@+id/shortDescriptionInput"
-        android:hint="Short Description of Shift"
-        android:textSize="20sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/shortDescriptionInput"
-        android:inputType="textMultiLine"
-        android:minLines="3"
-        android:id="@+id/longDescriptionInput"
-        android:hint="Long Description of Shift"
-        android:textSize="20sp"/>
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toTimeText"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:id="@+id/startDateInput"
+            android:text="Date"
+            android:layout_weight="2"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toTimeText"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:id="@+id/toDateText"
+            android:layout_weight="1"
+            android:text="to"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toTimeText"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/endDateInput"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:text="Date"
+            android:textSize="20sp"/>
+
+        </LinearLayout>
 
     <EditText
         android:layout_width="match_parent"
@@ -94,50 +125,108 @@
         android:layout_below="@+id/longDescriptionInput"
         android:id="@+id/streetInput"
         android:hint="Street Address"
+        android:gravity="center"
         android:textSize="20sp"/>
-    <EditText
-        android:layout_width="200dp"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/streetInput"
-        android:layout_alignParentLeft="true"
-        android:id="@+id/cityInput"
-        android:hint="City"
-        android:textSize="20sp"/>
-    <Spinner
-        android:layout_width="wrap_content"
+        android:weightSum="4">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/cityInput"
+            android:hint="City"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="State"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="20sp"/>
+
+        <Spinner
+        android:layout_width="0dp"
+        android:layout_weight="0.9"
+        android:layout_height="match_parent"
+        android:id="@+id/stateSpinner"
+        android:gravity="left" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/cityInput"
-        android:layout_alignTop="@+id/cityInput"
-        android:layout_below="@+id/streetInput"
-        android:layout_toRightOf="@+id/cityInput"
-        android:id="@+id/stateSpinner" />
+        android:weightSum="2">
+
     <EditText
-        android:layout_width="125dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/streetInput"
         android:layout_alignParentRight="true"
+        android:layout_weight="1"
         android:inputType="number"
         android:id="@+id/zipcodeInput"
         android:hint="Zipcode"
+        android:gravity="center"
         android:textSize="20sp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/zipcodeInput"
+        android:layout_weight="1"
         android:inputType="number"
+        android:gravity="center"
         android:id="@+id/volunteerSizeInput"
-        android:hint="Number of Volunteers"
+        android:hint="# of Volunteers"
         android:textSize="20sp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/submitShiftButton"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryLight"
-        android:text="Post Shift"
-        android:textSize="25sp"/>
-</RelativeLayout>
 
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/endDateInput"
+            android:inputType="textMultiLine"
+            android:gravity="center"
+            android:id="@+id/shortDescriptionInput"
+            android:hint="Short Description"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shortDescriptionInput"
+            android:inputType="textMultiLine"
+            android:id="@+id/longDescriptionInput"
+            android:hint="Long Description"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/submitShiftButton"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorIcons"
+            android:text="Post Shift"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

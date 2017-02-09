@@ -47,6 +47,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private Context mContext;
     private Shift mShift;
     private String mOrigin;
+    private Boolean mIsComplete;
 
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -111,6 +112,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
     public void completeShift() {
         String shiftId = mShift.getPushId();
+        mShift.setComplete(true);
         deleteShift(false);
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -120,7 +122,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(user).child(shiftId).setValue(shiftId);
         }
         dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mShift.getOrganizationID()).child(shiftId).setValue(shiftId);
-
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("complete").setValue(true);
     }
 
     public void quitShift(){
