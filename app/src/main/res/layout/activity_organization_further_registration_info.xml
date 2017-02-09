@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_organization_further_registration_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ibea.fides.ui.OrganizationFurtherRegistrationInfoActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/submitButton"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorIcons"
+        android:layout_marginTop="40dp"
+        android:text="Submit"
+        android:textSize="25sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:text="Final Required Information"
+                android:id="@+id/titleText"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="120dp"
+                android:layout_marginBottom="12dp"
+                android:textSize="24sp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:id="@+id/nameInput"
+                android:hint="Contact Name"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/addressInput"
+                android:hint="Street Address"
+                android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="5">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:id="@+id/cityInput"
+                    android:inputType="text"
+                    android:width="0dp"
+                    android:layout_weight="2"
+                    android:hint="City"
+                    android:gravity="center"/>
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stateSpinner"
+                    android:width="0dp"
+                    android:layout_weight="1" />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:width="0dp"
+                    android:layout_weight="2"
+                    android:id="@+id/zipcodeInput"
+                    android:gravity="center"
+                    android:hint="Zipcode"
+                    android:layout_centerHorizontal="true" />
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:id="@+id/urlInput"
+                android:hint="URL for Organization's Website"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:id="@+id/descriptionInput"
+                android:hint="Breif Description of Organization"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
