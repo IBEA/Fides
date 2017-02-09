@@ -6,31 +6,20 @@
     android:weightSum="4">
 
     <TextView
-        android:layout_width="match_parent"
-        android:textAlignment="center"
-        android:gravity="center_vertical"
-        android:layout_height="0dp"
-        android:textColor="#ffffff"
-        android:text="Go out and volunteer!"
-        android:layout_weight="1"
-        android:id="@+id/textView"
-        android:textSize="25sp" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/logo_v02"
-        android:layout_weight="1"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:textAlignment="center"
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="Remember, only you can change the world!"
-        android:id="@+id/textView2"
+        android:text="When you show up for scheduled shifts, you earn trust. Companies can see your trust on application."
         android:layout_weight="1"
+        android:id="@+id/textView"
         android:textSize="25sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/trusttutorial"
+        android:layout_weight="2"/>
 
 </LinearLayout>
