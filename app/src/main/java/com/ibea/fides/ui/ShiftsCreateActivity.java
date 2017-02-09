@@ -54,7 +54,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
-    private String mStartTime, mEndTime, mStartDate, mEndDate, mShortDescription, mLongDescription, mStreet, mCity, mState, mZipcode;
+    private String mStartTime, mEndTime, mStartDate, mEndDate, mShortDescription, mLongDescription, mStreet, mCity, mState, mZipcode, Volunteertest;
     private int mVolunteerSize;
 
     Organization thisOrg;
@@ -261,24 +261,81 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     public boolean validateFields(){
+
         mStartTime = mStartTimeInput.getText().toString();
         mEndTime = mEndTimeInput.getText().toString();
         mStartDate = mStartDateInput.getText().toString();
         mEndDate = mEndDateInput.getText().toString();
-        mVolunteerSize = Integer.parseInt(mVolunteerSizeInput.getText().toString());
+        Volunteertest = mVolunteerSizeInput.getText().toString();
         mShortDescription = mShortDescriptionInput.getText().toString();
         mLongDescription = mLongDescriptionInput.getText().toString();
         mStreet = mStreetInput.getText().toString();
         mCity = mCityInput.getText().toString();
         mZipcode = mZipcodeInput.getText().toString();
 
-        if(mStartTime.equals("") || mEndTime.equals("") || mStartDate.equals("") || !(mVolunteerSize > 0) || mShortDescription.equals("") || mLongDescription.equals("") || mStreet.equals("") || mCity.equals("") || mZipcode.equals("")) {
-            Log.d("Justin", "Rejected at Input");
+        mStartTimeInput.setError(null);
+        mEndTimeInput.setError(null);
+        mStartDateInput.setError(null);
+        mEndDateInput.setError(null);
+
+        if(Volunteertest.equals("")){
+            mVolunteerSizeInput.setError("Please enter the #");
+            return false;
+        } else {
+            mVolunteerSize = Integer.parseInt(Volunteertest);
+        }
+
+        if(mStartTime.equals("Time")) {
+            mStartTimeInput.setError("Set Time please.");
             return false;
         }
+        else if(mEndTime.equals("Time")){
+            mEndTimeInput.setError("Set Time please.");
+            return false;
+        }
+        else if(mStartDate.equals("Date")){
+            mStartDateInput.setError("Set Date please.");
+            return false;
+        }
+        else if(mEndDate.equals("Date")){
+            mEndDateInput.setError("Set Date please.");
+            return false;
+        }
+        else if(mShortDescription.equals("")){
+            mShortDescriptionInput.setError("Please add a Short Description");
+            return false;
+        }
+        else if(mLongDescription.equals("")){
+            mLongDescriptionInput.setError("Please add a Long Description");
+            return false;
+        }
+        else if( mStreet.equals("")){
+            mStreetInput.setError("Please enter a Street");
+            return false;
+        }
+        else if( mCity.equals("")){
+            mCityInput.setError("Please enter a City");
+            return false;
+        }
+        else if( mZipcode.equals("")){
+            mZipcodeInput.setError("Please enter a Zipcode");
+            return false;
+        }
+
         Log.d("Justin", "Comparing Date");
         return compareDate(mStartDate, mEndDate, mStartTime, mEndTime);
 
+    }
+
+    public void validateTime() {
+        mStartTime = mStartTimeInput.getText().toString();
+        mEndTime = mEndTimeInput.getText().toString();
+        mStartDate = mStartDateInput.getText().toString();
+        mEndDate = mEndDateInput.getText().toString();
+
+        if(mStartTime.equals("Time")) {
+            mStartTimeInput.setError("Set Time please.");
+        }
     }
 
     public boolean compareDate(String dateOne, String dateTwo, String timeOne, String timeTwo) {
@@ -294,10 +351,14 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
             if(date1.after(date2)) {
                 Log.d("Justin", "Rejected at Date");
+                Toast toast = Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT);
+                toast.show();
                 return false;
             } else if(date1.equals(date2)) {
                 if(time1.after(time2)) {
                     Log.d("Justin", "Rejected at Time");
+                    Toast toast = Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT);
+                    toast.show();
                     Log.d("Justin Time One: ", time1 + "");
                     Log.d("Justin Time Two: ", time2 + "");
                     return false;
@@ -355,6 +416,12 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsPending for organization
         dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
 
+        mLongDescriptionInput.setText("");
+        mShortDescriptionInput.setText("");
+        mStartTimeInput.setText("Time");
+        mEndTimeInput.setText("Time");
+        mStartDateInput.setText("Date");
+        mEndDateInput.setText("Date");
     }
 
 
