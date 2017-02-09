@@ -42,7 +42,7 @@
             android:text="(Click Here to Sign Up as an Organization)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/createOrganizationButton"
+            android:id="@+id/switchToVolunteerButton"
             android:layout_centerHorizontal="true"
             android:backgroundTint="@color/colorPrimaryLight"
             android:background="@android:drawable/btn_default"
@@ -60,7 +60,7 @@
             android:id="@+id/nameInput"
             android:hint="Display Name"
             android:gravity="center"
-            android:layout_below="@+id/createOrganizationButton"
+            android:layout_below="@+id/switchToVolunteerButton"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal" />
 

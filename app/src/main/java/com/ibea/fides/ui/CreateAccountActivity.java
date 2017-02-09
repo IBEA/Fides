@@ -36,7 +36,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
     @Bind(R.id.createVolunteerButton) Button mCreateVolunteerButton;
-    @Bind(R.id.createOrganizationButton) Button mCreateOrganizationButton;
+    @Bind(R.id.switchToVolunteerButton) Button mCreateOrganizationButton;
 
     // Firebase
     private FirebaseAuth mAuth;

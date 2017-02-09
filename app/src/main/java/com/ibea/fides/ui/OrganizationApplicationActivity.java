@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,18 +28,21 @@ import static android.widget.Toast.makeText;
 
 public class OrganizationApplicationActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.organizationInput) EditText mOrganizationNameInput;
-    @Bind(R.id.addressInput) EditText mAddressInput;
-    @Bind(R.id.cityInput) EditText mCityInput;
-    @Bind(R.id.stateSpinner) Spinner mStateSpinner;
-
-    @Bind(R.id.zipcodeInput) EditText mZipInput;
-    @Bind(R.id.descriptionInput) EditText mDescriptionInput;
+    @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
-    @Bind(R.id.emailInput) EditText mEmailInput;
+
     @Bind(R.id.submitButton) Button mSubmitButton;
+    @Bind(R.id.switchToVolunteerButton) Button mSwitchToVolButton;
+
+
+//    @Bind(R.id.addressInput) EditText mAddressInput;
+//    @Bind(R.id.cityInput) EditText mCityInput;
+//    @Bind(R.id.stateSpinner) Spinner mStateSpinner;
+//    @Bind(R.id.zipcodeInput) EditText mZipInput;
+//    @Bind(R.id.nameInput) EditText mNameInput;
+//    @Bind(R.id.descriptionInput) EditText mDescriptionInput;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
@@ -66,13 +67,16 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         mAuth = FirebaseAuth.getInstance();
         createAuthStateListener();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mStateSpinner.setAdapter(adapter);
-        mStateSpinner.setOnItemSelectedListener(this);
+
+        // Populate Spinner w/ State abbrevs
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        mStateSpinner.setAdapter(adapter);
+//        mStateSpinner.setOnItemSelectedListener(this);
 
         // Set Click Listener
         mSubmitButton.setOnClickListener(this);
+        mSwitchToVolButton.setOnClickListener(this);
 
         createAuthProgressDialog();
     }
@@ -98,21 +102,25 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         if (view == mSubmitButton) {
             createOrganization();
         }
+        else if (view == mSwitchToVolButton) {
+            Intent intent = new Intent(mContext, CreateAccountActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void createOrganization() {
         String orgName = mOrganizationNameInput.getText().toString().trim();
-        userName = mNameInput.getText().toString().trim();
-        address = mAddressInput.getText().toString().trim();
-        city = mCityInput.getText().toString().trim();
-        zip = mZipInput.getText().toString().trim();
-        description = mDescriptionInput.getText().toString().trim();
+        String email = mEmailInput.getText().toString().trim();
         String password = mPasswordInput.getText().toString().trim();
         String passwordConfirm = mPasswordConfirmInput.getText().toString().trim();
-        String email = mEmailInput.getText().toString().trim();
+//        userName = mNameInput.getText().toString().trim();
+//        address = mAddressInput.getText().toString().trim();
+//        city = mCityInput.getText().toString().trim();
+//        zip = mZipInput.getText().toString().trim();
+//        description = mDescriptionInput.getText().toString().trim();
 
         // Confirm validity of inputs
-        boolean validName = isValidName(orgName);
+        boolean validName = isValidOrgName(orgName);
         boolean validEmail = isValidEmail(email);
         boolean validPassword = isValidPassword(password, passwordConfirm);
 
@@ -166,9 +174,9 @@ public class OrganizationApplicationActivity extends BaseActivity implements Vie
         };
     }
 
-    private boolean isValidName(String name) {
+    private boolean isValidOrgName(String name) {
         if (name.equals("")) {
-            mNameInput.setError("Please enter your name");
+            mOrganizationNameInput.setError("Please enter your name");
             return false;
         }
         return true;
