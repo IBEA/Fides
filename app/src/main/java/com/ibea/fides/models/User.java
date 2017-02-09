@@ -21,7 +21,6 @@ public class User {
     List<Integer> ratingHistory = new ArrayList<>();
     int absences;
     String zipcode;
-    String streetAddress;
     String city;
     String state;
 
@@ -95,14 +94,6 @@ public class User {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
-    }
-
-    public String getStreetAddress() {
-        return streetAddress;
-    }
-
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
     }
 
     public String getCity() {
