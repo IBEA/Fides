@@ -20,6 +20,7 @@ public class Organization {
     String contactEmail;
     String zipcode;
     String description;
+    String url;
     List<String> shiftsAvailable = new ArrayList<>();
     List<String> shiftsCompleted = new ArrayList<>();
     List<String> tags = new ArrayList<>();
@@ -99,6 +100,8 @@ public class Organization {
     }
     public List<String> getTags() { return tags; }
     public void setTags(List<String> tags) { this.tags = tags; }
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
     // Shift Functions
     public void addShift(String shiftToAdd) {
