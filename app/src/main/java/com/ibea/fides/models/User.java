@@ -17,7 +17,12 @@ public class User {
     boolean isOrganization = false;
     boolean isAdmin = false;
     int rating;
+    double hours;
     List<Integer> ratingHistory = new ArrayList<>();
+    int absences;
+    String zipcode;
+    String city;
+    String state;
 
     // Empty Constructor for Parceler
     public User() {}
@@ -51,6 +56,14 @@ public class User {
     public boolean getIsAdmin() { return isAdmin; }
     public void setIsAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
 
+    public double getHours() {
+        return hours;
+    }
+
+    public void setHours(double hours) {
+        this.hours = hours;
+    }
+
     public int getRating() {
         return rating;
     }
@@ -65,5 +78,37 @@ public class User {
 
     public void setRatingHistory(List<Integer> ratingHistory) {
         this.ratingHistory = ratingHistory;
+    }
+
+    public int getAbsences() {
+        return absences;
+    }
+
+    public void setAbsences(int absences) {
+        this.absences = absences;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

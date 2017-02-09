@@ -9,6 +9,7 @@
     android:theme="@style/DarkOnLightLayout"
     android:background="@color/colorBackground">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
             android:layout_below="@+id/textView_Address"/>
 
     </RelativeLayout>
+
     <View
         android:id="@+id/SplitLine_hor1"
         android:layout_width="match_parent"
