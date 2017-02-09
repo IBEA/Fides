@@ -156,13 +156,14 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     Intent intent;
 
                     if (isOrganization) {
-                        intent = new Intent(CreateAccountActivity.this, OrganizationApplicationActivity.class);
+                        Toast.makeText(mContext, "Thank You, A Verification Email Has Been Sent", Toast.LENGTH_LONG).show();
+                        intent = new Intent(CreateAccountActivity.this, LogInActivity.class);
                     }
                     else {
-                        intent = new Intent(CreateAccountActivity.this, MainActivity_Volunteer.class);
+                        Toast.makeText(mContext, "Thank You, A Verification Email Has Been Sent", Toast.LENGTH_LONG).show();
+                        intent = new Intent(CreateAccountActivity.this, LogInActivity.class);
 
                     }
-
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -242,6 +243,16 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         user.updateProfile(addProfileName).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {}
+        });
+
+        // Send Email Verification
+        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Email sent.");
+                }
+            }
         });
     }
 

@@ -103,53 +103,59 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 if(task.isSuccessful()) {
                     final FirebaseUser user = mAuth.getCurrentUser();
 
-                    Log.d(TAG, user.getUid());
-                    dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Boolean isUser = dataSnapshot.hasChild(user.getUid());
-                            if(!isUser) {
-                                Toast.makeText(LogInActivity.this, "Your Application is Under Review", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LogInActivity.this, LogInActivity.class);
-                                startActivity(intent);
-                            } else {
-                                dbUsers.child(user.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        isOrganization = dataSnapshot.getValue(Boolean.class);
-                                        Log.d(">>>>>", String.valueOf(isOrganization));
+                    if(user.isEmailVerified()) {
+                        Log.d(TAG, user.getUid());
+                        dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Boolean isUser = dataSnapshot.hasChild(user.getUid());
+                                if(!isUser) {
+                                    Toast.makeText(LogInActivity.this, "Your Application is Under Review", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LogInActivity.this, LogInActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    dbUsers.child(user.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            isOrganization = dataSnapshot.getValue(Boolean.class);
+                                            Log.d(">>>>>", String.valueOf(isOrganization));
 
-                                        //Put isOrganization Boolean into shared preferences.
-                                        PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
+                                            //Put isOrganization Boolean into shared preferences.
+                                            PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
 
-                                        Intent intent;
+                                            Intent intent;
 
-                                        if (isOrganization) {
-                                            intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                                            if (isOrganization) {
+                                                intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                                            }
+                                            else {
+                                                intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
+                                            }
+
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            //intent.putExtra("user" , user);
+                                            startActivity(intent);
+                                            finish();
                                         }
-                                        else {
-                                            intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
                                         }
-
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        //intent.putExtra("user" , user);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
+                                    });
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(LogInActivity.this, "Please Verify Your Email", Toast.LENGTH_SHORT).show();
+                    }
+
+
 
                 }
                 if(!task.isSuccessful()) {
