@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.ShiftsPendingForVolunteerFragment">
+    tools:context="com.ibea.fides.ui.ShiftsPendingForVolunteerFragment"
+    android:theme="@style/DarkOnLightLayout">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,6 +20,6 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/unratedRecyclerView"/>
-
+        android:id="@+id/unratedRecyclerView"
+        />
 </FrameLayout>

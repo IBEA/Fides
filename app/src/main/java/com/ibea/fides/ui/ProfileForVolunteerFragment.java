@@ -52,7 +52,7 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         username.setText(mUser.getName());
 
-        trustmetric = 75;
+        trustmetric = mUser.getRating();
 
         totalHoursWorked = 11; //TODO once hours are implemented, return hours
 

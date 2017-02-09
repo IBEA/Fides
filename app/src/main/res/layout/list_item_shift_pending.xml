@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/linearLayout"
     android:theme="@style/DarkOnLightLayout"
-    android:padding="12dp">
+    android:background="@color/colorBackground">
+
 
     <RelativeLayout
         android:layout_width="match_parent"

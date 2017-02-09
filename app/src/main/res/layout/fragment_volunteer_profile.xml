@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -59,13 +60,14 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:padding="10dp"
-            android:weightSum="5">
+            android:weightSum="4">
 
         <TextView
             android:text="Trust"
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
             android:id="@+id/trusttext"
             android:textSize="34sp"
             android:layout_weight="1"
@@ -74,7 +76,7 @@
             <com.hookedonplay.decoviewlib.DecoView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:id="@+id/dynamicArcView" />
 
             <TextView
@@ -95,15 +97,16 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:padding="10dp"
-            android:weightSum="5">
+            android:weightSum="4">
 
             <TextView
                 android:text="Hours"
                 android:textColor="@color/colorAccent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:textAlignment="center"
                 android:id="@+id/hourstext"
                 android:textSize="34sp" />
 
@@ -111,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:id="@+id/hoursArcView" />
 
             <TextView

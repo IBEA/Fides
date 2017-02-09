@@ -3,24 +3,34 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:weightSum="4">
+    android:weightSum="100">
 
     <TextView
         android:layout_width="match_parent"
         android:textAlignment="center"
-        android:gravity="center_vertical"
+        android:gravity="bottom"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="Go out and volunteer!"
-        android:layout_weight="1"
+        android:text="Fides"
+        android:layout_weight="20"
         android:id="@+id/textView"
-        android:textSize="25sp" />
+        android:textStyle="bold"
+        android:textSize="60sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:layout_height="0dp"
+        android:textColor="#ffffff"
+        android:text="(FEE-des)"
+        android:layout_weight="8"
+        android:textSize="28sp" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/logo_v02"
-        android:layout_weight="1"/>
+        android:layout_weight="30"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,9 +38,9 @@
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="Remember, only you can change the world!"
+        android:text="Fides (Latin: Fidēs) was the goddess of trust and bona fides (good faith) in Roman mythology."
         android:id="@+id/textView2"
-        android:layout_weight="1"
+        android:layout_weight="20"
         android:textSize="25sp" />
 
 </LinearLayout>

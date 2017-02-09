@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ibea.fides.ui.ShiftsPendingForOrganizationFragment">
+    tools:context="com.ibea.fides.ui.ShiftsPendingForOrganizationFragment"
+    android:theme="@style/DarkOnLightLayout">
 
     <Button
         android:text="Create Shift"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_CreateShift"
-        android:background="@color/colorPrimaryLight" />
+        android:background="@color/colorAccent" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

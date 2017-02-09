@@ -18,6 +18,8 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#f5f5f5</color>
     <color name="colorIcons">#ffffff</color>
-    <color name="colorDivider">#bcaaa4</color>
+    <color name="colorDivider">#BCAAA4</color>
+    <color name ="colorBackground">#FAFAFA</color>
+
 
 </resources>
