@@ -131,10 +131,12 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         final ArrayList<String> shiftIds = new ArrayList<>();
         DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
-        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
+        String query = "zam";
+
+        Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
         Log.d(TAG, "State: " + _state);
         Log.d(TAG, "City: " + _city);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -142,6 +144,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                 Log.d(TAG, "fetching shifts");
                 Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    String searchKey = snapshot.getValue(String.class);
                     String shiftId = snapshot.getKey();
                     fetchShift(shiftId, filterByZip, filterByOrg);
                 }
