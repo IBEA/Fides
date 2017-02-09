@@ -101,7 +101,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForVol", mThis);
+                        viewHolder.bindShift(shift, "ShiftsPendingForVol");
                     }
 
                     @Override
