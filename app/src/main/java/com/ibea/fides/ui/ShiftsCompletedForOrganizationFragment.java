@@ -17,7 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.FirebaseCompletedShiftViewHolder;
+import com.ibea.fides.adapters.FirebaseShiftViewHolder;
+import com.ibea.fides.models.Shift;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -76,12 +77,23 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
         DatabaseReference dbFirebaseNode;
 
         dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId);
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseCompletedShiftViewHolder>
-                (String.class, R.layout.list_item_shift_complete, FirebaseCompletedShiftViewHolder.class, dbFirebaseNode) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
+                (String.class, R.layout.new_shift_list_item, FirebaseShiftViewHolder.class, dbFirebaseNode) {
 
             @Override
-            protected void populateViewHolder(FirebaseCompletedShiftViewHolder viewHolder, String shiftId, int position) {
-                viewHolder.bindShift(shiftId, true);
+            protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, String shiftId, int position) {
+                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Shift shift = dataSnapshot.getValue(Shift.class);
+                        viewHolder.bindShift(shift, "ShiftsCompletedForVolunteer");
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         };
         mRecyclerView.setHasFixedSize(true);
