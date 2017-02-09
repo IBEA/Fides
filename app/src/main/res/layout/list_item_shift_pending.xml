@@ -61,24 +61,6 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView_Address"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_Complete"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/ic_done_black_24dp"
-            android:minWidth="40dp"
-            android:minHeight="40dp" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_Variable"
-            android:background="@drawable/ic_add_black_24dp"
-            android:minWidth="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/button_Complete"
-            android:minHeight="40dp" />
     </RelativeLayout>
     <View
         android:id="@+id/SplitLine_hor1"
