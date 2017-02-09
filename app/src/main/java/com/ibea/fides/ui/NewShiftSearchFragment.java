@@ -122,7 +122,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
     //Retrieves full list of shiftIDs
     public void fetchShiftIds(String _city, String _state, final Boolean filterByZip, final Boolean filterByOrg){
-        Log.d(TAG, "in fetchShifts");
+        Log.d(TAG, "in fetchShiftIds");
 
         int itemCount = shifts.size();
         shifts.clear();
@@ -131,14 +131,18 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         final ArrayList<String> shiftIds = new ArrayList<>();
         DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
-        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByKey().limitToFirst(25);
-        Log.d(TAG, String.valueOf(shifts.size()));
+        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
+        Log.d(TAG, "State: " + _state);
+        Log.d(TAG, "City: " + _city);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //"zam productions|portland|or|97201|dogs"
                 Log.d(TAG, "fetching shifts");
+                Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    String shiftId = snapshot.getValue(String.class);
+                    String shiftId = snapshot.getKey();
                     fetchShift(shiftId, filterByZip, filterByOrg);
                 }
                 Log.d(TAG, String.valueOf(shifts.size()));
@@ -153,6 +157,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     }
 
     public void fetchShift(String _shiftId, final Boolean filterByZip, final Boolean filterByOrg){
+        Log.d(TAG, "in fetchShift");
         final String zipQuery = mSearchView_Zip.getQuery().toString();
         final String orgQuery = mSearchView_Organization.getQuery().toString();
 
@@ -164,22 +169,24 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                 //TODO: Is there a better way to do this? Because this feels clunky
                 if(!shift.getCurrentVolunteers().contains(userId)){
                     if(filterByOrg && filterByZip && checkIfZipMatches(shift, zipQuery) && checkIfOrgMatches(shift, orgQuery)){
-//                        Log.d(TAG, "Passed both filters");
+                        Log.d(TAG, "Passed both filters");
                         shifts.add(shift);
                         mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                     }else if(filterByOrg && !filterByZip && checkIfOrgMatches(shift, orgQuery)){
-//                        Log.d(TAG, "Passed org filter");
+                        Log.d(TAG, "Passed org filter");
                         shifts.add(shift);
                         mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                     }else if(filterByZip && !filterByOrg && checkIfZipMatches(shift, zipQuery)){
-//                        Log.d(TAG, "Passed zip filter");
+                        Log.d(TAG, "Passed zip filter");
                         shifts.add(shift);
                         mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                     }else if (!filterByOrg && !filterByZip){
-//                        Log.d(TAG, "Unfiltered");
+                        Log.d(TAG, "Unfiltered");
                         shifts.add(shift);
                         mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                     }
+                }else{
+                    Log.d(TAG, "User already signed up for shift");
                 }
             }
 
@@ -237,7 +244,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
-                Log.d("Adapter Position: ", String.valueOf(position));
+//                Log.d("Adapter Position: ", String.valueOf(position));
 
                 if(swipeDir == 8){
                     ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
