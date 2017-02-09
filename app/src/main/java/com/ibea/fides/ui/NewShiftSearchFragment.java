@@ -161,14 +161,6 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                         }
 
                     }
-                    Collections.sort(shifts, new Comparator<Shift>() {
-                        @Override
-                        public int compare(Shift shift2, Shift shift1)
-                        {
-                            return  shift1.getStartDate().compareTo(shift2.getStartDate());
-                        }
-                    });
-
                 }
 
                 @Override

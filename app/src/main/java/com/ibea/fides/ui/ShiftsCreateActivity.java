@@ -329,7 +329,15 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         pushRef.setValue(_shift);
 
         //Build search key
-        String searchKey = _shift.getStartDate() + "|" + _shift.getStartTime() + "|" + _shift.getOrganizationName().toLowerCase() + "|" + _shift.getZip() + "|";
+        String extendedStartTime;
+
+        if(_shift.getStartTime().length() == 4){
+            extendedStartTime = "0" + _shift.getStartTime();
+        }else{
+            extendedStartTime = _shift.getStartTime();
+        }
+
+        String searchKey = _shift.getStartDate() + "|" + extendedStartTime + "|" + _shift.getOrganizationName().toLowerCase() + "|" + _shift.getZip() + "|";
 
         // Add shift to shiftsAvailable fields
 //        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(searchKey);
