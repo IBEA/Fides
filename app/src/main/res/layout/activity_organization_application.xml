@@ -12,145 +12,171 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/submitButton"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryLight"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorIcons"
         android:layout_marginTop="40dp"
         android:text="Submit"
         android:textSize="25sp" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/submitButton"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="12"
-        android:inputType="textPersonName"
-        android:id="@+id/nameInput"
-        android:hint="Your Name"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:ems = "12"
-        android:id="@+id/addressInput"
-        android:hint="Street Address"
-        android:layout_below="@+id/organizationInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:layout_centerHorizontal="true"
-        android:ems = "12"
-        android:id="@+id/organizationInput"
-        android:hint="Organization Name"
-        android:gravity="center"
-        android:layout_below="@+id/nameInput"
-         />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="12"
-        android:id="@+id/zipcodeInput"
-        android:gravity="center"
-        android:hint="Zipcode"
-        android:layout_below="@+id/cityInput"
-        android:layout_centerHorizontal="true" />
-
-        <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordConfirmInput"
-        android:inputType="textPassword"
-        android:hint="Confirm Password"
-        android:layout_centerHorizontal="true"
-        android:ems = "12"
-        android:gravity="center"
-        android:layout_below="@+id/passwordInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:id="@+id/descriptionInput"
-        android:layout_centerHorizontal="true"
-        android:hint="A short description"
-        android:gravity="center"
-        android:ems = "12"
-        android:layout_below="@+id/passwordConfirmInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/emailInput"
-        android:hint="Email Address"
-        android:ems = "12"
-        android:gravity="center"
-        android:layout_below="@+id/zipcodeInput"
-        android:layout_alignLeft="@+id/zipcodeInput"
-        android:layout_alignStart="@+id/zipcodeInput" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="6"
-        android:id="@+id/cityInput"
-        android:inputType="text"
-        android:hint="City"
-        android:gravity="center"
-        android:layout_below="@+id/addressInput"
-        android:layout_alignLeft="@+id/addressInput"
-        android:layout_alignStart="@+id/addressInput" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stateSpinner"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_alignRight="@+id/addressInput"
-        android:layout_alignEnd="@+id/addressInput" />
-
-    <TextView
-        android:text="State"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/textView5"
-        android:textSize="18sp"
-        android:layout_alignBaseline="@+id/cityInput"
-        android:layout_alignBottom="@+id/cityInput"
-        android:layout_toLeftOf="@+id/stateSpinner"
-        android:layout_toStartOf="@+id/stateSpinner" />
-
-        <EditText
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/passwordInput"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:gravity="center"
-            android:ems="12"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/emailInput" />
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:paddingBottom="60dp">
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:text="Sign Up as an Organization"
+                android:id="@+id/titleText"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:textSize="24sp" />
 
-    </ScrollView>
+            <Button
+                android:text="(Click Here to Sign Up as a Volunteer)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/createOrganizationButton"
+                android:layout_below="@+id/titleText"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/colorPrimaryLight"
+                android:background="@android:drawable/btn_default"
+                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
+                android:paddingRight="12dp"
+                android:paddingEnd="12dp"
+                android:textAllCaps="false"
+                android:layout_marginBottom="24dp"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_centerHorizontal="true"
+                android:ems = "12"
+                android:id="@+id/organizationInput"
+                android:hint="Organization Name"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailInput"
+                android:hint="Email Address"
+                android:ems = "12"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/passwordInput"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:gravity="center"
+                android:ems="12"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/passwordConfirmInput"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:layout_centerHorizontal="true"
+                android:ems = "12"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
 
 </RelativeLayout>
+
+
+
+
+
+    <!--<EditText-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:ems="12"-->
+    <!--android:inputType="textPersonName"-->
+    <!--android:id="@+id/nameInput"-->
+    <!--android:hint="Contact Name"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_alignParentTop="true" />-->
+
+    <!--<EditText-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:inputType="text"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:ems = "12"-->
+    <!--android:id="@+id/addressInput"-->
+    <!--android:hint="Street Address"-->
+    <!--android:layout_below="@+id/organizationInput" />-->
+
+    <!--<EditText-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:inputType="number"-->
+    <!--android:ems="12"-->
+    <!--android:id="@+id/zipcodeInput"-->
+    <!--android:gravity="center"-->
+    <!--android:hint="Zipcode"-->
+    <!--android:layout_below="@+id/cityInput"-->
+    <!--android:layout_centerHorizontal="true" />-->
+
+    <!--<EditText-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:inputType="textMultiLine"-->
+    <!--android:id="@+id/descriptionInput"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:hint="A short description"-->
+    <!--android:gravity="center"-->
+    <!--android:ems = "12"-->
+    <!--android:layout_below="@+id/passwordConfirmInput" />-->
+
+
+    <!--<EditText-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:ems="6"-->
+    <!--android:id="@+id/cityInput"-->
+    <!--android:inputType="text"-->
+    <!--android:hint="City"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_below="@+id/addressInput"-->
+    <!--android:layout_alignLeft="@+id/addressInput"-->
+    <!--android:layout_alignStart="@+id/addressInput" />-->
+    <!---->
+    <!--<Spinner-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/stateSpinner"-->
+    <!--android:layout_alignBottom="@+id/textView5"-->
+    <!--android:layout_alignRight="@+id/addressInput"-->
+    <!--android:layout_alignEnd="@+id/addressInput" />-->
+    <!---->
+    <!--<TextView-->
+    <!--android:text="State"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:id="@+id/textView5"-->
+    <!--android:textSize="18sp"-->
+    <!--android:layout_alignBaseline="@+id/cityInput"-->
+    <!--android:layout_alignBottom="@+id/cityInput"-->
+    <!--android:layout_toLeftOf="@+id/stateSpinner"-->
+    <!--android:layout_toStartOf="@+id/stateSpinner" />-->
