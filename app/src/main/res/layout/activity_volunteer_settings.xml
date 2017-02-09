@@ -17,7 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:id="@+id/textView6"
+        android:id="@+id/textView_Settings"
         android:textSize="25sp" />
 
     <EditText
@@ -34,12 +34,11 @@
         android:text="Zip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView9"
         android:textSize="18sp"
         android:layout_marginTop="16dp"
         android:layout_below="@+id/stateedittext"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8" />
+        android:layout_alignLeft="@+id/textView_State"
+        android:layout_alignStart="@+id/textView_State" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -63,7 +62,7 @@
         android:text="Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView10"
+        android:id="@+id/textView_username"
         android:textSize="18sp"
         android:layout_marginTop="55dp"
         android:layout_below="@+id/addressButton"
@@ -87,8 +86,8 @@
         android:ems="10"
         android:id="@+id/usernameedittext"
         android:hint="New Username"
-        android:layout_alignBaseline="@+id/textView10"
-        android:layout_alignBottom="@+id/textView10"
+        android:layout_alignBaseline="@+id/textView_username"
+        android:layout_alignBottom="@+id/textView_username"
         android:layout_alignLeft="@+id/pictureButton"
         android:layout_alignStart="@+id/pictureButton"
         android:layout_marginLeft="14dp"
@@ -100,7 +99,7 @@
         android:text="State"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView8"
+        android:id="@+id/textView_State"
         android:textSize="18sp"
         android:layout_alignBaseline="@+id/stateedittext"
         android:layout_alignBottom="@+id/stateedittext"
@@ -113,12 +112,12 @@
         android:text="City"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView7"
+        android:id="@+id/textView_City"
         android:textSize="18sp"
         android:layout_alignBaseline="@+id/cityedittext"
         android:layout_alignBottom="@+id/cityedittext"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8" />
+        android:layout_alignLeft="@+id/textView_State"
+        android:layout_alignStart="@+id/textView_State" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -126,10 +125,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/streetedittext"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toRightOf="@+id/textView10"
-        android:layout_toEndOf="@+id/textView10" />
+        android:layout_alignBaseline="@+id/textView_Street"
+        android:layout_alignBottom="@+id/textView_Street"
+        android:layout_toRightOf="@+id/textView_username"
+        android:layout_toEndOf="@+id/textView_username" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -146,11 +145,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:id="@+id/textView4"
+        android:id="@+id/textView_Street"
         android:textSize="18sp"
-        android:layout_below="@+id/textView6"
-        android:layout_alignLeft="@+id/textView7"
-        android:layout_alignStart="@+id/textView7" />
+        android:layout_below="@+id/textView_Settings"
+        android:layout_alignLeft="@+id/textView_City"
+        android:layout_alignStart="@+id/textView_City" />
 
     <Button
         android:text="Submit Address"

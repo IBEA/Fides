@@ -425,6 +425,4 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-
-
 }
