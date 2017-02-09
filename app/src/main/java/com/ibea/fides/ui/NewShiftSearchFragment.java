@@ -28,6 +28,8 @@ import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -110,11 +112,9 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
             }else{
                 if(cityQuery.length() == 0){
                     Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
-                }
-                if(stateQuery.length() == 0){
+                }else if(stateQuery.length() == 0){
                     Toast.makeText(mContext, "Please enter a valid state", Toast.LENGTH_SHORT).show();
-                }
-                if(!validateZip(zipQuery)){
+                }else if(!validateZip(zipQuery)){
                     Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -161,7 +161,13 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                         }
 
                     }
-                    Log.d(TAG, String.valueOf(shifts.size()));
+                    Collections.sort(shifts, new Comparator<Shift>() {
+                        @Override
+                        public int compare(Shift shift2, Shift shift1)
+                        {
+                            return  shift1.getStartDate().compareTo(shift2.getStartDate());
+                        }
+                    });
 
                 }
 

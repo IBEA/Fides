@@ -201,8 +201,6 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
                         mDifference = date2.getTime() - date1.getTime();
                     }
 
-
-
                     Date time1 = format.parse(from);
                     Date time2 = format.parse(shift.getEndTime());
                     mDifference += time2.getTime() - time1.getTime();
@@ -213,10 +211,8 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
                     mDiffInput = df.format(mDifference);
 
-
                 } catch (ParseException ex){
                     ex.printStackTrace();
-
                 }
 
 
