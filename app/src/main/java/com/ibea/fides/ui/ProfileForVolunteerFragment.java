@@ -31,7 +31,7 @@ public class ProfileForVolunteerFragment extends Fragment {
     @Bind(R.id.hoursArcView) DecoView hoursArcView;
 
     int trustmetric; // Will be changed
-    int totalHoursWorked; // Will be changed
+    float totalHoursWorked; // Will be changed
 
     int circlespeed1 = 1000;
     int circlespeed2 = 400;
@@ -54,7 +54,7 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         trustmetric = mUser.getRating();
 
-        totalHoursWorked = 11; //TODO once hours are implemented, return hours
+        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
 
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))

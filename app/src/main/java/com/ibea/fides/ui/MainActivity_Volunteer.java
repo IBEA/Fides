@@ -21,7 +21,6 @@ import com.ibea.fides.adapters.UniversalPagerAdapter;
 import com.ibea.fides.models.User;
 
 import org.parceler.Parcels;
-
 import java.util.ArrayList;
 
 // Main organization page, nested with profile and shift tab.
@@ -33,8 +32,6 @@ public class MainActivity_Volunteer extends BaseActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("MV", "Created");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_home);
 
@@ -45,11 +42,9 @@ public class MainActivity_Volunteer extends BaseActivity{
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if(intent.getExtras() != null){
-            Log.d(">>>>>", "Found extras");
             mUser = Parcels.unwrap(intent.getExtras().getParcelable("user"));
             populateTabs();
         }else{
-            Log.d(">>>>>", "Did not find extras");
             FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -59,7 +54,6 @@ public class MainActivity_Volunteer extends BaseActivity{
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
                 }
             });
         }
@@ -77,7 +71,6 @@ public class MainActivity_Volunteer extends BaseActivity{
 
                 //  If the activity has never started before...
                 if (isFirstStart) {
-
                     //  Launch app intro
                     Intent i = new Intent(MainActivity_Volunteer.this, IntroActivity.class);
                     startActivity(i);
@@ -114,7 +107,6 @@ public class MainActivity_Volunteer extends BaseActivity{
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
         }else {
             //User is volunteer, and this is their page
-
             tabTitles.add("Profile");
             tabTitles.add("Find");
             tabTitles.add("Shifts");

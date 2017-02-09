@@ -64,6 +64,9 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
     public class NewShiftSearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.textView_OrganizationName) TextView mTextView_OrganizationName;
         @Bind(R.id.textView_ShortDesc) TextView mTextView_ShortDesc;
+        @Bind(R.id.textView_StartTime) TextView mTextView_StartTime;
+        @Bind(R.id.textView_EndTime) TextView mTextView_EndTime;
+        @Bind(R.id.textView_StartDate) TextView mTextView_StartDate;
 
         private Context mContext;
 
@@ -75,9 +78,11 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
         }
 
         public void bindShift(Shift shift) {
-//            mShift = shift;
             mTextView_OrganizationName.setText(shift.getOrganizationName());
             mTextView_ShortDesc.setText(shift.getShortDescription());
+            mTextView_StartTime.setText(shift.getStartTime());
+            mTextView_EndTime.setText(shift.getEndTime());
+            mTextView_StartDate.setText(shift.getStartDate());
         }
 
         @Override
@@ -110,13 +115,11 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
                         shift.addVolunteer(mUserId);
                         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
 
-
                         //check if shift has slots left. If not, remove from shiftsAvailable
                         String organizationID = shift.getOrganizationID();
                         String zip = String.valueOf(shift.getZip());
                         String state = shift.getState();
                         String city = shift.getCity();
-
 
                         if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 0){
                             dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).removeValue();

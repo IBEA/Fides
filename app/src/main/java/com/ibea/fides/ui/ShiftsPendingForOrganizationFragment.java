@@ -109,7 +109,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, isOrganization, "ShiftsPendingForOrg", mThis);
+                        viewHolder.bindShift(shift, "ShiftsPendingForOrg");
                     }
 
                     @Override

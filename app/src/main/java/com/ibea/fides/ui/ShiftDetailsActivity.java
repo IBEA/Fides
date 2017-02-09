@@ -43,8 +43,15 @@ public class ShiftDetailsActivity extends BaseActivity {
         mZip.setText(mShift.getZip());
 
         if(mIsOrganization) {
-            setUpFirebaseAdapterUnrated();
-            setUpFirebaseAdapterRated();
+            if(mShift.getComplete()) {
+                setUpFirebaseAdapterUnrated();
+                setUpFirebaseAdapterRated();
+            }
+            else{
+                setUpFirebaseAdapterUnrated();
+                mHeaderTwo.setVisibility(View.GONE);
+                mHeaderOne.setText("Volunteer List");
+            }
         } else {
             mHeaderOne.setVisibility(View.GONE);
             mHeaderTwo.setVisibility(View.GONE);

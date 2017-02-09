@@ -53,6 +53,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     private ArrayList<Shift> shifts = new ArrayList<>();
     private RecyclerView.Adapter mRecyclerAdapter;
     private Context mContext;
+    private Boolean foundResults = false;
 
     private String userId;
 
@@ -101,14 +102,8 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
             //TODO: Remove stateQuery check once state dropdown is in
             if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
-                Boolean filterByZip;
-                Boolean filterByOrg;
-
-                filterByZip = zipQuery.length() != 0;
-                filterByOrg = orgQuery.length() != 0;
-
                 //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
-                fetchShiftIds(cityQuery, stateQuery, filterByZip, filterByOrg);
+                fetchShiftIds(cityQuery, stateQuery);
             }else{
                 if(cityQuery.length() == 0){
                     Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
@@ -122,8 +117,10 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     }
 
     //Retrieves full list of shiftIDs
-    public void fetchShiftIds(String _city, String _state, final Boolean filterByZip, final Boolean filterByOrg){
+    public void fetchShiftIds(String _city, String _state){
         Log.d(TAG, "in fetchShiftIds");
+
+        foundResults = false;
 
         final String zipQuery = mSearchView_Zip.getQuery().toString();
         final String orgQuery = mSearchView_Organization.getQuery().toString().toLowerCase();
@@ -148,7 +145,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     Log.d(TAG, "fetching shifts");
-                    Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
+
                     for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                         String searchKey = snapshot.getValue(String.class);
                         String shiftId = snapshot.getKey();
@@ -157,9 +154,14 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
                         if(searchKey.matches(query)){
                             Log.d(TAG, "Query matches!");
-                            fetchShift(shiftId, filterByZip, filterByOrg);
+                            foundResults = true;
+                            fetchShift(shiftId);
                         }
 
+                    }
+
+                    if(!foundResults){
+                        Toast.makeText(mContext, "No opportunities found", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -171,7 +173,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fetchShift(String _shiftId, final Boolean filterByZip, final Boolean filterByOrg){
+    public void fetchShift(String _shiftId){
         Log.d(TAG, "in fetchShift");
         final String zipQuery = mSearchView_Zip.getQuery().toString();
         final String orgQuery = mSearchView_Organization.getQuery().toString();
@@ -240,8 +242,11 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                 if(swipeDir == 8){
                     ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
                 }
+                Log.d(TAG, String.valueOf(position));
+
+                //TODO: Figure out why the damn thing straight up deletes the last item (if visible and then animates it all up.
+                mRecyclerAdapter.notifyItemRemoved(position);
                 shifts.remove(position);
-                mRecyclerView.getAdapter().notifyItemRemoved(position);
             }
         };
 

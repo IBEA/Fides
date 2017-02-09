@@ -1,5 +1,6 @@
 package com.ibea.fides.adapters;
 
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import java.util.List;
 public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private View mView;
     private User mUser;
+    private Shift mShift;
     private Button mDislikeButton;
     private Button mLikeButton;
 
@@ -50,7 +52,10 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     final private int LIKE = 3;
 
     private String shiftId;
+    private String mUserId;
     private String indexKey;
+    boolean mRated;
+
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public FirebaseVolunteerViewHolder(View itemView) {
@@ -67,30 +72,49 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         mDislikeButton.setOnClickListener(this);
         mLikeButton.setOnClickListener(this);
 
+        mRated = rated;
         shiftId = _shiftId;
         indexKey = Integer.toString(position);
+        mUserId = userId;
 
-
-        // Remove buttons if the user has already been rated
-        if(rated) {
-            mLikeButton.setVisibility(View.GONE);
-            mDislikeButton.setVisibility(View.GONE);
-        }
-
-        // Retrieve appropriate User from database
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(userId);
-        ref.addValueEventListener(new ValueEventListener() {
-
+        // Retrieve Shift from database
+        DatabaseReference shiftRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_SHIFTS).child(_shiftId);
+        shiftRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mUser = dataSnapshot.getValue(User.class);
-                userName.setText(mUser.getName());
+                mShift = dataSnapshot.getValue(Shift.class);
+
+                // Retrieve appropriate User from database
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(mUserId);
+                ref.addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        mUser = dataSnapshot.getValue(User.class);
+                        userName.setText(mUser.getName());
+
+                        // Remove buttons if shift isn't complete OR user has already been rated
+                        if(mRated || !mShift.getComplete()) {
+
+                            mLikeButton.setVisibility(View.GONE);
+                            mDislikeButton.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
+
+
     }
 
     @Override
@@ -137,59 +161,48 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(indexKey).removeValue();
 
         // Retrieve duration of shift information
-        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Shift shift = dataSnapshot.getValue(Shift.class);
+        // Start and End times/dates
+        String startDate = mShift.getStartDate();
+        String endDate = mShift.getEndDate();
+        String from = mShift.getStartTime();
+        String to = mShift.getEndTime();
 
-                // Start and End times/dates
-                String startDate = shift.getStartDate();
-                String endDate = shift.getEndDate();
-                String from = shift.getStartTime();
-                String to = shift.getEndTime();
+        // Time and Date format
+        SimpleDateFormat tFormat = new SimpleDateFormat("kk:mm");
+        SimpleDateFormat dFormat = new SimpleDateFormat("MM-dd-yyyy");
 
-                // Time and Date format
-                SimpleDateFormat tFormat = new SimpleDateFormat("kk:mm");
-                SimpleDateFormat dFormat = new SimpleDateFormat("MM-dd-yyyy");
+        try {
+            double difference = 0.00;
 
-                try {
-                    double difference = 0.00;
-
-                    // If dates aren't equal, calculate difference
-                    if(!startDate.equals(endDate)) {
-                        Date date1 = dFormat.parse(startDate);
-                        Date date2 = dFormat.parse(endDate);
-                        difference = date2.getTime() - date1.getTime();
-                    }
-
-                    // Calculate difference for the times
-                    Date time1 = tFormat.parse(from);
-                    Date time2 = tFormat.parse(to);
-                    difference += time2.getTime() - time1.getTime();
-
-                    // Convert difference to hours and format correctly
-                    difference = (difference/(60 * 60 * 1000));
-                    DecimalFormat df = new DecimalFormat("0.00");
-                    mDiffInput = df.format(difference);
-
-                } catch (ParseException ex){
-                    ex.printStackTrace();
-                }
-
-                // Move User from current volunteers on shift to rated volunteers
-                shift.getCurrentVolunteers().remove(mUser.getPushId());
-                shift.addRated(mUser.getPushId());
-                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
-                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(shift.getRatedVolunteers());
-
-                // Call popup
-                popup();
+            // If dates aren't equal, calculate difference
+            if(!startDate.equals(endDate)) {
+                Date date1 = dFormat.parse(startDate);
+                Date date2 = dFormat.parse(endDate);
+                difference = date2.getTime() - date1.getTime();
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+            // Calculate difference for the times
+            Date time1 = tFormat.parse(from);
+            Date time2 = tFormat.parse(to);
+            difference += time2.getTime() - time1.getTime();
+
+            // Convert difference to hours and format correctly
+            difference = (difference/(60 * 60 * 1000));
+            DecimalFormat df = new DecimalFormat("0.00");
+            mDiffInput = df.format(difference);
+
+        } catch (ParseException ex){
+            ex.printStackTrace();
+        }
+
+        // Move User from current volunteers on shift to rated volunteers
+        mShift.getCurrentVolunteers().remove(mUser.getPushId());
+        mShift.addRated(mUser.getPushId());
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
+
+        // Call popup
+        popup();
     }
 
     private void popup() {
