@@ -28,6 +28,10 @@ import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,13 +53,13 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     private ArrayList<Shift> shifts = new ArrayList<>();
     private RecyclerView.Adapter mRecyclerAdapter;
     private Context mContext;
+    private Boolean foundResults = false;
 
     private String userId;
 
     public NewShiftSearchFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,22 +102,14 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
             //TODO: Remove stateQuery check once state dropdown is in
             if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
-                Boolean filterByZip;
-                Boolean filterByOrg;
-
-                filterByZip = zipQuery.length() != 0;
-                filterByOrg = orgQuery.length() != 0;
-
                 //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
-                fetchShiftIds(cityQuery, stateQuery, filterByZip, filterByOrg);
+                fetchShiftIds(cityQuery, stateQuery);
             }else{
                 if(cityQuery.length() == 0){
                     Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
-                }
-                if(stateQuery.length() == 0){
+                }else if(stateQuery.length() == 0){
                     Toast.makeText(mContext, "Please enter a valid state", Toast.LENGTH_SHORT).show();
-                }
-                if(!validateZip(zipQuery)){
+                }else if(!validateZip(zipQuery)){
                     Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -121,42 +117,63 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
     }
 
     //Retrieves full list of shiftIDs
-    public void fetchShiftIds(String _city, String _state, final Boolean filterByZip, final Boolean filterByOrg){
+    public void fetchShiftIds(String _city, String _state){
         Log.d(TAG, "in fetchShiftIds");
 
-        int itemCount = shifts.size();
-        shifts.clear();
-        mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
+        foundResults = false;
 
-        final ArrayList<String> shiftIds = new ArrayList<>();
-        DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
+        final String zipQuery = mSearchView_Zip.getQuery().toString();
+        final String orgQuery = mSearchView_Organization.getQuery().toString().toLowerCase();
 
-        Query query = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
-        Log.d(TAG, "State: " + _state);
-        Log.d(TAG, "City: " + _city);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if(validateZip(zipQuery)){
+            String w = "(.*)";
+            final String query = w + zipQuery + w + orgQuery + w;
+            Log.d(TAG, "Query: " + query);
 
-                //"zam productions|portland|or|97201|dogs"
-                Log.d(TAG, "fetching shifts");
-                Log.d(TAG, String.valueOf(dataSnapshot.getChildrenCount()));
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    String shiftId = snapshot.getKey();
-                    fetchShift(shiftId, filterByZip, filterByOrg);
+            int itemCount = shifts.size();
+            shifts.clear();
+            mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
+
+            final ArrayList<String> shiftIds = new ArrayList<>();
+            DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
+
+            Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
+            Log.d(TAG, "State: " + _state);
+            Log.d(TAG, "City: " + _city);
+            dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    Log.d(TAG, "fetching shifts");
+
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                        String searchKey = snapshot.getValue(String.class);
+                        String shiftId = snapshot.getKey();
+
+                        Log.d(TAG, searchKey);
+
+                        if(searchKey.matches(query)){
+                            Log.d(TAG, "Query matches!");
+                            foundResults = true;
+                            fetchShift(shiftId);
+                        }
+
+                    }
+
+                    if(!foundResults){
+                        Toast.makeText(mContext, "No opportunities found", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                Log.d(TAG, String.valueOf(shifts.size()));
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                }
+            });
+        }
     }
 
-    public void fetchShift(String _shiftId, final Boolean filterByZip, final Boolean filterByOrg){
+    public void fetchShift(String _shiftId){
         Log.d(TAG, "in fetchShift");
         final String zipQuery = mSearchView_Zip.getQuery().toString();
         final String orgQuery = mSearchView_Organization.getQuery().toString();
@@ -166,25 +183,9 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
 
-                //TODO: Is there a better way to do this? Because this feels clunky
                 if(!shift.getCurrentVolunteers().contains(userId)){
-                    if(filterByOrg && filterByZip && checkIfZipMatches(shift, zipQuery) && checkIfOrgMatches(shift, orgQuery)){
-                        Log.d(TAG, "Passed both filters");
-                        shifts.add(shift);
-                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                    }else if(filterByOrg && !filterByZip && checkIfOrgMatches(shift, orgQuery)){
-                        Log.d(TAG, "Passed org filter");
-                        shifts.add(shift);
-                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                    }else if(filterByZip && !filterByOrg && checkIfZipMatches(shift, zipQuery)){
-                        Log.d(TAG, "Passed zip filter");
-                        shifts.add(shift);
-                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                    }else if (!filterByOrg && !filterByZip){
-                        Log.d(TAG, "Unfiltered");
-                        shifts.add(shift);
-                        mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
-                    }
+                    shifts.add(shift);
+                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                 }else{
                     Log.d(TAG, "User already signed up for shift");
                 }
@@ -195,14 +196,6 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
             }
         });
-    }
-
-    private boolean checkIfOrgMatches(Shift _shift, String _orgQuery) {
-        return _shift.getOrganizationName().toLowerCase().contains(_orgQuery.toLowerCase());
-    }
-
-    public Boolean checkIfZipMatches(Shift _shift, String zipQuery){
-        return _shift.getZip().equals(zipQuery);
     }
 
     public Boolean validateZip(String _query){
