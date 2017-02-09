@@ -77,7 +77,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             //Change button to delete if user is an organization
 
             shortDescriptionTextView.setText(shift.getShortDescription());
-            addressCodeTextView.setText(shift.getZip());
+            addressCodeTextView.setText(shift.getStreetAddress());
             timeTextView.setText(shift.getStartTime() + "-" + shift.getEndTime());
             dateTextView.setText(shift.getStartDate());
             organizationTextView.setText(shift.getOrganizationName());

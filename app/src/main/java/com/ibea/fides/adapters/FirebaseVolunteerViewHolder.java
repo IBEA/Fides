@@ -4,8 +4,13 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +23,13 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import butterknife.Bind;
 
 
 /**
@@ -31,6 +42,15 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     private Button mDislikeButton;
     private Button mLikeButton;
 
+    // Popup
+    PopupWindow mPopUp;
+    private View mPop;
+    Button mNoShowButton;
+    Button mShowButton;
+    EditText mHoursInput;
+    private String mHours;
+    String mDiffInput;
+
     // Rating System
     final private int DISLIKE = 0;
     final private int LIKE = 3;
@@ -42,6 +62,9 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     public FirebaseVolunteerViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
+
+        // Feel free to rewrite this, Alaina. Just tell me what you do.
+        mPop = LayoutInflater.from(itemView.getContext()).inflate(R.layout.popup_rating, (ViewGroup)mView.getParent(), false);
     }
 
     public void bindUser(String userId, String _shiftId, int position, boolean rated) {
@@ -83,7 +106,37 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
             rate(DISLIKE);
         } else if(view == mLikeButton) {
             rate(LIKE);
+        } else if(view == mShowButton) {
+            mHours = mHoursInput.getText().toString();
+            dataUpdate(mHours, true);
+        } else if(view == mNoShowButton) {
+            dataUpdate(mHours, false);
         }
+    }
+
+    private void popup() {
+        mPopUp = new PopupWindow(mPop, 1000, 1000, true);
+        mPopUp.showAtLocation(mPop, Gravity.CENTER, 0, 0);
+        mShowButton = (Button) mPop.findViewById(R.id.showButton);
+        mNoShowButton = (Button) mPop.findViewById(R.id.noShowButton);
+        mHoursInput = (EditText) mPop.findViewById(R.id.hoursInput);
+
+        mHoursInput.setText(mDiffInput);
+        mShowButton.setOnClickListener(this);
+        mNoShowButton.setOnClickListener(this);
+    }
+
+    private void dataUpdate(String time, boolean showed) {
+        if(showed) {
+            double currentHours = mUser.getHours();
+            currentHours += Double.parseDouble(time);
+            dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).child("hours").setValue(currentHours);
+        } else {
+            int absences = mUser.getAbsences();
+            absences += 1;
+            dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).child("absences").setValue(absences);
+        }
+        mPopUp.dismiss();
     }
 
     private void rate(int rating) {
@@ -132,14 +185,46 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
                 Shift shift = dataSnapshot.getValue(Shift.class);
 
-                // AJ VALIDATION
-                // If you remove the following code and instead manipulate the shift with .removeVolunteers and push it back
-                // up, then you should encounter the out of bounds error.. I think.
+                String startDate = shift.getStartDate();
+                String endDate = shift.getEndDate();
+                String from = shift.getStartTime();
+                String to = shift.getEndTime();
+
+                SimpleDateFormat format = new SimpleDateFormat("kk:mm");
+                SimpleDateFormat dFormat = new SimpleDateFormat("MM-dd-yyyy");
+                try {
+                    double mDifference = 0.00;
+                    if(!startDate.equals(endDate)) {
+                        Date date1 = dFormat.parse(startDate);
+                        Date date2 = dFormat.parse(endDate);
+
+                        mDifference = date2.getTime() - date1.getTime();
+                    }
+
+
+
+                    Date time1 = format.parse(from);
+                    Date time2 = format.parse(shift.getEndTime());
+                    mDifference += time2.getTime() - time1.getTime();
+
+                    Log.d("JUSTIN First Run:", mDifference + "");
+                    mDifference = (mDifference/(60 * 60 * 1000));
+                    DecimalFormat df = new DecimalFormat("0.00");
+
+                    mDiffInput = df.format(mDifference);
+
+
+                } catch (ParseException ex){
+                    ex.printStackTrace();
+
+                }
+
 
                 shift.getCurrentVolunteers().remove(mUser.getPushId());
                 shift.addRated(mUser.getPushId());
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
                 dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(shift.getRatedVolunteers());
+                popup();
             }
 
             @Override
