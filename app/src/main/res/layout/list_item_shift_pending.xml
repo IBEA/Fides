@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/linearLayout"
-    android:theme="@style/DarkOnLightLayout">
+    android:theme="@style/DarkOnLightLayout"
+    android:background="@color/colorBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"

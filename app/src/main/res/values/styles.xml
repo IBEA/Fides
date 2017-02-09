@@ -21,7 +21,7 @@
     </style>
 
     <style name="DarkOnLightLayout" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">@color/colorPrimaryLight</item>
+        <item name="android:background">@color/colorBackground</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:textColorHint">@color/colorSecondaryText</item>
         <item name="android:textColorLink">@color/colorAccent</item>

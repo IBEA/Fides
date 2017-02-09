@@ -2,14 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.ShiftsCompletedForOrganizationFragment">
+    tools:context="com.ibea.fides.ui.ShiftsCompletedForOrganizationFragment"
+    android:theme="@style/DarkOnLightLayout">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/unratedRecyclerView"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="12dp"/>
+        android:id="@+id/unratedRecyclerView" />
 
 </FrameLayout>
