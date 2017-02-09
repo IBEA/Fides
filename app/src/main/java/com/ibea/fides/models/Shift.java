@@ -29,6 +29,7 @@ public class Shift {
     int maxVolunteers;
     List<String> currentVolunteers = new ArrayList<String>();
     List<String> ratedVolunteers = new ArrayList<>();
+    Boolean complete = false;
 
     public Shift(){}
     public Shift(String _from, String _until, String _startDate, String _endDate, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
@@ -167,6 +168,14 @@ public class Shift {
 
     public void setRatedVolunteers(List<String> ratedVolunteers) {
         this.ratedVolunteers = ratedVolunteers;
+    }
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
     }
 
     public void addRated(String userId) { ratedVolunteers.add(userId); }
