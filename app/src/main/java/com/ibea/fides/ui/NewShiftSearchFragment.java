@@ -242,8 +242,11 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
                 if(swipeDir == 8){
                     ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
                 }
+                Log.d(TAG, String.valueOf(position));
+
+                //TODO: Figure out why the damn thing straight up deletes the last item (if visible and then animates it all up.
+                mRecyclerAdapter.notifyItemRemoved(position);
                 shifts.remove(position);
-                mRecyclerView.getAdapter().notifyItemRemoved(position);
             }
         };
 
