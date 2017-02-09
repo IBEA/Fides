@@ -26,6 +26,7 @@
         <activity android:name=".ui.OrganizationApplicationActivity" />
         <activity android:name=".ui.AdminActivity" />
         <activity android:name=".ui.IntroActivity" />
+        <activity android:name=".ui.IntroOrganizationActivity" />
         <activity
             android:name=".ui.MainActivity_Volunteer"
             android:exported="true" />

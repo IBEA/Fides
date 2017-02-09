@@ -14,7 +14,7 @@ import com.ibea.fides.R;
 
 //-- Creates the slideshow that appears when app is run for the first time -- Garrettt
 
-public class IntroActivity extends AppIntro {
+public class IntroOrganizationActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +24,9 @@ public class IntroActivity extends AppIntro {
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
         addSlide(IntroSlideFragment.newInstance(R.layout.introinitialslide));
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1_volunteer));
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2_volunteer));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1_organization));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2_organization));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_3));
-
-        //addSlide(AppIntroFragment.newInstance("Slide title", "Loong description here", R.drawable.common_full_open_on_phone, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null) ));
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
