@@ -7,19 +7,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/linearLayout"
     android:theme="@style/DarkOnLightLayout"
-    android:padding="12dp"
-    android:layout_marginBottom="12dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
+    android:background="@color/colorBackground"
+    >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,8 +33,12 @@
                 android:textSize="15dp"
                 android:text="Short Description"/>
 
-        </LinearLayout>
+            <View
+                android:id="@+id/SplitLine_hor1"
+                android:layout_width="match_parent"
+                android:layout_height= "2dp"
+                android:background="#7f7f7f"
+                android:layout_alignParentBottom="true"/>
 
-    </RelativeLayout>
 
 </LinearLayout>

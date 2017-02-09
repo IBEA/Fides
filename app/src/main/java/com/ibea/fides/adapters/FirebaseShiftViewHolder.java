@@ -2,6 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import static android.widget.Toast.makeText;
+
 /**
  * Created by Alaina Traxler on 1/25/2017.
  */
@@ -36,8 +39,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private View mView;
     private Context mContext;
     private Shift mShift;
-    private Button mVolunteerButton;
-    private Button mCompleteButton;
     private Boolean isOrganization;
     private String mOrigin;
 
@@ -45,8 +46,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private ViewGroup.LayoutParams mItemLayoutParams;
 
     private AdapterUpdateInterface mInterface;
-
-    private String mButtonState;
 
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -72,32 +71,11 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         final TextView timeTextView = (TextView) mView.findViewById(R.id.textView_Time);
         final TextView dateTextView = (TextView) mView.findViewById(R.id.textView_Date);
 
-        mVolunteerButton = (Button) mView.findViewById(R.id.button_Variable);
-        mCompleteButton = (Button) mView.findViewById(R.id.button_Complete);
-        mVolunteerButton.setOnClickListener(this);
-        mCompleteButton.setOnClickListener(this);
-        mCompleteButton.setVisibility(View.GONE);
-
         mShift = shift;
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if(mShift != null) {
             //Change button to delete if user is an organization
-            if (isOrganization && mShift.getOrganizationID().equals(userID)) {
-                mButtonState = "Delete";
-                mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
-                mCompleteButton.setVisibility(View.VISIBLE);
-            } else {
-                //If user is not an organization, change button based on whether or not user has already signed up for shift
-                Log.d(mOrigin, mShift.getShortDescription());
-                if (shift.getCurrentVolunteers().contains(userID)) {
-                    mButtonState = "Cancel";
-                    mVolunteerButton.setBackgroundResource(R.drawable.ic_clear_black_24dp);
-                } else {
-                    mButtonState = "Volunteer";
-                    mVolunteerButton.setBackgroundResource(R.drawable.ic_add_black_24dp);
-                }
-            }
 
             shortDescriptionTextView.setText(shift.getShortDescription());
             addressCodeTextView.setText(shift.getZip());
@@ -110,46 +88,10 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
     @Override
     public void onClick(View view) {
-//        String function = mVolunteerButton.getText().toString();
+        Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
+        intent.putExtra("shift", Parcels.wrap(mShift));
+        mContext.startActivity(intent);
 
-        if(view == mVolunteerButton) {
-            switch (mButtonState) {
-                case "Volunteer":
-                    Log.d(mOrigin, "Volunteer clicked");
-                    claimShift();
-                    hideView();
-//                    mInterface.updateAdapter();
-                    break;
-                case "Cancel":
-                    Log.d(mOrigin, "Cancel clicked");
-                    quitShift();
-//                    mInterface.updateAdapter();
-                    break;
-                case "Delete":
-                    Log.d(mOrigin, "Delete clicked");
-                    deleteShift(true);
-//                    mInterface.updateAdapter();
-                    break;
-            }
-        }else if(view == mCompleteButton) {
-            completeShift();
-        }else{
-            // Breadcrumb for front end. You should be able to parcel up mShift and then pass it as an intent to ShiftDetailsActivity.
-            Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
-            intent.putExtra("shift", Parcels.wrap(mShift));
-            mContext.startActivity(intent);
-        }
-    }
-
-    //TODO: Front, add some animations to this so that they slide open and closed
-    public void hideView(){
-        Log.d("Hiding ", mShift.getShortDescription());
-        mItemLayoutParams.height = 0;
-    }
-
-    public void showView(){
-        Log.d("Showing ", mShift.getShortDescription());
-        mItemLayoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT;
     }
 
     // Avoided duplicate functionality in completeShift by adding boolean
@@ -202,11 +144,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
-                    Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+                    makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
                 }else{
-//                    mVolunteerButton.setText("Volunteer");
-                    mButtonState = "Volunteer";
-
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
 
@@ -216,7 +155,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                     dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
 
                     //Check if shift was full. If so, repopulate to shiftsAvailable
-                    //!! Currently untestable !!
                     if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
                         String zip = String.valueOf(shift.getZip());
                         String organizationID = shift.getOrganizationID();
@@ -228,7 +166,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).setValue(shiftId);
                     }
 
-                    Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
+                    makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -250,10 +188,14 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
-                    Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
+                    Toast toast = makeText(mContext, "Shift full", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.setBackgroundColor(Color.argb(150,0,0,0));
+                    view.setPadding(30,30,30,30);
+                    toast.setView(view);
+                    toast.show();
                 }else{
 //                    mVolunteerButton.setText("Cancel");
-                    mButtonState = "Cancel";
 
                     // Assign to shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).setValue(shiftId);
@@ -276,7 +218,12 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).removeValue();
                     }
 
-                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT);
+                    View view = toast.getView();
+                    view.setBackgroundColor(Color.argb(150,0,0,0));
+                    view.setPadding(30,30,30,30);
+                    toast.setView(view);
+                    toast.show();
                 }
             }
 

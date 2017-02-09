@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -120,13 +119,11 @@ public class MainActivity_Volunteer extends BaseActivity{
             tabTitles.add("Find");
             tabTitles.add("Shifts");
             tabTitles.add("History");
-            tabTitles.add("Testing");
             fragmentList.add(new ProfileForVolunteerFragment().newInstance(mUser));
-            fragmentList.add(new ShiftSearchFragment());
+            fragmentList.add(new NewShiftSearchFragment());
             fragmentList.add(new ShiftsPendingForVolunteerFragment());
             fragmentList.add(new ShiftsCompletedForVolunteerFragment());
-            fragmentList.add(new NewShiftSearchFragment());
-            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 5, tabTitles, fragmentList));
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 4, tabTitles, fragmentList));
         }
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items

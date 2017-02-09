@@ -1,14 +1,8 @@
 package com.ibea.fides.adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.ibea.fides.ui.ProfileForVolunteerFragment;
-import com.ibea.fides.ui.ShiftSearchFragment;
-import com.ibea.fides.ui.ShiftsCompletedForVolunteerFragment;
-import com.ibea.fides.ui.ShiftsPendingForVolunteerFragment;
 
 import java.util.ArrayList;
 
