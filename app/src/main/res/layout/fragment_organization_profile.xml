@@ -76,7 +76,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp">
                 <TextView
-                    android:text="We are Doctors Without Borders/Médecins Sans Frontières (MSF). We help people worldwide where the need is greatest, delivering emergency medical aid to people affected by conflict, epidemics, disasters, or exclusion from health care."
+                    android:text="We are Doctors Without Borders/Médecins Sans Frontières (MSF). We help people worldwide where the need is greatest, delivering emergency medical aid to people affected by conflict, epidemics, disasters, or exclusion startTime health care."
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/OrganizationAbout"

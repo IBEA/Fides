@@ -20,6 +20,9 @@ public class User {
     double hours;
     List<Integer> ratingHistory = new ArrayList<>();
     int absences;
+    String zipcode;
+    String city;
+    String state;
 
     // Empty Constructor for Parceler
     public User() {}
@@ -83,5 +86,29 @@ public class User {
 
     public void setAbsences(int absences) {
         this.absences = absences;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

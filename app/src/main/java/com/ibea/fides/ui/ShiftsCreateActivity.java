@@ -328,11 +328,21 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         _shift.setPushId(shiftId);
         pushRef.setValue(_shift);
 
-        // Add shift to shiftsAvailable fields
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(shiftId);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
+        //Build search key
+        String extendedStartTime;
 
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(shiftId);
+        if(_shift.getStartTime().length() == 4){
+            extendedStartTime = "0" + _shift.getStartTime();
+        }else{
+            extendedStartTime = _shift.getStartTime();
+        }
+
+        String searchKey = _shift.getStartDate() + "|" + extendedStartTime + "|" + _shift.getOrganizationName().toLowerCase() + "|" + _shift.getZip() + "|";
+
+        // Add shift to shiftsAvailable fields
+//        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(searchKey);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(searchKey);
 
         // Create Toast, overriding background property of activity
         Toast toast = Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT);
