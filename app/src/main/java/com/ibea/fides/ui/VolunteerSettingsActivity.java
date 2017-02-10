@@ -4,16 +4,29 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -30,6 +43,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     @Bind(R.id.cityedittext) EditText cityeedittext;
     @Bind(R.id.stateedittext) EditText stateedittext;
     @Bind(R.id.zipedittext) EditText zipedittext;
+    @Bind(R.id.tempPicture) ImageView tempPicture;
 
     String mStreet;
     String mCity;
@@ -37,7 +51,16 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     String mZip;
     String mUsername;
 
+    String mFileName;
+
+    Uri downloadUrl;
+
     public static final int GET_FROM_GALLERY = 3;
+
+    // image storage reference variables
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+    StorageReference mImageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +71,15 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         picturebutton.setOnClickListener(this);
         userbutton.setOnClickListener(this);
         addressbutton.setOnClickListener(this);
+
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += uId + ".jpeg";
+
+
+        // assign image storage reference variables
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
+        mImageRef = mStorageRef.child("images/" + uId + ".jpg");
     }
 
     public void onClick(View view) {
@@ -155,22 +187,61 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
+            Uri selectedImageUri = intent.getData();
             Bitmap bitmap = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+
+                tempPicture.setImageBitmap(bitmap);
+
+                // save picture to firebase storage
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] serializedImageFile = baos.toByteArray();
+
+                UploadTask uploadTask = mImageRef.putBytes(serializedImageFile);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                    }
+                });
+
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
+
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
+
                 e.printStackTrace();
             }
         }
     }
+
+    private void uploadImage() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        StorageReference filepath = mImageRef.child(".jpeg");
+
+        Uri uri = Uri.fromFile(new File(mFileName));
+
+        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                downloadUrl = taskSnapshot.getDownloadUrl();
+                Log.e("here", downloadUrl.toString());
+            }
+        });
+    }
+
 }
