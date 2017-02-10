@@ -3,12 +3,18 @@ package com.ibea.fides.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
@@ -24,7 +30,13 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     private static User mUser;
 
+    // image storage reference variables
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+    StorageReference mImageRef;
+
 //    @Bind(R.id.usernametext) TextView username;
+    @Bind(R.id.imageView_volPic) ImageView mVolPic;
     @Bind(R.id.totalHours) TextView totalHourstext;
     @Bind(R.id.trustpercent) TextView trustpercent;
     @Bind(R.id.dynamicArcView) DecoView arcView;
@@ -49,6 +61,21 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_volunteer_profile, container, false);
         ButterKnife.bind(this, view);
+
+        // assign image storage reference variables
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
+        mImageRef = mStorageRef.child("images/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+
+
+        Log.i(">>>>>>>>>>>>>>>>>>>>>>>", mImageRef.toString());
+
+        // Load the image using Glide
+        /* Glide.with(getActivity())
+                .using(new FirebaseImageLoader())
+                .load(mImageRef)
+                .into(mVolPic); */
+
 
 //        username.setText(mUser.getName());
 

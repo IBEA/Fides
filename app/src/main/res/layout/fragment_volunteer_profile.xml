@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:id="@+id/imageView1"
+                android:id="@+id/imageView_volPic"
                 android:src="@drawable/avatar_blank">
             </ImageView>
 
