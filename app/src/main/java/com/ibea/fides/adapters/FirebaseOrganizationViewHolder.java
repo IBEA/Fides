@@ -18,6 +18,8 @@ import com.ibea.fides.models.User;
  * Created by KincaidJ on 1/28/17.
  */
 
+//This is for the admin page. Don't get it twisted.
+
 public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private View mView;
     private Organization mOrganization;
@@ -38,17 +40,22 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder impl
     @Override
     public void onClick(View view) {
         //TODO: Add rejection option
-        //TODO: Clean and comment
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_ORGANIZATIONS);
-        ref.child(mOrganization.getPushId()).setValue(mOrganization);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String organizationPushId = mOrganization.getPushId();
 
-        User newUser = new User(mOrganization.getPushId(), mOrganization.getName(), mOrganization.getContactEmail());
+        //Remove from applications node
+        dbRef.child(Constants.DB_NODE_APPLICATIONS).child(organizationPushId).removeValue();
+
+        //Create organization
+        dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(organizationPushId).setValue(mOrganization);;
+
+        //Create user entry for organization
+        User newUser = new User(organizationPushId, mOrganization.getName(), mOrganization.getContactEmail());
         newUser.setIsOrganization(true);
-        ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS);
-        ref.child(mOrganization.getPushId()).setValue(newUser);
+        dbRef.child(Constants.DB_NODE_USERS).child(organizationPushId).setValue(newUser);
 
-        DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_APPLICATIONS);
-        oldRef.child(mOrganization.getPushId()).removeValue();
-
+        //Create search entry
+        String searchKey = mOrganization.getName() + "|" + mOrganization.getZipcode() + "|" + mOrganization.getCityAddress() + "|" + mOrganization.getStateAddress();
+        dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationPushId).setValue(searchKey);
     }
 }
