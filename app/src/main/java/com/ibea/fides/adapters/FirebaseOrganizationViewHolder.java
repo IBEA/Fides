@@ -20,14 +20,13 @@ import com.ibea.fides.models.User;
 
 //This is for the admin page. Don't get it twisted.
 
-public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder {
     private View mView;
     private Organization mOrganization;
 
     public FirebaseOrganizationViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-        itemView.setOnClickListener(this);
     }
 
     public void bindOrganization(Organization organization) {
@@ -37,9 +36,7 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder impl
         nameText.setText(organization.getName());
     }
 
-    @Override
-    public void onClick(View view) {
-        //TODO: Add rejection option
+    public void approveOrg(){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         String organizationPushId = mOrganization.getPushId();
 
@@ -55,7 +52,15 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder impl
         dbRef.child(Constants.DB_NODE_USERS).child(organizationPushId).setValue(newUser);
 
         //Create search entry
-        String searchKey = mOrganization.getName() + "|" + mOrganization.getZipcode() + "|" + mOrganization.getCityAddress() + "|" + mOrganization.getStateAddress();
+        String searchKey = mOrganization.getName().toLowerCase() + "|" + mOrganization.getZipcode() + "|" + mOrganization.getCityAddress().toLowerCase() + "|" + mOrganization.getStateAddress();
         dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationPushId).setValue(searchKey);
+    }
+
+    public void rejectOrg(){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String organizationPushId = mOrganization.getPushId();
+
+        //Remove from applications node
+        dbRef.child(Constants.DB_NODE_APPLICATIONS).child(organizationPushId).removeValue();
     }
 }
