@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_above="@id/submitButton">
+        android:layout_above="@id/submitShiftButton">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -211,22 +211,22 @@
             android:gravity="center"
             android:textSize="20sp"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:id="@+id/submitShiftButton"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorAccent"
-            android:textColor="@color/colorIcons"
-            android:text="Post Shift"
-            android:textSize="25sp"/>
+
 
     </LinearLayout>
 
     </ScrollView>
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/submitShiftButton"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorIcons"
+        android:text="Post Shift"
+        android:textSize="25sp"/>
 
 
 </RelativeLayout>

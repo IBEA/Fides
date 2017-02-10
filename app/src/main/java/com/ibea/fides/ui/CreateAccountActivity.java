@@ -2,7 +2,6 @@ package com.ibea.fides.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,45 +11,36 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.ibea.fides.BaseActivity;
-import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-// Create Account - Options for Volunteer or Organization and Admin status
-// Pushes a User object to the Users node in database
+// Create Account
 public class CreateAccountActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
-    @Bind(R.id.createVolunteerButton) Button mCreateVolunteerButton;
-    @Bind(R.id.switchToVolunteerButton) Button mCreateOrganizationButton;
+    @Bind(R.id.createAccountButton) Button mCreateAccountButton;
 
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    public DatabaseReference userRef;
 
     // Misc
     private ProgressDialog mAuthProgressDialog;
     private String mName;
     private String mEmail;
-    private String mUserType;
-    boolean isAdmin = false;
-
-    CharSequence cs = "string";
+    private String mPassword;
+    private String mPasswordConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +48,12 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_volunteer_account_create);
         ButterKnife.bind(this);
 
-        mUserType = "volunteer";
-
         // Set Click Listener
-        mCreateVolunteerButton.setOnClickListener(this);
-        mCreateOrganizationButton.setOnClickListener(this);
+        mCreateAccountButton.setOnClickListener(this);
 
         // Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
         createAuthStateListener();
-
-        // Firebase References
-        userRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS);
 
         // Ready Progress Dialog
         createAuthProgressDialog();
@@ -93,77 +77,43 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if(view == mCreateVolunteerButton) {
+        if(view == mCreateAccountButton) {
             createUser();
-        } else if(view == mCreateOrganizationButton) {
-            createOrganization();
         }
-
     }
 
-    // Create New Organization
-    private void createOrganization() {
-        Intent intent = new Intent(CreateAccountActivity.this, OrganizationApplicationActivity.class);
-        startActivity(intent);
-    }
-
-    // Create New Volunteer Account
+    // Create New Account
     private void createUser() {
-        final String name = mNameInput.getText().toString().trim();
-        String email = mEmailInput.getText().toString().trim();
-        String password = mPasswordInput.getText().toString().trim();
-        String passwordConfirm = mPasswordConfirmInput.getText().toString().trim();
+        mName = mNameInput.getText().toString().trim();
+        mEmail = mEmailInput.getText().toString().trim();
+        mPassword = mPasswordInput.getText().toString().trim();
+        mPasswordConfirm = mPasswordConfirmInput.getText().toString().trim();
 
         // Confirm validity of inputs
-        boolean validName = isValidName(name);
-        boolean validEmail = isValidEmail(email);
-        boolean validPassword = isValidPassword(password, passwordConfirm);
+        boolean validName = isValidName(mName);
+        boolean validEmail = isValidEmail(mEmail);
+        boolean validPassword = isValidPassword(mPassword, mPasswordConfirm);
 
         if(!validName || !validEmail || !validPassword) {
             return;
         }
 
-        // Set name
-        mName = name;
-        mEmail = email;
-
         // Display Progress Dialog
         mAuthProgressDialog.show();
 
         // Upload user authentication info to Firebase
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(mEmail, mPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 mAuthProgressDialog.dismiss();
 
-                // If Auth Success, call function passing in User info. If Auth Not Successful, alert.
+                // If Auth Success, create a Authentication User. If Auth Not Successful, alert.
                 if(task.isSuccessful()) {
-                    Boolean isOrganization;
-
-                    Log.v(">>>>", mUserType);
-                    if(mUserType.equals("org")){
-                        isOrganization = true;
-                    }else{
-                        isOrganization = false;
-                    }
-
-                    Log.v(">>>>", String.valueOf(isOrganization));
-
                     createFirebaseUserProfile(task.getResult().getUser());
-                    //Put isOrganization Boolean into shared preferences.
-                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
 
                     Intent intent;
-
-                    if (isOrganization) {
-                        Toast.makeText(mContext, "Thank You, A Verification Email Has Been Sent", Toast.LENGTH_LONG).show();
-                        intent = new Intent(CreateAccountActivity.this, LogInActivity.class);
-                    }
-                    else {
-                        Toast.makeText(mContext, "Thank You, A Verification Email Has Been Sent", Toast.LENGTH_LONG).show();
-                        intent = new Intent(CreateAccountActivity.this, LogInActivity.class);
-
-                    }
+                    Toast.makeText(mContext, "Thank You, A Verification Email Has Been Sent", Toast.LENGTH_LONG).show();
+                    intent = new Intent(CreateAccountActivity.this, LogInActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -225,20 +175,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
     // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
-        // Construct new User and Add to Users Table
-        User newUser = new User(user.getUid(), mName, mEmail);
-
-        // Set User Type
-        if(mUserType.equals("org")) {
-            newUser.setIsOrganization(true);
-        }
-        if(isAdmin) {
-            newUser.setIsAdmin(isAdmin);
-        }
-
-        userRef.child(user.getUid()).setValue(newUser);
-
-        // Add Display Name to User Authentication in Firebase
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder().setDisplayName(mName).build();
         user.updateProfile(addProfileName).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

@@ -4,13 +4,13 @@
     android:id="@+id/activity_create_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.CreateAccountActivity">
+    tools:context="com.ibea.fides.ui.CreateUserAccount">
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:id="@+id/createVolunteerButton"
+        android:id="@+id/createUserButton"
         android:background="@color/colorAccent"
         android:textColor="@color/colorIcons"
         android:layout_alignParentBottom="true"
@@ -42,7 +42,7 @@
             android:text="(Click Here to Sign Up as an Organization)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/switchToVolunteerButton"
+            android:id="@+id/switchTypeButton"
             android:layout_centerHorizontal="true"
             android:backgroundTint="@color/colorPrimaryLight"
             android:background="@android:drawable/btn_default"
