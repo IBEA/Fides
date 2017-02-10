@@ -4,62 +4,71 @@
     android:id="@+id/activity_log_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ibea.fides.ui.LogInActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to Fides"
-        android:id="@+id/titleText"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
-        android:textSize="20sp" />
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:paddingBottom="60dp">
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/emailInput"
-        android:hint="Your Email Address"
-        android:layout_below="@+id/titleText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log In to Fides"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:id="@+id/titleText"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:textSize="24sp"
+            android:layout_gravity="center_horizontal" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordInput"
-        android:inputType="textPassword"
-        android:hint="Your Password"
-        android:layout_below="@+id/emailInput"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newAccountText"
+            android:text="(Click Here to Create a New Account)"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:background="@android:drawable/btn_default"
+            android:paddingLeft="12dp"
+            android:paddingStart="12dp"
+            android:paddingRight="12dp"
+            android:paddingEnd="12dp"
+            android:textAllCaps="false"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailInput"
+            android:hint="Your Email Address"
+            android:gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordInput"
+            android:inputType="textPassword"
+            android:hint="Your Password"
+            android:gravity="center_horizontal" />
+
+    </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign In"
         android:id="@+id/logInButton"
-        android:layout_below="@+id/passwordInput"
-        android:layout_marginTop="21dp"
-        android:layout_alignLeft="@+id/passwordInput"
-        android:layout_alignStart="@+id/passwordInput"
-        android:layout_alignRight="@+id/passwordInput"
-        android:layout_alignEnd="@+id/passwordInput" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/newAccountText"
-        android:text="Click to Create Account"
-        android:textSize="15dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorIcons"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="104dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="25sp" />
 
 </RelativeLayout>
