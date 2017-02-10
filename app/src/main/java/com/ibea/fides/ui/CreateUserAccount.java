@@ -27,6 +27,7 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
     @Bind(R.id.cityInput) EditText mCityInput;
     @Bind(R.id.stateSpinner) Spinner mStateInput;
     @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
+    @Bind(R.id.urlInput) EditText mUrlInput;
     @Bind(R.id.descriptionInput) EditText mDescriptionInput;
     @Bind(R.id.createUserButton) Button mCreateUserButton;
 
@@ -40,6 +41,7 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
     private String userId;
     private String userEmail;
     private String userName;
+    private String mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
         mContactNameInput.setVisibility(View.INVISIBLE);
         mStreetInput.setVisibility(View.INVISIBLE);
         mDescriptionInput.setVisibility(View.INVISIBLE);
+        mUrlInput.setVisibility(View.INVISIBLE);
 
         // Button Click Listeners
         mSwitchTypeButton.setOnClickListener(this);
@@ -85,6 +88,7 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 mContactNameInput.setVisibility(View.INVISIBLE);
                 mDescriptionInput.setVisibility(View.INVISIBLE);
                 mStreetInput.setVisibility(View.INVISIBLE);
+                mUrlInput.setVisibility(View.INVISIBLE);
                 mTitleText.setText("Sign Up As A Volunteer");
                 mSwitchTypeButton.setText("Click Here To Sign Up As An Organization");
             } else {
@@ -94,6 +98,7 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 mContactNameInput.setVisibility(View.VISIBLE);
                 mDescriptionInput.setVisibility(View.VISIBLE);
                 mStreetInput.setVisibility(View.VISIBLE);
+                mUrlInput.setVisibility(View.VISIBLE);
             }
 
             Log.d("Justin", isOrg + "");
@@ -114,9 +119,10 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 mContactName = mContactNameInput.getText().toString().trim();
                 mStreet = mStreetInput.getText().toString().trim();
                 mDescription = mDescriptionInput.getText().toString().trim();
+                mUrl = mUrlInput.getText().toString().trim();
                 newUser.setIsOrganization(true);
                 Organization newOrg = new Organization(userId, userName, mContactName, mStreet, mCity, mState, mZipcode, mDescription);
-
+                newOrg.setUrl(mUrl);
                 dbPendingOrganizations.child(userId).setValue(newOrg);
             }
 

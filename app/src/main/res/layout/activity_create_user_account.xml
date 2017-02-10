@@ -70,11 +70,20 @@
         android:layout_alignLeft="@+id/cityInput"/>
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/urlInput"
+        android:hint="Org URL"
+        android:layout_below="@id/zipcodeInput"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:id="@+id/descriptionInput"
         android:hint="Short Description of Organization"
-        android:layout_below="@+id/zipcodeInput"
+        android:layout_below="@+id/urlInput"
         android:layout_centerHorizontal="true"
         android:inputType="textMultiLine"
         android:minLines="3"
