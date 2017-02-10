@@ -6,6 +6,80 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.CreateUserAccount">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:text="Sign Up as a Volunteer"
+        android:id="@+id/titleText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:textSize="24sp" />
+
+    <Button
+        android:text="(Click Here to Sign Up as an Organization)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchTypeButton"
+        android:layout_below="@+id/titleText"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/colorPrimaryLight"
+        android:background="@android:drawable/btn_default"
+        android:textAllCaps="false" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactNameInput"
+        android:hint="Your Name"
+        android:layout_below="@id/switchTypeButton"
+        android:layout_alignLeft="@+id/titleText"/>
+
+    <EditText
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/streetInput"
+        android:hint="Street"
+        android:layout_below="@+id/contactNameInput"
+        android:layout_alignLeft="@+id/titleText"/>
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cityInput"
+        android:hint="City"
+        android:layout_below="@+id/streetInput"
+        android:layout_alignLeft="@+id/titleText"/>
+
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/stateSpinner"
+        android:layout_alignTop="@+id/cityInput"
+        android:layout_alignBottom="@+id/cityInput"
+        android:layout_toRightOf="@+id/cityInput"/>
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/zipcodeInput"
+        android:hint="Zipcode"
+        android:layout_below="@+id/cityInput"
+        android:layout_alignLeft="@+id/cityInput"/>
+
+    <EditText
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/descriptionInput"
+        android:hint="Short Description of Organization"
+        android:layout_below="@+id/zipcodeInput"
+        android:layout_centerHorizontal="true"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:maxLines="5"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,87 +92,5 @@
         android:layout_alignParentStart="true"
         android:textSize="25sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:paddingBottom="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:text="Sign Up as a Volunteer"
-            android:id="@+id/titleText"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:textSize="24sp"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:text="(Click Here to Sign Up as an Organization)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/switchTypeButton"
-            android:layout_centerHorizontal="true"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:background="@android:drawable/btn_default"
-            android:paddingLeft="12dp"
-            android:paddingStart="12dp"
-            android:paddingRight="12dp"
-            android:paddingEnd="12dp"
-            android:textAllCaps="false"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/nameInput"
-            android:hint="Display Name"
-            android:gravity="center"
-            android:layout_below="@+id/switchToVolunteerButton"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/emailInput"
-            android:hint="Email Address"
-            android:gravity="center"
-            android:layout_below="@+id/nameInput"
-            android:layout_alignLeft="@+id/nameInput"
-            android:layout_alignStart="@+id/nameInput"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/passwordInput"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:gravity="center"
-            android:layout_below="@+id/emailInput"
-            android:layout_alignLeft="@+id/emailInput"
-            android:layout_alignStart="@+id/emailInput"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/passwordConfirmInput"
-            android:inputType="textPassword"
-            android:hint="Confirm Password"
-            android:gravity="center"
-            android:layout_below="@+id/passwordInput"
-            android:layout_alignLeft="@+id/passwordInput"
-            android:layout_alignStart="@+id/passwordInput"
-            android:layout_gravity="center_horizontal" />
-
-    </LinearLayout>
 
 </RelativeLayout>

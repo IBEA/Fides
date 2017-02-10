@@ -45,7 +45,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_volunteer_account_create);
+        setContentView(R.layout.activity_create_account);
         ButterKnife.bind(this);
 
         // Set Click Listener

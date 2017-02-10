@@ -16,6 +16,10 @@ import com.ibea.fides.R;
 //-- Creates the slideshow that appears when app is run for the first time -- Garrettt
 
 public class IntroActivity extends AppIntro {
+    private String userId;
+    private String userEmail;
+    private String userName;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,12 @@ public class IntroActivity extends AppIntro {
         showSkipButton(true);
         setProgressButtonEnabled(true);
 
+        // Retrieve Intent Package
+        userId = getIntent().getStringExtra("userId");
+        userEmail = getIntent().getStringExtra("userEmail");
+        userName = getIntent().getStringExtra("userName");
+
+
         setFadeAnimation();
 
         // Turn vibration on and set intensity.
@@ -56,6 +66,9 @@ public class IntroActivity extends AppIntro {
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
         Intent intent = new Intent(IntroActivity.this, CreateUserAccount.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("userName", userName);
+        intent.putExtra("userEmail", userEmail);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -66,6 +79,9 @@ public class IntroActivity extends AppIntro {
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         Intent intent = new Intent(IntroActivity.this, CreateUserAccount.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("userName", userName);
+        intent.putExtra("userEmail", userEmail);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
