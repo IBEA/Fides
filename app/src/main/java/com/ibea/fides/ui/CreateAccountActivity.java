@@ -23,7 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-// Create Account
+// Create A Firebase User Account -- Does Not Create User Model
 public class CreateAccountActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.emailInput) EditText mEmailInput;
@@ -131,7 +131,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 // Get user info
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
             }
         };
     }

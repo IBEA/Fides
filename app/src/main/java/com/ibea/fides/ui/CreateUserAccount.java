@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
@@ -19,6 +20,8 @@ import com.ibea.fides.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+// Create a User Model -- Not Firebase User
 public class CreateUserAccount extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
     @Bind(R.id.titleText) TextView mTitleText;
     @Bind(R.id.switchTypeButton) Button mSwitchTypeButton;
@@ -104,6 +107,13 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
             mCity = mCityInput.getText().toString().trim();
             mZipcode = mZipcodeInput.getText().toString().trim();
 
+            // Confirm validity of inputs
+            boolean validCity = isValid(mCity, mCityInput);
+            boolean validZipcode = validateZip(mZipcode);
+
+            if(!validCity || !validZipcode) {
+                return;
+            }
 
             User newUser = new User(userId, userName, userEmail);
             newUser.setCity(mCity);
@@ -114,6 +124,16 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 mContactName = mContactNameInput.getText().toString().trim();
                 mStreet = mStreetInput.getText().toString().trim();
                 mDescription = mDescriptionInput.getText().toString().trim();
+
+                // Confirm validity of inputs
+                boolean validContact = isValid(mContactName, mContactNameInput);
+                boolean validStreet = isValid(mStreet, mStreetInput);
+                boolean validDescription = isValid(mDescription, mDescriptionInput);
+
+                if(!validContact || !validDescription || !validStreet) {
+                    return;
+                }
+
                 newUser.setIsOrganization(true);
                 Organization newOrg = new Organization(userId, userName, mContactName, mStreet, mCity, mState, mZipcode, mDescription);
 
@@ -135,5 +155,27 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 finish();
             }
         }
+    }
+
+    // Validators for inputs
+    private boolean isValid(String name, EditText input) {
+        if (name.equals("")) {
+            input.setError("Please enter a valid input");
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean validateZip(String _query){
+        String onlyNumbers = "[0-9]+";
+
+        if(_query.length() != 0){
+            if(_query.length() == 5 && _query.matches(onlyNumbers)){
+                return true;
+            }else{
+                Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }else return true;
     }
 }
