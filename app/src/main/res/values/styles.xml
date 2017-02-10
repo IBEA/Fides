@@ -27,4 +27,9 @@
         <item name="android:textColorLink">@color/colorAccent</item>
     </style>
 
+    <style name="CardLayout" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/colorCardBackground</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
 </resources>
