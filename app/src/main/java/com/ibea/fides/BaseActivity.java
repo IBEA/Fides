@@ -21,6 +21,7 @@ import com.ibea.fides.ui.LogInActivity;
 import com.ibea.fides.ui.MainActivity_Organization;
 import com.ibea.fides.ui.MainActivity_Volunteer;
 import com.ibea.fides.ui.OrganizationSettingsActivity;
+import com.ibea.fides.ui.SearchActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
 import com.ibea.fides.utils.Universal;
 
@@ -156,6 +157,9 @@ public class BaseActivity extends AppCompatActivity {
                 Intent intent = new Intent(mContext, VolunteerSettingsActivity.class);
                 startActivity(intent);
             }
+        }else if(id == R.id.search_page){
+            Intent intent = new Intent(mContext, SearchActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

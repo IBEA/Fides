@@ -18,14 +18,15 @@ import com.ibea.fides.models.User;
  * Created by KincaidJ on 1/28/17.
  */
 
-public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+//This is for the admin page. Don't get it twisted.
+
+public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder {
     private View mView;
     private Organization mOrganization;
 
     public FirebaseOrganizationViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
-        itemView.setOnClickListener(this);
     }
 
     public void bindOrganization(Organization organization) {
@@ -35,20 +36,31 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder impl
         nameText.setText(organization.getName());
     }
 
-    @Override
-    public void onClick(View view) {
-        //TODO: Add rejection option
-        //TODO: Clean and comment
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_ORGANIZATIONS);
-        ref.child(mOrganization.getPushId()).setValue(mOrganization);
+    public void approveOrg(){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String organizationPushId = mOrganization.getPushId();
 
-        User newUser = new User(mOrganization.getPushId(), mOrganization.getName(), mOrganization.getContactEmail());
+        //Remove from applications node
+        dbRef.child(Constants.DB_NODE_APPLICATIONS).child(organizationPushId).removeValue();
+
+        //Create organization
+        dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(organizationPushId).setValue(mOrganization);;
+
+        //Create user entry for organization
+        User newUser = new User(organizationPushId, mOrganization.getName(), mOrganization.getContactEmail());
         newUser.setIsOrganization(true);
-        ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS);
-        ref.child(mOrganization.getPushId()).setValue(newUser);
+        dbRef.child(Constants.DB_NODE_USERS).child(organizationPushId).setValue(newUser);
 
-        DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_APPLICATIONS);
-        oldRef.child(mOrganization.getPushId()).removeValue();
+        //Create search entry
+        String searchKey = mOrganization.getName().toLowerCase() + "|" + mOrganization.getZipcode() + "|" + mOrganization.getCityAddress().toLowerCase() + "|" + mOrganization.getStateAddress();
+        dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationPushId).setValue(searchKey);
+    }
 
+    public void rejectOrg(){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        String organizationPushId = mOrganization.getPushId();
+
+        //Remove from applications node
+        dbRef.child(Constants.DB_NODE_APPLICATIONS).child(organizationPushId).removeValue();
     }
 }
