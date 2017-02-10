@@ -38,21 +38,21 @@
         android:id="@+id/textView_Time" />
 
     <TextView
+        android:text="Address"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_Address" />
+
+    <TextView
         android:text="Description"
         android:textSize="18sp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Description" />
-
-    <TextView
-        android:text="Zipcode"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/textView_Zipcode" />
+        android:id="@+id/textView_Description"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:text="Unrated Volunteers"

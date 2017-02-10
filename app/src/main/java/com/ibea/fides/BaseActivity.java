@@ -133,10 +133,6 @@ public class BaseActivity extends AppCompatActivity {
             logout();
             return true;
         }
-        else if (id == R.id.action_shifts){
-            Intent intent = new Intent(mContext, ShiftsCreateActivity.class);
-            startActivity(intent);
-        }
         else if (id == R.id.user_page) {
             if(mIsOrganization) {
                 Log.d(">>>>>", "Moving to org");

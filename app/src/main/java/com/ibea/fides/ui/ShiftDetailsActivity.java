@@ -22,7 +22,7 @@ public class ShiftDetailsActivity extends BaseActivity {
     @Bind(R.id.textView_Date) TextView mDate;
     @Bind(R.id.textView_Time) TextView mTime;
     @Bind(R.id.textView_Description) TextView mDescription;
-    @Bind(R.id.textView_Zipcode) TextView mZip;
+    @Bind(R.id.textView_Address) TextView mAddress;
     @Bind(R.id.unratedRecyclerView) RecyclerView mUnratedRecyclerView;
     @Bind(R.id.ratedRecyclerView) RecyclerView mRatedRecyclerView;
     @Bind(R.id.textView2) TextView mHeaderOne;
@@ -38,9 +38,9 @@ public class ShiftDetailsActivity extends BaseActivity {
 
         mOrgName.setText(mShift.getOrganizationName());
         mDate.setText(mShift.getStartDate());
-        mTime.setText("From " + mShift.getStartTime() + " to " + mShift.getEndTime());
+        mTime.setText(mShift.getStartTime() + " to " + mShift.getEndTime());
         mDescription.setText(mShift.getDescription());
-        mZip.setText(mShift.getZip());
+        mAddress.setText(mShift.getStreetAddress());
 
         if(mIsOrganization) {
             if(mShift.getComplete()) {
