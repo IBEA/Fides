@@ -1,102 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/DarkOnLightLayout"
-    >
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:elevation="12dp"
-                android:id="@+id/view2"
-                app:cardCornerRadius="40dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                android:thicknessRatio="1.9"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
-
-                <ImageView
-                    android:layout_height="150dp"
-                    android:layout_width="149dp"
-                    android:id="@+id/imageView1"
-                    android:src="@drawable/ic_person_black_24dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true">
-                </ImageView>
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                android:text="Doctor Without Borders"
-                android:textColor="@color/colorPrimaryText"
+            <ImageView
+                android:layout_height="410dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/organizationNameTextView"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="normal|bold"
-                android:layout_marginBottom="10dp" />
-
-            <TextView
-                android:text="333 7th Avenue, New York, NY 10001-5004"
-                android:textColor="@color/colorPrimaryText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/OrganizationContact"
-                android:textStyle="normal|bold"
-                android:textAlignment="center" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="350dp"
-                android:layout_height="200dp"
-                android:elevation="12dp"
-                android:id="@+id/view3"
-                app:cardCornerRadius="40dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
                 android:layout_gravity="center"
-                android:thicknessRatio="1.9"
-                android:layout_marginTop="15dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
-
-                <ScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp">
-                <TextView
-                    android:text="We are Doctors Without Borders/Médecins Sans Frontières (MSF). We help people worldwide where the need is greatest, delivering emergency medical aid to people affected by conflict, epidemics, disasters, or exclusion startTime health care."
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/OrganizationAbout"
-                    android:textStyle="normal|bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="10dp" />
-
-                </ScrollView>
-
-            </android.support.v7.widget.CardView>
+                android:id="@+id/imageView_orgPic"
+                android:src="@drawable/avatar_blank">
+            </ImageView>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <TextView
+                    android:text="Org Name"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_orgName"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="12dp" />
+                <TextView
+                    android:text="Street Address"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_orgAddress"
+                    android:textStyle="normal"
+                    android:textAlignment="center"/>
+                <TextView
+                    android:text="City, State, ZIP Code"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_orgAddressLineTwo"
+                    android:textStyle="normal"
+                    android:textAlignment="center"
+                    android:paddingBottom="12dp"/>
+                <TextView
+                    android:text="Website URL"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_orgWebsite"
+                    android:textStyle="normal"
+                    android:textAlignment="center"
+                    android:paddingBottom="12dp"/>
+                <TextView
+                    android:text="Org description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView_orgDescription"
+                    android:textStyle="normal"
+                    android:textSize="16sp" />
             </LinearLayout>
-
         </LinearLayout>
 
+    </ScrollView>
 
-
-</RelativeLayout>
+</LinearLayout>

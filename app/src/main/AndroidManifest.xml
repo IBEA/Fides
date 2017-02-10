@@ -41,6 +41,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.CreateUserAccount"></activity>
+
+        <activity android:name=".ui.SearchActivity"></activity>
     </application>
 
 </manifest>

@@ -1,32 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorAccentSecondary">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="50dp"
+        android:id="@+id/view2"
+        app:cardCornerRadius="5dp"
+        android:layout_gravity="center"
+        app:cardUseCompatPadding="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Hours Worked:"
+            android:textSize="16sp"/>
 
     <EditText
-        android:hint="Hours Volunteered"
-        android:layout_width="200dp"
+        android:hint="Hours"
+        android:ems="6"
+        android:layout_width="0dp"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:inputType="number"
-        android:id="@+id/hoursInput" />
+        android:id="@+id/hoursInput"
+        android:layout_weight="1"/>
 
+    </LinearLayout>
 
-    <Button
-        android:text="Didn't Show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hoursInput"
-        android:layout_marginLeft="80dp"
-        android:id="@+id/noShowButton" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
 
-    <Button
-        android:text="Showed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/noShowButton"
-        android:layout_below="@+id/hoursInput"
-        android:id="@+id/showButton" />
+            <Button
+                android:text="Showed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/showButton"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
 
+            <Button
+            android:text="No Show"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/noShowButton"
+            android:layout_margin="10dp"
+            android:layout_weight="1"/>
+
+        </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </RelativeLayout>

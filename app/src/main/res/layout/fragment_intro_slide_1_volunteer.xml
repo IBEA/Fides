@@ -13,7 +13,6 @@
         android:textColor="#ffffff"
         android:text="Use our Find Tab to find availiable shifts"
         android:layout_weight="1"
-        android:id="@+id/textView"
         android:textSize="25sp" />
 
     <ImageView

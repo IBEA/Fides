@@ -8,130 +8,111 @@
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="129dp"
-                android:elevation="12dp"
-                android:id="@+id/view2"
-                app:cardCornerRadius="40dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                android:layout_gravity="center"
-                android:thicknessRatio="1.9"
-                android:layout_marginTop="15dp">
-
-                <ImageView
-                    android:layout_height="133dp"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:id="@+id/imageView1"
-                    android:src="@drawable/ic_person_black_24dp"
-                    android:layout_alignParentTop="true">
-                </ImageView>
-
-            </android.support.v7.widget.CardView>
-
-    <TextView
-        android:text="Username"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:id="@+id/usernametext"
-        android:textSize="40sp"
-        android:layout_centerHorizontal="true" />
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:weightSum="2">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:weightSum="4">
-
-        <TextView
-            android:text="Trust"
-            android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:textAlignment="center"
-            android:id="@+id/trusttext"
-            android:textSize="34sp"
-            android:layout_weight="1"
-            android:textColor="@color/colorAccentSecondary" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-            <com.hookedonplay.decoviewlib.DecoView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:id="@+id/dynamicArcView" />
-
-            <TextView
-                android:text="0%"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:id="@+id/trustpercent"
-                android:textSize="34sp"
-                android:textColor="@color/colorAccentSecondary" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:weightSum="4">
-
-            <TextView
-                android:text="Hours"
-                android:textColor="@color/colorAccent"
+            <ImageView
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textAlignment="center"
-                android:id="@+id/hourstext"
-                android:textSize="34sp" />
-
-            <com.hookedonplay.decoviewlib.DecoView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="2"
-                android:id="@+id/hoursArcView" />
+                android:id="@+id/imageView1"
+                android:src="@drawable/avatar_blank">
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="-80dp"
+                android:weightSum="2"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:text="Trust"
+                        android:textColor="@color/colorAccentSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:id="@+id/trusttext"
+                        android:textSize="34sp" />
+
+                    <com.hookedonplay.decoviewlib.DecoView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/dynamicArcView"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/trustpercent"
+                        android:textSize="34sp"
+                        android:textColor="@color/colorAccentSecondary"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:text="Hours"
+                        android:textColor="@color/colorAccent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:id="@+id/hourstext"
+                        android:textSize="34sp" />
+
+                    <com.hookedonplay.decoviewlib.DecoView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/hoursArcView" />
+
+                    <TextView
+                        android:text="0"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/totalHours"
+                        android:textSize="34sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
-                android:text="0"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:layout_height="0dp"
-                android:id="@+id/totalHours"
-                android:layout_weight="1"
-                android:textSize="34sp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_Description"/>
 
         </LinearLayout>
 
-
-    </LinearLayout>
-
-</LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
+

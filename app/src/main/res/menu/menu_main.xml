@@ -9,12 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_shifts"
-        android:title="Shifts"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/settings_page"
         android:title="Account Settings"
         android:visible="true"

@@ -28,7 +28,7 @@ public class IntroActivity extends AppIntro {
 
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
-        addSlide(IntroSlideFragment.newInstance(R.layout.introinitialslide));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_welcome));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1_volunteer));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2_volunteer));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_3));

@@ -226,7 +226,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private boolean isValidUsername(String data) {
         if (data.equals("")) {
-            userEditText.setError("Please enter your new username");
+            userEditText.setError("Please enter your new mOrgName");
             return false;
         }
         return true;

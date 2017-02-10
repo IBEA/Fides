@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +20,7 @@ import com.ibea.fides.adapters.UniversalPagerAdapter;
 import com.ibea.fides.models.User;
 
 import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 // Main organization page, nested with profile and shift tab.
