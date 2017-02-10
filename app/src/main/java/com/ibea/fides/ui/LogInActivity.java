@@ -44,6 +44,10 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     // Misc
     private ProgressDialog mAuthProgressDialog;
 
+    private String userId;
+    private String userName;
+    private String userEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +64,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         // Ready Progress Dialog
         createAuthProgressDialog();
     }
-
-    //!! Plan to move this to BaseActivity to prevent fringe cases !!
-
 
     @Override
     public void onClick(View view) {
@@ -100,60 +101,95 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 // Remove Progress Dialog on authentication
                 mAuthProgressDialog.dismiss();
 
+                // If email has been used to sign up
                 if(task.isSuccessful()) {
                     final FirebaseUser user = mAuth.getCurrentUser();
 
-                    Log.d(TAG, user.getUid());
-                    dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Boolean isUser = dataSnapshot.hasChild(user.getUid());
-                            if(!isUser) {
-                                Toast.makeText(LogInActivity.this, "Your Application is Under Review", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LogInActivity.this, LogInActivity.class);
-                                startActivity(intent);
-                            } else {
-                                dbUsers.child(user.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        isOrganization = dataSnapshot.getValue(Boolean.class);
-                                        Log.d(">>>>>", String.valueOf(isOrganization));
+                    Log.d("LogInActivity ", "User is authenticated");
 
-                                        //Put isOrganization Boolean into shared preferences.
-                                        PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isOrganization).apply();
+                    // If user has verified email
+                    if (user.isEmailVerified()) {
+                        Log.d("LogInActivity ", "User is verified");
 
-                                        Intent intent;
+                        dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                userId = user.getUid();
+                                userName = user.getDisplayName();
+                                userEmail = user.getEmail();
 
-                                        if (isOrganization) {
-                                            intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
-                                        }
-                                        else {
-                                            intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
-                                        }
+                                // Check to see if User has created a User Model
+                                Boolean isUser = dataSnapshot.hasChild(userId);
+                                if (isUser) {
+                                    Log.d("LogInActivity ", "User has a User Model");
 
+                                    // Check to see if User is an Organization
+                                    Boolean isOrganization = dataSnapshot.child(userId).child("isOrganization").getValue(Boolean.class);
+                                    if (isOrganization) {
+                                        Log.d("LogInActivity", "User is an Organization");
+
+                                        // Check to see if Organization has been Verified
+                                        dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Boolean isVerifiedOrg = dataSnapshot.hasChild(userId);
+
+                                                if (isVerifiedOrg) {
+                                                    Log.d("LogInActivity", "User is Verified Org");
+                                                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isVerifiedOrg).apply();
+
+                                                    Intent intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else{
+                                                    Log.d("LogInActivity", "User is Not Verified Org");
+                                                    Toast.makeText(mContext, "Thank you. Your Account is being Verified", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {}
+                                        });
+                                    } else {
+                                        Log.d("LogInActivity", "User is a Volunteer");
+                                        // User is a Volunteer - Send to Volunteer Main Page
+                                        Intent intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        //intent.putExtra("user" , user);
                                         startActivity(intent);
                                         finish();
                                     }
+                                } else {
+                                    Log.d("LogInActivity", "User has no User Model");
+                                    // User has not created a User Model - Send to IntroActivity to create a User model
+                                    Log.d("JUSTIN:", userId);
+                                    Log.d("Justin:", userName);
+                                    Log.d("justin:", userEmail);
+                                    Intent intent = new Intent(LogInActivity.this, IntroActivity.class);
+                                    intent.putExtra("userId", userId);
+                                    intent.putExtra("userName", userName);
+                                    intent.putExtra("userEmail", userEmail);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                }
 
-                                    }
-                                });
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
 
-                }
-                if(!task.isSuccessful()) {
-                    Toast.makeText(LogInActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d("LogInActivity", "User has not Verified");
+                        Toast.makeText(mContext, "Please Verify Your Email", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.d("LogInActivity", "Bad Credentials");
+                    Toast.makeText(mContext, "Invalid Credentials", Toast.LENGTH_LONG).show();
                 }
             }
         });
