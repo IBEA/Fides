@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 
 // Create a User Model -- Not Firebase User
 public class CreateUserAccount extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
-    @Bind(R.id.titleText) TextView mTitleText;
-    @Bind(R.id.switchTypeButton) Button mSwitchTypeButton;
+
+    @Bind(R.id.switchTypeTextView) TextView mSwitchTypeButton;
     @Bind(R.id.contactNameInput) EditText mContactNameInput;
     @Bind(R.id.streetInput) EditText mStreetInput;
     @Bind(R.id.cityInput) EditText mCityInput;
@@ -88,15 +88,15 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 mContactNameInput.setVisibility(View.INVISIBLE);
                 mDescriptionInput.setVisibility(View.INVISIBLE);
                 mStreetInput.setVisibility(View.INVISIBLE);
-                mTitleText.setText("Sign Up As A Volunteer");
-                mSwitchTypeButton.setText("Click Here To Sign Up As An Organization");
+                mSwitchTypeButton.setText("or click here to create an organization");
+                mCreateUserButton.setText("Create a Volunteer");
             } else {
                 isOrg = true;
-                mSwitchTypeButton.setText("Click Here To Sign Up As A Volunteer");
-                mTitleText.setText("Sign Up As An Organization");
+                mSwitchTypeButton.setText("or click here to create a volunteer");
                 mContactNameInput.setVisibility(View.VISIBLE);
                 mDescriptionInput.setVisibility(View.VISIBLE);
                 mStreetInput.setVisibility(View.VISIBLE);
+                mCreateUserButton.setText("Create an Organization");
             }
 
             Log.d("Justin", isOrg + "");
