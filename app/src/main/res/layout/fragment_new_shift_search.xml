@@ -13,11 +13,9 @@
         android:id="@+id/searchView_Organization"
         android:inputType="text"
         android:background="@color/colorPrimaryLight"
-        app:iconifiedByDefault="true"
         android:queryHint="Organization"
         android:iconifiedByDefault="false"
         tools:inputType="text"
-        android:searchIcon="@android:color/transparent"
         >
     </SearchView>
     <SearchView

@@ -60,6 +60,7 @@ public class MainActivity_Organization extends BaseActivity {
             });
         }
 
+        //TODO: Fix this shit
         //  Declare a new thread to do a preference check
         Thread t = new Thread(new Runnable() {
             @Override
@@ -109,7 +110,7 @@ public class MainActivity_Organization extends BaseActivity {
 
             tabTitles.add("Profile");
             tabTitles.add("Opportunities");
-            //TODO: Investiagate using constructor instead of instance
+            //TODO: Investigate using constructor instead of instance
             fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
             fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization));
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
@@ -121,7 +122,7 @@ public class MainActivity_Organization extends BaseActivity {
                 tabTitles.add("Profile");
                 tabTitles.add("Upcoming");
                 tabTitles.add("History");
-                //TODO: Investiagate using constructor instead of instance
+                //TODO: Investigate using constructor instead of instance
                 fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
                 fragmentList.add(new ShiftsPendingForOrganizationFragment());
                 fragmentList.add(new ShiftsCompletedForOrganizationFragment());

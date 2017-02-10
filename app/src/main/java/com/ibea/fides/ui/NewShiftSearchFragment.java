@@ -175,8 +175,6 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
     public void fetchShift(String _shiftId){
         Log.d(TAG, "in fetchShift");
-        final String zipQuery = mSearchView_Zip.getQuery().toString();
-        final String orgQuery = mSearchView_Organization.getQuery().toString();
 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
