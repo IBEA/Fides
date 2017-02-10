@@ -3,14 +3,15 @@ package com.ibea.fides;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +23,6 @@ import com.ibea.fides.ui.MainActivity_Volunteer;
 import com.ibea.fides.ui.OrganizationSettingsActivity;
 import com.ibea.fides.ui.SearchActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
-import com.ibea.fides.ui.ShiftsCreateActivity;
 import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {

@@ -24,7 +24,7 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     private static User mUser;
 
-//    @Bind(R.id.usernametext) TextView username;
+//    @Bind(R.id.usernametext) TextView mOrgName;
     @Bind(R.id.totalHours) TextView totalHourstext;
     @Bind(R.id.trustpercent) TextView trustpercent;
     @Bind(R.id.dynamicArcView) DecoView arcView;
@@ -50,7 +50,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_volunteer_profile, container, false);
         ButterKnife.bind(this, view);
 
-//        username.setText(mUser.getName());
+//        mOrgName.setText(mUser.getName());
 
         trustmetric = mUser.getRating();
 
