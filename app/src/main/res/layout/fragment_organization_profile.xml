@@ -30,7 +30,7 @@
                     android:layout_height="150dp"
                     android:layout_width="149dp"
                     android:id="@+id/imageView1"
-                    android:src="@drawable/ic_person_black_24dp"
+                    android:src="@drawable/ic_anonynous"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true">
                 </ImageView>
