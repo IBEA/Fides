@@ -13,7 +13,6 @@
         android:textColor="#ffffff"
         android:text="When you show up for scheduled shifts, you earn trust. Companies can see your trust on application."
         android:layout_weight="1"
-        android:id="@+id/textView"
         android:textSize="25sp" />
 
     <ImageView
