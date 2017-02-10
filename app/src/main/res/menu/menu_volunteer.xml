@@ -9,6 +9,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/search_page"
+        android:title="Search"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/settings_page"
         android:title="Account Settings"
         android:visible="true"
