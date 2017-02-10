@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.LogInActivity">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign In"
-        android:id="@+id/logInButton"
-        android:background="@color/colorAccent"
-        android:textColor="@color/colorIcons"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="25sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,50 +18,6 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome to Fides!"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:id="@+id/welcomeText"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign In"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:id="@+id/titleText"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="24dp"
-            android:textSize="24sp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/newAccountText"
-            android:text="(Click Here to Create a New Account)"
-            android:layout_centerHorizontal="true"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:background="@android:drawable/btn_default"
-            android:paddingLeft="12dp"
-            android:paddingStart="12dp"
-            android:paddingRight="12dp"
-            android:paddingEnd="12dp"
-            android:textAllCaps="false"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
 
         <EditText
             android:layout_width="match_parent"
@@ -89,6 +33,32 @@
             android:inputType="textPassword"
             android:hint="Your Password"
             android:gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:id="@+id/logInButton"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorIcons"
+            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="25sp" />
+
+        <TextView
+            android:text="or click here to create an account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/createAccountTextView"
+            android:textAlignment="center"
+            android:layout_marginTop="30dp"/>
+
 
     </LinearLayout>
 

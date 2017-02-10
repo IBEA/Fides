@@ -34,7 +34,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.logInButton) Button mLogInButton;
-    @Bind(R.id.newAccountText) TextView mNewAccountButton;
+    @Bind(R.id.createAccountTextView) TextView mNewAccountButton;
 
     public SharedPreferences mSharedPreferences;
     public boolean mPastOrganization;
