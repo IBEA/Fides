@@ -42,7 +42,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.OrganizationFurtherRegistrationInfoActivity" />
-        <activity android:name=".ui.VolunteerFurtherRegistrationInfoActivity"></activity>
+        <activity android:name=".ui.VolunteerFurtherRegistrationInfoActivity" />
+        <activity android:name=".ui.SearchActivity"></activity>
     </application>
 
 </manifest>
