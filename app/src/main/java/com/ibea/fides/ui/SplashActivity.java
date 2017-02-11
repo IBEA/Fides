@@ -37,13 +37,18 @@ public class SplashActivity extends BaseActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
+                    Log.d(TAG, "Current user is not null");
+                    Log.d(">Current user name", String.valueOf(user.getDisplayName()));
                     if(user.getDisplayName() != null) {
+                        Log.d(">>>>>", "getDisplayName is not null");
 
                         dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d(">>>>>", "In db call");
                                 hasUserModel = dataSnapshot.hasChild(uId);
                                 if(hasUserModel) {
+                                    Log.d(TAG, "Current user is not null and in auth & db");
                                     mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
                                     if(mIsOrganization){
@@ -59,8 +64,8 @@ public class SplashActivity extends BaseActivity {
                                         startActivity(intent);
                                         finish();
                                     }
-                                }
-                                else {
+                                } else {
+                                    Log.d(TAG, "Current user is not null and is in auth but not db");
                                     redirectToLogin();
                                 }
                             }
@@ -70,12 +75,12 @@ public class SplashActivity extends BaseActivity {
 
                             }
                         });
-                        //TODO: Move this into async safe area
-
                     }else{
+                        Log.d(TAG, "Current user is not null and is not in auth");
                         redirectToLogin();
                     }
                 }else{
+                    Log.d(TAG, "Current user is null");
                     redirectToLogin();
                 }
             }
