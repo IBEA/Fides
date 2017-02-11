@@ -47,13 +47,15 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
     private String userEmail;
     private String userName;
 
-    SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user_account);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Retrieve Intent Package
         userId = getIntent().getStringExtra("userId");

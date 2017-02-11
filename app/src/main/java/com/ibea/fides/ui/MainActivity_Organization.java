@@ -49,6 +49,7 @@ public class MainActivity_Organization extends BaseActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mOrganization = dataSnapshot.getValue(Organization.class);
+                    Log.d(TAG, mOrganization.getName());
                     populateTabs();
                 }
 

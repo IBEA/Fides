@@ -42,17 +42,22 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     // newInstance constructor for creating fragment with arguments
     public static ProfileForVolunteerFragment newInstance(User user) {
-
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString("mUser", "Test");
+        bundle.putParcelable("user", Parcels.wrap(user));
         fragment.setArguments(bundle);
-
-        Log.d(">>>>>", fragment.getArguments().getString("mUser"));
 
         return fragment;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mUser = Parcels.unwrap(getArguments().getParcelable("user"));
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,18 +66,9 @@ public class ProfileForVolunteerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_volunteer_profile, container, false);
         ButterKnife.bind(this, view);
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            Log.d(">Found bundle", "!");
-//            mUser = bundle.getParcelable("Student");
-        }else{
-            Log.d(">No bundle", "!");
-        }
+        trustmetric = mUser.getRating();
 
-        Log.d(">USER STATE", String.valueOf(mUser));
-//        trustmetric = mUser.getRating();
-//
-//        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
+        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
 
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))

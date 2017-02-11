@@ -46,11 +46,13 @@ public class MainActivity_Volunteer extends BaseActivity{
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if(intent.getExtras() != null){
             //User passed in, display profile for passed user
+            Log.d(TAG, "User not passed in");
             mUser = Parcels.unwrap(intent.getExtras().getParcelable("user"));
             Log.d(">EXTRAS>", mUser.getName());
             populateTabs();
         }else{
             //User not passed in. Display profile for logged user
+            Log.d(TAG, "User not passed in");
             FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
