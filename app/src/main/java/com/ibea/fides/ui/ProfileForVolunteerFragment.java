@@ -2,7 +2,10 @@ package com.ibea.fides.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.R;
 import com.ibea.fides.models.User;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -22,9 +27,8 @@ import butterknife.ButterKnife;
 
 public class ProfileForVolunteerFragment extends Fragment {
 
-    private static User mUser;
+    private User mUser;
 
-//    @Bind(R.id.usernametext) TextView mOrgName;
     @Bind(R.id.totalHours) TextView totalHourstext;
     @Bind(R.id.trustpercent) TextView trustpercent;
     @Bind(R.id.dynamicArcView) DecoView arcView;
@@ -38,8 +42,15 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     // newInstance constructor for creating fragment with arguments
     public static ProfileForVolunteerFragment newInstance(User user) {
-        mUser = user;
+
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("mUser", "Test");
+        fragment.setArguments(bundle);
+
+        Log.d(">>>>>", fragment.getArguments().getString("mUser"));
+
         return fragment;
     }
 
@@ -50,11 +61,18 @@ public class ProfileForVolunteerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_volunteer_profile, container, false);
         ButterKnife.bind(this, view);
 
-//        mOrgName.setText(mUser.getName());
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Log.d(">Found bundle", "!");
+//            mUser = bundle.getParcelable("Student");
+        }else{
+            Log.d(">No bundle", "!");
+        }
 
-        trustmetric = mUser.getRating();
-
-        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
+        Log.d(">USER STATE", String.valueOf(mUser));
+//        trustmetric = mUser.getRating();
+//
+//        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
 
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))

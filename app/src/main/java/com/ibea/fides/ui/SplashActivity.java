@@ -1,6 +1,7 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.User;
 
@@ -41,6 +43,26 @@ public class SplashActivity extends BaseActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 hasUserModel = dataSnapshot.hasChild(uId);
+                                if(hasUserModel) {
+                                    mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
+                                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
+                                    if(mIsOrganization){
+                                        Log.d(TAG, "Routing to Org Profile");
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Organization.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    } else{
+                                        Log.d(TAG, "Routing to Vol Profile");
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Volunteer.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                                else {
+                                    redirectToLogin();
+                                }
                             }
 
                             @Override
@@ -48,23 +70,7 @@ public class SplashActivity extends BaseActivity {
 
                             }
                         });
-
-                        if(hasUserModel) {
-                            if(mIsOrganization){
-                                Intent intent = new Intent(SplashActivity.this, MainActivity_Organization.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            } else{
-                                Intent intent = new Intent(SplashActivity.this, MainActivity_Volunteer.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                        else {
-                            redirectToLogin();
-                        }
+                        //TODO: Move this into async safe area
 
                     }else{
                         redirectToLogin();

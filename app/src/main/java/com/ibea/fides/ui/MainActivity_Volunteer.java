@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,15 +41,21 @@ public class MainActivity_Volunteer extends BaseActivity{
         Intent intent = getIntent();
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
+        Log.d(TAG, "isOrg? " + isOrganization);
+
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if(intent.getExtras() != null){
+            //User passed in, display profile for passed user
             mUser = Parcels.unwrap(intent.getExtras().getParcelable("user"));
+            Log.d(">EXTRAS>", mUser.getName());
             populateTabs();
         }else{
+            //User not passed in. Display profile for logged user
             FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mUser = dataSnapshot.getValue(User.class);
+                    Log.d(">NO EXTRAS>", mUser.getName());
                     populateTabs();
                 }
 
