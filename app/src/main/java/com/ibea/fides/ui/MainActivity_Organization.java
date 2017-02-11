@@ -1,7 +1,6 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -59,39 +58,6 @@ public class MainActivity_Organization extends BaseActivity {
                 }
             });
         }
-
-        //  Declare a new thread to do a preference check
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //  Initialize SharedPreferences
-                SharedPreferences getPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
-
-                //  Create a new boolean and preference and set it to true
-                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
-
-                //  If the activity has never started before...
-                if (isFirstStart) {
-
-                    //  Launch app intro
-                    Intent i = new Intent(MainActivity_Organization.this, IntroOrganizationActivity.class);
-                    startActivity(i);
-
-                    //  Make a new preferences editor
-                    SharedPreferences.Editor e = getPrefs.edit();
-
-                    //  Edit preference to make it false because we don't want this to run again
-                    e.putBoolean("firstStart", false);
-
-                    //  Apply changes
-                    e.apply();
-                }
-            }
-        });
-
-        // Start the thread
-        t.start();
     }
 
 
@@ -109,7 +75,7 @@ public class MainActivity_Organization extends BaseActivity {
 
             tabTitles.add("Profile");
             tabTitles.add("Opportunities");
-            //TODO: Investiagate using constructor instead of instance
+            //TODO: Investigate using constructor instead of instance
             fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
             fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization));
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
@@ -121,7 +87,7 @@ public class MainActivity_Organization extends BaseActivity {
                 tabTitles.add("Profile");
                 tabTitles.add("Upcoming");
                 tabTitles.add("History");
-                //TODO: Investiagate using constructor instead of instance
+                //TODO: Investigate using constructor instead of instance
                 fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
                 fragmentList.add(new ShiftsPendingForOrganizationFragment());
                 fragmentList.add(new ShiftsCompletedForOrganizationFragment());

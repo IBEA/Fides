@@ -57,38 +57,6 @@ public class MainActivity_Volunteer extends BaseActivity{
                 }
             });
         }
-
-        //  Declare a new thread to do a preference check
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //  Initialize SharedPreferences
-                SharedPreferences getPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
-
-                //  Create a new boolean and preference and set it to true
-                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
-
-                //  If the activity has never started before...
-                if (isFirstStart) {
-                    //  Launch app intro
-                    Intent i = new Intent(MainActivity_Volunteer.this, IntroActivity.class);
-                    startActivity(i);
-
-                    //  Make a new preferences editor
-                    SharedPreferences.Editor e = getPrefs.edit();
-
-                    //  Edit preference to make it false because we don't want this to run again
-                    e.putBoolean("firstStart", false);
-
-                    //  Apply changes
-                    e.apply();
-                }
-            }
-        });
-
-        // Start the thread
-        t.start();
     }
 
     public void populateTabs(){
@@ -108,14 +76,12 @@ public class MainActivity_Volunteer extends BaseActivity{
         }else {
             //User is volunteer, and this is their page
             tabTitles.add("Profile");
-            tabTitles.add("Find");
             tabTitles.add("Shifts");
             tabTitles.add("History");
             fragmentList.add(new ProfileForVolunteerFragment().newInstance(mUser));
-            fragmentList.add(new NewShiftSearchFragment());
             fragmentList.add(new ShiftsPendingForVolunteerFragment());
             fragmentList.add(new ShiftsCompletedForVolunteerFragment());
-            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 4, tabTitles, fragmentList));
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 3, tabTitles, fragmentList));
         }
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items

@@ -6,53 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.CreateAccountActivity">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:id="@+id/createVolunteerButton"
-        android:background="@color/colorAccent"
-        android:textColor="@color/colorIcons"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="25sp" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:paddingBottom="60dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:text="Sign Up as a Volunteer"
-            android:id="@+id/titleText"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:textSize="24sp"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-        android:text="(Click Here to Sign Up as an Organization)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switchToVolunteerButton"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/colorPrimaryLight"
-        android:background="@android:drawable/btn_default"
-        android:paddingLeft="12dp"
-        android:paddingStart="12dp"
-        android:paddingRight="12dp"
-        android:paddingEnd="12dp"
-        android:textAllCaps="false"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="center_horizontal" />
 
         <EditText
             android:layout_width="300dp"
@@ -98,6 +57,19 @@
             android:layout_alignLeft="@+id/passwordInput"
             android:layout_alignStart="@+id/passwordInput"
             android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:id="@+id/createAccountButton"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorIcons"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="25sp" />
 
     </LinearLayout>
 

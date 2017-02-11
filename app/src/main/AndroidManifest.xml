@@ -23,7 +23,6 @@
         <activity android:name=".ui.CreateAccountActivity" />
         <activity android:name=".ui.ShiftsCreateActivity" />
         <activity android:name=".ui.ShiftDetailsActivity" />
-        <activity android:name=".ui.OrganizationApplicationActivity" />
         <activity android:name=".ui.AdminActivity" />
         <activity android:name=".ui.IntroActivity" />
         <activity android:name=".ui.IntroOrganizationActivity" />
@@ -42,8 +41,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.OrganizationFurtherRegistrationInfoActivity" />
-        <activity android:name=".ui.VolunteerFurtherRegistrationInfoActivity" />
+        <activity android:name=".ui.CreateUserAccount"></activity>
+
         <activity android:name=".ui.SearchActivity"></activity>
     </application>
 

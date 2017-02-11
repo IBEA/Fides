@@ -62,7 +62,6 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
 
         @Override
         public void onClick(View v){
-            //!! Front end, here's your breadcrumb, parcel your mOrganization and send it wherever you like !!
             Intent intent = new Intent(mContext, MainActivity_Organization.class);
             intent.putExtra("organization", Parcels.wrap(mOrganization));
             mContext.startActivity(intent);

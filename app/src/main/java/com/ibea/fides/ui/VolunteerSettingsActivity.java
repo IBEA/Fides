@@ -180,7 +180,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
     private boolean isValidUsername(String data) {
         if (data.equals("")) {
-            useredittext.setError("Please enter your new username");
+            useredittext.setError("Please enter your new mOrgName");
             return false;
         }
         return true;
