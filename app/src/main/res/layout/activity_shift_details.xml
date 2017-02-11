@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="12dp"
     tools:context="com.ibea.fides.ui.ShiftDetailsActivity">
 
     <TextView
@@ -55,31 +56,24 @@
         android:layout_marginBottom="10dp"/>
 
     <TextView
-        android:text="Unrated Volunteers"
+        android:text="Volunteers"
         android:layout_width="match_parent"
         android:gravity="center"
         android:textSize="24sp"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+        android:id="@+id/textView_Header" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:id="@+id/textView_Instructions"
+        android:text="Unrated volunteers appear in red. Swipe right if they did well, left if not"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/unratedRecyclerView"
         android:layout_height="125dp"
         android:layout_marginBottom="20dp"/>
-
-    <TextView
-        android:text="Rated Volunteers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:id="@+id/textView8" />
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:gravity="center"
-        android:id="@+id/ratedRecyclerView" />
 
 </LinearLayout>

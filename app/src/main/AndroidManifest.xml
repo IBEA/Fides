@@ -20,7 +20,8 @@
         <activity android:name=".ui.LogInActivity" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".ui.CreateAccountActivity" />
-        <activity android:name=".ui.ShiftsCreateActivity" />
+        <activity android:name=".ui.ShiftsCreateActivity"
+            android:noHistory="true"/>
         <activity android:name=".ui.ShiftDetailsActivity" />
         <activity android:name=".ui.AdminActivity" />
         <activity android:name=".ui.IntroActivity" />

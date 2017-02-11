@@ -24,9 +24,8 @@ public class ShiftDetailsActivity extends BaseActivity {
     @Bind(R.id.textView_Description) TextView mDescription;
     @Bind(R.id.textView_Address) TextView mAddress;
     @Bind(R.id.unratedRecyclerView) RecyclerView mUnratedRecyclerView;
-    @Bind(R.id.ratedRecyclerView) RecyclerView mRatedRecyclerView;
-    @Bind(R.id.textView2) TextView mHeaderOne;
-    @Bind(R.id.textView8) TextView mHeaderTwo;
+    @Bind(R.id.textView_Header) TextView mHeaderOne;
+    @Bind(R.id.textView_Instructions) TextView mInstructions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +48,19 @@ public class ShiftDetailsActivity extends BaseActivity {
         mAddress.setText(mShift.getStreetAddress());
 
         if(mIsOrganization) {
+            //TODO: Db call to the shift to get rated and unrated. Combine and feed to recyclerView but keep originals
+            setUpFirebaseAdapter();
             if(mShift.getComplete()) {
-                setUpFirebaseAdapterUnrated();
-                setUpFirebaseAdapterRated();
-            }
-            else{
-                setUpFirebaseAdapterUnrated();
-                mHeaderTwo.setVisibility(View.GONE);
-                mHeaderOne.setText("Volunteer List");
+                //TODO: Put the itemtouch setup in here
             }
         } else {
             mHeaderOne.setVisibility(View.GONE);
-            mHeaderTwo.setVisibility(View.GONE);
+            mInstructions.setVisibility(View.GONE);
         }
 
     }
 
-    private void setUpFirebaseAdapterUnrated() {
+    private void setUpFirebaseAdapter() {
         FirebaseRecyclerAdapter mFirebaseAdapterUnrated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
                 (String.class, R.layout.list_item_volunteer, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("currentVolunteers")) {
 
@@ -74,22 +69,8 @@ public class ShiftDetailsActivity extends BaseActivity {
                 viewHolder.bindUser(userId, mShift.getPushId(), position, false);
             }
         };
-        mUnratedRecyclerView.setHasFixedSize(true);
+        mUnratedRecyclerView.setHasFixedSize(false);
         mUnratedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mUnratedRecyclerView.setAdapter(mFirebaseAdapterUnrated);
-    }
-
-    private void setUpFirebaseAdapterRated() {
-        FirebaseRecyclerAdapter mFirebaseAdapterRated = new FirebaseRecyclerAdapter<String, FirebaseVolunteerViewHolder>
-                (String.class, R.layout.list_item_volunteer, FirebaseVolunteerViewHolder.class, dbShifts.child(mShift.getPushId()).child("ratedVolunteers")) {
-
-            @Override
-            protected void populateViewHolder(FirebaseVolunteerViewHolder viewHolder, String userId, int position) {
-                viewHolder.bindUser(userId, mShift.getPushId(), position, true);
-            }
-        };
-        mRatedRecyclerView.setHasFixedSize(true);
-        mRatedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRatedRecyclerView.setAdapter(mFirebaseAdapterRated);
     }
 }
