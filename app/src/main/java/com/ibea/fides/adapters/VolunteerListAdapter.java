@@ -101,7 +101,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
             Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
             mTextView_Name.setText(mVolunteer.getName());
-            if(mUnratedVolunteers.contains(mVolunteer.getPushId())){
+            if(mUnratedVolunteers.contains(mVolunteer.getPushId()) && mShift.getComplete()){
                 Log.d(">>>>>", mVolunteer.getName() + " is unrated");
                 mTextView_Name.setTextColor(Color.parseColor("#F44336"));
             }

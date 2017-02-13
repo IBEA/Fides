@@ -78,7 +78,11 @@ public class ShiftDetailsActivity extends BaseActivity {
                 fetchVolunteer(volunteerId);
             }
 
-        } else {
+            if(!mShift.getComplete()){
+                mInstructions.setVisibility(View.GONE);
+            }
+
+        }else {
             mHeaderOne.setVisibility(View.GONE);
             mInstructions.setVisibility(View.GONE);
         }
@@ -94,7 +98,9 @@ public class ShiftDetailsActivity extends BaseActivity {
                 User user = dataSnapshot.getValue(User.class);
                 mVolunteers.add(user);
                 mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(user));
-                setRecyclerViewItemTouchListener();
+                if(mShift.getComplete()){
+                    setRecyclerViewItemTouchListener();
+                }
             }
 
             @Override
