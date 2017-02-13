@@ -39,13 +39,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView_Date" />
 
-    <TextView
-        android:text="Time"
-        android:textSize="18sp"
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Time" />
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:text="StartTime"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_StartTime" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text=" to "/>
+
+        <TextView
+            android:text="EndTime"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_EndTime" />
+    </LinearLayout>
+
 
     <TextView
         android:text="Address"
