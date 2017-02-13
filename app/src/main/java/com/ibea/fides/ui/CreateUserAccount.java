@@ -1,7 +1,9 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.User;
@@ -44,11 +47,15 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
     private String userEmail;
     private String userName;
 
+    SharedPreferences mSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user_account);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Retrieve Intent Package
         userId = getIntent().getStringExtra("userId");
@@ -149,6 +156,7 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 finish();
             } else {
+                mSharedPreferences.edit().putBoolean(Constants.KEY_ISORGANIZATION, false).apply();
                 intent = new Intent(CreateUserAccount.this, MainActivity_Volunteer.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

@@ -1,6 +1,7 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.User;
 
@@ -35,12 +37,37 @@ public class SplashActivity extends BaseActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
+                    Log.d(TAG, "Current user is not null");
+                    Log.d(">Current user name", String.valueOf(user.getDisplayName()));
                     if(user.getDisplayName() != null) {
+                        Log.d(">>>>>", "getDisplayName is not null");
 
                         dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d(">>>>>", "In db call");
                                 hasUserModel = dataSnapshot.hasChild(uId);
+                                if(hasUserModel) {
+                                    Log.d(TAG, "Current user is not null and in auth & db");
+                                    mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
+                                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
+                                    if(mIsOrganization){
+                                        Log.d(TAG, "Routing to Org Profile");
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Organization.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    } else{
+                                        Log.d(TAG, "Routing to Vol Profile");
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Volunteer.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Current user is not null and is in auth but not db");
+                                    redirectToLogin();
+                                }
                             }
 
                             @Override
@@ -48,28 +75,12 @@ public class SplashActivity extends BaseActivity {
 
                             }
                         });
-
-                        if(hasUserModel) {
-                            if(mIsOrganization){
-                                Intent intent = new Intent(SplashActivity.this, MainActivity_Organization.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            } else{
-                                Intent intent = new Intent(SplashActivity.this, MainActivity_Volunteer.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                        else {
-                            redirectToLogin();
-                        }
-
                     }else{
+                        Log.d(TAG, "Current user is not null and is not in auth");
                         redirectToLogin();
                     }
                 }else{
+                    Log.d(TAG, "Current user is null");
                     redirectToLogin();
                 }
             }

@@ -1,7 +1,10 @@
 package com.ibea.fides.ui;
 
+import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -24,7 +29,8 @@ import butterknife.ButterKnife;
 
 public class ProfileForOrganizationFragment extends Fragment {
 
-    private static Organization mOrganization;
+    private Organization mOrganization;
+    private String TAG = "ProfileForOrg";
 
     @Bind(R.id.imageView_orgPic) ImageView mOrgPic;
     @Bind(R.id.textView_orgName) TextView mOrgName;
@@ -33,8 +39,32 @@ public class ProfileForOrganizationFragment extends Fragment {
     @Bind(R.id.textView_orgWebsite) TextView mOrgWebsite;
     @Bind(R.id.textView_orgDescription) TextView mOrgDescription;
 
-    private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+    public static ProfileForOrganizationFragment newInstance(Organization organization) {
+        ProfileForOrganizationFragment fragment = new ProfileForOrganizationFragment();
+
+        Log.d("Pass check: ", organization.getName());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("organization", Parcels.wrap(organization));
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent intent = getActivity().getIntent();
+        if(intent.hasExtra("organization")){
+            Log.d(TAG, "Found intent");
+            mOrganization = Parcels.unwrap(intent.getParcelableExtra("organization"));
+        }else{
+            Log.d(TAG, "Used bundle");
+            mOrganization = Parcels.unwrap(getArguments().getParcelable("organization"));
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,10 +82,6 @@ public class ProfileForOrganizationFragment extends Fragment {
         return view;
     }
 
-    public static ProfileForOrganizationFragment newInstance(Organization organization) {
-        mOrganization = organization;
-        return new ProfileForOrganizationFragment();
-    }
 
 
 }

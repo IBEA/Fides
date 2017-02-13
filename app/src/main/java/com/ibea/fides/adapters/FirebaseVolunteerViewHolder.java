@@ -31,6 +31,8 @@ import java.util.List;
  * Created by KincaidJ on 1/31/17.
  */
 
+//Deprecated, leave intact to harvest code from
+
 public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private View mView;
     private User mUser;
@@ -66,8 +68,6 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
     public void bindUser(String userId, String _shiftId, int position, boolean rated) {
         final TextView userName = (TextView) mView.findViewById(R.id.textView_Name);
-        mDislikeButton = (Button) mView.findViewById(R.id.dislikeButton);
-        mLikeButton = (Button) mView.findViewById(R.id.likeButton);
 
         mDislikeButton.setOnClickListener(this);
         mLikeButton.setOnClickListener(this);

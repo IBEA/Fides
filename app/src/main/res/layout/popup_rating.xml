@@ -54,20 +54,20 @@
             android:weightSum="2">
 
             <Button
-                android:text="Showed"
+                android:text="Didn't Show"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/noShowButton"
+                android:layout_margin="10dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:background="@drawable/ic_done_black_24dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/showButton"
                 android:layout_margin="10dp"
                 android:layout_weight="1"/>
-
-            <Button
-            android:text="No Show"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/noShowButton"
-            android:layout_margin="10dp"
-            android:layout_weight="1"/>
 
         </LinearLayout>
         </LinearLayout>

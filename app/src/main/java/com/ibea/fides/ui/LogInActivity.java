@@ -153,6 +153,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                         });
                                     } else {
                                         Log.d("LogInActivity", "User is a Volunteer");
+                                        PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, false).apply();
                                         // User is a Volunteer - Send to Volunteer Main Page
                                         Intent intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

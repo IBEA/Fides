@@ -1,12 +1,20 @@
 package com.ibea.fides.ui;
 
 import android.graphics.Bitmap;
+
+import android.content.Intent;
+
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.os.Looper;
 import android.support.annotation.NonNull;
+
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
+
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +39,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.concurrent.ExecutionException;
 
+import org.parceler.Parcels;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -41,7 +51,8 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileForVolunteerFragment extends Fragment {
 
-    private static User mUser;
+    private User mUser;
+
 
     private Bitmap imageBitmap;
     // image storage reference variables
@@ -51,6 +62,7 @@ public class ProfileForVolunteerFragment extends Fragment {
 
 //    @Bind(R.id.usernametext) TextView username;
     @Bind(R.id.imageView_volPic) ImageView mVolPic;
+
     @Bind(R.id.totalHours) TextView totalHourstext;
     @Bind(R.id.trustpercent) TextView trustpercent;
     @Bind(R.id.dynamicArcView) DecoView arcView;
@@ -64,10 +76,28 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     // newInstance constructor for creating fragment with arguments
     public static ProfileForVolunteerFragment newInstance(User user) {
-        mUser = user;
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("user", Parcels.wrap(user));
+        fragment.setArguments(bundle);
+
         return fragment;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Intent intent = getActivity().getIntent();
+        if(intent.hasExtra("user")){
+            mUser = Parcels.unwrap(intent.getParcelableExtra("user"));
+        }else{
+            mUser = Parcels.unwrap(getArguments().getParcelable("user"));
+        }
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,8 +132,8 @@ public class ProfileForVolunteerFragment extends Fragment {
                 Picasso.with(getActivity())
                         .load(uri)
                         .placeholder(R.drawable.avatar_blank)
-                        //.resize(400,400)
-                       // .centerCrop()
+                        .resize(450,400)
+                        .centerCrop()
                         .into(mVolPic);
             }
         }).addOnFailureListener(new OnFailureListener() {
