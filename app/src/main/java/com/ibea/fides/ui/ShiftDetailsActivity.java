@@ -94,7 +94,7 @@ public class ShiftDetailsActivity extends BaseActivity {
         if(mIsOrganization) {
             mVolunteers.clear();
 
-            mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers);
+            mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
             mRecyclerView.setHasFixedSize(false);
             mRecyclerView.setAdapter(mRecyclerAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -121,6 +121,7 @@ public class ShiftDetailsActivity extends BaseActivity {
                 User user = dataSnapshot.getValue(User.class);
                 mVolunteers.add(user);
                 mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(user));
+                setRecyclerViewItemTouchListener();
             }
 
             @Override

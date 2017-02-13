@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 public class ProfileForOrganizationFragment extends Fragment {
 
     private Organization mOrganization;
+    private String TAG = "ProfileForOrg";
 
     @Bind(R.id.imageView_orgPic) ImageView mOrgPic;
     @Bind(R.id.textView_orgName) TextView mOrgName;
@@ -56,10 +57,12 @@ public class ProfileForOrganizationFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        if(intent.hasExtra("user")){
-            mOrganization = Parcels.unwrap(intent.getParcelableExtra("user"));
+        if(intent.hasExtra("organization")){
+            Log.d(TAG, "Found intent");
+            mOrganization = Parcels.unwrap(intent.getParcelableExtra("organization"));
         }else{
-            mOrganization = Parcels.unwrap(getArguments().getParcelable("user"));
+            Log.d(TAG, "Used bundle");
+            mOrganization = Parcels.unwrap(getArguments().getParcelable("organization"));
         }
     }
 
