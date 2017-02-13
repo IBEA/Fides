@@ -86,7 +86,7 @@ public class MainActivity_Organization extends BaseActivity {
                 Log.v(TAG, "User is an organization");
 
                 tabTitles.add("Profile");
-                tabTitles.add("Upcoming");
+                tabTitles.add("Pending");
                 tabTitles.add("History");
                 //TODO: Investigate using constructor instead of instance
                 fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));

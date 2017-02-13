@@ -85,7 +85,7 @@ public class MainActivity_Volunteer extends BaseActivity{
         }else {
             //User is volunteer, and this is their page
             tabTitles.add("Profile");
-            tabTitles.add("Shifts");
+            tabTitles.add("Pending");
             tabTitles.add("History");
             fragmentList.add(new ProfileForVolunteerFragment().newInstance(mUser));
             fragmentList.add(new ShiftsPendingForVolunteerFragment());
