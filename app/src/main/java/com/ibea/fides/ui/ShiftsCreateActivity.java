@@ -341,10 +341,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     public boolean compareDate(String dateOne, String dateTwo, String timeOne, String timeTwo) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-            Log.d("Justin, Date Form", dateOne);
+
             Date date1 = sdf.parse(dateOne);
             Date date2 = sdf.parse(dateTwo);
-            Log.d("Justin, Time form:", timeOne);
+
             SimpleDateFormat sdfTime = new SimpleDateFormat("kk:mm");
             Date time1 = sdfTime.parse(timeOne);
             Date time2 = sdfTime.parse(timeTwo);
@@ -355,7 +355,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 toast.show();
                 return false;
             } else if(date1.equals(date2)) {
-                if(time1.after(time2)) {
+                if(time1.after(time2) || time1.equals(time2)) {
                     Log.d("Justin", "Rejected at Time");
                     Toast toast = Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT);
                     toast.show();
