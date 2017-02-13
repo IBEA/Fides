@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,33 +7,43 @@
     tools:context="com.ibea.fides.ui.NewShiftSearchFragment"
     android:background="@color/colorBackground">
 
-    <SearchView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView_Organization"
-        android:inputType="text"
-        android:background="@color/colorPrimaryLight"
-        android:queryHint="Organization"
-        android:iconifiedByDefault="false"
-        tools:inputType="text"
-        >
-    </SearchView>
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView_City"
-        android:inputType="text"
-        android:background="@color/colorPrimaryLight"
-        android:queryHint="City"
-        android:iconifiedByDefault="false"
-        >
-    </SearchView>
+        android:orientation="vertical"
+        android:id="@+id/firstLinear">
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_Organization"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            android:queryHint="Organization"
+            android:iconifiedByDefault="false"
+            tools:inputType="text"
+            >
+        </SearchView>
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchView_City"
+            android:inputType="text"
+            android:background="@color/colorPrimaryLight"
+            android:queryHint="City"
+            android:iconifiedByDefault="false"
+            >
+        </SearchView>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@+id/firstLinear"
+        android:id="@+id/secondLinear">
 
         <SearchView
             android:layout_width="0dp"
@@ -62,19 +72,25 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        android:padding="12dp"
+        android:layout_below="@+id/secondLinear"
+        />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Search Opportunities"
         android:background="@color/colorAccent"
-        android:id="@+id/button_Search"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerView"
-        android:padding="12dp"
-
+        android:id="@+id/button_Search"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorIcons"
+        android:textSize="25sp"
         />
 
-</LinearLayout>
+</RelativeLayout>
