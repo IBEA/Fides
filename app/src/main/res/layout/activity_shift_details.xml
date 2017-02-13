@@ -14,8 +14,6 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/textView_OrgName" />
     <TextView
         android:layout_width="wrap_content"
@@ -39,9 +37,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_OrgName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/textView_Date" />
 
     <TextView
@@ -113,7 +108,7 @@
         android:gravity="center"
         android:textSize="14sp"
         android:id="@+id/textView_Instructions"
-        android:text="Unrated volunteers appear in red. Swipe right if they did well, left if not"/>
+        android:text="Unrated volunteers appear in red. Swipe right if they did well, left if not."/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
