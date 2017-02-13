@@ -15,6 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView_OrgName" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:id="@+id/editButton"
+        android:drawableTop="@drawable/ic_mode_edit_black_24dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:id="@+id/finishEditButton"
+        android:drawableTop="@drawable/ic_done_black_24dp" />
 
     <TextView
         android:text="Date"
@@ -25,13 +39,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView_Date" />
 
-    <TextView
-        android:text="Time"
-        android:textSize="18sp"
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Time" />
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:text="StartTime"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_StartTime" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text=" to "/>
+
+        <TextView
+            android:text="EndTime"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_EndTime" />
+    </LinearLayout>
+
 
     <TextView
         android:text="Address"
@@ -39,7 +71,29 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Address" />
+        android:id="@+id/textView_Address"/>
+    <EditText
+        android:text="Address"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_Address"/>
+    <EditText
+        android:text="City"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_City"/>
+    <EditText
+        android:text="Zipcode"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_Zipcode"/>
+
 
     <TextView
         android:text="Description"
@@ -49,6 +103,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView_Description"
         android:layout_marginBottom="10dp"/>
+    <EditText
+        android:text="Description"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_Description"
+        android:layout_marginBottom="10dp"/>
+
 
     <TextView
         android:text="Volunteers"
