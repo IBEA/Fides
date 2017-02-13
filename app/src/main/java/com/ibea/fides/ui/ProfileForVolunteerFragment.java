@@ -53,7 +53,6 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     private User mUser;
 
-
     private Bitmap imageBitmap;
     // image storage reference variables
     FirebaseStorage mStorage;
