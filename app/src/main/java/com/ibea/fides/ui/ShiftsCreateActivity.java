@@ -355,7 +355,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 toast.show();
                 return false;
             } else if(date1.equals(date2)) {
-                if(time1.after(time2)) {
+                if(time1.after(time2) || time1.equals(time2)) {
                     Log.d("Justin", "Rejected at Time");
                     Toast toast = Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT);
                     toast.show();
