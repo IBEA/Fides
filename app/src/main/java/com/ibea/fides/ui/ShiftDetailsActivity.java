@@ -64,33 +64,6 @@ public class ShiftDetailsActivity extends BaseActivity {
         mDescription.setText(mShift.getDescription());
         mAddress.setText(mShift.getStreetAddress());
 
-        dbShifts.child(mShift.getPushId()).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG, "Change registered");
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
         if(mIsOrganization) {
             mVolunteers.clear();
 
@@ -105,7 +78,11 @@ public class ShiftDetailsActivity extends BaseActivity {
                 fetchVolunteer(volunteerId);
             }
 
-        } else {
+            if(!mShift.getComplete()){
+                mInstructions.setVisibility(View.GONE);
+            }
+
+        }else {
             mHeaderOne.setVisibility(View.GONE);
             mInstructions.setVisibility(View.GONE);
         }
@@ -121,7 +98,9 @@ public class ShiftDetailsActivity extends BaseActivity {
                 User user = dataSnapshot.getValue(User.class);
                 mVolunteers.add(user);
                 mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(user));
-                setRecyclerViewItemTouchListener();
+                if(mShift.getComplete()){
+                    setRecyclerViewItemTouchListener();
+                }
             }
 
             @Override
@@ -141,14 +120,16 @@ public class ShiftDetailsActivity extends BaseActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
+                VolunteerListAdapter.VolunteerViewHolder currentViewHolder = (VolunteerListAdapter.VolunteerViewHolder) viewHolder;
 
-//                if(swipeDir == 8){
-//                    ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
-//                }
-//                Log.d(TAG, String.valueOf(position));
-//
-//                mRecyclerAdapter.notifyDataSetChanged();
-//                setRecyclerViewItemTouchListener();
+                if(swipeDir == 8){
+                    currentViewHolder.popup(3);
+                }else if(swipeDir == 4){
+                    currentViewHolder.popup(0);
+                }
+
+                mRecyclerAdapter.notifyDataSetChanged();
+                setRecyclerViewItemTouchListener();
             }
 
             @Override
@@ -157,10 +138,13 @@ public class ShiftDetailsActivity extends BaseActivity {
                 String volunteerId = currentViewHolder.getVolunteerId();
 
                 //Check to see if volunteer with current viewholder is already rated, disable swipes if so.
-                if(mShift.getRatedVolunteers().contains(volunteerId)){
-                    return 0;
+                if(currentViewHolder.isUnrated()){
+//                    Log.d(mVolunteers.get(mVolunteerIds.indexOf(volunteerId)).getName(), "is unswipeable");
+                    return super.getSwipeDirs(recyclerView, viewHolder);
+                }else{
+//                    Log.d(mVolunteers.get(mVolunteerIds.indexOf(volunteerId)).getName(), "is swipeable");
                 }
-                return super.getSwipeDirs(recyclerView, viewHolder);
+                return 0;
             }
         };
 

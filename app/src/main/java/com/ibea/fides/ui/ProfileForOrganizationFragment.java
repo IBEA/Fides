@@ -1,8 +1,9 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
-import android.nfc.Tag;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +12,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -29,8 +34,13 @@ import butterknife.ButterKnife;
 
 public class ProfileForOrganizationFragment extends Fragment {
 
-    private Organization mOrganization;
     private String TAG = "ProfileForOrg";
+    private Organization mOrganization;
+
+    // image storage reference variables
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+    StorageReference mImageRef;
 
     @Bind(R.id.imageView_orgPic) ImageView mOrgPic;
     @Bind(R.id.textView_orgName) TextView mOrgName;
@@ -72,6 +82,29 @@ public class ProfileForOrganizationFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_organization_profile, container, false);
         ButterKnife.bind(this, view);
+
+        // assign image storage reference variables
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
+        mImageRef = mStorageRef.child("images/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+
+        mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.e("Garrett", "uri " + uri );
+                Picasso.with(getActivity())
+                        .load(uri)
+                        .placeholder(R.drawable.avatar_blank)
+                        .resize(450,400)
+                        .centerCrop()
+                        .into(mOrgPic);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         mOrgName.setText(mOrganization.getName());
         mOrgAddress.setText(mOrganization.getStreetAddress());

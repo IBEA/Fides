@@ -150,13 +150,13 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if (id == R.id.settings_page) {
+            Intent intent = new Intent(mContext, VolunteerSettingsActivity.class);
             if(mIsOrganization) {
-                Intent intent = new Intent(mContext, OrganizationSettingsActivity.class);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(mContext, VolunteerSettingsActivity.class);
-                startActivity(intent);
+                intent = new Intent(mContext, OrganizationSettingsActivity.class);
             }
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }else if(id == R.id.search_page){
             Intent intent = new Intent(mContext, SearchActivity.class);
             startActivity(intent);
