@@ -3,6 +3,7 @@ package com.ibea.fides.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
     public class VolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Context mContext;
-        @Bind(R.id.nameText) TextView nameText;
+        @Bind(R.id.textView_Name) TextView mTextView_Name;
 
         public VolunteerViewHolder(View itemView) {
             super(itemView);
@@ -58,14 +59,19 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
         public void bindVolunteer(User volunteer) {
             mVolunteer = volunteer;
-            nameText.setText(volunteer.getName());
+            mTextView_Name.setText(mVolunteer.getName());
         }
 
         @Override
         public void onClick(View v){
             Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
             intent.putExtra("user", Parcels.wrap(mVolunteer));
+            Log.d(">>>>>", mVolunteer.getName());
             mContext.startActivity(intent);
+        }
+
+        public String getVolunteerId(){
+            return mVolunteer.getPushId();
         }
     }
 }

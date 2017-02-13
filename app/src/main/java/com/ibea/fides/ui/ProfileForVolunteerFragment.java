@@ -1,5 +1,6 @@
 package com.ibea.fides.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -55,7 +56,13 @@ public class ProfileForVolunteerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUser = Parcels.unwrap(getArguments().getParcelable("user"));
+        Intent intent = getActivity().getIntent();
+        if(intent.hasExtra("user")){
+            mUser = Parcels.unwrap(intent.getParcelableExtra("user"));
+        }else{
+            mUser = Parcels.unwrap(getArguments().getParcelable("user"));
+        }
+
     }
 
 

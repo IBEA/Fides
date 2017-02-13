@@ -1,5 +1,6 @@
 package com.ibea.fides.ui;
 
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,6 @@ public class ProfileForOrganizationFragment extends Fragment {
     @Bind(R.id.textView_orgWebsite) TextView mOrgWebsite;
     @Bind(R.id.textView_orgDescription) TextView mOrgDescription;
 
-    private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public static ProfileForOrganizationFragment newInstance(Organization organization) {
@@ -55,7 +55,12 @@ public class ProfileForOrganizationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mOrganization = Parcels.unwrap(getArguments().getParcelable("organization"));
+        Intent intent = getActivity().getIntent();
+        if(intent.hasExtra("user")){
+            mOrganization = Parcels.unwrap(intent.getParcelableExtra("user"));
+        }else{
+            mOrganization = Parcels.unwrap(getArguments().getParcelable("user"));
+        }
     }
 
     @Override
