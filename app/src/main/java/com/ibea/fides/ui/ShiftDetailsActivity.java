@@ -3,19 +3,28 @@ package com.ibea.fides.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseVolunteerViewHolder;
 import com.ibea.fides.models.Shift;
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ShiftDetailsActivity extends BaseActivity {
-    Shift mShift;
+    private Shift mShift;
+    private ArrayList<String> allVolunteers = new ArrayList<>();
+    private RecyclerView.Adapter mRecyclerAdapter;
 
     int rank;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
@@ -47,8 +56,37 @@ public class ShiftDetailsActivity extends BaseActivity {
         mDescription.setText(mShift.getDescription());
         mAddress.setText(mShift.getStreetAddress());
 
+        dbShifts.child(mShift.getPushId()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "Change registered");
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         if(mIsOrganization) {
-            //TODO: Db call to the shift to get rated and unrated. Combine and feed to recyclerView but keep originals
+            allVolunteers.addAll(mShift.getCurrentVolunteers());
+            allVolunteers.addAll(mShift.getRatedVolunteers());
+            Log.d(">>>>>", String.valueOf(allVolunteers.size()));
             setUpFirebaseAdapter();
             if(mShift.getComplete()) {
                 //TODO: Put the itemtouch setup in here
