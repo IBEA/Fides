@@ -1,34 +1,67 @@
 package com.ibea.fides.ui;
 
+import android.graphics.Bitmap;
+
 import android.content.Intent;
+
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
+import android.os.Looper;
+import android.support.annotation.NonNull;
+
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.R;
 import com.ibea.fides.models.User;
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.ExecutionException;
 
 import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.R.attr.bitmap;
+import static android.content.ContentValues.TAG;
+
 //Fragment that holds Basic Profile Data, Trust, and Total Hours worked -- Garrett
 
 public class ProfileForVolunteerFragment extends Fragment {
 
     private User mUser;
+
+
+    private Bitmap imageBitmap;
+    // image storage reference variables
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+    StorageReference mImageRef;
+
+//    @Bind(R.id.usernametext) TextView username;
+    @Bind(R.id.imageView_volPic) ImageView mVolPic;
 
     @Bind(R.id.totalHours) TextView totalHourstext;
     @Bind(R.id.trustpercent) TextView trustpercent;
@@ -72,6 +105,43 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_volunteer_profile, container, false);
         ButterKnife.bind(this, view);
+
+        // assign image storage reference variables
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
+        mImageRef = mStorageRef.child("images/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+
+        //mImageRef = mStorageRef.child("images/" + "dethwarz2" + ".png");
+
+
+        Log.i(">>>>>>>>>>>>>>>>>>>>>>>", mImageRef.toString());
+
+        // Load the image using Glide
+//        Glide.with(getActivity())
+//                .using(new FirebaseImageLoader())
+//                .load(mImageRef)
+//                .into(mVolPic);
+
+
+//        username.setText(mUser.getName());
+
+        mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.e("Garrett", "uri " + uri );
+                Picasso.with(getActivity())
+                        .load(uri)
+                        .placeholder(R.drawable.avatar_blank)
+                        .resize(450,400)
+                        .centerCrop()
+                        .into(mVolPic);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         trustmetric = mUser.getRating();
 
