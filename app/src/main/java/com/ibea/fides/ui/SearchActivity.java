@@ -56,7 +56,7 @@ public class SearchActivity extends BaseActivity {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        // Attach the view pager to the tab strip
+        // Attach the toastView pager to the tab strip
         tabsStrip.setViewPager(viewPager);
     }
 }

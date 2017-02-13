@@ -2,6 +2,7 @@ package com.ibea.fides.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -63,6 +64,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     StorageReference mStorageRef;
     StorageReference mImageRef;
 
+    Toast toast;
+    View toastView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +120,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         else if (view == descriptionButton){
             createNewDescription();
         }
-//        else if (view == mTagButton) {
+//        else if (toastView == mTagButton) {
 //            addTag();
 //        }
     }
@@ -147,7 +152,12 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         stateEditText.getText().clear();
         zipEditText.getText().clear();
 
-        Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
+        toast = Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT);
+        toastView = toast.getView();
+        toastView.setBackgroundColor(Color.argb(150,0,0,0));
+        toastView.setPadding(30,30,30,30);
+        toast.setView(toastView);
+        toast.show();
 
         dbOrganizations.child(uId).child("streetAddress").setValue(street);
         dbOrganizations.child(uId).child("cityAddress").setValue(city);
@@ -168,7 +178,12 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         userEditText.getText().clear();
 
-        Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
+        toast = Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT);
+        toastView = toast.getView();
+        toastView.setBackgroundColor(Color.argb(150,0,0,0));
+        toastView.setPadding(30,30,30,30);
+        toast.setView(toastView);
+        toast.show();
         dbOrganizations.child(uId).child("name").setValue(username);
     }
 
@@ -179,8 +194,13 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         else{
             mDescription = descriptionEditText.getText().toString();
             descriptionEditText.getText().clear();
-            Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT).show();
             dbOrganizations.child(uId).child("description").setValue(mDescription);
+            toast = Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT);
+            toastView = toast.getView();
+            toastView.setBackgroundColor(Color.argb(150,0,0,0));
+            toastView.setPadding(30,30,30,30);
+            toast.setView(toastView);
+            toast.show();
         }
     }
 
@@ -274,7 +294,12 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 //        } else  {
 //            mTag = mTagEditText.getText().toString().trim();
 //            mTagEditText.getText().clear();
-//            Toast.makeText(mContext, "Tag Added", Toast.LENGTH_SHORT).show();
+//            toast = Toast.makeText(mContext, "Tag Added", Toast.LENGTH_SHORT);
+//            toastView = toast.getView();
+//            toastView.setBackgroundColor(Color.argb(150,0,0,0));
+//            toastView.setPadding(30,30,30,30);
+//            toast.setView(toastView);
+//            toast.show();
 //
 //            dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
 //                @Override
