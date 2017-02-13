@@ -23,11 +23,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
+import com.ibea.fides.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -42,14 +47,12 @@ import butterknife.ButterKnife;
 public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     @Bind(R.id.updateButton) Button updateButton;
-    @Bind(R.id.streetedittext) EditText streetedittext;
     @Bind(R.id.usernameedittext) EditText useredittext;
     @Bind(R.id.cityedittext) EditText cityeedittext;
     @Bind(R.id.stateSpinner) Spinner mStateInput;
     @Bind(R.id.zipedittext) EditText zipedittext;
     @Bind(R.id.tempPicture) ImageView tempPicture;
 
-    String mStreet;
     String mCity;
     String mState;
     String mZip;
@@ -57,7 +60,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
     String mFileName;
 
-    Uri downloadUrl;
+    User thisUser;
 
     public static final int GET_FROM_GALLERY = 3;
 
@@ -71,6 +74,8 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_settings);
         ButterKnife.bind(this);
+
+        autoFill();
 
         // State Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
@@ -112,11 +117,38 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         mState = parent.getItemAtPosition(pos).toString();
     }
 
+    public void autoFill() {
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            thisUser = dataSnapshot.getValue(User.class);
+                            useredittext.setText(thisUser.getName());
+                            cityeedittext.setText(thisUser.getCity());
+                            zipedittext.setText(thisUser.getZipcode());
+                            String state = thisUser.getState();
+
+                            Resources res = getResources();
+                            String[] states = res.getStringArray(R.array.states_array);
+                            int index = Arrays.asList(states).indexOf(state);
+
+
+                            mStateInput.setSelection(index);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
     public void onClick(View view) {
-        String street = streetedittext.getText().toString().trim();
         String city = cityeedittext.getText().toString().trim();
         String zip = zipedittext.getText().toString().trim();
         // On Log In Request
+
         if(view == tempPicture) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
@@ -126,7 +158,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                 createNewUsername();
             }
 
-            if( (!streetedittext.getText().toString().trim().equals("")) || (!zipedittext.getText().toString().trim().equals("")) ||  (!cityeedittext.getText().toString().trim().equals("")) ) {
+            if( (!zipedittext.getText().toString().trim().equals("")) ||  (!cityeedittext.getText().toString().trim().equals("")) ) {
                 createNewAddress();
             }
 
@@ -134,25 +166,21 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     }
 
     private void createNewAddress() {
-        String street = streetedittext.getText().toString().trim();
         String city = cityeedittext.getText().toString().trim();
         String zip = zipedittext.getText().toString().trim();
 
         // Confirm validity of inputs
-        boolean validStreet = isValidStreet(street);
         boolean validCity = isValidCity(city);
         boolean validPassword = isValidPassword(zip);
 
-        if (!validStreet || !validCity || !validPassword ) {
+        if ( !validCity || !validPassword ) {
             return;
         }
 
         // Set name
-        mStreet = street;
         mCity = city;
         mZip = zip;
 
-        streetedittext.getText().clear();
         cityeedittext.getText().clear();
         zipedittext.getText().clear();
 
@@ -177,14 +205,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
 
         //This data needs to be placed into the database by backend -- Garrett
-    }
-
-    private boolean isValidStreet(String data) {
-        if (data.equals("")) {
-            streetedittext.setError("Please enter your street");
-            return false;
-        }
-        return true;
     }
 
     private boolean isValidCity(String data) {

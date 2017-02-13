@@ -150,11 +150,11 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="20sp"/>
                 <Spinner
-                    android:layout_width="0dp"
-                    android:layout_weight="0.9"
-                    android:layout_height="match_parent"
-                    android:id="@+id/stateSpinner"
-                    android:gravity="left" />
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="match_parent"
+                android:id="@+id/stateSpinner"
+                android:gravity="left" />
 
             </LinearLayout>
 

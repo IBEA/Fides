@@ -45,44 +45,28 @@
             android:id="@+id/usernameedittext"
             android:layout_marginTop="30dp"/>
 
-    <EditText
+        <RelativeLayout
         android:layout_width="wrap_content"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:inputType="textPersonName"
-        android:ems="12"
-        android:id="@+id/streetedittext"
-        android:hint="Street Address" />
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:weightSum="4">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="9"
+                android:id="@+id/cityedittext"
+                android:hint="City" />
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_marginLeft="60dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="8"
-            android:id="@+id/cityedittext"
-            android:hint="City"
-            android:gravity="center"/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/stateSpinner"
+                android:layout_toRightOf="@id/cityedittext"
+                android:gravity="left" />
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/stateSpinner"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_below="@+id/streetInput"
-            android:layout_alignRight="@+id/streetInput"/>
-
-    </LinearLayout>
+        </RelativeLayout>
 
     <EditText
         android:layout_width="wrap_content"
