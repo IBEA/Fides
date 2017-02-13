@@ -31,11 +31,10 @@ import butterknife.ButterKnife;
  */
 public class ShiftsCompletedForVolunteerFragment extends Fragment {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.textView_emptyList_History) TextView mEmptyWarning;
+    @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
-    Boolean isOrganization;
-    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference dbShiftsCompletedForVolunteer;
     String mUserId;
 
     public ShiftsCompletedForVolunteerFragment() {
@@ -58,24 +57,28 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         ButterKnife.bind(this, view);
         Log.v("<<<<<", "In onCreateView for Completed");
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
-                    Log.d(">UserID", mUserId);
-                    Log.d(">isOrg>", String.valueOf(isOrganization));
-                    setUpFirebaseAdapter();
+
+        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        dbShiftsCompletedForVolunteer = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId);
+
+        dbShiftsCompletedForVolunteer.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0){
+                    mTextView_Splash.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    mTextView_Splash.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
                 }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
 
         return view;
     }
@@ -84,13 +87,12 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         Log.v(">>>>>", "in CompletedSetup");
         DatabaseReference dbFirebaseNode;
 
-        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbFirebaseNode) {
+                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbShiftsCompletedForVolunteer) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);

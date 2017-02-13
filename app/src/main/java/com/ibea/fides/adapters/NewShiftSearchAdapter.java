@@ -2,6 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -137,5 +138,6 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
                 }
             });
         }
+
     }
 }

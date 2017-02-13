@@ -8,8 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/textView_emptyList_Pending"
-        android:text="It looks like you haven't signed up for any volunteer shifts yet.\n\nWhen you do, you will be able to see information on those shifts here! "
+        android:id="@+id/textView_Splash"
+        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, use the search function."
         android:visibility="invisible"
         android:padding="36dp"
         android:gravity="center_vertical|center"
