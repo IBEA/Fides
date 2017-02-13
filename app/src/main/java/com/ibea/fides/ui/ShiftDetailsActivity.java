@@ -7,6 +7,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftDetailsActivity extends BaseActivity {
+public class ShiftDetailsActivity extends BaseActivity implements View.OnClickListener{
     private Shift mShift;
     private ArrayList<User> mVolunteers = new ArrayList<>();
     private ArrayList<String> mVolunteerIds = new ArrayList<>();
@@ -53,6 +55,8 @@ public class ShiftDetailsActivity extends BaseActivity {
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
 
         mOrgName.setText(mShift.getOrganizationName());
+
+        mOrgName.setOnClickListener(this);
 
         if(mShift.getStartDate().equals(mShift.getEndDate())){
             mDate.setText(mShift.getStartDate());
@@ -110,6 +114,14 @@ public class ShiftDetailsActivity extends BaseActivity {
             mInstructions.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == mOrgName) {
+            Toast.makeText(mContext, "Editing Shift Details", Toast.LENGTH_LONG).show();
+
+        }
     }
 
     public void fetchVolunteer(String _volunteerId){

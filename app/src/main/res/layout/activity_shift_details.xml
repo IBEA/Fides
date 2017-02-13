@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/textView_OrgName" />
+        android:id="@+id/textView_OrgName"
+        android:drawableTop="@drawable/ic_mode_edit_black_24dp" />
 
     <TextView
         android:text="Date"
@@ -44,7 +45,7 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Address" />
+        android:id="@+id/textView_Address"/>
 
     <TextView
         android:text="Description"
