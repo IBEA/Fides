@@ -102,8 +102,8 @@ public class ProfileForVolunteerFragment extends Fragment {
                 Picasso.with(getActivity())
                         .load(uri)
                         .placeholder(R.drawable.avatar_blank)
-                        .fit()
-                        .centerCrop()
+                        //.resize(400,400)
+                       // .centerCrop()
                         .into(mVolPic);
             }
         }).addOnFailureListener(new OnFailureListener() {
