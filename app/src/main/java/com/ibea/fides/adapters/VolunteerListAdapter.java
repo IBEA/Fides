@@ -22,14 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
 import com.ibea.fides.ui.MainActivity_Volunteer;
 
 import org.parceler.Parcels;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,7 +47,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
     // Popup
     private PopupWindow mPopUp;
-    private View mPop;
+    private View mPopupContext;
     private Button mNoShowButton;
     private Button mShowButton;
     private EditText mHoursInput;
@@ -93,14 +91,18 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            mPopupContext = LayoutInflater.from(itemView.getContext()).inflate(R.layout.popup_rating, (ViewGroup)itemView.getParent(), false);
             itemView.setOnClickListener(this);
         }
 
         public void bindVolunteer(User volunteer) {
             mVolunteer = volunteer;
-            mTextView_Name.setText(mVolunteer.getName());
+            Log.d("Binding " + mVolunteer.getName(), "@");
 
+            Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
+            mTextView_Name.setText(mVolunteer.getName());
             if(mUnratedVolunteers.contains(mVolunteer.getPushId())){
+                Log.d(">>>>>", mVolunteer.getName() + " is unrated");
                 mTextView_Name.setTextColor(Color.parseColor("#F44336"));
             }
         }
@@ -114,51 +116,59 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
                 dataUpdate(mHours, false);
             }else {
                 Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
-                intent.putExtra("user", Parcels.wrap(mVolunteer));
+                intent.putExtra("user", Parcels.wrap(mVolunteers.get(getAdapterPosition())));
                 mContext.startActivity(intent);
             }
         }
 
         public String getVolunteerId(){
-            return mVolunteer.getPushId();
+            return mVolunteers.get(getAdapterPosition()).getPushId();
         }
 
-        private void popup(int rating) {
+        public void popup(int rating) {
             mRating = rating;
 
-            mPopUp = new PopupWindow(mPop, 1000, 1000, true);
-            mPopUp.showAtLocation(mPop, Gravity.CENTER, 0, 0);
-            mShowButton = (Button) mPop.findViewById(R.id.showButton);
-            mNoShowButton = (Button) mPop.findViewById(R.id.noShowButton);
-            mHoursInput = (EditText) mPop.findViewById(R.id.hoursInput);
+            mPopUp = new PopupWindow(mPopupContext, 1000, 1000, true);
+            mPopUp.showAtLocation(mPopupContext, Gravity.CENTER, 0, 0);
+            mShowButton = (Button) mPopupContext.findViewById(R.id.showButton);
+            mNoShowButton = (Button) mPopupContext.findViewById(R.id.noShowButton);
+            mHoursInput = (EditText) mPopupContext.findViewById(R.id.hoursInput);
 
             mHoursInput.setText(mDiffInput);
             mShowButton.setOnClickListener(this);
             mNoShowButton.setOnClickListener(this);
         }
 
+        public Boolean isUnrated(){
+            User volunteer = mVolunteers.get(getAdapterPosition());
+            return mUnratedVolunteers.contains(volunteer.getPushId());
+        }
+
         private void dataUpdate(final String time, final boolean showed) {
+            final User volunteer = mVolunteers.get(getAdapterPosition());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mShift = dataSnapshot.getValue(Shift.class);
-                    if(!mShift.getRatedVolunteers().contains(mVolunteer.getPushId())){
+                    if(!mShift.getRatedVolunteers().contains(volunteer.getPushId())){
                         if(showed) {
                             setRating();
-                            double currentHours = mVolunteer.getHours();
+                            double currentHours = volunteer.getHours();
                             currentHours += Double.parseDouble(time);
-                            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).child("hours").setValue(currentHours);
+                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).child("hours").setValue(currentHours);
                         } else {
                             setRating();
-                            int absences = mVolunteer.getAbsences();
+                            int absences = volunteer.getAbsences();
                             absences += 1;
-                            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).child("absences").setValue(absences);
+                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).child("absences").setValue(absences);
                         }
+                        mTextView_Name.setTextColor(Color.parseColor("#757575"));
                         mPopUp.dismiss();
                     }else{
+                        mUnratedVolunteers.remove(mUnratedVolunteers.indexOf(volunteer.getPushId()));
                         Toast.makeText(mContext, "Volunteer already rated", Toast.LENGTH_SHORT).show();
                         mPopUp.dismiss();
-                        //TODO: Update recyclerview
+                        mTextView_Name.setTextColor(Color.parseColor("#757575"));
                     }
                 }
 
@@ -170,8 +180,10 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         }
 
         public void setRating(){
+            User volunteer = mVolunteers.get(getAdapterPosition());
+
             // Retrieve User's rating history and calculate new rating
-            List<Integer> ratingHistory = mVolunteer.getRatingHistory();
+            List<Integer> ratingHistory = volunteer.getRatingHistory();
             ratingHistory.add(mRating);
             float size = ratingHistory.size();
             float modifiedRating = 0;
@@ -187,12 +199,12 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             }
             float finalFloatRating = (modifiedRating/modifiedMax) * 100 ;
             int finalRating = Math.round(finalFloatRating);
-            mVolunteer.setRating(finalRating);
-            mVolunteer.setRatingHistory(ratingHistory);
+            volunteer.setRating(finalRating);
+            volunteer.setRatingHistory(ratingHistory);
 
             // Update Database with new User info and remove User from rated shift
-            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).setValue(mVolunteer);
-            dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(mVolunteer.getPushId()).removeValue();
+            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).setValue(volunteer);
+            dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getPushId()).removeValue();
 
             // Retrieve duration of shift information
             // Start and End times/dates
@@ -230,10 +242,15 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             }
 
             // Move User from current volunteers on shift to rated volunteers
-            mShift.getCurrentVolunteers().remove(mVolunteer.getPushId());
-            mShift.addRated(mVolunteer.getPushId());
+            mShift.getCurrentVolunteers().remove(volunteer.getPushId());
+            mShift.addRated(volunteer.getPushId());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
+
+            //Remove user from local unrated list
+            Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
+            Log.d(">>>>>", String.valueOf(volunteer.getPushId()));
+            mUnratedVolunteers.remove(mUnratedVolunteers.indexOf(volunteer.getPushId()));
         }
     }
 }
