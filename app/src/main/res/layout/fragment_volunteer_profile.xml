@@ -12,27 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:id="@+id/imageView1"
-                android:src="@drawable/avatar_blank">
-            </ImageView>
+            android:layout_gravity="center">
 
             <LinearLayout
+                android:layout_below="@+id/imageView_volPic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="-80dp"
                 android:weightSum="2"
-                >
+                android:id="@+id/linearLayout_orgProfile">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -110,7 +101,20 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_Description"/>
 
-        </LinearLayout>
+            <ImageView
+                android:layout_height="380dp"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:id="@+id/imageView_volPic"
+                android:src="@drawable/avatar_blank"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+            </ImageView>
+
+        </RelativeLayout>
 
     </ScrollView>
 
