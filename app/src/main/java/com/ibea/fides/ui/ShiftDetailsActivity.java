@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +39,16 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
     int rank;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
+    @Bind(R.id.editButton) TextView mEditButton;
+    @Bind(R.id.finishEditButton) TextView mFinishEditButton;
     @Bind(R.id.textView_Date) TextView mDate;
     @Bind(R.id.textView_Time) TextView mTime;
     @Bind(R.id.textView_Description) TextView mDescription;
+    @Bind(R.id.editText_Description) EditText mDescriptionInput;
     @Bind(R.id.textView_Address) TextView mAddress;
+    @Bind(R.id.editText_Address) EditText mAddressInput;
+    @Bind(R.id.editText_City) EditText mCityInput;
+    @Bind(R.id.editText_Zipcode) EditText mZipcodeInput;
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Header) TextView mHeaderOne;
     @Bind(R.id.textView_Instructions) TextView mInstructions;
@@ -52,11 +59,18 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
 
+        mFinishEditButton.setOnClickListener(this);
+        mDescriptionInput.setVisibility(View.GONE);
+        mAddressInput.setVisibility(View.GONE);
+        mCityInput.setVisibility(View.GONE);
+        mZipcodeInput.setVisibility(View.GONE);
+        mFinishEditButton.setVisibility(View.GONE);
+
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
 
         mOrgName.setText(mShift.getOrganizationName());
 
-        mOrgName.setOnClickListener(this);
+        mEditButton.setOnClickListener(this);
 
         if(mShift.getStartDate().equals(mShift.getEndDate())){
             mDate.setText(mShift.getStartDate());
@@ -118,8 +132,44 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        if(view == mOrgName) {
+        if(view == mEditButton) {
             Toast.makeText(mContext, "Editing Shift Details", Toast.LENGTH_LONG).show();
+            mDescriptionInput.setVisibility(View.VISIBLE);
+            mDescriptionInput.setText(mDescription.getText());
+            mDescription.setVisibility(View.GONE);
+            mAddressInput.setVisibility(View.VISIBLE);
+            mAddressInput.setText(mAddress.getText());
+            mAddress.setVisibility(View.GONE);
+            mCityInput.setVisibility(View.VISIBLE);
+            mCityInput.setText(mShift.getCity());
+            mZipcodeInput.setVisibility(View.VISIBLE);
+            mZipcodeInput.setText(mShift.getZip());
+            mEditButton.setVisibility(View.GONE);
+            mFinishEditButton.setVisibility(View.VISIBLE);
+        }
+        if(view == mFinishEditButton) {
+            mEditButton.setVisibility(View.VISIBLE);
+            mFinishEditButton.setVisibility(View.GONE);
+
+            mShift.setDescription(mDescriptionInput.getText().toString());
+            mShift.setStreetAddress(mAddressInput.getText().toString());
+            mShift.setCity(mCityInput.getText().toString());
+            mShift.setZip(mZipcodeInput.getText().toString());
+
+            mDescriptionInput.setVisibility(View.GONE);
+            mDescription.setText(mShift.getDescription());
+            mDescription.setVisibility(View.VISIBLE);
+
+            mAddressInput.setVisibility(View.GONE);
+            mAddress.setText(mShift.getStreetAddress());
+            mAddress.setVisibility(View.VISIBLE);
+
+            mCityInput.setVisibility(View.GONE);
+            mZipcodeInput.setVisibility(View.GONE);
+
+            mEditButton.setVisibility(View.VISIBLE);
+            mFinishEditButton.setVisibility(View.GONE);
+
 
         }
     }
