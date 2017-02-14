@@ -28,10 +28,10 @@
         <activity android:name=".ui.activities.IntroActivity" />
         <activity android:name=".ui.activities.IntroOrganizationActivity" />
         <activity
-            android:name=".ui.activities.MainActivity_Volunteer"
+            android:name=".ui.activities.VolunteerProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.activities.MainActivity_Organization"
+            android:name=".ui.activities.OrganizationProfileActivity"
             android:exported="true" />
         <activity android:name=".ui.activities.VolunteerSettingsActivity" />
         <activity android:name=".ui.activities.OrganizationSettingsActivity" />
@@ -42,7 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.CreateUserAccount"></activity>
+        <activity android:name=".ui.activities.CreateUserAccountActivity"></activity>
 
         <activity android:name=".ui.activities.SearchActivity"></activity>
     </application>

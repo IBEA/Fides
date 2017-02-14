@@ -21,8 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.ui.activities.AdminActivity;
 import com.ibea.fides.ui.activities.LogInActivity;
-import com.ibea.fides.ui.activities.MainActivity_Organization;
-import com.ibea.fides.ui.activities.MainActivity_Volunteer;
+import com.ibea.fides.ui.activities.OrganizationProfileActivity;
+import com.ibea.fides.ui.activities.VolunteerProfileActivity;
 import com.ibea.fides.ui.activities.OrganizationSettingsActivity;
 import com.ibea.fides.ui.activities.SearchActivity;
 import com.ibea.fides.ui.activities.VolunteerSettingsActivity;
@@ -153,11 +153,11 @@ public class BaseActivity extends AppCompatActivity {
         else if (id == R.id.user_page) {
             if(mIsOrganization) {
                 Log.d(">>>>>", "Moving to org");
-                Intent intent = new Intent(mContext, MainActivity_Organization.class);
+                Intent intent = new Intent(mContext, OrganizationProfileActivity.class);
                 startActivity(intent);
             } else {
                 Log.d(">>>>>", "Moving to vol");
-                Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
+                Intent intent = new Intent(mContext, VolunteerProfileActivity.class);
                 startActivity(intent);
             }
         }

@@ -10,7 +10,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
-import com.ibea.fides.ui.fragments.NewShiftSearchFragment;
+import com.ibea.fides.ui.fragments.ShiftSearchFragment;
 import com.ibea.fides.ui.fragments.OrganizationSearchFragment;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class SearchActivity extends BaseActivity {
             //User is volunteer
             tabTitles.add("Opportunities");
             tabTitles.add("Organizations");
-            fragmentList.add(new NewShiftSearchFragment());
+            fragmentList.add(new ShiftSearchFragment());
             fragmentList.add(new OrganizationSearchFragment());
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
         }

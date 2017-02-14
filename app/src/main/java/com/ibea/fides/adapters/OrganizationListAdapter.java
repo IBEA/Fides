@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.ui.activities.MainActivity_Organization;
+import com.ibea.fides.ui.activities.OrganizationProfileActivity;
 
 import org.parceler.Parcels;
 
@@ -62,7 +62,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
 
         @Override
         public void onClick(View v){
-            Intent intent = new Intent(mContext, MainActivity_Organization.class);
+            Intent intent = new Intent(mContext, OrganizationProfileActivity.class);
             intent.putExtra("organization", Parcels.wrap(mOrganization));
             mContext.startActivity(intent);
         }
