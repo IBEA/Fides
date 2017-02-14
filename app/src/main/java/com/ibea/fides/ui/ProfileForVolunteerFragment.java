@@ -109,6 +109,7 @@ public class ProfileForVolunteerFragment extends Fragment {
                         .placeholder(R.drawable.avatar_blank)
                         .resize(450,400)
                         .centerCrop()
+                        .transform(new CircleTransform())
                         .into(mVolPic);
             }
         }).addOnFailureListener(new OnFailureListener() {
