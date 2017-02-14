@@ -107,6 +107,8 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
 
                     Log.d(TAG, searchKey);
 
+                    Log.d(TAG, query);
+
                     if(searchKey.matches(query)){
                         Log.d(TAG, "Query matches!");
                         foundResults = true;

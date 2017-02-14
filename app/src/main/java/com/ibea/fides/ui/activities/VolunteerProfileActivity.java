@@ -50,8 +50,12 @@ public class VolunteerProfileActivity extends BaseActivity{
             //User passed in, display profile for passed user
             Log.d(TAG, "User not passed in");
             mUser = Parcels.unwrap(intent.getExtras().getParcelable("user"));
+
             Log.d(">EXTRAS>", mUser.getName());
+
+            setTitle(mUser.getName());
             populateTabs();
+
         }else{
             //User not passed in. Display profile for logged user
             Log.d(TAG, "User not passed in");
@@ -60,7 +64,10 @@ public class VolunteerProfileActivity extends BaseActivity{
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mUser = dataSnapshot.getValue(User.class);
                     Log.d(">NO EXTRAS>", mUser.getName());
+
+                    setTitle(mUser.getName());
                     populateTabs();
+
                 }
 
                 @Override
@@ -68,6 +75,7 @@ public class VolunteerProfileActivity extends BaseActivity{
                 }
             });
         }
+
     }
 
     public void populateTabs(){
