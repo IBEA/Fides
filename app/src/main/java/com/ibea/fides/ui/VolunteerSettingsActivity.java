@@ -181,8 +181,9 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         mCity = city;
         mZip = zip;
 
-        cityeedittext.getText().clear();
-        zipedittext.getText().clear();
+        dbUsers.child(uId).child("city").setValue(mCity);
+        dbUsers.child(uId).child("zipcode").setValue(mZip);
+        dbUsers.child(uId).child("state").setValue(mState);
 
         //This data needs to be placed into the database by backend -- Garrett
         Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
@@ -200,7 +201,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
         mUsername = username;
 
-        useredittext.getText().clear();
+        dbUsers.child(uId).child("name").setValue(mUsername);
 
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
 
