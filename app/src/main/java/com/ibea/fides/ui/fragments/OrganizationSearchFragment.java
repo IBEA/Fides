@@ -2,6 +2,7 @@ package com.ibea.fides.ui.fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,9 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
     private RecyclerView.Adapter mRecyclerAdapter;
 
     private final String TAG = "OrgSearchFragment";
+
+    Toast toast;
+    View toastView;
 
     public OrganizationSearchFragment() {
         // Required empty public constructor
@@ -117,7 +121,12 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
                 }
 
                 if(!foundResults){
-                    Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT);
+                    toastView = toast.getView();
+                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                    toastView.setPadding(30,30,30,30);
+                    toast.setView(toastView);
+                    toast.show();
                 }
             }
 

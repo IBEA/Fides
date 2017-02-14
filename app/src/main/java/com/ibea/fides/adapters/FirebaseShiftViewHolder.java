@@ -44,6 +44,9 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private String mOrigin;
     private Boolean mIsComplete;
 
+    Toast toast;
+    View toastView;
+
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -131,11 +134,11 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
-                    Toast toast = Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT);
-                    View view = toast.getView();
-                    view.setBackgroundColor(Color.argb(150,0,0,0));
-                    view.setPadding(30,30,30,30);
-                    toast.setView(view);
+                    toast = Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT);
+                    toastView = toast.getView();
+                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                    toastView.setPadding(30,30,30,30);
+                    toast.setView(toastView);
                     toast.show();
                 }else{
                     // Remove from shiftsPending for user
@@ -158,11 +161,11 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).setValue(shiftId);
                     }
 
-                    Toast toast = Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT);
-                    View view = toast.getView();
-                    view.setBackgroundColor(Color.argb(150,0,0,0));
-                    view.setPadding(30,30,30,30);
-                    toast.setView(view);
+                    toast = Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT);
+                    toastView = toast.getView();
+                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                    toastView.setPadding(30,30,30,30);
+                    toast.setView(toastView);
                     toast.show();
                 }
             }
