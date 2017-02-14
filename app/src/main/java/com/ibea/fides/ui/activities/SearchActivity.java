@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,6 +10,8 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
+import com.ibea.fides.ui.fragments.NewShiftSearchFragment;
+import com.ibea.fides.ui.fragments.OrganizationSearchFragment;
 
 import java.util.ArrayList;
 

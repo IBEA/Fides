@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,10 @@ import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.ui.fragments.ProfileForOrganizationFragment;
+import com.ibea.fides.ui.fragments.ShiftsAvailableByOrganizationFragment;
+import com.ibea.fides.ui.fragments.ShiftsCompletedForOrganizationFragment;
+import com.ibea.fides.ui.fragments.ShiftsPendingForOrganizationFragment;
 
 import org.parceler.Parcels;
 

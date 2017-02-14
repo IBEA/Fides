@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.ui.MainActivity_Organization;
+import com.ibea.fides.ui.activities.MainActivity_Organization;
 
 import org.parceler.Parcels;
 
