@@ -27,8 +27,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static android.widget.Toast.makeText;
-
 /**
  * Created by Alaina Traxler on 1/25/2017.
  */

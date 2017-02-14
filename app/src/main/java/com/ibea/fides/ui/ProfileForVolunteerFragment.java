@@ -1,20 +1,11 @@
 package com.ibea.fides.ui;
 
-import android.graphics.Bitmap;
-
 import android.content.Intent;
-
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import android.os.Looper;
 import android.support.annotation.NonNull;
-
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
-
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,15 +26,10 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.User;
 import com.squareup.picasso.Picasso;
 
-import java.util.concurrent.ExecutionException;
-
 import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.R.attr.bitmap;
-import static android.content.ContentValues.TAG;
 
 //Fragment that holds Basic Profile Data, Trust, and Total Hours worked -- Garrett
 
