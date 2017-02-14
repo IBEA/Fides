@@ -3,6 +3,8 @@ package com.ibea.fides.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,20 +13,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
 import com.ibea.fides.ui.activities.VolunteerProfileActivity;
+import com.ibea.fides.ui.fragments.ProfileForOrganizationFragment;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -54,6 +63,10 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     private String mHours;
     private String mDiffInput;
 
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+    StorageReference mImageRef;
+
     // Rating System
     final private int DISLIKE = 0;
     final private int LIKE = 3;
@@ -64,6 +77,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         mVolunteers = volunteers;
         mUnratedVolunteers = _unratedVolunteers;
         mShift = _shift;
+
     }
 
     @Override
@@ -86,6 +100,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     public class VolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Context mContext;
         @Bind(R.id.textView_Name) TextView mTextView_Name;
+        @Bind(R.id.imageView_VolunteerThumbnail) ImageView volunteerThumbnail;
 
         public VolunteerViewHolder(View itemView) {
             super(itemView);
@@ -97,6 +112,29 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
         public void bindVolunteer(User volunteer) {
             mVolunteer = volunteer;
+
+            String volId = mVolunteer.getPushId();
+            // assign image storage reference variables
+            mStorage = FirebaseStorage.getInstance();
+            mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
+            mImageRef = mStorageRef.child("images/" + volId + ".jpg");
+
+            mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(mContext)
+                            .load(uri)
+                            .placeholder(R.drawable.avatar_blank)
+                            .into(volunteerThumbnail);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+
             Log.d("Binding " + mVolunteer.getName(), "@");
 
             Log.d(">>>>>", String.valueOf(mUnratedVolunteers));

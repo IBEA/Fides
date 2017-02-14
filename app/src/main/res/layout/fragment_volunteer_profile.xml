@@ -14,7 +14,7 @@
 
     <ImageView
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="4.5"
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:id="@+id/imageView_volPic"
@@ -26,7 +26,7 @@
                 android:layout_below="@+id/imageView_volPic"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_weight="4.5"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 android:id="@+id/linearLayout_orgProfile">
