@@ -47,6 +47,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
     public class OrganizationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Context mContext;
         @Bind(R.id.nameText) TextView nameText;
+        @Bind(R.id.zipcodeText) TextView zipText;
 
         public OrganizationViewHolder(View itemView) {
             super(itemView);
@@ -58,6 +59,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
         public void bindOrganization(Organization organization) {
             mOrganization = organization;
             nameText.setText(organization.getName());
+            zipText.setText(organization.getZipcode());
         }
 
         @Override
