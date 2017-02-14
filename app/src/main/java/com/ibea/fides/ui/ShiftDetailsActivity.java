@@ -1,5 +1,6 @@
 package com.ibea.fides.ui;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -48,8 +50,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editButton) TextView mEditButton;
     @Bind(R.id.finishEditButton) TextView mFinishEditButton;
-    @Bind(R.id.textView_Date) TextView mDate;
+    @Bind(R.id.textView_StartDate) TextView mStartDate;
+    @Bind(R.id.textView_EndDate) TextView mEndDate;
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
+    @Bind(R.id.textView_to) TextView mDateFiller;
     @Bind(R.id.textView_EndTime) TextView mTimeEnd;
     @Bind(R.id.textView_Description) TextView mDescription;
     @Bind(R.id.editText_Description) EditText mDescriptionInput;
@@ -60,6 +64,9 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Header) TextView mHeaderOne;
     @Bind(R.id.textView_Instructions) TextView mInstructions;
+    @Bind(R.id.editText_ShortDescription) EditText mShortDescription;
+    @Bind(R.id.editText_VolunteerMax) EditText mVolMaxInput;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mCityInput.setVisibility(View.GONE);
         mZipcodeInput.setVisibility(View.GONE);
         mFinishEditButton.setVisibility(View.GONE);
-
+        mShortDescription.setVisibility(View.GONE);
+        mVolMaxInput.setVisibility(View.GONE);
 
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
 
@@ -82,12 +90,15 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mEditButton.setOnClickListener(this);
 
         if(mShift.getStartDate().equals(mShift.getEndDate())){
-            mDate.setText(mShift.getStartDate());
+            mStartDate.setText(mShift.getStartDate());
+            mDateFiller.setVisibility(View.GONE);
+            mEndDate.setVisibility(View.GONE);
         } else{
-            mDate.setText(mShift.getStartDate() + " to " + mShift.getEndDate());
+            mStartDate.setText(mShift.getStartDate());
+            mEndDate.setText(mShift.getEndDate());
         }
 
-        mTimeStart.setText(mShift.getStartTime() + " to ");
+        mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
         mDescription.setText(mShift.getDescription());
         mAddress.setText(mShift.getStreetAddress());
@@ -122,8 +133,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         if(view == mEditButton) {
             mDescriptionInput.setVisibility(View.VISIBLE);
             mDescriptionInput.setText(mDescription.getText());
+            mShortDescription.setText(mShift.getShortDescription());
             mDescription.setVisibility(View.GONE);
             mAddressInput.setVisibility(View.VISIBLE);
+
+            mVolMaxInput.setVisibility(View.VISIBLE);
             mAddressInput.setText(mAddress.getText());
             mAddress.setVisibility(View.GONE);
             mCityInput.setVisibility(View.VISIBLE);
@@ -132,12 +146,21 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mZipcodeInput.setText(mShift.getZip());
             mEditButton.setVisibility(View.GONE);
             mFinishEditButton.setVisibility(View.VISIBLE);
+            mShortDescription.setVisibility(View.VISIBLE);
+            mShortDescription.setText(mShift.getShortDescription());
+
+            mVolMaxInput.setText(String.valueOf(mShift.getMaxVolunteers()).toString());
             mTimeStart.setOnClickListener(this);
             mTimeEnd.setOnClickListener(this);
+            mStartDate.setOnClickListener(this);
+            mEndDate.setOnClickListener(this);
+
         }
         if(view == mFinishEditButton) {
             mTimeStart.setOnClickListener(null);
             mTimeEnd.setOnClickListener(null);
+            mStartDate.setOnClickListener(null);
+            mEndDate.setOnClickListener(null);
 
             mEditButton.setVisibility(View.VISIBLE);
             mFinishEditButton.setVisibility(View.GONE);
@@ -152,8 +175,14 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mShift.setZip(mZipcodeInput.getText().toString());
             mShift.setStartTime(mTimeStart.getText().toString());
             mShift.setEndTime(mTimeEnd.getText().toString());
+            mShift.setStartDate(mStartDate.getText().toString());
+            mShift.setEndDate(mEndDate.getText().toString());
+            mShift.setShortDescription(mShortDescription.getText().toString());
+            mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));
 
+            mShortDescription.setVisibility(View.GONE);
             mDescriptionInput.setVisibility(View.GONE);
+            mVolMaxInput.setVisibility(View.GONE);
             mDescription.setText(mShift.getDescription());
             mDescription.setVisibility(View.VISIBLE);
 
@@ -171,10 +200,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
             dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
-
-            searchKey = mShift.getOrganizationName() + "|" + mShift.getZip() + "|" + mShift.getCity() + "|" + mShift.getState();
-            DatabaseReference dbSearch = db.child(Constants.DB_NODE_SEARCH);
-            dbSearch.child("organizations").child(mShift.getOrganizationID()).setValue(searchKey);
 
 
         }
@@ -211,6 +236,47 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
+        }
+        if(view == mStartDate) {
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            mStartDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                            mEndDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        }
+        if(view == mEndDate) {
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            mEndDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
         }
     }
 
