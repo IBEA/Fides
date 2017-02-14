@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
 
 
 import android.os.Bundle;
@@ -24,7 +24,6 @@ import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsAvailableByOrganizationFragment extends Fragment implements AdapterUpdateInterface{
+public class ShiftsAvailableByOrganizationFragment extends Fragment{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
@@ -56,10 +55,6 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment implements A
         return new ShiftsAvailableByOrganizationFragment();
     }
 
-    @Override
-    public void updateAdapter(){
-        mFirebaseAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
 
 /**
  * Created by Garrett on 1/25/2017.

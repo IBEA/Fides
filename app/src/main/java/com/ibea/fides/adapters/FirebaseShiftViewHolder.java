@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.ui.ShiftDetailsActivity;
+import com.ibea.fides.ui.activities.ShiftDetailsActivity;
 
 import org.parceler.Parcels;
 
@@ -26,8 +26,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static android.widget.Toast.makeText;
 
 /**
  * Created by Alaina Traxler on 1/25/2017.

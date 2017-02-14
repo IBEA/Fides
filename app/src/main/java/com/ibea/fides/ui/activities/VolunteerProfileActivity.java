@@ -1,7 +1,6 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -19,6 +18,9 @@ import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
 import com.ibea.fides.models.User;
+import com.ibea.fides.ui.fragments.ProfileForVolunteerFragment;
+import com.ibea.fides.ui.fragments.ShiftsCompletedForVolunteerFragment;
+import com.ibea.fides.ui.fragments.ShiftsPendingForVolunteerFragment;
 
 import org.parceler.Parcels;
 
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 
 // Main organization page, nested with profile and shift tab.
 
-public class MainActivity_Volunteer extends BaseActivity{
+public class VolunteerProfileActivity extends BaseActivity{
     User mUser;
     Boolean isOrganization;
     String currentUserId;

@@ -4,7 +4,7 @@
     android:id="@+id/activity_create_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.CreateUserAccount">
+    tools:context="com.ibea.fides.ui.activities.CreateUserAccountActivity">
 
     <EditText
         android:layout_marginTop="50dp"

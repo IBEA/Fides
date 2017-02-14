@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
 
 
 import android.content.Context;
@@ -22,10 +22,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.adapters.OrganizationListAdapter;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
 

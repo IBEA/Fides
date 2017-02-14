@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
 
 
 import android.content.Context;
@@ -28,10 +28,6 @@ import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewShiftSearchFragment extends Fragment implements View.OnClickListener{
+public class ShiftSearchFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.searchView_City) SearchView mSearchView_City;
     @Bind(R.id.searchView_State) SearchView mSearchView_State;
     @Bind(R.id.searchView_Zip) SearchView mSearchView_Zip;
@@ -57,7 +53,7 @@ public class NewShiftSearchFragment extends Fragment implements View.OnClickList
 
     private String userId;
 
-    public NewShiftSearchFragment() {
+    public ShiftSearchFragment() {
         // Required empty public constructor
     }
 

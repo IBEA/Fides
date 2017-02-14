@@ -1,6 +1,7 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -24,9 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
-import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.utils.AdapterUpdateInterface;
+import com.ibea.fides.ui.activities.ShiftsCreateActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,39 +35,45 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForVolunteerFragment extends Fragment implements AdapterUpdateInterface {
+public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
-    private AdapterUpdateInterface mThis;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference dbShiftsPendingForUser = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid());
+    private DatabaseReference dbShiftsPendingForOrganizations = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mCurrentUser.getUid());
 
-    public ShiftsPendingForVolunteerFragment() {
+    public ShiftsPendingForOrganizationFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void updateAdapter(){
-        mFirebaseAdapter.notifyDataSetChanged();
+    public void onClick(View view){
+        if(view == mButton_CreateShift){
+            Intent intent = new Intent(this.getContext(), ShiftsCreateActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shifts_pending_for_volunteer, container, false);
+        View view = inflater.inflate(R.layout.fragment_shifts_pending_for_organizations, container, false);
         ButterKnife.bind(this, view);
 
-        dbShiftsPendingForUser.addValueEventListener(new ValueEventListener() {
+        isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
+
+        dbShiftsPendingForOrganizations.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0){
+                    Log.d(">>>>>", "Found children");
                     mTextView_Splash.setVisibility(View.GONE);
                     mRecyclerView.setVisibility(View.VISIBLE);
                 }else{
@@ -81,37 +88,34 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
             }
         });
 
-        mThis = this;
-        Log.v(">>>>>", "ShiftsPending current user = " + mCurrentUser.getUid());
-        Log.v(">>>>>", "In onCreateView for ShiftsPending");
+        dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isOrganization = dataSnapshot.getValue(Boolean.class);
+                if(isOrganization){
+                    setUpFirebaseAdapter();
+                }
+            }
 
-        isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
-        setUpFirebaseAdapter();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        mButton_CreateShift.setOnClickListener(this);
         setRecyclerViewItemTouchListener();
-
         return view;
     }
 
-    // Store instance variables based on arguments passed
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsPendingForVolunteerFragment newInstance(int page, String title) {
-        ShiftsPendingForVolunteerFragment fragmentFirst = new ShiftsPendingForVolunteerFragment();
-        return fragmentFirst;
+    public static ShiftsPendingForOrganizationFragment newInstance(int page, String title) {
+        return new ShiftsPendingForOrganizationFragment();
     }
 
     private void setUpFirebaseAdapter() {
-
-        Log.v(">>>>>", "In setupFirebaseAdapter for ShiftsPendingUsers");
-
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.new_shift_list_item, FirebaseShiftViewHolder.class, dbShiftsPendingForUser) {
+                (String.class, R.layout.list_item_shift, FirebaseShiftViewHolder.class, dbShiftsPendingForOrganizations) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, final String shiftId, int position) {
@@ -119,7 +123,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);
-                        viewHolder.bindShift(shift, "ShiftsPendingForVol");
+                        viewHolder.bindShift(shift, "ShiftsPendingForOrg");
                     }
 
                     @Override
@@ -129,29 +133,13 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
                 });
             }
         };
-        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setAdapter(mFirebaseAdapter);
-
-
-
-
-        // Check whether the list is empty, and display message if so
-//TODO: Deal with Asynchronicity issue, causing getItemCount() to always return 0
-//        Toast.makeText(getActivity(), mFirebaseAdapter.getItemCount()+"", Toast.LENGTH_SHORT).show();
-//
-//        if(mFirebaseAdapter.getItemCount() > 0){
-//            mEmptyWarning.setVisibility(View.INVISIBLE);
-//            mRecyclerView.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            mEmptyWarning.setVisibility(View.VISIBLE);
-//            mRecyclerView.setVisibility(View.INVISIBLE);
-//        }
     }
 
     private void setRecyclerViewItemTouchListener() {
-        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
                 return false;
@@ -160,7 +148,9 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 if(swipeDir == 4){
-                    ((FirebaseShiftViewHolder) viewHolder).quitShift();
+                    ((FirebaseShiftViewHolder) viewHolder).deleteShift(true);
+                }else if(swipeDir == 8){
+                    ((FirebaseShiftViewHolder) viewHolder).completeShift();
                 }
             }
         };
@@ -168,5 +158,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
+
 
 }

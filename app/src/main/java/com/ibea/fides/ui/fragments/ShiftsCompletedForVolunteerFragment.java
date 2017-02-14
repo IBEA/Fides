@@ -1,4 +1,5 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
+
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,23 +26,26 @@ import com.ibea.fides.models.Shift;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShiftsCompletedForOrganizationFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ShiftsCompletedForVolunteerFragment extends Fragment {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
-    Boolean isOrganization;
-    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference dbShiftsCompletedForVolunteer;
     String mUserId;
 
-
-    public ShiftsCompletedForOrganizationFragment() {
+    public ShiftsCompletedForVolunteerFragment() {
         // Required empty public constructor
     }
 
     // newInstance constructor for creating fragment with arguments
-    public static ShiftsCompletedForOrganizationFragment newInstance(int page, String title) {
-        return new ShiftsCompletedForOrganizationFragment();
+    public static ShiftsCompletedForVolunteerFragment newInstance(int page, String title) {
+        ShiftsCompletedForVolunteerFragment fragmentFirst = new ShiftsCompletedForVolunteerFragment();
+        Log.v("<<<<<", "ShiftsCompleted newInstance");
+        return fragmentFirst;
     }
 
 
@@ -49,31 +53,16 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shifts_completed_for_organization, container, false);
+        View view = inflater.inflate(R.layout.fragment_shifts_completed_for_volunteers, container, false);
         ButterKnife.bind(this, view);
-
-        final String currentUserId;
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        Log.v("<<<<<", "In onCreateView for Completed");
 
 
-        if(auth.getCurrentUser() != null){
-            mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
-                    setUpFirebaseAdapter();
-                }
+        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        dbShiftsCompletedForVolunteer = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId);
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-        FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId).addValueEventListener(new ValueEventListener() {
+        dbShiftsCompletedForVolunteer.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0){
@@ -95,15 +84,15 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
     }
 
     private void setUpFirebaseAdapter() {
+        Log.v(">>>>>", "in CompletedSetup");
         DatabaseReference dbFirebaseNode;
 
-        dbFirebaseNode = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.new_shift_list_item, FirebaseShiftViewHolder.class, dbFirebaseNode) {
+                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbShiftsCompletedForVolunteer) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, String shiftId, int position) {
-                dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Shift shift = dataSnapshot.getValue(Shift.class);

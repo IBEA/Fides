@@ -8,22 +8,30 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ibea.fides.ui.AdminActivity">
+    tools:context="com.ibea.fides.ui.activities.AdminActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/textView_Instructions"
+        android:layout_centerHorizontal="true"
+        android:text="Swipe right to approve an organization, left to reject"/>
+
+    <TextView
+        android:text="Unapproved Organizations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_below="@+id/textView_Instructions"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView_Header" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:id="@+id/unratedRecyclerView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Unapproved Orgs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/unratedRecyclerView"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView3" />
+        android:layout_below="@+id/textView_Header"
+         />
 
 </RelativeLayout>

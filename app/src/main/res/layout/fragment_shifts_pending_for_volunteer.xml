@@ -2,14 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.ShiftsPendingForVolunteerFragment"
+    tools:context="com.ibea.fides.ui.fragments.ShiftsPendingForVolunteerFragment"
     android:theme="@style/DarkOnLightLayout">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/textView_Splash"
-        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, use the search function."
+        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, choose search from the dropdown menu, or tap here."
         android:visibility="invisible"
         android:padding="36dp"
         android:gravity="center_vertical|center"

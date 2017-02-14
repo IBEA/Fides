@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,8 +27,6 @@ import com.ibea.fides.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 public class LogInActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.emailInput) EditText mEmailInput;
@@ -138,7 +136,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                     Log.d("LogInActivity", "User is Verified Org");
                                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isVerifiedOrg).apply();
 
-                                                    Intent intent = new Intent(LogInActivity.this, MainActivity_Organization.class);
+                                                    Intent intent = new Intent(LogInActivity.this, OrganizationProfileActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(intent);
                                                     finish();
@@ -155,7 +153,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                         Log.d("LogInActivity", "User is a Volunteer");
                                         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, false).apply();
                                         // User is a Volunteer - Send to Volunteer Main Page
-                                        Intent intent = new Intent(LogInActivity.this, MainActivity_Volunteer.class);
+                                        Intent intent = new Intent(LogInActivity.this, VolunteerProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();

@@ -1,9 +1,8 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseOrganizationViewHolder;
-import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Organization;
 
 import butterknife.Bind;

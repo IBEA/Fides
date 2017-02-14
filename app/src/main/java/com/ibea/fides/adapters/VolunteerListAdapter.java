@@ -24,7 +24,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
-import com.ibea.fides.ui.MainActivity_Volunteer;
+import com.ibea.fides.ui.activities.VolunteerProfileActivity;
 
 import org.parceler.Parcels;
 
@@ -115,7 +115,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             } else if(view == mNoShowButton) {
                 dataUpdate(mHours, false);
             }else {
-                Intent intent = new Intent(mContext, MainActivity_Volunteer.class);
+                Intent intent = new Intent(mContext, VolunteerProfileActivity.class);
                 intent.putExtra("user", Parcels.wrap(mVolunteers.get(getAdapterPosition())));
                 mContext.startActivity(intent);
             }

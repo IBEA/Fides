@@ -1,10 +1,9 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,7 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.models.User;
 
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
@@ -53,13 +51,13 @@ public class SplashActivity extends BaseActivity {
                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
                                     if(mIsOrganization){
                                         Log.d(TAG, "Routing to Org Profile");
-                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Organization.class);
+                                        Intent intent = new Intent(SplashActivity.this, OrganizationProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                     } else{
                                         Log.d(TAG, "Routing to Vol Profile");
-                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Volunteer.class);
+                                        Intent intent = new Intent(SplashActivity.this, VolunteerProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
