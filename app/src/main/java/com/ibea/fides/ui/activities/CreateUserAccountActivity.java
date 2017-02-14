@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 
 // Create a User Model -- Not Firebase User
-public class CreateUserAccount extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class CreateUserAccountActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
     @Bind(R.id.switchTypeTextView) TextView mSwitchTypeButton;
     @Bind(R.id.contactNameInput) EditText mContactNameInput;
@@ -151,13 +151,13 @@ public class CreateUserAccount extends BaseActivity implements View.OnClickListe
 
             Intent intent;
             if(isOrg) {
-                intent = new Intent(CreateUserAccount.this, LogInActivity.class);
+                intent = new Intent(CreateUserAccountActivity.this, LogInActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             } else {
                 mSharedPreferences.edit().putBoolean(Constants.KEY_ISORGANIZATION, false).apply();
-                intent = new Intent(CreateUserAccount.this, MainActivity_Volunteer.class);
+                intent = new Intent(CreateUserAccountActivity.this, VolunteerProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
