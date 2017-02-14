@@ -124,22 +124,24 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         final MenuItem admin = (MenuItem) menu.findItem(R.id.action_admin);
-
-        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("isAdmin")){
-                    if(dataSnapshot.child("isAdmin").getValue(Boolean.class) == false){
-                        admin.setVisible(false);
+        if(mCurrentUser != null) {
+            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChild("isAdmin")){
+                        if(dataSnapshot.child("isAdmin").getValue(Boolean.class) == false){
+                            admin.setVisible(false);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+
+        }
 
         return super.onCreateOptionsMenu(menu);
 
