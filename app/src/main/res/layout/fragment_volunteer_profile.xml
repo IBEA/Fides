@@ -3,21 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="11"
     android:background="@color/colorBackground">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/imageView_volPic"
+        android:src="@drawable/avatar_blank">
+    </ImageView>
+
 
             <LinearLayout
                 android:layout_below="@+id/imageView_volPic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 android:id="@+id/linearLayout_orgProfile">
@@ -93,27 +102,10 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_Description"/>
-
-            <ImageView
-                android:layout_height="380dp"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:id="@+id/imageView_volPic"
-                android:src="@drawable/avatar_blank"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true">
-            </ImageView>
-
-        </RelativeLayout>
-
-    </ScrollView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>
 
