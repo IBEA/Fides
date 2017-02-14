@@ -1,5 +1,6 @@
 package com.ibea.fides.ui.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -18,7 +19,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
  * Created by N8Home on 1/30/17.
  */
 
-public class ProfileForOrganizationFragment extends Fragment {
+public class ProfileForOrganizationFragment extends Fragment implements View.OnClickListener {
 
     private String TAG = "ProfileForOrg";
     private Organization mOrganization;
@@ -70,6 +70,8 @@ public class ProfileForOrganizationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         Intent intent = getActivity().getIntent();
         if(intent.hasExtra("organization")){
@@ -119,7 +121,23 @@ public class ProfileForOrganizationFragment extends Fragment {
         mOrgWebsite.setText(mOrganization.getUrl());
         mOrgDescription.setText(mOrganization.getDescription());
 
+        mOrgWebsite.setOnClickListener(this);
+
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == mOrgWebsite) {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(mOrgWebsite.getText().toString()));
+            try {
+                startActivity(webIntent);
+            }
+            catch (ActivityNotFoundException e) {
+                Log.e(String.valueOf(getActivity()), e.getMessage());
+            }
+        }
     }
 
     public class CircleTransform implements Transformation {
