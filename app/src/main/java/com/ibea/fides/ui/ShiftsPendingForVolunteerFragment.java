@@ -24,9 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
-import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +32,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForVolunteerFragment extends Fragment implements AdapterUpdateInterface {
+public class ShiftsPendingForVolunteerFragment extends Fragment{
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
@@ -42,7 +40,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
     private Boolean isOrganization;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
-    private AdapterUpdateInterface mThis;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForUser = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid());
@@ -51,10 +48,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
         // Required empty public constructor
     }
 
-    @Override
-    public void updateAdapter(){
-        mFirebaseAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,7 +74,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
             }
         });
 
-        mThis = this;
         Log.v(">>>>>", "ShiftsPending current user = " + mCurrentUser.getUid());
         Log.v(">>>>>", "In onCreateView for ShiftsPending");
 

@@ -27,7 +27,6 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.utils.AdapterUpdateInterface;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener, AdapterUpdateInterface {
+public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
@@ -44,7 +43,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
     private Boolean isOrganization;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
-    private AdapterUpdateInterface mThis;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForOrganizations = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mCurrentUser.getUid());
@@ -67,8 +65,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shifts_pending_for_organizations, container, false);
         ButterKnife.bind(this, view);
-
-        mThis = this;
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
@@ -114,11 +110,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
     // newInstance constructor for creating fragment with arguments
     public static ShiftsPendingForOrganizationFragment newInstance(int page, String title) {
         return new ShiftsPendingForOrganizationFragment();
-    }
-
-    @Override
-    public void updateAdapter(){
-        mFirebaseAdapter.notifyDataSetChanged();
     }
 
     private void setUpFirebaseAdapter() {
