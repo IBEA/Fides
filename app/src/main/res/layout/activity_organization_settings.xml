@@ -34,6 +34,8 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:inputType="textPersonName"
             android:hint="Organization Name"
             android:ems="12"
@@ -48,50 +50,58 @@
             android:inputType="textPersonName"
             android:hint="Contact Name"
             android:ems="12"
-            android:id="@+id/contactNameEditText"
-            android:layout_marginTop="30dp"/>
+            android:id="@+id/contactNameEditText"/>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:inputType="text"
-            android:ems="10"
+            android:ems="12"
             android:id="@+id/streetEditText"
             android:hint="Street Address" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center">
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="9"
                 android:id="@+id/cityedittext"
-                android:hint="City" />
+                android:hint="City"
+                android:layout_gravity="center"
+                android:gravity="center" />
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/stateSpinner"
                 android:layout_toRightOf="@id/cityedittext"
-                android:gravity="left" />
+                android:gravity="left"/>
         </RelativeLayout>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:inputType="number"
-            android:ems="10"
+            android:ems="12"
             android:id="@+id/zipEditText"
-            android:hint="Zipcode" />
+            android:hint="ZIP Code" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:inputType="textMultiLine"
-            android:ems="10"
+            android:ems="12"
             android:id="@+id/descriptionEditText"
             android:hint="Change Description" />
 
