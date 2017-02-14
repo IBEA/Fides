@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  */
 public class ShiftsPendingForVolunteerFragment extends Fragment implements AdapterUpdateInterface {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.textView_emptyList_Pending) TextView mEmptyWarning;
+    @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
@@ -62,6 +62,24 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements Adapt
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shifts_pending_for_volunteer, container, false);
         ButterKnife.bind(this, view);
+
+        dbShiftsPendingForUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0){
+                    mTextView_Splash.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    mTextView_Splash.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         mThis = this;
         Log.v(">>>>>", "ShiftsPending current user = " + mCurrentUser.getUid());

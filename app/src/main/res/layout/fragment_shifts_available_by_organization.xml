@@ -5,9 +5,21 @@
     tools:context="com.ibea.fides.ui.ShiftsAvailableByOrganizationFragment"
     android:theme="@style/DarkOnLightLayout">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textView_Splash"
+        android:text="This organization currently has no opportunities available."
+        android:visibility="invisible"
+        android:padding="36dp"
+        android:gravity="center_vertical|center"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="20sp" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView"/>
+        android:id="@+id/recyclerView"
+        />
 
 </FrameLayout>

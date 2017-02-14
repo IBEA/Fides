@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,7 @@ import butterknife.ButterKnife;
  */
 public class ShiftsAvailableByOrganizationFragment extends Fragment implements AdapterUpdateInterface{
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     static Organization mOrganization;
 
@@ -68,8 +70,26 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment implements A
 
         mThis = this;
 
+        mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0){
+                    mTextView_Splash.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    mTextView_Splash.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         if(mAuth.getCurrentUser() != null){
-            mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUserId).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {

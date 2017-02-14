@@ -123,6 +123,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     public void quitShift(){
+        Log.d(">>>>>", "in quitShift");
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String shiftId = mShift.getPushId();
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();

@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +38,7 @@ import butterknife.ButterKnife;
 public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener, AdapterUpdateInterface {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
+    @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private Boolean isOrganization;
@@ -68,6 +71,25 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
         mThis = this;
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
+
+        dbShiftsPendingForOrganizations.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0){
+                    Log.d(">>>>>", "Found children");
+                    mTextView_Splash.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    mTextView_Splash.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
