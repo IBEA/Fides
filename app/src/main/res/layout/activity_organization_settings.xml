@@ -24,7 +24,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/titleTextView"
                 android:textSize="25sp"
-                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
             <EditText
@@ -138,6 +137,16 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/descriptionButton"/>
 
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/avatar_blank"
+                android:layout_above="@+id/titleTextView"
+                android:layout_alignLeft="@+id/usernameButton"
+                android:layout_alignStart="@+id/usernameButton"
+                android:id="@+id/tempPicture"
+                android:layout_alignParentTop="true" />
 
 
         </RelativeLayout>

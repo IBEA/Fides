@@ -2,6 +2,7 @@ package com.ibea.fides.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -10,42 +11,48 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Organization;
+import com.ibea.fides.models.User;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener {
+public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    @Bind(R.id.pictureButton) Button picturebutton;
-    @Bind(R.id.usernameButton) Button userbutton;
-    @Bind(R.id.addressButton) Button addressbutton;
-    @Bind(R.id.streetedittext) EditText streetedittext;
+    @Bind(R.id.updateButton) Button updateButton;
     @Bind(R.id.usernameedittext) EditText useredittext;
     @Bind(R.id.cityedittext) EditText cityeedittext;
-    @Bind(R.id.stateedittext) EditText stateedittext;
+    @Bind(R.id.stateSpinner) Spinner mStateInput;
     @Bind(R.id.zipedittext) EditText zipedittext;
     @Bind(R.id.tempPicture) ImageView tempPicture;
 
-    String mStreet;
     String mCity;
     String mState;
     String mZip;
@@ -53,7 +60,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
     String mFileName;
 
-    Uri downloadUrl;
+    User thisUser;
 
     public static final int GET_FROM_GALLERY = 3;
 
@@ -68,59 +75,113 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         setContentView(R.layout.activity_volunteer_settings);
         ButterKnife.bind(this);
 
-        picturebutton.setOnClickListener(this);
-        userbutton.setOnClickListener(this);
-        addressbutton.setOnClickListener(this);
+        autoFill();
+
+        // State Spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mStateInput.setAdapter(adapter);
+
+        tempPicture.setOnClickListener(this);
+        updateButton.setOnClickListener(this);
+        mStateInput.setOnItemSelectedListener(this);
 
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += uId + ".jpeg";
-
 
         // assign image storage reference variables
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
         mImageRef = mStorageRef.child("images/" + uId + ".jpg");
+
+        mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.e("Garrett", "uri " + uri );
+                Picasso.with(getApplicationContext())
+                        .load(uri)
+                        .placeholder(R.drawable.avatar_blank)
+                        .resize(450,400)
+                        .centerCrop()
+                        .into(tempPicture);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        mState = parent.getItemAtPosition(pos).toString();
+    }
+
+    public void autoFill() {
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            thisUser = dataSnapshot.getValue(User.class);
+                            useredittext.setText(thisUser.getName());
+                            cityeedittext.setText(thisUser.getCity());
+                            zipedittext.setText(thisUser.getZipcode());
+                            String state = thisUser.getState();
+
+                            Resources res = getResources();
+                            String[] states = res.getStringArray(R.array.states_array);
+                            int index = Arrays.asList(states).indexOf(state);
+
+
+                            mStateInput.setSelection(index);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
     public void onClick(View view) {
+        String city = cityeedittext.getText().toString().trim();
+        String zip = zipedittext.getText().toString().trim();
         // On Log In Request
-        if(view == picturebutton) {
+
+        if(view == tempPicture) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
-        else if (view == userbutton){
+        else if (view == updateButton){
 
-            createNewUsername();
-        }
-        else if (view == addressbutton){
-            createNewAddress();
+            if( (!useredittext.getText().toString().trim().equals(""))) {
+                createNewUsername();
+            }
+
+            if( (!zipedittext.getText().toString().trim().equals("")) ||  (!cityeedittext.getText().toString().trim().equals("")) ) {
+                createNewAddress();
+            }
+
         }
     }
 
     private void createNewAddress() {
-        String street = streetedittext.getText().toString().trim();
         String city = cityeedittext.getText().toString().trim();
-        String state = stateedittext.getText().toString().trim();
         String zip = zipedittext.getText().toString().trim();
 
         // Confirm validity of inputs
-        boolean validStreet = isValidStreet(street);
         boolean validCity = isValidCity(city);
-        boolean validState = isValidState(state);
         boolean validPassword = isValidPassword(zip);
 
-        if (!validStreet || !validCity || !validPassword || !validState ) {
+        if ( !validCity || !validPassword ) {
             return;
         }
 
         // Set name
-        mStreet = street;
         mCity = city;
-        mState = state;
         mZip = zip;
 
-        streetedittext.getText().clear();
         cityeedittext.getText().clear();
-        stateedittext.getText().clear();
         zipedittext.getText().clear();
 
         //This data needs to be placed into the database by backend -- Garrett
@@ -146,25 +207,9 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         //This data needs to be placed into the database by backend -- Garrett
     }
 
-    private boolean isValidStreet(String data) {
-        if (data.equals("")) {
-            streetedittext.setError("Please enter your street");
-            return false;
-        }
-        return true;
-    }
-
     private boolean isValidCity(String data) {
         if (data.equals("")) {
             cityeedittext.setError("Please enter your city");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidState(String data) {
-        if (data.equals("")) {
-            stateedittext.setError("Please enter your state");
             return false;
         }
         return true;
@@ -215,7 +260,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
                     }
                 });
 
@@ -229,19 +273,5 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    private void uploadImage() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        StorageReference filepath = mImageRef.child(".jpeg");
-
-        Uri uri = Uri.fromFile(new File(mFileName));
-
-        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                downloadUrl = taskSnapshot.getDownloadUrl();
-                Log.e("here", downloadUrl.toString());
-            }
-        });
-    }
 
 }
