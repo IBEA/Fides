@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.fragments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -81,7 +81,6 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,23 +89,13 @@ public class ProfileForVolunteerFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         // assign image storage reference variables
+        String volunteerId = mUser.getPushId();
+
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
-        mImageRef = mStorageRef.child("images/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
-
-        //mImageRef = mStorageRef.child("images/" + "dethwarz2" + ".png");
-
+        mImageRef = mStorageRef.child("images/" + volunteerId + ".jpg");
 
         Log.i(">>>>>>>>>>>>>>>>>>>>>>>", mImageRef.toString());
-
-        // Load the image using Glide
-//        Glide.with(getActivity())
-//                .using(new FirebaseImageLoader())
-//                .load(mImageRef)
-//                .into(mVolPic);
-
-
-//        username.setText(mUser.getName());
 
         mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -175,14 +164,14 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         // Create background track
         hoursArcView.addSeries(new SeriesItem.Builder(Color.parseColor("#E0F2F1"))
-                .setRange(0, 5, 5)
+                .setRange(0, 24, 24)
                 .setInitialVisibility(false)
                 .setLineWidth(70f)
                 .build());
 
 //Create data series track
         final SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#B2DFDB"))
-                .setRange(0, 5, 0)
+                .setRange(0, 24, 0)
                 .setLineWidth(70f)
                 .setSpinDuration(circlespeed2)
                 .build();
@@ -190,21 +179,21 @@ public class ProfileForVolunteerFragment extends Fragment {
         final SeriesItem seriesItem3 = new SeriesItem.Builder(Color.parseColor("#80CBC4"))
                 .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
-                .setRange(0, 5, 0)
+                .setRange(0, 24, 0)
                 .setLineWidth(70f)
                 .build();
 
         final SeriesItem seriesItem4 = new SeriesItem.Builder(Color.parseColor("#4DB6AC"))
                 .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
-                .setRange(0, 5, 0)
+                .setRange(0, 24, 0)
                 .setLineWidth(70f)
                 .build();
 
         final SeriesItem seriesItem5 = new SeriesItem.Builder(Color.parseColor("#009688"))
                 .setSpinDuration(circlespeed2)
                 .setShowPointWhenEmpty(false)
-                .setRange(0, 5, 0)
+                .setRange(0, 24, 0)
                 .setLineWidth(70f)
                 .build();
 
@@ -218,18 +207,18 @@ public class ProfileForVolunteerFragment extends Fragment {
                 .setDuration(circlespeed2)
                 .build());
 
-        if (totalHoursWorked > 15) {
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(circlespeed2*2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series4Index).setDelay(circlespeed2*3).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 15).setIndex(series5Index).setDelay(circlespeed2*4).build());
-        } else if (totalHoursWorked > 10) {
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series3Index).setDelay(circlespeed2*2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 10).setIndex(series4Index).setDelay(circlespeed2*3).build());
-        } else if (totalHoursWorked > 5) {
-            hoursArcView.addEvent(new DecoEvent.Builder(5).setIndex(series2Index).setDelay(circlespeed2).build());
-            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 5).setIndex(series3Index).setDelay(circlespeed2*2).build());
+        if (totalHoursWorked > 72) {
+            hoursArcView.addEvent(new DecoEvent.Builder(24).setIndex(series2Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(24).setIndex(series3Index).setDelay(circlespeed2*2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(24).setIndex(series4Index).setDelay(circlespeed2*3).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 72).setIndex(series5Index).setDelay(circlespeed2*4).build());
+        } else if (totalHoursWorked > 48) {
+            hoursArcView.addEvent(new DecoEvent.Builder(24).setIndex(series2Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(24).setIndex(series3Index).setDelay(circlespeed2*2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 48).setIndex(series4Index).setDelay(circlespeed2*3).build());
+        } else if (totalHoursWorked > 24) {
+            hoursArcView.addEvent(new DecoEvent.Builder(24).setIndex(series2Index).setDelay(circlespeed2).build());
+            hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked - 24).setIndex(series3Index).setDelay(circlespeed2*2).build());
         } else {
             hoursArcView.addEvent(new DecoEvent.Builder(totalHoursWorked).setIndex(series2Index).setDelay(circlespeed2).build());
         }
@@ -250,7 +239,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         seriesItem3.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-                totalHourstext.setText(String.valueOf((int) currentPosition + 5));
+                totalHourstext.setText(String.valueOf((int) currentPosition + 24));
 
             }
 
@@ -263,7 +252,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         seriesItem4.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-                totalHourstext.setText(String.valueOf((int) currentPosition + 10));
+                totalHourstext.setText(String.valueOf((int) currentPosition + 48));
             }
 
             @Override
@@ -275,7 +264,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         seriesItem5.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
             @Override
             public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-                totalHourstext.setText(String.valueOf((int) currentPosition + 15));
+                totalHourstext.setText(String.valueOf((int) currentPosition + 72));
             }
 
             @Override

@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;

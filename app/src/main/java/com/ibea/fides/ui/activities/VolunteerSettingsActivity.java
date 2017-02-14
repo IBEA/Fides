@@ -1,4 +1,4 @@
-package com.ibea.fides.ui;
+package com.ibea.fides.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;

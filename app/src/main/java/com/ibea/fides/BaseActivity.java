@@ -19,14 +19,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ibea.fides.ui.AdminActivity;
-import com.ibea.fides.ui.LogInActivity;
-import com.ibea.fides.ui.MainActivity_Organization;
-import com.ibea.fides.ui.MainActivity_Volunteer;
-import com.ibea.fides.ui.OrganizationSettingsActivity;
-import com.ibea.fides.ui.SearchActivity;
-import com.ibea.fides.ui.VolunteerSettingsActivity;
-import com.ibea.fides.utils.Universal;
+import com.ibea.fides.ui.activities.AdminActivity;
+import com.ibea.fides.ui.activities.LogInActivity;
+import com.ibea.fides.ui.activities.MainActivity_Organization;
+import com.ibea.fides.ui.activities.MainActivity_Volunteer;
+import com.ibea.fides.ui.activities.OrganizationSettingsActivity;
+import com.ibea.fides.ui.activities.SearchActivity;
+import com.ibea.fides.ui.activities.VolunteerSettingsActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -51,9 +50,6 @@ public class BaseActivity extends AppCompatActivity {
 
     // For Navigation
     public Context mContext;
-
-    // Universal Functions
-    public Universal mUniversal;
 
     public String TAG;
     public String uId;

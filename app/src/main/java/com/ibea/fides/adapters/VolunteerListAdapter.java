@@ -24,7 +24,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.User;
-import com.ibea.fides.ui.MainActivity_Volunteer;
+import com.ibea.fides.ui.activities.MainActivity_Volunteer;
 
 import org.parceler.Parcels;
 
