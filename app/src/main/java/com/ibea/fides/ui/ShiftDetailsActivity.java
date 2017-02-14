@@ -32,8 +32,11 @@ import com.ibea.fides.models.User;
 
 import org.parceler.Parcels;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,7 +48,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView.Adapter mRecyclerAdapter;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-
+    private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mZipcode;
     int rank;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editButton) TextView mEditButton;
@@ -89,14 +92,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         mEditButton.setOnClickListener(this);
 
-        if(mShift.getStartDate().equals(mShift.getEndDate())){
-            mStartDate.setText(mShift.getStartDate());
-            mDateFiller.setVisibility(View.GONE);
-            mEndDate.setVisibility(View.GONE);
-        } else{
-            mStartDate.setText(mShift.getStartDate());
-            mEndDate.setText(mShift.getEndDate());
-        }
+
+        mStartDate.setText(mShift.getStartDate());
+        mEndDate.setText(mShift.getEndDate());
+
 
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
@@ -165,42 +164,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mEditButton.setVisibility(View.VISIBLE);
             mFinishEditButton.setVisibility(View.GONE);
 
-            DatabaseReference dbShiftsAvailable = db.child(Constants.DB_NODE_SHIFTSAVAILABLE).child("stateCity");
 
-            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).removeValue();
-
-            mShift.setDescription(mDescriptionInput.getText().toString());
-            mShift.setStreetAddress(mAddressInput.getText().toString());
-            mShift.setCity(mCityInput.getText().toString());
-            mShift.setZip(mZipcodeInput.getText().toString());
-            mShift.setStartTime(mTimeStart.getText().toString());
-            mShift.setEndTime(mTimeEnd.getText().toString());
-            mShift.setStartDate(mStartDate.getText().toString());
-            mShift.setEndDate(mEndDate.getText().toString());
-            mShift.setShortDescription(mShortDescription.getText().toString());
-            mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));
-
-            mShortDescription.setVisibility(View.GONE);
-            mDescriptionInput.setVisibility(View.GONE);
-            mVolMaxInput.setVisibility(View.GONE);
-            mDescription.setText(mShift.getDescription());
-            mDescription.setVisibility(View.VISIBLE);
-
-            mAddressInput.setVisibility(View.GONE);
-            mAddress.setText(mShift.getStreetAddress());
-            mAddress.setVisibility(View.VISIBLE);
-
-            mCityInput.setVisibility(View.GONE);
-            mZipcodeInput.setVisibility(View.GONE);
-
-            mEditButton.setVisibility(View.VISIBLE);
-            mFinishEditButton.setVisibility(View.GONE);
-
-            dbShifts.child(mShift.getPushId()).setValue(mShift);
-            String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
-
-            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
-
+            validateFields();
 
         }
         if(view == mTimeStart) {
@@ -357,5 +322,100 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+
+    // Validators
+    public void validateFields(){
+
+
+        mStartTime = mTimeStart.getText().toString();
+        mEndTime = mTimeEnd.getText().toString();
+        mStartD = mStartDate.getText().toString();
+        mEndD = mEndDate.getText().toString();
+        mVolunteerSize = mVolMaxInput.getText().toString();
+        mShortDesc = mShortDescription.getText().toString();
+        mLongDesc = mDescriptionInput.getText().toString();
+        mStreet = mAddressInput.getText().toString();
+        mCity = mCityInput.getText().toString();
+        mZipcode = mZipcodeInput.getText().toString();
+
+        Log.d("Justin", "Comparing Date");
+
+        if (compareDate(mStartD, mEndD, mStartTime, mEndTime)) {
+
+            DatabaseReference dbShiftsAvailable = db.child(Constants.DB_NODE_SHIFTSAVAILABLE).child("stateCity");
+
+            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).removeValue();
+
+            mShift.setDescription(mDescriptionInput.getText().toString());
+            mShift.setStreetAddress(mAddressInput.getText().toString());
+            mShift.setCity(mCityInput.getText().toString());
+            mShift.setZip(mZipcodeInput.getText().toString());
+            mShift.setStartTime(mTimeStart.getText().toString());
+            mShift.setEndTime(mTimeEnd.getText().toString());
+            mShift.setStartDate(mStartDate.getText().toString());
+            mShift.setEndDate(mEndDate.getText().toString());
+            mShift.setShortDescription(mShortDescription.getText().toString());
+            mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));
+
+
+            mShortDescription.setVisibility(View.GONE);
+            mDescriptionInput.setVisibility(View.GONE);
+            mVolMaxInput.setVisibility(View.GONE);
+            mDescription.setText(mShift.getDescription());
+            mDescription.setVisibility(View.VISIBLE);
+
+            mAddressInput.setVisibility(View.GONE);
+            mAddress.setText(mShift.getStreetAddress());
+            mAddress.setVisibility(View.VISIBLE);
+
+            mCityInput.setVisibility(View.GONE);
+            mZipcodeInput.setVisibility(View.GONE);
+
+            mEditButton.setVisibility(View.VISIBLE);
+            mFinishEditButton.setVisibility(View.GONE);
+
+            dbShifts.child(mShift.getPushId()).setValue(mShift);
+            String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
+
+            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
+
+        }
+    }
+
+    public boolean compareDate(String dateOne, String dateTwo, String timeOne, String timeTwo) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+
+            Date date1 = sdf.parse(dateOne);
+            Date date2 = sdf.parse(dateTwo);
+
+            SimpleDateFormat sdfTime = new SimpleDateFormat("kk:mm");
+            Date time1 = sdfTime.parse(timeOne);
+            Date time2 = sdfTime.parse(timeTwo);
+
+            if(date1.after(date2)) {
+                Log.d("Justin", "Rejected at Date");
+                Toast toast = Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT);
+                toast.show();
+                return false;
+            } else if(date1.equals(date2)) {
+                if(time1.after(time2) || time1.equals(time2)) {
+                    Log.d("Justin", "Rejected at Time");
+                    Toast toast = Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    Log.d("Justin Time One: ", time1 + "");
+                    Log.d("Justin Time Two: ", time2 + "");
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        } catch (ParseException ex){
+            ex.printStackTrace();
+
+        }
+        return false;
     }
 }
