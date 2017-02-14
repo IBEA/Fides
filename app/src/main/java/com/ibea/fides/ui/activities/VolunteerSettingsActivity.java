@@ -58,6 +58,8 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
     User thisUser;
 
+    boolean pictureClicked = false;
+
     public static final int GET_FROM_GALLERY = 3;
 
     // image storage reference variables
@@ -144,9 +146,13 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         String city = cityeedittext.getText().toString().trim();
         String zip = zipedittext.getText().toString().trim();
         // On Log In Request
+       // pictureClicked = false;
 
         if(view == tempPicture) {
-            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+            //if(!pictureClicked){
+               // pictureClicked = true;
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+            //}
         }
         else if (view == updateButton){
 
@@ -240,6 +246,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
 
                 tempPicture.setImageBitmap(bitmap);
+                pictureClicked = false;
 
                 // save picture to firebase storage
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
