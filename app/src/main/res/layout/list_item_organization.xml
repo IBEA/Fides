@@ -21,9 +21,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/common_google_signin_btn_icon_light"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/avatar_blank"
                 android:id="@+id/imageView_orgThumbnail"
                 />
 
