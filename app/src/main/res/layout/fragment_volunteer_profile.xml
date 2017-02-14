@@ -99,7 +99,7 @@
                 android:id="@+id/textView_Description"/>
 
             <ImageView
-                android:layout_height="380dp"
+                android:layout_height="300dp"
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:id="@+id/imageView_volPic"
