@@ -26,7 +26,6 @@ import com.ibea.fides.ui.MainActivity_Volunteer;
 import com.ibea.fides.ui.OrganizationSettingsActivity;
 import com.ibea.fides.ui.SearchActivity;
 import com.ibea.fides.ui.VolunteerSettingsActivity;
-import com.ibea.fides.utils.Universal;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -51,9 +50,6 @@ public class BaseActivity extends AppCompatActivity {
 
     // For Navigation
     public Context mContext;
-
-    // Universal Functions
-    public Universal mUniversal;
 
     public String TAG;
     public String uId;
