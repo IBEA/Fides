@@ -240,16 +240,11 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             }
 
             if(updated) {
-                toast = Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT).show();
             }
             else {
-                toast = Toast.makeText(mContext, "No Changes Made", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "No Changes Made", Toast.LENGTH_SHORT).show();
             }
-            toastView = toast.getView();
-            toastView.setBackgroundColor(Color.argb(150,0,0,0));
-            toastView.setPadding(30,30,30,30);
-            toast.setView(toastView);
-            toast.show();
         }
     }
 

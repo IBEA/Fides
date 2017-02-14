@@ -8,126 +8,133 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.activities.OrganizationSettingsActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_above="@+id/updateButton"
-        android:weightSum="10">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
-            android:src="@drawable/avatar_blank"
-            android:gravity="center"
-            android:id="@+id/profilePicImageView" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap Picture to change"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:labelFor="@+id/tempPicture"
-            android:layout_marginBottom="30dp" />
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_above="@+id/updateButton"
+            android:weightSum="10">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:hint="Organization Name"
-            android:ems="12"
-            android:id="@+id/organizationNameEditText" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6"
+                android:src="@drawable/avatar_blank"
+                android:gravity="center"
+                android:id="@+id/profilePicImageView" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:inputType="text"
-            android:ems="12"
-            android:id="@+id/websiteEditText"
-            android:hint="Website" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:hint="Contact Name"
-            android:ems="12"
-            android:id="@+id/contactNameEditText"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:inputType="text"
-            android:ems="12"
-            android:id="@+id/streetAddressEditText"
-            android:hint="Street Address" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <Spinner
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/stateSpinner"
-                android:layout_toRightOf="@+id/cityEditText"
-                android:gravity="left"/>
+                android:text="Tap Picture to change"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:labelFor="@+id/tempPicture"
+                android:layout_marginBottom="30dp" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:inputType="textPersonName"
-                android:ems="9"
-                android:id="@+id/cityEditText"
-                android:hint="City"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
+                android:hint="Organization Name"
+                android:ems="12"
+                android:id="@+id/organizationNameEditText" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:inputType="number"
-            android:ems="12"
-            android:id="@+id/zipCodeEditText"
-            android:hint="ZIP Code" />
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:inputType="textMultiLine"
+                android:inputType="text"
                 android:ems="12"
-                android:id="@+id/descriptionEditText"
-                android:hint="Change Description" />
-        </ScrollView>
+                android:id="@+id/websiteEditText"
+                android:hint="Website" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:hint="Contact Name"
+                android:ems="12"
+                android:id="@+id/contactNameEditText"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:inputType="text"
+                android:ems="12"
+                android:id="@+id/streetAddressEditText"
+                android:hint="Street Address" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stateSpinner"
+                    android:layout_toRightOf="@+id/cityEditText"
+                    android:gravity="left"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="9"
+                    android:id="@+id/cityEditText"
+                    android:hint="City"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:inputType="number"
+                android:ems="12"
+                android:id="@+id/zipCodeEditText"
+                android:hint="ZIP Code" />
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:inputType="textMultiLine"
+                    android:ems="12"
+                    android:id="@+id/descriptionEditText"
+                    android:hint="Change Description" />
+            </ScrollView>
 
 
-    </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
 
     <Button
         android:layout_width="match_parent"
@@ -138,5 +145,6 @@
         android:textColor="@color/colorIcons"
         android:text="Update"
         android:textSize="25sp"/>
+
 
 </RelativeLayout>

@@ -134,12 +134,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
-                    toast = Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT);
-                    toastView = toast.getView();
-                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
-                    toastView.setPadding(30,30,30,30);
-                    toast.setView(toastView);
-                    toast.show();
+                    Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+
                 }else{
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
@@ -161,12 +157,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).setValue(shiftId);
                     }
 
-                    toast = Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT);
-                    toastView = toast.getView();
-                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
-                    toastView.setPadding(30,30,30,30);
-                    toast.setView(toastView);
-                    toast.show();
+                    Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
+
                 }
             }
 

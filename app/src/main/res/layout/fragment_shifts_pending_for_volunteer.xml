@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.fragments.ShiftsPendingForVolunteerFragment"
-    android:theme="@style/DarkOnLightLayout">
+    android:background="@color/colorBackground"
+    >
 
     <TextView
         android:layout_width="match_parent"
