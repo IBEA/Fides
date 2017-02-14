@@ -11,21 +11,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:weightSum="1">
         <TextView
             android:text="Org Name"
             android:textSize="24sp"
             android:gravity="center"
             android:layout_width="wrap_content"
+            android:layout_weight=".95"
             android:layout_height="wrap_content"
             android:id="@+id/textView_OrgName" />
 
         <TextView
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:gravity="end"
             android:id="@+id/editButton"
             android:drawableTop="@drawable/ic_mode_edit_black_24dp" />
