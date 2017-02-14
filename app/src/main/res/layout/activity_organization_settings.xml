@@ -31,7 +31,7 @@
             android:text="Tap Picture to change"
             android:layout_gravity="center"
             android:gravity="center"
-            android:labelFor="@id/tempPicture"
+            android:labelFor="@+id/tempPicture"
             android:layout_marginBottom="30dp" />
 
         <EditText
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/stateSpinner"
-                android:layout_toRightOf="@id/cityEditText"
+                android:layout_toRightOf="@+id/cityEditText"
                 android:gravity="left"/>
 
             <EditText

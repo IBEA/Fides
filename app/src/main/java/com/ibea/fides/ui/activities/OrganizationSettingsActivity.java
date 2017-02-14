@@ -51,6 +51,8 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     @Bind(R.id.descriptionEditText) EditText descriptionEditText;
     @Bind(R.id.updateButton) Button updateButton;
 
+    Organization thisOrg;
+
     String mOrganizationName;
     String mWebsite;
     String mContactName;
@@ -60,9 +62,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     String mZip;
     String mDescription;
 
-    public static final int GET_FROM_GALLERY = 3;
-
-    // image storage reference variables
     FirebaseStorage mStorage;
     StorageReference mStorageRef;
     StorageReference mImageRef;
@@ -70,7 +69,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     Toast toast;
     View toastView;
 
-    Organization thisOrg;
+    public static final int GET_FROM_GALLERY = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         setContentView(R.layout.activity_organization_settings);
         ButterKnife.bind(this);
 
-        autoFill();
+        AutoFill();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -92,26 +91,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
         mImageRef = mStorageRef.child("images/" + uId + ".jpg");
 
-        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Organization editOrg = dataSnapshot.getValue(Organization.class);
-                organizationNameEditText.setText(editOrg.getName());
-                websiteEditText.setText(editOrg.getUrl());
-                contactNameEditText.setText(editOrg.getContactName());
-                streetAddressEditText.setText(editOrg.getStreetAddress());
-                cityEditText.setText(editOrg.getCityAddress());
-                //TODO stateSpinner.setSelection(editOrg.getStateAddress());
-                zipCodeEditText.setText(editOrg.getZipcode());
-                descriptionEditText.setText(editOrg.getDescription());
-                
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -145,7 +124,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
             profilePicImageView.setImageBitmap(bitmap);
-            // save picture to firebase storage
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] serializedImageFile = baos.toByteArray();
@@ -172,7 +150,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
     }
 
-    public void autoFill() {
+    public void AutoFill() {
         dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -182,31 +160,38 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             thisOrg = dataSnapshot.getValue(Organization.class);
 
-                            organizationNameEditText.setHint(thisOrg.getName());
-                            websiteEditText.setHint(thisOrg.getUrl());
-                            contactNameEditText.setHint(thisOrg.getContactName());
-                            streetAddressEditText.setHint(thisOrg.getStreetAddress());
-                            cityEditText.setHint(thisOrg.getCityAddress());
+                            if(thisOrg != null) {
+                                if (!thisOrg.getName().equals(""))
+                                    organizationNameEditText.setHint(thisOrg.getName());
+                                if (thisOrg.getUrl() != null)
+                                    if(!thisOrg.getUrl().equals(""))
+                                        websiteEditText.setHint(thisOrg.getUrl());
+                                if (!thisOrg.getContactName().equals(""))
+                                    contactNameEditText.setHint(thisOrg.getContactName());
+                                if (!thisOrg.getStreetAddress().equals(""))
+                                    streetAddressEditText.setHint(thisOrg.getStreetAddress());
+                                if (!thisOrg.getCityAddress().equals(""))
+                                    cityEditText.setHint(thisOrg.getCityAddress());
 
-                            String state = thisOrg.getStateAddress();
-                            Resources res = getResources();
-                            String[] states = res.getStringArray(R.array.states_array);
-                            int index = Arrays.asList(states).indexOf(state);
-                            stateSpinner.setSelection(index);
+                                String state = thisOrg.getStateAddress();
+                                Resources res = getResources();
+                                String[] states = res.getStringArray(R.array.states_array);
+                                int index = Arrays.asList(states).indexOf(state);
+                                stateSpinner.setSelection(index);
 
-                            zipCodeEditText.setHint(thisOrg.getZipcode());
-                            descriptionEditText.setHint(thisOrg.getDescription());
+                                if (!thisOrg.getZipcode().equals(""))
+                                    zipCodeEditText.setHint(thisOrg.getZipcode());
+                                if (!thisOrg.getDescription().equals(""))
+                                    descriptionEditText.setHint(thisOrg.getDescription());
+                            }
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
 
                         }
                     });
-
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -215,7 +200,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     }
 
     public void onClick(View view) {
-        // On Log In Request
         if(view == profilePicImageView) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
@@ -240,6 +224,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             }
             if(!cityEditText.getText().toString().trim().equals("")) {
                 updateCity();
+                updated = true;
+            }
+            if(!stateSpinner.getSelectedItem().equals(thisOrg.getStateAddress())) {
+                updateState();
                 updated = true;
             }
             if(!zipCodeEditText.getText().toString().trim().equals("")) {
@@ -281,17 +269,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("name").setValue(mOrganizationName);
         organizationNameEditText.setHint(organizationNameEditText.getText());
         organizationNameEditText.getText().clear();
-
-//        toast = Toast.makeText(mContext, "Organization Name Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
     }
 
     private void updateWebsite() {
-        String tempWebsite = organizationNameEditText.getText().toString().trim();
+        String tempWebsite = websiteEditText.getText().toString().trim();
         boolean validInput = isValidWebsite(tempWebsite);
         if(!validInput){
             return;
@@ -301,13 +282,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("url").setValue(mWebsite);
         websiteEditText.setHint(websiteEditText.getText());
         websiteEditText.getText().clear();
-
-//        toast = Toast.makeText(mContext, "Website URL Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
     }
 
     private void updateContactName() {
@@ -321,13 +295,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("contactName").setValue(mContactName);
         contactNameEditText.setHint(contactNameEditText.getText());
         contactNameEditText.getText().clear();
-
-//        toast = Toast.makeText(mContext, "Contact Name Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
     }
 
     private void updateStreetAddress() {
@@ -341,13 +308,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("streetAddress").setValue(mStreetAddress);
         streetAddressEditText.setHint(streetAddressEditText.getText());
         streetAddressEditText.getText().clear();
-
-//        toast = Toast.makeText(mContext, "Street Address Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
     }
 
     private void updateCity() {
@@ -361,13 +321,11 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("cityAddress").setValue(mCity);
         cityEditText.setHint(cityEditText.getText());
         cityEditText.getText().clear();
+    }
 
-//        toast = Toast.makeText(mContext, "City Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
+    private void updateState() {
+        mState = stateSpinner.getSelectedItem().toString().trim();
+        dbOrganizations.child(uId).child("stateAddress").setValue(mState);
     }
 
     private void updateZip() {
@@ -381,13 +339,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbOrganizations.child(uId).child("zipcode").setValue(mZip);
         zipCodeEditText.setHint(zipCodeEditText.getText());
         zipCodeEditText.getText().clear();
-
-//        toast = Toast.makeText(mContext, "ZIP Code Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
     }
 
     private void updateDescription() {
@@ -400,14 +351,8 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         mDescription = descriptionEditText.getText().toString();
         dbOrganizations.child(uId).child("description").setValue(mDescription);
+        descriptionEditText.setText(descriptionEditText.getText());
         descriptionEditText.getText().clear();
-
-//        toast = Toast.makeText(mContext, "Description Updated", Toast.LENGTH_SHORT);
-//        toastView = toast.getView();
-//        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-//        toastView.setPadding(30,30,30,30);
-//        toast.setView(toastView);
-//        toast.show();
     }
 
 
@@ -470,7 +415,4 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
         return true;
     }
-
-
-
 }
