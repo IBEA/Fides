@@ -36,7 +36,7 @@
             android:text="Hours Worked:"
             android:textSize="16sp"/>
 
-    <EditText
+        <EditText
         android:hint="Hours"
         android:ems="6"
         android:layout_width="0dp"
