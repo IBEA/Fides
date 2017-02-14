@@ -48,7 +48,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     // Popup
     private PopupWindow mPopUp;
     private View mPopupContext;
-    private Button mNoShowButton;
+    private TextView mNoShowButton;
     private Button mShowButton;
     private EditText mHoursInput;
     private String mHours;
@@ -131,7 +131,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             mPopUp = new PopupWindow(mPopupContext, 1000, 1000, true);
             mPopUp.showAtLocation(mPopupContext, Gravity.CENTER, 0, 0);
             mShowButton = (Button) mPopupContext.findViewById(R.id.showButton);
-            mNoShowButton = (Button) mPopupContext.findViewById(R.id.noShowButton);
+            mNoShowButton = (TextView) mPopupContext.findViewById(R.id.noShowButton);
             mHoursInput = (EditText) mPopupContext.findViewById(R.id.hoursInput);
 
             mHoursInput.setText(mDiffInput);
