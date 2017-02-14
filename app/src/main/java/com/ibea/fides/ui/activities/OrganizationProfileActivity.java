@@ -27,7 +27,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class MainActivity_Organization extends BaseActivity {
+public class OrganizationProfileActivity extends BaseActivity {
     Organization mOrganization;
     Boolean isOrganization;
     String currentUserId;

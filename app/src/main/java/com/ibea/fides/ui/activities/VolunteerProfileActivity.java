@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 // Main organization page, nested with profile and shift tab.
 
-public class MainActivity_Volunteer extends BaseActivity{
+public class VolunteerProfileActivity extends BaseActivity{
     User mUser;
     Boolean isOrganization;
     String currentUserId;

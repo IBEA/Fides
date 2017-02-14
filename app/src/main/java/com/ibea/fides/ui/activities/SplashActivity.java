@@ -51,13 +51,13 @@ public class SplashActivity extends BaseActivity {
                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
                                     if(mIsOrganization){
                                         Log.d(TAG, "Routing to Org Profile");
-                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Organization.class);
+                                        Intent intent = new Intent(SplashActivity.this, OrganizationProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                     } else{
                                         Log.d(TAG, "Routing to Vol Profile");
-                                        Intent intent = new Intent(SplashActivity.this, MainActivity_Volunteer.class);
+                                        Intent intent = new Intent(SplashActivity.this, VolunteerProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();

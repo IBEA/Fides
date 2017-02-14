@@ -66,7 +66,7 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        Intent intent = new Intent(IntroActivity.this, CreateUserAccount.class);
+        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("userName", userName);
         intent.putExtra("userEmail", userEmail);
@@ -79,7 +79,7 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        Intent intent = new Intent(IntroActivity.this, CreateUserAccount.class);
+        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("userName", userName);
         intent.putExtra("userEmail", userEmail);

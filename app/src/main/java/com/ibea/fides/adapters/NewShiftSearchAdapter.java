@@ -44,7 +44,7 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
     @Override
     public NewShiftSearchAdapter.NewShiftSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_shift_list_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_shift, parent, false);
             NewShiftSearchViewHolder viewHolder = new NewShiftSearchViewHolder(view);
             return viewHolder;
             }
