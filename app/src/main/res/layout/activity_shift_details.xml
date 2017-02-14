@@ -8,27 +8,38 @@
     android:padding="12dp"
     tools:context="com.ibea.fides.ui.ShiftDetailsActivity">
 
-    <TextView
-        android:text="Org Name"
-        android:textSize="24sp"
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_OrgName" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:id="@+id/editButton"
-        android:drawableTop="@drawable/ic_mode_edit_black_24dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:id="@+id/finishEditButton"
-        android:drawableTop="@drawable/ic_done_black_24dp" />
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:text="Org Name"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_OrgName" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="end"
+            android:id="@+id/editButton"
+            android:drawableTop="@drawable/ic_mode_edit_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:id="@+id/finishEditButton"
+            android:drawableTop="@drawable/ic_done_black_24dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
