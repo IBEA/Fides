@@ -46,7 +46,10 @@ public class OrganizationProfileActivity extends BaseActivity {
         if(intent.getExtras() != null){
             Log.d(">>>>>", "Found extras");
             mOrganization = Parcels.unwrap(intent.getExtras().getParcelable("organization"));
+
+            setTitle(mOrganization.getName());
             populateTabs();
+
         }else{
             Log.d(">>>>>", "Did not find extras");
             FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_ORGANIZATIONS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -54,6 +57,7 @@ public class OrganizationProfileActivity extends BaseActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mOrganization = dataSnapshot.getValue(Organization.class);
                     Log.d(TAG, mOrganization.getName());
+                    setTitle(mOrganization.getName());
                     populateTabs();
                 }
 
