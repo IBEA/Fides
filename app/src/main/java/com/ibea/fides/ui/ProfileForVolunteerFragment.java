@@ -106,12 +106,13 @@ public class ProfileForVolunteerFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         // assign image storage reference variables
+        String volunteerId = mUser.getPushId();
+
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
-        mImageRef = mStorageRef.child("images/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
+        mImageRef = mStorageRef.child("images/" + volunteerId + ".jpg");
 
         //mImageRef = mStorageRef.child("images/" + "dethwarz2" + ".png");
-
 
         Log.i(">>>>>>>>>>>>>>>>>>>>>>>", mImageRef.toString());
 
