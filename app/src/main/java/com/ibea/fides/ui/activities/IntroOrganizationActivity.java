@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.ibea.fides.R;
@@ -55,6 +56,11 @@ public class IntroOrganizationActivity extends AppIntro {
         super.onSkipPressed(currentFragment);
 
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
     }
 
     @Override
