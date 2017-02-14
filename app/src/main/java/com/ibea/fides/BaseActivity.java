@@ -14,8 +14,11 @@ import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.ui.AdminActivity;
 import com.ibea.fides.ui.LogInActivity;
 import com.ibea.fides.ui.MainActivity_Organization;
@@ -123,6 +126,23 @@ public class BaseActivity extends AppCompatActivity {
         } else{
             inflater.inflate(R.menu.menu_volunteer, menu);
         }
+
+        final MenuItem admin = (MenuItem) menu.findItem(R.id.action_admin);
+
+        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("isAdmin").getValue(Boolean.class) == false){
+                    admin.setVisible(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
 
     }
