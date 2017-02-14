@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,8 +26,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ShiftsCompletedForOrganizationFragment extends Fragment {
-    @Bind(R.id.unratedRecyclerView)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     FirebaseRecyclerAdapter mFirebaseAdapter;
     Boolean isOrganization;
@@ -53,6 +55,7 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
         final String currentUserId;
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
+
         if(auth.getCurrentUser() != null){
             mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -69,6 +72,24 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
                 }
             });
         }
+
+        FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0){
+                    mTextView_Splash.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    mTextView_Splash.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return view;
     }

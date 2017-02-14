@@ -1,14 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.ShiftsCompletedForOrganizationFragment"
     android:theme="@style/DarkOnLightLayout">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textView_Splash"
+        android:text="No volunteer shifts completed. To mark a shift complete, swipe it right from the Pending tab."
+        android:padding="36dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical|center"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="20sp" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/unratedRecyclerView"
+        android:layout_below="@+id/textView_Splash"
         android:padding="12dp"/>
 
-</FrameLayout>
+</RelativeLayout>
