@@ -1,6 +1,7 @@
 package com.ibea.fides.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftsPendingForVolunteerFragment extends Fragment{
+public class ShiftsPendingForVolunteerFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
@@ -81,6 +82,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment{
         setUpFirebaseAdapter();
 
         setRecyclerViewItemTouchListener();
+        mTextView_Splash.setOnClickListener(this);
 
         return view;
     }
@@ -90,6 +92,15 @@ public class ShiftsPendingForVolunteerFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.d(">>>>>", " in onClick");
+        if(view == mTextView_Splash){
+            Intent intent = new Intent(getContext(), SearchActivity.class);
+            startActivity(intent);
+        }
     }
 
     // newInstance constructor for creating fragment with arguments
@@ -124,22 +135,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment{
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setAdapter(mFirebaseAdapter);
-
-
-
-
-        // Check whether the list is empty, and display message if so
-//TODO: Deal with Asynchronicity issue, causing getItemCount() to always return 0
-//        Toast.makeText(getActivity(), mFirebaseAdapter.getItemCount()+"", Toast.LENGTH_SHORT).show();
-//
-//        if(mFirebaseAdapter.getItemCount() > 0){
-//            mEmptyWarning.setVisibility(View.INVISIBLE);
-//            mRecyclerView.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            mEmptyWarning.setVisibility(View.VISIBLE);
-//            mRecyclerView.setVisibility(View.INVISIBLE);
-//        }
     }
 
     private void setRecyclerViewItemTouchListener() {

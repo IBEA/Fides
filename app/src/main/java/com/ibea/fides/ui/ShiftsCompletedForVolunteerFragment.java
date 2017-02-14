@@ -110,18 +110,5 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mRecyclerView.setAdapter(mFirebaseAdapter);
 
-
-        // Check whether the list is empty, and display message if so
-// TODO: Deal with Asynchronicity issue, causing getItemCount() to always return 0
-//        Toast.makeText(getActivity(), mFirebaseAdapter.getItemCount()+"", Toast.LENGTH_SHORT).show();
-//
-//        if(mFirebaseAdapter.getItemCount() > 0){
-//            mEmptyWarning.setVisibility(View.INVISIBLE);
-//            mRecyclerView.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            mEmptyWarning.setVisibility(View.VISIBLE);
-//            mRecyclerView.setVisibility(View.INVISIBLE);
-//        }
     }
 }
