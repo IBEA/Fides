@@ -128,8 +128,10 @@ public class BaseActivity extends AppCompatActivity {
         dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("isAdmin").getValue(Boolean.class) == false){
-                    admin.setVisible(false);
+                if(dataSnapshot.hasChild("isAdmin")){
+                    if(dataSnapshot.child("isAdmin").getValue(Boolean.class) == false){
+                        admin.setVisible(false);
+                    }
                 }
             }
 

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -85,6 +86,11 @@ public class CreateUserAccountActivity extends BaseActivity implements View.OnCl
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mState = parent.getItemAtPosition(pos).toString();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
     }
 
     @Override
