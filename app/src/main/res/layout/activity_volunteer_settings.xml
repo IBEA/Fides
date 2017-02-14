@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_above="@+id/updateButton"
-        android:gravity="center_vertical"
         android:weightSum="10">
 
         <ImageView
@@ -31,7 +31,8 @@
             android:text="Tap Picture to change"
             android:layout_gravity="center"
             android:gravity="center"
-            android:labelFor="@id/tempPicture"/>
+            android:labelFor="@id/tempPicture"
+            android:layout_marginBottom="30dp"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -42,8 +43,7 @@
             android:inputType="textPersonName"
             android:hint="Username"
             android:ems="12"
-            android:id="@+id/usernameedittext"
-            android:layout_marginTop="30dp"/>
+            android:id="@+id/usernameedittext"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
