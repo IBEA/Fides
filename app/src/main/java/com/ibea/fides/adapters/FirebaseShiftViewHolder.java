@@ -136,7 +136,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
                     toast = Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT);
                     toastView = toast.getView();
-                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                    toastView.setBackgroundColor(Color.argb(150,150,150,150));
                     toastView.setPadding(30,30,30,30);
                     toast.setView(toastView);
                     toast.show();
