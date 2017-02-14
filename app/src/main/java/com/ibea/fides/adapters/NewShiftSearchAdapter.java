@@ -2,6 +2,7 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,9 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
     private ArrayList<Shift> mShifts = new ArrayList<>();
     private String mUserId;
     private final String TAG = "NewShiftSearchAdapter";
+
+    Toast toast;
+    View toastView;
 
     public NewShiftSearchAdapter(Context context, ArrayList<Shift> shifts) {
             mShifts = shifts;
@@ -104,7 +108,12 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Shift shift = dataSnapshot.getValue(Shift.class);
                     if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
-                        Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
+                        toast = Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT);
+                        toastView = toast.getView();
+                        toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                        toastView.setPadding(30,30,30,30);
+                        toast.setView(toastView);
+                        toast.show();
                     }else{
                         // Assign to shiftsPending for user
                         dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId).child(shiftId).setValue(shiftId);
@@ -125,7 +134,12 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
                             dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).removeValue();
                         }
 
-                        Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                        toast = Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT);
+                        toastView = toast.getView();
+                        toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                        toastView.setPadding(30,30,30,30);
+                        toast.setView(toastView);
+                        toast.show();
                     }
                 }
 

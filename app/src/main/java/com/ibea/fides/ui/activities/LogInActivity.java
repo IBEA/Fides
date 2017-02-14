@@ -3,6 +3,7 @@ package com.ibea.fides.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -45,6 +46,9 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     private String userId;
     private String userName;
     private String userEmail;
+
+    Toast toast;
+    View toastView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +147,12 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                     finish();
                                                 } else{
                                                     Log.d("LogInActivity", "User is Not Verified Org");
-                                                    Toast.makeText(mContext, "Thank you. Your Account is being Verified", Toast.LENGTH_LONG).show();
+                                                    toast = Toast.makeText(mContext, "Thank you. Your Account is being Verified", Toast.LENGTH_LONG);
+                                                    toastView = toast.getView();
+                                                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
+                                                    toastView.setPadding(30,30,30,30);
+                                                    toast.setView(toastView);
+                                                    toast.show();
                                                 }
                                             }
 

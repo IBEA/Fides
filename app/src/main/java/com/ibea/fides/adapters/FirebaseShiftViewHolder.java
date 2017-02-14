@@ -44,6 +44,9 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private String mOrigin;
     private Boolean mIsComplete;
 
+    Toast toast;
+    View toastView;
+
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -132,6 +135,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
                     Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+
                 }else{
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
