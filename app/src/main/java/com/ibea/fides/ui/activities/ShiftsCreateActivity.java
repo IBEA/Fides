@@ -244,11 +244,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         // Create Toast, overriding background property of activity
                         Toast toast = Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT);
-                        View view = toast.getView();
-                        view.setBackgroundColor(Color.argb(150,0,0,0));
-                        view.setPadding(30,30,30,30);
-                        toast.setView(view);
-                        toast.show();
                     }
                 }
 
@@ -406,12 +401,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(searchKey);
 
         // Create Toast, overriding background property of activity
-        Toast toast = Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        view.setBackgroundColor(Color.argb(150,0,0,0));
-        view.setPadding(30,30,30,30);
-        toast.setView(view);
-        toast.show();
+        Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
 
         // Add shift to shiftsPending for organization
         dbShiftsPending.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);

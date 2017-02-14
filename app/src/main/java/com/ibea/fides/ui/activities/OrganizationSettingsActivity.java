@@ -152,12 +152,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         stateEditText.getText().clear();
         zipEditText.getText().clear();
 
-        toast = Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT);
-        toastView = toast.getView();
-        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-        toastView.setPadding(30,30,30,30);
-        toast.setView(toastView);
-        toast.show();
+        Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
         dbOrganizations.child(uId).child("streetAddress").setValue(street);
         dbOrganizations.child(uId).child("cityAddress").setValue(city);
@@ -178,12 +173,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         userEditText.getText().clear();
 
-        toast = Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT);
-        toastView = toast.getView();
-        toastView.setBackgroundColor(Color.argb(150,0,0,0));
-        toastView.setPadding(30,30,30,30);
-        toast.setView(toastView);
-        toast.show();
+        Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
         dbOrganizations.child(uId).child("name").setValue(username);
     }
 
@@ -195,12 +185,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             mDescription = descriptionEditText.getText().toString();
             descriptionEditText.getText().clear();
             dbOrganizations.child(uId).child("description").setValue(mDescription);
-            toast = Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT);
-            toastView = toast.getView();
-            toastView.setBackgroundColor(Color.argb(150,0,0,0));
-            toastView.setPadding(30,30,30,30);
-            toast.setView(toastView);
-            toast.show();
+            Toast.makeText(mContext, "Blurb updated", Toast.LENGTH_SHORT).show();
         }
     }
 
