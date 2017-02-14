@@ -2,7 +2,6 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.ui.MainActivity_Organization;
 import com.ibea.fides.ui.ShiftDetailsActivity;
 
 import org.parceler.Parcels;

@@ -1,10 +1,9 @@
 package com.ibea.fides.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,7 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
-import com.ibea.fides.models.User;
 
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
