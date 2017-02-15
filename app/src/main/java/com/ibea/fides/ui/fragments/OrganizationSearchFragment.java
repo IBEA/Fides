@@ -82,14 +82,11 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||
                     event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // the user is done typing.
                     fetchOrganizationsIds();
-                    Log.d("+++++", "the user is done typing");
-
                     return true; // consume.
                 }
-                Log.d("+++++", "pass on");
                 return false; // pass on to other listeners.
             }
         });

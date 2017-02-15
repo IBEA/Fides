@@ -243,7 +243,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                         }
                     } else {
                         // Create Toast, overriding background property of activity
-                        Toast toast = Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
                     }
                 }
 

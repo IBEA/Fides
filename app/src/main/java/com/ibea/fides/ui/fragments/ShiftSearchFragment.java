@@ -8,11 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,6 +81,51 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         setRecyclerViewItemTouchListener();
 
+        mEditText_Organization.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH ||
+                        i == EditorInfo.IME_ACTION_DONE ||
+                        keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    // the user is done typing.
+                    startSearch();
+                    return true; // consume.
+                }
+                return false; // pass on to other listeners.
+            }
+        });
+
+        mEditText_City.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH ||
+                        i == EditorInfo.IME_ACTION_DONE ||
+                        keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    // the user is done typing.
+                    startSearch();
+                    return true; // consume.
+                }
+                return false; // pass on to other listeners.
+            }
+        });
+
+        mEditText_Zip.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH ||
+                        i == EditorInfo.IME_ACTION_DONE ||
+                        keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                                keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    // the user is done typing.
+                    startSearch();
+                    return true; // consume.
+                }
+                return false; // pass on to other listeners.
+            }
+        });
+
         mImageButton_Search.setOnClickListener(this);
 
         // Inflate the layout for this fragment
@@ -90,24 +138,28 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         //TODO: Consider abandoning zipcode searches
 
         if(view == mImageButton_Search){
-            //TODO: Lowercase cityQuery once database also has lowercase city nodes
-            String cityQuery = mEditText_City.getText().toString();
-            String stateQuery = mEditText_State.getText().toString();
-            String zipQuery = mEditText_Zip.getText().toString();
-            String orgQuery = mEditText_Organization.getText().toString();
+            startSearch();
+        }
+    }
 
-            //TODO: Remove stateQuery check once state dropdown is in
-            if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
-                //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
-                fetchShiftIds(cityQuery, stateQuery);
-            }else{
-                if(cityQuery.length() == 0){
-                    Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
-                }else if(stateQuery.length() == 0){
-                    Toast.makeText(mContext, "Please enter a valid state", Toast.LENGTH_SHORT).show();
-                }else if(!validateZip(zipQuery)){
-                    Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
-                }
+    public void startSearch(){
+        //TODO: Lowercase cityQuery once database also has lowercase city nodes
+        String cityQuery = mEditText_City.getText().toString();
+        String stateQuery = mEditText_State.getText().toString();
+        String zipQuery = mEditText_Zip.getText().toString();
+        String orgQuery = mEditText_Organization.getText().toString();
+
+        //TODO: Remove stateQuery check once state dropdown is in
+        if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
+            //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
+            fetchShiftIds(cityQuery, stateQuery);
+        }else{
+            if(cityQuery.length() == 0){
+                Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
+            }else if(stateQuery.length() == 0){
+                Toast.makeText(mContext, "Please enter a valid state", Toast.LENGTH_SHORT).show();
+            }else if(!validateZip(zipQuery)){
+                Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -122,10 +174,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         final String orgQuery = mEditText_Organization.getText().toString().toLowerCase();
 
         if(validateZip(zipQuery)){
-            String w = "(.*)";
-            final String query = w + zipQuery + w + orgQuery + w;
-            Log.d(TAG, "Query: " + query);
-
             int itemCount = shifts.size();
             shifts.clear();
             mRecyclerAdapter.notifyItemRangeRemoved(0, itemCount);
@@ -148,7 +196,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
                         Log.d(TAG, searchKey);
 
-                        if(searchKey.matches(query)){
+                        if(searchKey.contains(orgQuery) && searchKey.contains(zipQuery)){
                             Log.d(TAG, "Query matches!");
                             foundResults = true;
                             fetchShift(shiftId);
