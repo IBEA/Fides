@@ -21,8 +21,9 @@
         <activity android:name=".ui.activities.LogInActivity" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".ui.activities.CreateAccountActivity" />
-        <activity android:name=".ui.activities.ShiftsCreateActivity"
-            android:noHistory="true"/>
+        <activity
+            android:name=".ui.activities.ShiftsCreateActivity"
+            android:noHistory="true" />
         <activity android:name=".ui.activities.ShiftDetailsActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
         <activity android:name=".ui.activities.IntroActivity" />
@@ -42,9 +43,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.CreateUserAccountActivity"></activity>
-
-        <activity android:name=".ui.activities.SearchActivity"></activity>
+        <activity android:name=".ui.activities.CreateUserAccountActivity" />
+        <activity android:name=".ui.activities.SearchActivity" />
+        <activity android:name=".ui.activities.FaqActivity"></activity>
     </application>
 
 </manifest>

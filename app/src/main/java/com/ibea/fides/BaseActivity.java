@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.ui.activities.AdminActivity;
+import com.ibea.fides.ui.activities.FaqActivity;
 import com.ibea.fides.ui.activities.LogInActivity;
 import com.ibea.fides.ui.activities.OrganizationProfileActivity;
 import com.ibea.fides.ui.activities.VolunteerProfileActivity;
@@ -180,7 +181,11 @@ public class BaseActivity extends AppCompatActivity {
         }else if(id == R.id.search_page){
             Intent intent = new Intent(mContext, SearchActivity.class);
             startActivity(intent);
+        }else if (id == R.id.action_faq) {
+            Intent intent = new Intent(mContext, FaqActivity.class);
+            startActivity(intent);
         }
+
         return super.onOptionsItemSelected(item);
     }
 
