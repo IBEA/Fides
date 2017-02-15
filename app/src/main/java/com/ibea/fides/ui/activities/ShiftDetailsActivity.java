@@ -72,7 +72,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
 
-        mFinishEditButton.setOnClickListener(this);
         mDescriptionInput.setVisibility(View.GONE);
         mAddressInput.setVisibility(View.GONE);
         mCityInput.setVisibility(View.GONE);
@@ -85,8 +84,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         mOrgName.setText(mShift.getOrganizationName());
 
-        mEditButton.setOnClickListener(this);
 
+        mEditButton.setVisibility(View.GONE);
 
         mStartDate.setText(mShift.getStartDate());
         mEndDate.setText(mShift.getEndDate());
@@ -99,7 +98,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         if(mIsOrganization) {
             mVolunteers.clear();
+            mEditButton.setVisibility(View.VISIBLE);
 
+            mEditButton.setOnClickListener(this);
+
+            mFinishEditButton.setOnClickListener(this);
             mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
             mRecyclerView.setHasFixedSize(false);
             mRecyclerView.setAdapter(mRecyclerAdapter);
@@ -118,6 +121,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         }else {
             mHeaderOne.setVisibility(View.GONE);
             mInstructions.setVisibility(View.GONE);
+            mEditButton.setVisibility(View.GONE);
         }
 
     }
