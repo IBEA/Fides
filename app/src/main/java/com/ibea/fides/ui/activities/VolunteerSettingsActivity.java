@@ -145,14 +145,9 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     public void onClick(View view) {
         String city = cityeedittext.getText().toString().trim();
         String zip = zipedittext.getText().toString().trim();
-        // On Log In Request
-       // pictureClicked = false;
 
         if(view == tempPicture) {
-            //if(!pictureClicked){
-               // pictureClicked = true;
-                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-            //}
+            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
         else if (view == updateButton){
 
@@ -187,7 +182,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         dbUsers.child(uId).child("zipcode").setValue(mZip);
         dbUsers.child(uId).child("state").setValue(mState);
 
-        //This data needs to be placed into the database by backend -- Garrett
         Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
     }
@@ -207,7 +201,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
 
-        //This data needs to be placed into the database by backend -- Garrett
     }
 
     private boolean isValidCity(String data) {
