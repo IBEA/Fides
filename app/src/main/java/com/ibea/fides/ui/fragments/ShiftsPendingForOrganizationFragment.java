@@ -4,6 +4,7 @@ package com.ibea.fides.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
  */
 public class ShiftsPendingForOrganizationFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.button_CreateShift) Button mButton_CreateShift;
+    @Bind(R.id.button_CreateShift) FloatingActionButton mButton_CreateShift;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();

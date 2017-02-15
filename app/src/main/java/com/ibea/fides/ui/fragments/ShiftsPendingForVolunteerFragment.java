@@ -4,6 +4,7 @@ package com.ibea.fides.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,9 +38,9 @@ import butterknife.ButterKnife;
 public class ShiftsPendingForVolunteerFragment extends Fragment implements View.OnClickListener{
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
+    @Bind(R.id.button_FindShift) FloatingActionButton mButton_Search;
 
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-    private Boolean isOrganization;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
 
@@ -79,11 +80,10 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
         Log.v(">>>>>", "ShiftsPending current user = " + mCurrentUser.getUid());
         Log.v(">>>>>", "In onCreateView for ShiftsPending");
 
-        isOrganization = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getBoolean(Constants.KEY_ISORGANIZATION, false);
         setUpFirebaseAdapter();
 
         setRecyclerViewItemTouchListener();
-        mTextView_Splash.setOnClickListener(this);
+        mButton_Search.setOnClickListener(this);
 
         return view;
     }
@@ -97,8 +97,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
 
     @Override
     public void onClick(View view) {
-        Log.d(">>>>>", " in onClick");
-        if(view == mTextView_Splash){
+        if(view == mButton_Search){
             Intent intent = new Intent(getContext(), SearchActivity.class);
             startActivity(intent);
         }
