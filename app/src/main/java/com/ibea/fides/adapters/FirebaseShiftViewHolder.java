@@ -135,7 +135,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 if(shift.getCurrentVolunteers().indexOf(userID) == -1){
                     Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
-
                 }else{
                     // Remove from shiftsPending for user
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();

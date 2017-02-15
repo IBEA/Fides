@@ -80,7 +80,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
 
-        mFinishEditButton.setOnClickListener(this);
         mDescriptionInput.setVisibility(View.GONE);
         mStreetAddressInput.setVisibility(View.GONE);
         mCityInput.setVisibility(View.GONE);
@@ -93,8 +92,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         mOrgName.setText(mShift.getOrganizationName());
 
-        mBeginEditButton.setOnClickListener(this);
-
+        mBeginEditButton.setVisibility(View.GONE);
 
         mStartDate.setText(mShift.getStartDate());
         mEndDate.setText(mShift.getEndDate());
@@ -107,7 +105,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         if(mIsOrganization) {
             mVolunteers.clear();
+            mBeginEditButton.setVisibility(View.VISIBLE);
 
+            mBeginEditButton.setOnClickListener(this);
+
+            mFinishEditButton.setOnClickListener(this);
             mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
             mVolunteersListRecyclerView.setHasFixedSize(false);
             mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
@@ -126,6 +128,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         }else {
             mVolunteersListHeader.setVisibility(View.GONE);
             mVolunteersListInstructions.setVisibility(View.GONE);
+            mBeginEditButton.setVisibility(View.GONE);
         }
 
     }
@@ -399,14 +402,12 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             if(date1.after(date2)) {
                 Log.d("Justin", "Rejected at Date");
-                Toast toast = Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT).show();
                 return false;
             } else if(date1.equals(date2)) {
                 if(time1.after(time2) || time1.equals(time2)) {
                     Log.d("Justin", "Rejected at Time");
-                    Toast toast = Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT).show();
                     Log.d("Justin Time One: ", time1 + "");
                     Log.d("Justin Time Two: ", time2 + "");
                     return false;

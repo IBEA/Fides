@@ -80,6 +80,7 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
             }
         });
 
+        setUpFirebaseAdapter();
         return view;
     }
 

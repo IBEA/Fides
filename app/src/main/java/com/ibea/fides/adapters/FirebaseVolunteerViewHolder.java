@@ -1,6 +1,7 @@
 package com.ibea.fides.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
-
 /**
  * Created by KincaidJ on 1/31/17.
  */
@@ -44,7 +43,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     // Popup
     private PopupWindow mPopUp;
     private View mPop;
-    private Button mNoShowButton;
+    private TextView mNoShowButton;
     private Button mShowButton;
     private EditText mHoursInput;
     private String mHours;
@@ -124,9 +123,9 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
             rate(DISLIKE);
         } else if(view == mLikeButton) {
             rate(LIKE);
-        } else if(view == mShowButton) {
-            mHours = mHoursInput.getText().toString();
-            dataUpdate(mHours, true);
+        } else if(view == mShowButton ) {
+                mHours = mHoursInput.getText().toString();
+                dataUpdate(mHours, true);
         } else if(view == mNoShowButton) {
             dataUpdate(mHours, false);
         }
@@ -136,6 +135,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         // Remove rating buttons from display for user
         mDislikeButton.setVisibility(View.GONE);
         mLikeButton.setVisibility(View.GONE);
+        Log.d("JUSTIN", "Wha");
 
         // Retrieve User's rating history and calculate new rating
         List<Integer> ratingHistory = mUser.getRatingHistory();
@@ -174,7 +174,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
         try {
             double difference = 0.00;
-
+            Log.d("Justin", "In format");
             // If dates aren't equal, calculate difference
             if(!startDate.equals(endDate)) {
                 Date date1 = dFormat.parse(startDate);
@@ -202,15 +202,23 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
 
+        Log.d("Justin", "THis");
         // Call popup
         popup();
     }
 
     private void popup() {
+
+
+        Log.d("Justin", "PopUp function called");
+        Log.d("Justin hours", mDiffInput);
         mPopUp = new PopupWindow(mPop, 1000, 1000, true);
         mPopUp.showAtLocation(mPop, Gravity.CENTER, 0, 0);
         mShowButton = (Button) mPop.findViewById(R.id.showButton);
-        mNoShowButton = (Button) mPop.findViewById(R.id.noShowButton);
+        mNoShowButton = (TextView) mPop.findViewById(R.id.noShowButton);
+
+//      mNoShowButton = (Button) mPop.findViewById(R.id.noShowButton);
+
         mHoursInput = (EditText) mPop.findViewById(R.id.hoursInput);
 
         mHoursInput.setText(mDiffInput);

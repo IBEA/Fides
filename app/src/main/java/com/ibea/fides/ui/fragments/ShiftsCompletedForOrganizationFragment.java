@@ -90,6 +90,7 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
             }
         });
 
+        setUpFirebaseAdapter();
         return view;
     }
 

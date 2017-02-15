@@ -4,12 +4,13 @@
     <color name="colorPrimaryDark">#4E342E</color>
     <color name="colorPrimaryLight">#efebe9</color>
     <color name="colorAccent">#0097A7</color>
-    <color name="colorAccentSecondary">#F57C00</color>
+    <color name="colorAccentSecondary">#f57c00</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#f5f5f5</color>
     <color name="colorIcons">#ffffff</color>
     <color name="colorDivider">#BCAAA4</color>
     <color name ="colorBackground">#E0F7FA</color>
     <color name ="colorCardBackground">#fafafa</color>
-
+    <color name ="colorSearchButton">#FFA726</color>
+    <color name ="colorSearchField">#FFF3E0</color>
 </resources>

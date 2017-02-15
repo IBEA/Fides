@@ -8,11 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -35,9 +40,9 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class OrganizationSearchFragment extends Fragment implements View.OnClickListener{
-    @Bind(R.id.searchView_Organization)SearchView mSearchView_Organization;
+    @Bind(R.id.editText_Organization)EditText mEditText_Organization;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.button_Search) Button mButton_Search;
+    @Bind(R.id.imageButton_Search) ImageButton mImageButton_Search;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -64,19 +69,46 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
         ButterKnife.bind(this, view);
 
         mContext = this.getContext();
-        mButton_Search.setOnClickListener(this);
+        mImageButton_Search.setOnClickListener(this);
 
         mRecyclerAdapter = new OrganizationListAdapter(mContext, mOrganizations);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
+        mEditText_Organization.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                    actionId == EditorInfo.IME_ACTION_DONE ||
+                    event.getAction() == KeyEvent.ACTION_DOWN &&
+                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    // the user is done typing.
+                    fetchOrganizationsIds();
+                    return true; // consume.
+                }
+                return false; // pass on to other listeners.
+            }
+        });
+
+        mEditText_Organization.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                Log.d("Action: ", String.valueOf(keyEvent.getAction()));
+                Log.d("Keycode: ", String.valueOf(KeyEvent.KEYCODE_ENTER));
+                if(keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
+                    Log.d(TAG, "triggered");
+                    return false;
+                }
+                return false;
+            }
+        });
         return view;
     }
 
     @Override
     public void onClick(View view) {
-        if(view == mButton_Search){
+        if(view == mImageButton_Search){
             fetchOrganizationsIds();
         }
     }
@@ -86,10 +118,8 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
 
         foundResults = false;
 
-        final String orgQuery = mSearchView_Organization.getQuery().toString().toLowerCase();
-
-        String w = "(.*)";
-        final String query = w + orgQuery + w;
+        final String orgQuery = mEditText_Organization.getText().toString().toLowerCase();
+        Log.d(TAG, orgQuery);
 
         int itemCount = mOrganizations.size();
         mOrganizations.clear();
@@ -110,10 +140,9 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
                     String organizationId = snapshot.getKey();
 
                     Log.d(TAG, searchKey);
+                    Log.d(TAG, orgQuery);
 
-                    Log.d(TAG, query);
-
-                    if(searchKey.matches(query)){
+                    if(searchKey.contains(orgQuery)){
                         Log.d(TAG, "Query matches!");
                         foundResults = true;
                         fetchOrganization(organizationId);
@@ -121,12 +150,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
                 }
 
                 if(!foundResults){
-                    toast = Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT);
-                    toastView = toast.getView();
-                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
-                    toastView.setPadding(30,30,30,30);
-                    toast.setView(toastView);
-                    toast.show();
+                    Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT).show();
                 }
             }
 
