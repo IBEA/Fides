@@ -119,7 +119,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         if(mIsOrganization){
-            inflater.inflate(R.menu.menu_main, menu);
+            inflater.inflate(R.menu.menu_organization, menu);
         } else{
             inflater.inflate(R.menu.menu_volunteer, menu);
         }
