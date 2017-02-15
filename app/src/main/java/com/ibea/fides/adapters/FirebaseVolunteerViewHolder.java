@@ -26,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
-
 /**
  * Created by KincaidJ on 1/31/17.
  */
