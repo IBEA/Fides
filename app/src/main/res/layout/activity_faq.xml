@@ -4,6 +4,9 @@
     android:id="@+id/activity_faq"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/DarkOnLightLayout"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
     android:orientation="vertical"
     android:weightSum="10"
     tools:context="com.ibea.fides.ui.activities.FaqActivity">
@@ -28,6 +31,11 @@
         android:layout_weight="1.5"
         android:text="Answer: Your rating will increase if you attend a shift and meet expectations. If you attend and are unable to fulfill expectations, your rating will drop slightly. If you miss a shift, then your rating will take a significant drop. "/>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
     <Space
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -43,7 +51,17 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Answer: No. We will not share your address with anybody or send you any emails. 	"/>
+        android:text="Answer: No. We will not share your address with anybody or send you any emails. Your email is simply needed for verification purposes."/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <TextView
         android:layout_width="wrap_content"
