@@ -2,15 +2,18 @@ package com.ibea.fides.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -32,6 +35,7 @@ import org.parceler.Parcels;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,22 +49,22 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView.Adapter mRecyclerAdapter;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mZipcode;
+    private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
+
     @Bind(R.id.imageView_BeginEdit) ImageView mBeginEditButton;
     @Bind(R.id.imageView_FinishEdit) ImageView mFinishEditButton;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.textView_ShortDescription) TextView mShortDescriptionOutput;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
-    @Bind(R.id.textView_TimeDash) TextView mTimeFiller;
     @Bind(R.id.textView_EndTime) TextView mTimeEnd;
     @Bind(R.id.textView_StartDate) TextView mStartDate;
-    @Bind(R.id.textView_DateDash) TextView mDateFiller;
     @Bind(R.id.textView_EndDate) TextView mEndDate;
     @Bind(R.id.textView_StreetAddress) TextView mStreetAddressOutput;
     @Bind(R.id.editText_StreetAddress) EditText mStreetAddressInput;
     @Bind(R.id.textView_AddressLine2) TextView mAddressLine2Output;
+    @Bind(R.id.linearLayout_AddressLine2Input) LinearLayout mAddressLine2Input;
     @Bind(R.id.editText_City) EditText mCityInput;
     @Bind(R.id.spinner_State) Spinner mStateInput;
     @Bind(R.id.editText_Zip) EditText mZipInput;
@@ -80,36 +84,53 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
 
-        mDescriptionInput.setVisibility(View.GONE);
-        mStreetAddressInput.setVisibility(View.GONE);
-        mCityInput.setVisibility(View.GONE);
-        mZipInput.setVisibility(View.GONE);
-        mFinishEditButton.setVisibility(View.GONE);
-        mShortDescriptionInput.setVisibility(View.GONE);
-        mVolMaxInput.setVisibility(View.GONE);
+
+        // Handling this in XML
+//        mBeginEditButton.setVisibility(View.GONE);
+//        mFinishEditButton.setVisibility(View.GONE);
+//        mShortDescriptionInput.setVisibility(View.GONE);
+//        mStreetAddressInput.setVisibility(View.GONE);
+//        mCityInput.setVisibility(View.GONE);
+//        mStateInput.setVisibility(View.GONE);
+//        mZipInput.setVisibility(View.GONE);
+//        mDescriptionInput.setVisibility(View.GONE);
+//        mVolMaxInput.setVisibility(View.GONE);
 
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
 
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mStateInput.setAdapter(adapter);
+
+
         mOrgName.setText(mShift.getOrganizationName());
-
-        mBeginEditButton.setVisibility(View.GONE);
-
-        mStartDate.setText(mShift.getStartDate());
-        mEndDate.setText(mShift.getEndDate());
-
-
+        mShortDescriptionOutput.setText(mShift.getShortDescription());
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
-        mDescriptionOutput.setText(mShift.getDescription());
+        mStartDate.setText(mShift.getStartDate());
+        mEndDate.setText(mShift.getEndDate());
         mStreetAddressOutput.setText(mShift.getStreetAddress());
+        mAddressLine2Output.setText(mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
+        mDescriptionOutput.setText(mShift.getDescription());
+        if(mShift.getCurrentVolunteers().isEmpty())
+            mVolCurrentNumber.setText("0/");
+        else
+            mVolCurrentNumber.setText(String.valueOf(mShift.getCurrentVolunteers().size()) + "/");
+        mVolMaxOutput.setText(String.valueOf(mShift.getMaxVolunteers()));
 
         if(mIsOrganization) {
             mVolunteers.clear();
-            mBeginEditButton.setVisibility(View.VISIBLE);
 
+            mBeginEditButton.setVisibility(View.VISIBLE);
             mBeginEditButton.setOnClickListener(this);
 
             mFinishEditButton.setOnClickListener(this);
+
+            mVolunteersListHeader.setVisibility(View.VISIBLE);
+            mVolunteersListInstructions.setVisibility(View.VISIBLE);
+
             mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
             mVolunteersListRecyclerView.setHasFixedSize(false);
             mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
@@ -124,55 +145,55 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             if(!mShift.getComplete()){
                 mVolunteersListInstructions.setVisibility(View.GONE);
             }
-
-        }else {
-            mVolunteersListHeader.setVisibility(View.GONE);
-            mVolunteersListInstructions.setVisibility(View.GONE);
-            mBeginEditButton.setVisibility(View.GONE);
         }
+//        else {
+////            mVolunteersListHeader.setVisibility(View.GONE);
+////            mVolunteersListInstructions.setVisibility(View.GONE);
+////            mBeginEditButton.setVisibility(View.GONE);
+//        }
 
     }
 
     @Override
     public void onClick(View view) {
         if(view == mBeginEditButton) {
-            mDescriptionInput.setVisibility(View.VISIBLE);
-            mDescriptionInput.setText(mDescriptionOutput.getText());
-            mShortDescriptionInput.setText(mShift.getShortDescription());
-            mDescriptionOutput.setVisibility(View.GONE);
-            mStreetAddressInput.setVisibility(View.VISIBLE);
-
-            mVolMaxInput.setVisibility(View.VISIBLE);
-            mStreetAddressInput.setText(mStreetAddressOutput.getText());
-            mStreetAddressOutput.setVisibility(View.GONE);
-            mCityInput.setVisibility(View.VISIBLE);
-            mCityInput.setText(mShift.getCity());
-            mZipInput.setVisibility(View.VISIBLE);
-            mZipInput.setText(mShift.getZip());
             mBeginEditButton.setVisibility(View.GONE);
             mFinishEditButton.setVisibility(View.VISIBLE);
+
             mShortDescriptionInput.setVisibility(View.VISIBLE);
             mShortDescriptionInput.setText(mShift.getShortDescription());
+            mShortDescriptionOutput.setVisibility(View.GONE);
 
-            mVolMaxInput.setText(String.valueOf(mShift.getMaxVolunteers()).toString());
             mTimeStart.setOnClickListener(this);
             mTimeEnd.setOnClickListener(this);
             mStartDate.setOnClickListener(this);
             mEndDate.setOnClickListener(this);
 
+            mStreetAddressInput.setVisibility(View.VISIBLE);
+            mStreetAddressInput.setText(mShift.getStreetAddress());
+            mStreetAddressOutput.setVisibility(View.GONE);
+
+            mAddressLine2Input.setVisibility(View.VISIBLE);
+            mCityInput.setText(mShift.getCity());
+            String state = mShift.getState();
+            Resources res = getResources();
+            String[] states = res.getStringArray(R.array.states_array);
+            int index = Arrays.asList(states).indexOf(state);
+            mStateInput.setSelection(index);
+            mZipInput.setText(mShift.getZip());
+            mAddressLine2Output.setVisibility(View.GONE);
+
+            mDescriptionInput.setVisibility(View.VISIBLE);
+            mDescriptionInput.setText(mShift.getDescription());
+            mDescriptionOutput.setVisibility(View.GONE);
+
+            mVolMaxInput.setVisibility(View.VISIBLE);
+            mVolMaxInput.setText(String.valueOf(mShift.getMaxVolunteers()));
+            mVolMaxOutput.setVisibility(View.GONE);
+
         }
         if(view == mFinishEditButton) {
-            mTimeStart.setOnClickListener(null);
-            mTimeEnd.setOnClickListener(null);
-            mStartDate.setOnClickListener(null);
-            mEndDate.setOnClickListener(null);
-
-            mBeginEditButton.setVisibility(View.VISIBLE);
-            mFinishEditButton.setVisibility(View.GONE);
-
-
             validateFields();
-
         }
         if(view == mTimeStart) {
             final Calendar c = Calendar.getInstance();
@@ -223,8 +244,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            mStartDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
-                            mEndDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+                            mStartDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                            mEndDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -244,7 +265,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            mEndDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
+                            mEndDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -334,16 +355,17 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     // Validators
     public void validateFields(){
 
+        mShortDesc = mShortDescriptionInput.getText().toString();
         mStartTime = mTimeStart.getText().toString();
         mEndTime = mTimeEnd.getText().toString();
         mStartD = mStartDate.getText().toString();
         mEndD = mEndDate.getText().toString();
-        mVolunteerSize = mVolMaxInput.getText().toString();
-        mShortDesc = mShortDescriptionInput.getText().toString();
-        mLongDesc = mDescriptionInput.getText().toString();
         mStreet = mStreetAddressInput.getText().toString();
+        mState = mStateInput.getSelectedItem().toString();
         mCity = mCityInput.getText().toString();
         mZipcode = mZipInput.getText().toString();
+        mLongDesc = mDescriptionInput.getText().toString();
+        mVolunteerSize = mVolMaxInput.getText().toString();
 
         Log.d("Justin", "Comparing Date");
 
@@ -353,39 +375,55 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).removeValue();
 
-            mShift.setDescription(mDescriptionInput.getText().toString());
-            mShift.setStreetAddress(mStreetAddressInput.getText().toString());
-            mShift.setCity(mCityInput.getText().toString());
-            mShift.setZip(mZipInput.getText().toString());
+            mShift.setShortDescription(mShortDescriptionInput.getText().toString());
             mShift.setStartTime(mTimeStart.getText().toString());
             mShift.setEndTime(mTimeEnd.getText().toString());
             mShift.setStartDate(mStartDate.getText().toString());
             mShift.setEndDate(mEndDate.getText().toString());
-            mShift.setShortDescription(mShortDescriptionInput.getText().toString());
+            mShift.setStreetAddress(mStreetAddressInput.getText().toString());
+            mShift.setCity(mCityInput.getText().toString());
+            mShift.setState(mStateInput.getSelectedItem().toString());
+            mShift.setZip(mZipInput.getText().toString());
+            mShift.setDescription(mDescriptionInput.getText().toString());
             mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));
 
 
-            mShortDescriptionInput.setVisibility(View.GONE);
-            mDescriptionInput.setVisibility(View.GONE);
-            mVolMaxInput.setVisibility(View.GONE);
-            mDescriptionOutput.setText(mShift.getDescription());
-            mDescriptionOutput.setVisibility(View.VISIBLE);
-
-            mStreetAddressInput.setVisibility(View.GONE);
-            mStreetAddressOutput.setText(mShift.getStreetAddress());
-            mStreetAddressOutput.setVisibility(View.VISIBLE);
-
-            mCityInput.setVisibility(View.GONE);
-            mZipInput.setVisibility(View.GONE);
-
             mBeginEditButton.setVisibility(View.VISIBLE);
             mFinishEditButton.setVisibility(View.GONE);
+
+            mShortDescriptionOutput.setVisibility(View.VISIBLE);
+            mShortDescriptionOutput.setText(mShift.getShortDescription());
+            mShortDescriptionInput.setVisibility(View.GONE);
+
+            mTimeStart.setOnClickListener(null);
+            mTimeEnd.setOnClickListener(null);
+            mStartDate.setOnClickListener(null);
+            mEndDate.setOnClickListener(null);
+
+            mStreetAddressOutput.setVisibility(View.VISIBLE);
+            mStreetAddressOutput.setText(mShift.getStreetAddress());
+            mStreetAddressInput.setVisibility(View.GONE);
+
+            mAddressLine2Output.setVisibility(View.VISIBLE);
+            mAddressLine2Output.setText(mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
+            mAddressLine2Input.setVisibility(View.GONE);
+
+            mDescriptionOutput.setVisibility(View.VISIBLE);
+            mDescriptionOutput.setText(mShift.getDescription());
+            mDescriptionInput.setVisibility(View.GONE);
+
+            mVolMaxOutput.setVisibility(View.VISIBLE);
+            mVolMaxOutput.setText(String.valueOf(mShift.getMaxVolunteers()));
+            mVolMaxInput.setVisibility(View.GONE);
 
             dbShifts.child(mShift.getPushId()).setValue(mShift);
             String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
             dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
 
+        }
+        else {
+            Toast.makeText(mContext, "Invalid Input", Toast.LENGTH_SHORT).show();
         }
     }
 
