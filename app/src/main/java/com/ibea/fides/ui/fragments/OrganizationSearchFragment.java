@@ -153,12 +153,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
                 }
 
                 if(!foundResults){
-                    toast = Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT);
-                    toastView = toast.getView();
-                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
-                    toastView.setPadding(30,30,30,30);
-                    toast.setView(toastView);
-                    toast.show();
+                    Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT).show();
                 }
             }
 

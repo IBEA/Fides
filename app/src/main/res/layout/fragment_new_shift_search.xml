@@ -7,90 +7,120 @@
     tools:context="com.ibea.fides.ui.fragments.ShiftSearchFragment"
     android:background="@color/colorBackground">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/firstLinear">
+        android:elevation="12dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/cardView_Search"
+        android:background="@color/colorBackground">
 
-        <SearchView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_Organization"
-            android:inputType="text"
-            android:background="@color/colorPrimaryLight"
-            android:queryHint="Organization"
-            android:iconifiedByDefault="false"
-            tools:inputType="text"
-            >
-        </SearchView>
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchView_City"
-            android:inputType="text"
-            android:background="@color/colorPrimaryLight"
-            android:queryHint="City"
-            android:iconifiedByDefault="false"
-            >
-        </SearchView>
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/firstLinear">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3"
-        android:orientation="horizontal"
-        android:layout_below="@+id/firstLinear"
-        android:id="@+id/secondLinear">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_Organization"
+                    android:inputType="text"
+                    android:background="@color/colorSearchField"
+                    android:hint="Organization"
+                    android:padding="5dp"
+                    tools:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:textSize="25sp"
+                    >
+                </EditText>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_City"
+                    android:inputType="text"
+                    android:background="@color/colorSearchField"
+                    android:hint="City"
+                    android:padding="5dp"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:textSize="25sp"
+                    >
+                </EditText>
 
-        <SearchView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchView_Zip"
-            android:inputType="text"
-            android:background="@color/colorPrimaryLight"
-            app:iconifiedByDefault="false"
-            android:queryHint="Zip"
-            android:iconifiedByDefault="false"
-            tools:inputType="number"
-            android:layout_weight="2">
-        </SearchView>
+            </LinearLayout>
 
-        <SearchView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchView_State"
-            android:inputType="text"
-            android:background="@color/colorPrimaryLight"
-            app:iconifiedByDefault="false"
-            android:queryHint="State"
-            android:iconifiedByDefault="false"
-            android:layout_weight="1">
-        </SearchView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:orientation="horizontal"
+                android:layout_below="@+id/firstLinear"
+                android:id="@+id/secondLinear">
 
-    </LinearLayout>
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_Zip"
+                    android:inputType="text"
+                    android:background="@color/colorSearchField"
+                    android:hint="Zip"
+                    android:padding="5dp"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:textSize="25sp"
+                    tools:inputType="number"
+                    android:layout_weight="2">
+                </EditText>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_State"
+                    android:inputType="text"
+                    android:background="@color/colorSearchField"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:hint="State"
+                    android:padding="5dp"
+                    android:textSize="25sp"
+                    android:iconifiedByDefault="false"
+                    android:layout_weight="1">
+                </EditText>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/firstLinear"
+                android:layout_margin="0dp"
+                android:layout_alignBottom="@+id/secondLinear"
+                android:src="@drawable/ic_search_black_24dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/colorSearchButton"
+                android:id="@+id/imageButton_Search"
+                />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
         android:padding="12dp"
-        android:layout_below="@+id/secondLinear"
-        />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Search Opportunities"
-        android:background="@color/colorAccent"
-        android:id="@+id/button_Search"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/colorIcons"
-        android:textSize="25sp"
+        android:layout_below="@+id/cardView_Search"
         />
 
 </RelativeLayout>

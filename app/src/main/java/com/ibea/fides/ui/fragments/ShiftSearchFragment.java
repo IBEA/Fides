@@ -11,8 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.SearchView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,12 +36,12 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ShiftSearchFragment extends Fragment implements View.OnClickListener{
-    @Bind(R.id.searchView_City) SearchView mSearchView_City;
-    @Bind(R.id.searchView_State) SearchView mSearchView_State;
-    @Bind(R.id.searchView_Zip) SearchView mSearchView_Zip;
-    @Bind(R.id.editText_Organization) SearchView mSearchView_Organization;
+    @Bind(R.id.editText_City) EditText mEditText_City;
+    @Bind(R.id.editText_State) EditText mEditText_State;
+    @Bind(R.id.editText_Zip) EditText mEditText_Zip;
+    @Bind(R.id.editText_Organization) EditText mEditText_Organization;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.button_Search) Button mButton_Search;
+    @Bind(R.id.imageButton_Search) ImageButton mImageButton_Search;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -68,8 +68,8 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         //TODO: Replace with population from users once all users are required to have these fields. Don't forget you're doing this in onResume as well!
 
-        mSearchView_State.setQuery("OR", false);
-        mSearchView_City.setQuery("Portland", false);
+        mEditText_State.setText("OR");
+        mEditText_City.setText("Portland");
 
         mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
         mRecyclerView.setHasFixedSize(false);
@@ -78,7 +78,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         setRecyclerViewItemTouchListener();
 
-        mButton_Search.setOnClickListener(this);
+        mImageButton_Search.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return view;
@@ -89,12 +89,12 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         //TODO: Allow searches when the zipcode, but not the city, is in.
         //TODO: Consider abandoning zipcode searches
 
-        if(view == mButton_Search){
+        if(view == mImageButton_Search){
             //TODO: Lowercase cityQuery once database also has lowercase city nodes
-            String cityQuery = mSearchView_City.getQuery().toString();
-            String stateQuery = mSearchView_State.getQuery().toString();
-            String zipQuery = mSearchView_Zip.getQuery().toString();
-            String orgQuery = mSearchView_Organization.getQuery().toString();
+            String cityQuery = mEditText_City.getText().toString();
+            String stateQuery = mEditText_State.getText().toString();
+            String zipQuery = mEditText_Zip.getText().toString();
+            String orgQuery = mEditText_Organization.getText().toString();
 
             //TODO: Remove stateQuery check once state dropdown is in
             if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
@@ -118,8 +118,8 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         foundResults = false;
 
-        final String zipQuery = mSearchView_Zip.getQuery().toString();
-        final String orgQuery = mSearchView_Organization.getQuery().toString().toLowerCase();
+        final String zipQuery = mEditText_Zip.getText().toString();
+        final String orgQuery = mEditText_Organization.getText().toString().toLowerCase();
 
         if(validateZip(zipQuery)){
             String w = "(.*)";
@@ -208,17 +208,18 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     @Override
     public void onPause() {
         super.onPause();
-        mSearchView_Zip.setQuery("", false);
-        mSearchView_City.setQuery("", false);
-        mSearchView_State.setQuery("", false);
-        mSearchView_Organization.setQuery("", false);
+        mEditText_Zip.setText("");
+        mEditText_City.setText("");
+        mEditText_State.setText("");
+        mEditText_Organization.setText("");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mSearchView_State.setQuery("OR", false);
-        mSearchView_City.setQuery("Portland", false);
+        //TODO: autopopulate
+        mEditText_State.setText("OR");
+        mEditText_City.setText("Portland");
     }
 
     private void setRecyclerViewItemTouchListener() {
