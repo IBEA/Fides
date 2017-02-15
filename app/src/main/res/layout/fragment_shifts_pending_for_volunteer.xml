@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/textView_Splash"
-        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, choose search from the dropdown menu, or tap here."
+        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, use the button below."
         android:visibility="invisible"
         android:padding="36dp"
         android:gravity="center_vertical|center"

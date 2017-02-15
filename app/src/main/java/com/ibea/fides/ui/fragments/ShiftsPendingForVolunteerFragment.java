@@ -83,7 +83,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
         setUpFirebaseAdapter();
 
         setRecyclerViewItemTouchListener();
-        mTextView_Splash.setOnClickListener(this);
         mButton_Search.setOnClickListener(this);
 
         return view;
@@ -98,11 +97,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
 
     @Override
     public void onClick(View view) {
-        Log.d(">>>>>", " in onClick");
-        if(view == mTextView_Splash){
-            Intent intent = new Intent(getContext(), SearchActivity.class);
-            startActivity(intent);
-        }else if(view == mButton_Search){
+        if(view == mButton_Search){
             Intent intent = new Intent(getContext(), SearchActivity.class);
             startActivity(intent);
         }
