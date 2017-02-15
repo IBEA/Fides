@@ -229,6 +229,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             if(!organizationNameEditText.getText().toString().trim().equals("")) {
                 updateOrgName();
                 updated = true;
+                updateNodes();
 
             }
             if(!websiteEditText.getText().toString().trim().equals("")) {
@@ -261,68 +262,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             }
 
             if(updated) {
-                String orgId = thisOrg.getPushId();
-
-                // Update Search Node - Organizations Subnode
-
-                dbRef = FirebaseDatabase.getInstance().getReference();
                 Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT).show();
-                String searchKey = thisOrg.getName().toLowerCase() + "|" + thisOrg.getZipcode() + "|" + thisOrg.getCityAddress().toLowerCase() + "|" + thisOrg.getStateAddress();
-                dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).setValue(searchKey);
-
-                // Update OrgName for Current Shifts Belonging to Organization
-                dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Retrieve all shifts available for this org
-                        shiftIds =  (Map<String, String>) dataSnapshot.getValue();
-
-                        // Update affected shifts in Shift node and ShiftsAvailable StateCity subnode
-                        for(String key : shiftIds.keySet()) {
-                            // Change the Org name for Shift node
-                            dbRef.child(Constants.DB_NODE_SHIFTS).child(key).child("organizationName").setValue(mOrganizationName);
-
-                            // Retrieve Shift then change Search Value for StateCity subnodes
-                            dbRef.child(Constants.DB_NODE_SHIFTS).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    mShift = dataSnapshot.getValue(Shift.class);
-                                    mShiftCity = mShift.getCity();
-                                    mShiftState = mShift.getState();
-
-
-                                    String extendedStartTime;
-
-                                    if(mShift.getStartTime().length() == 4){
-                                        extendedStartTime = "0" + mShift.getStartTime();
-                                    }else{
-                                        extendedStartTime = mShift.getStartTime();
-                                    }
-
-                                    String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
-
-                                    // Change Search Value for StateCity subnodes
-                                    dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity).child(mShift.getPushId()).setValue(searchParam);
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
             }
             else {
                 Toast.makeText(mContext, "No Changes Made", Toast.LENGTH_SHORT).show();
@@ -500,5 +440,64 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             return false;
         }
         return true;
+    }
+
+    private void updateNodes() {
+        String orgId = thisOrg.getPushId();
+
+        // Update Search Node - Organizations Subnode
+
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT).show();
+        String searchKey = thisOrg.getName().toLowerCase() + "|" + thisOrg.getZipcode() + "|" + thisOrg.getCityAddress().toLowerCase() + "|" + thisOrg.getStateAddress();
+        dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).setValue(searchKey);
+
+        // Update OrgName for Current Shifts Belonging to Organization
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Retrieve all shifts available for this org
+                shiftIds =  (Map<String, String>) dataSnapshot.getValue();
+
+                // Update affected shifts in Shift node and ShiftsAvailable StateCity subnode
+                for(String key : shiftIds.keySet()) {
+                    // Change the Org name for Shift node
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(key).child("organizationName").setValue(mOrganizationName);
+
+                    // Retrieve Shift then change Search Value for StateCity subnodes
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mShift = dataSnapshot.getValue(Shift.class);
+                            mShiftCity = mShift.getCity();
+                            mShiftState = mShift.getState();
+
+                            String extendedStartTime;
+
+                            if(mShift.getStartTime().length() == 4){
+                                extendedStartTime = "0" + mShift.getStartTime();
+                            }else{
+                                extendedStartTime = mShift.getStartTime();
+                            }
+
+                            String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
+
+                            // Change Search Value for StateCity subnodes
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity).child(mShift.getPushId()).setValue(searchParam);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
