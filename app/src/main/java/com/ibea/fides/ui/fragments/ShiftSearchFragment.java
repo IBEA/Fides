@@ -39,7 +39,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     @Bind(R.id.searchView_City) SearchView mSearchView_City;
     @Bind(R.id.searchView_State) SearchView mSearchView_State;
     @Bind(R.id.searchView_Zip) SearchView mSearchView_Zip;
-    @Bind(R.id.searchView_Organization) SearchView mSearchView_Organization;
+    @Bind(R.id.editText_Organization) SearchView mSearchView_Organization;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.button_Search) Button mButton_Search;
 
