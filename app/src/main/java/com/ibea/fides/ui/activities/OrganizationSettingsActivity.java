@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,7 +61,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     @Bind(R.id.stateSpinner) Spinner stateSpinner;
     @Bind(R.id.zipCodeEditText) EditText zipCodeEditText;
     @Bind(R.id.descriptionEditText) EditText descriptionEditText;
-    @Bind(R.id.updateButton) Button updateButton;
+    @Bind(R.id.updateButton) FloatingActionButton updateButton;
 
     Organization thisOrg;
 

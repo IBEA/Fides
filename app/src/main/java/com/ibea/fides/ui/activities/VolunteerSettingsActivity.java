@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +43,7 @@ import butterknife.ButterKnife;
 
 public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    @Bind(R.id.updateButton) Button updateButton;
+    @Bind(R.id.updateButton) FloatingActionButton updateButton;
     @Bind(R.id.usernameedittext) EditText useredittext;
     @Bind(R.id.cityedittext) EditText cityeedittext;
     @Bind(R.id.stateSpinner) Spinner mStateInput;

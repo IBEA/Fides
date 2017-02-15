@@ -146,12 +146,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                     finish();
                                                 } else{
                                                     Log.d("LogInActivity", "User is Not Verified Org");
-                                                    toast = Toast.makeText(mContext, "Thank you. Your Account is being Verified", Toast.LENGTH_LONG);
-                                                    toastView = toast.getView();
-                                                    toastView.setBackgroundColor(Color.argb(150,0,0,0));
-                                                    toastView.setPadding(30,30,30,30);
-                                                    toast.setView(toastView);
-                                                    toast.show();
+                                                    Toast.makeText(mContext, "Thank you. Your account is being verified.", Toast.LENGTH_LONG).show();
                                                 }
                                             }
 
