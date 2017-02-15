@@ -11,5 +11,6 @@
     <color name="colorDivider">#BCAAA4</color>
     <color name ="colorBackground">#E0F7FA</color>
     <color name ="colorCardBackground">#fafafa</color>
-
+    <color name ="colorSearchButton">#FFA726</color>
+    <color name ="colorSearchField">#FFF3E0</color>
 </resources>
