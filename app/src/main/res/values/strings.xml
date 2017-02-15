@@ -7,6 +7,10 @@
     <string name="Fragment1">This is Fragment 1</string>
     <string name="OrganizationShiftFragment">This is a organization fragment</string>
 
+
+    <string name="ibea_email">Contact: <u><b>ibeatechnology@gmail.com</b></u> for any additional questions or concerns.</string>
+
+
     <string-array name="states_array">
         <item>AL</item>
         <item>AK</item>

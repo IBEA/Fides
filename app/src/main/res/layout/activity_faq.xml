@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_faq"
     android:layout_width="match_parent"
@@ -7,28 +7,35 @@
     android:theme="@style/DarkOnLightLayout"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
-    android:orientation="vertical"
-    android:weightSum="10"
     tools:context="com.ibea.fides.ui.activities.FaqActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:gravity="center"
         android:textSize="40dp"
         android:text="FAQ"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textSize="18sp"
         android:text="Question: How does the trust rating work?"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textSize="18sp"
         android:text="Answer: Your rating will increase if you attend a shift and meet expectations. If you attend and are unable to fulfill expectations, your rating will drop slightly. If you miss a shift, then your rating will take a significant drop. "/>
 
     <View
@@ -36,21 +43,19 @@
         android:layout_height="2dp"
         android:background="#c0c0c0"/>
 
-    <Space
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Question: Will you abuse my email address in any way?	"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Question: Will you abuse my email address in any way?	"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textSize="18sp"
         android:text="Answer: No. We will not share your address with anybody or send you any emails. Your email is simply needed for verification purposes."/>
 
     <View
@@ -58,15 +63,14 @@
         android:layout_height="2dp"
         android:background="#c0c0c0"/>
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact: ibeatechnology@gmail.com for any additional questions or concerns."
+        android:paddingTop="10dp"
+        android:textSize="18sp"
+        android:text="@string/ibea_email"
         android:id="@+id/textView_Email" />
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
