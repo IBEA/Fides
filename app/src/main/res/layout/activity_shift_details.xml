@@ -1,72 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_shift_details"
-    android:orientation="vertical"
+    tools:context="com.ibea.fides.ui.activities.ShiftDetailsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp"
-    tools:context="com.ibea.fides.ui.activities.ShiftDetailsActivity">
+    android:orientation="vertical"
+    android:id="@+id/activity_shift_details"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end|right">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/imageView_BeginEdit"
+            app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/imageView_FinishEdit"
+            app:srcCompat="@drawable/ic_done_black_24dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_OrgName"
+        android:text="Org Name"
+        android:textSize="24sp"
+        android:gravity="center" />
+
+    <TextView
+        android:text="Summary of Duties"
+        android:textSize="18sp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="1">
-        <TextView
-            android:text="Org Name"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_weight=".95"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_OrgName" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="end"
-            android:id="@+id/editButton"
-            android:drawableTop="@drawable/ic_mode_edit_black_24dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="end"
-            android:id="@+id/finishEditButton"
-            android:drawableTop="@drawable/ic_done_black_24dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <TextView
-            android:text="Start Date"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_StartDate" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" to "
-            android:textSize="18sp"
-            android:id="@+id/textView_to"/>
+        android:id="@+id/textView_ShortDescription"/>
 
-        <TextView
-            android:text="End Date"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_EndDate" />
-    </LinearLayout>
+    <EditText
+        android:text="Summary of Duties"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_ShortDescription"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,8 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text=" to "/>
-
+            android:text=" - "
+            android:id="@+id/textView_TimeDash"/>
         <TextView
             android:text="EndTime"
             android:textSize="18sp"
@@ -93,69 +79,136 @@
             android:id="@+id/textView_EndTime" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:text="Start Date"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_StartDate" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" - "
+            android:textSize="18sp"
+            android:id="@+id/textView_DateDash"/>
+        <TextView
+            android:text="End Date"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_EndDate" />
+    </LinearLayout>
 
     <TextView
-        android:text="Address"
+        android:text="Street Address"
         android:textSize="18sp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Address"/>
-    <EditText
-        android:text="Address"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_Address"/>
-    <EditText
-        android:text="City"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_City"/>
-    <EditText
-        android:text="Zipcode"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_Zipcode"
-        android:inputType="number" />
+        android:id="@+id/textView_StreetAddress"/>
 
+    <EditText
+        android:text="Street Address"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_StreetAddress"
+        android:visibility="gone"/>
 
     <TextView
-        android:text="Description"
+        android:text="City, State, ZIP Code"
         android:textSize="18sp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Description"
-        android:layout_marginBottom="10dp"/>
+        android:id="@+id/textView_AddressLine2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:visibility="gone">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:id="@+id/editText_City"
+            android:text="City"
+            android:textSize="18sp"
+            android:gravity="center"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/spinner_State"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/editText_Zip"
+            android:text="ZIP"
+            android:textSize="18sp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:text="Full Description"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_Description"/>
+
     <EditText
-        android:text="Description"
+        android:text="Full Description"
         android:textSize="18sp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText_Description"
-        android:layout_marginBottom="10dp"/>
-    <EditText
-        android:text="Short Description"
-        android:textSize="18sp"
-        android:gravity="center"
+        android:visibility="gone"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText_ShortDescription"
-        android:layout_marginBottom="10dp"/>
-    <EditText
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_VolunteerMax"
-        tools:inputType="number" />
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_VolunteerCurrentNumber"
+            android:text="Current /"
+            android:textSize="18sp"
+            android:layout_centerVertical="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/textView_VolunteerMax"
+            tools:inputType="number"
+            android:text="Max"
+            android:layout_toRightOf="@+id/textView_VolunteerCurrentNumber"
+            android:layout_toEndOf="@+id/textView_VolunteerCurrentNumber" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/editText_VolunteerMax"
+            tools:inputType="number"
+            android:text="Max"
+            android:visibility="gone"
+            android:layout_toRightOf="@+id/textView_VolunteerCurrentNumber"
+        android:layout_toEndOf="@+id/textView_VolunteerCurrentNumber"/>
+    </RelativeLayout>
 
     <TextView
         android:text="Volunteers"
@@ -163,13 +216,14 @@
         android:gravity="center"
         android:textSize="24sp"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Header" />
+        android:id="@+id/textView_VolunteerListHeader" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="14sp"
-        android:id="@+id/textView_Instructions"
+        android:id="@+id/textView_VolunteerListInstructions"
         android:text="Unrated volunteers appear in red. Swipe right if they did well, left if not."/>
 
     <android.support.v7.widget.RecyclerView
