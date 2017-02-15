@@ -85,6 +85,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mOrgName.setText(mShift.getOrganizationName());
 
 
+        mEditButton.setVisibility(View.GONE);
+
         mStartDate.setText(mShift.getStartDate());
         mEndDate.setText(mShift.getEndDate());
 
@@ -96,7 +98,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         if(mIsOrganization) {
             mVolunteers.clear();
-
+            mEditButton.setVisibility(View.VISIBLE);
 
             mEditButton.setOnClickListener(this);
 
