@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/emailInput"
             android:hint="email"
-            android:gravity="left" />
+            android:gravity="left"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:layout_width="match_parent"
@@ -32,7 +33,8 @@
             android:id="@+id/passwordInput"
             android:inputType="textPassword"
             android:hint="password"
-            android:gravity="left" />
+            android:gravity="left"
+            android:password="true" />
 
         <Button
             android:layout_width="wrap_content"

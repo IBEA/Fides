@@ -34,7 +34,7 @@
         android:layout_alignParentRight="true"
         android:background="@color/colorSearchButton"
         android:backgroundTint="@color/colorSearchButton"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:id="@+id/button_FindShift"/>
 
 </RelativeLayout>

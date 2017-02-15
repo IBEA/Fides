@@ -3,8 +3,8 @@ package com.ibea.fides.ui.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,7 +50,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.cityInput) EditText mCityInput;
     @Bind(R.id.stateSpinner) Spinner mStateSpinner;
     @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
-    @Bind(R.id.submitShiftButton) Button mSubmitButton;
+    @Bind(R.id.button_CreateShift) FloatingActionButton mSubmitButton;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -62,7 +62,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_organization_shift_create);
+        setContentView(R.layout.activity_shift_create);
         ButterKnife.bind(this);
 
         autoFill();
