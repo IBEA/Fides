@@ -101,6 +101,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         private Context mContext;
         @Bind(R.id.textView_Name) TextView mTextView_Name;
         @Bind(R.id.imageView_VolunteerThumbnail) ImageView volunteerThumbnail;
+        @Bind(R.id.textView_Trust) TextView mTextView_Trust;
 
         public VolunteerViewHolder(View itemView) {
             super(itemView);
@@ -139,6 +140,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
             Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
             mTextView_Name.setText(mVolunteer.getName());
+            mTextView_Trust.setText( Integer.toString (mVolunteer.getRating()) + "%" );
             if(mUnratedVolunteers.contains(mVolunteer.getPushId()) && mShift.getComplete()){
                 Log.d(">>>>>", mVolunteer.getName() + " is unrated");
                 mTextView_Name.setTextColor(Color.parseColor("#F44336"));

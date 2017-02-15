@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,21 +21,30 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ibea.fides.BaseActivity;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+import com.ibea.fides.models.Shift;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,6 +72,14 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     String mState;
     String mZip;
     String mDescription;
+
+    // Variables for updating shift-related nodes
+    public Map<String, String> shiftIds = new HashMap<>();
+    public DatabaseReference dbRef;
+    public String mShiftState;
+    public String mShiftCity;
+    public Shift mShift;
+
 
     FirebaseStorage mStorage;
     StorageReference mStorageRef;
@@ -211,6 +229,8 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             if(!organizationNameEditText.getText().toString().trim().equals("")) {
                 updateOrgName();
                 updated = true;
+                updateNodes();
+
             }
             if(!websiteEditText.getText().toString().trim().equals("")) {
                 updateWebsite();
@@ -263,7 +283,9 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mOrganizationName = tempOrgName;
+
         dbOrganizations.child(uId).child("name").setValue(mOrganizationName);
+        thisOrg.setName(mOrganizationName);
         organizationNameEditText.setHint(organizationNameEditText.getText());
         organizationNameEditText.getText().clear();
     }
@@ -276,6 +298,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mWebsite = tempWebsite;
+        thisOrg.setUrl(mWebsite);
         dbOrganizations.child(uId).child("url").setValue(mWebsite);
         websiteEditText.setHint(websiteEditText.getText());
         websiteEditText.getText().clear();
@@ -289,6 +312,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mContactName = tempContactName;
+        thisOrg.setContactName(mContactName);
         dbOrganizations.child(uId).child("contactName").setValue(mContactName);
         contactNameEditText.setHint(contactNameEditText.getText());
         contactNameEditText.getText().clear();
@@ -302,6 +326,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mStreetAddress = tempStreetAddress;
+        thisOrg.setStreetAddress(mStreetAddress);
         dbOrganizations.child(uId).child("streetAddress").setValue(mStreetAddress);
         streetAddressEditText.setHint(streetAddressEditText.getText());
         streetAddressEditText.getText().clear();
@@ -315,6 +340,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mCity = tempCity;
+        thisOrg.setCityAddress(mCity);
         dbOrganizations.child(uId).child("cityAddress").setValue(mCity);
         cityEditText.setHint(cityEditText.getText());
         cityEditText.getText().clear();
@@ -322,6 +348,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     private void updateState() {
         mState = stateSpinner.getSelectedItem().toString().trim();
+        thisOrg.setStateAddress(mState);
         dbOrganizations.child(uId).child("stateAddress").setValue(mState);
     }
 
@@ -333,6 +360,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mZip = tempZip;
+        thisOrg.setZipcode(mZip);
         dbOrganizations.child(uId).child("zipcode").setValue(mZip);
         zipCodeEditText.setHint(zipCodeEditText.getText());
         zipCodeEditText.getText().clear();
@@ -347,6 +375,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
 
         mDescription = descriptionEditText.getText().toString();
+        thisOrg.setDescription(mDescription);
         dbOrganizations.child(uId).child("description").setValue(mDescription);
         descriptionEditText.setText(descriptionEditText.getText());
         descriptionEditText.getText().clear();
@@ -411,5 +440,64 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             return false;
         }
         return true;
+    }
+
+    private void updateNodes() {
+        String orgId = thisOrg.getPushId();
+
+        // Update Search Node - Organizations Subnode
+
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT).show();
+        String searchKey = thisOrg.getName().toLowerCase() + "|" + thisOrg.getZipcode() + "|" + thisOrg.getCityAddress().toLowerCase() + "|" + thisOrg.getStateAddress();
+        dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).setValue(searchKey);
+
+        // Update OrgName for Current Shifts Belonging to Organization
+        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Retrieve all shifts available for this org
+                shiftIds =  (Map<String, String>) dataSnapshot.getValue();
+
+                // Update affected shifts in Shift node and ShiftsAvailable StateCity subnode
+                for(String key : shiftIds.keySet()) {
+                    // Change the Org name for Shift node
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(key).child("organizationName").setValue(mOrganizationName);
+
+                    // Retrieve Shift then change Search Value for StateCity subnodes
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mShift = dataSnapshot.getValue(Shift.class);
+                            mShiftCity = mShift.getCity();
+                            mShiftState = mShift.getState();
+
+                            String extendedStartTime;
+
+                            if(mShift.getStartTime().length() == 4){
+                                extendedStartTime = "0" + mShift.getStartTime();
+                            }else{
+                                extendedStartTime = mShift.getStartTime();
+                            }
+
+                            String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
+
+                            // Change Search Value for StateCity subnodes
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity).child(mShift.getPushId()).setValue(searchParam);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -27,8 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
-
 /**
  * Created by KincaidJ on 1/31/17.
  */
@@ -45,7 +43,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
     // Popup
     private PopupWindow mPopUp;
     private View mPop;
-    private Button mNoShowButton;
+    private TextView mNoShowButton;
     private Button mShowButton;
     private EditText mHoursInput;
     private String mHours;
@@ -125,9 +123,9 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
             rate(DISLIKE);
         } else if(view == mLikeButton) {
             rate(LIKE);
-        } else if(view == mShowButton) {
-            mHours = mHoursInput.getText().toString();
-            dataUpdate(mHours, true);
+        } else if(view == mShowButton ) {
+                mHours = mHoursInput.getText().toString();
+                dataUpdate(mHours, true);
         } else if(view == mNoShowButton) {
             dataUpdate(mHours, false);
         }
@@ -217,7 +215,10 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         mPopUp = new PopupWindow(mPop, 1000, 1000, true);
         mPopUp.showAtLocation(mPop, Gravity.CENTER, 0, 0);
         mShowButton = (Button) mPop.findViewById(R.id.showButton);
-//        mNoShowButton = (Button) mPop.findViewById(R.id.noShowButton);
+        mNoShowButton = (TextView) mPop.findViewById(R.id.noShowButton);
+
+//      mNoShowButton = (Button) mPop.findViewById(R.id.noShowButton);
+
         mHoursInput = (EditText) mPop.findViewById(R.id.hoursInput);
 
         mHoursInput.setText(mDiffInput);
