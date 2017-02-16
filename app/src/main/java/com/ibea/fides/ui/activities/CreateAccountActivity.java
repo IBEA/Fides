@@ -113,13 +113,13 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     createFirebaseUserProfile(task.getResult().getUser());
 
                     Intent intent;
-                    Toast.makeText(mContext, "Thank You, A Verification Email Has Been Sent", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Verification email sent", Toast.LENGTH_LONG).show();
                     intent = new Intent(CreateAccountActivity.this, LogInActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(mContext, "Account Creation Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Account creation failed", Toast.LENGTH_LONG).show();
                 }
             }
         });
