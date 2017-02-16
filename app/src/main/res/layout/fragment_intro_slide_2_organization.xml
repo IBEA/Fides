@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
+    android:paddingRight="24dp"
+    android:paddingLeft="24dp"
     android:weightSum="4">
 
     <TextView
@@ -11,14 +13,14 @@
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="To rate a volunteer, just tap on a completed shift, and then tap on the user. "
+        android:text="To rate a volunteer, navigate to the history screen and tap the completed shift."
         android:layout_weight="1"
         android:textSize="25sp" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/ratevolunteer"
         android:layout_weight="2"/>
 
 </LinearLayout>
