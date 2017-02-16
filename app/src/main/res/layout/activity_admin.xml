@@ -4,15 +4,15 @@
     android:id="@+id/activity_admin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:theme="@style/DarkOnLightLayout"
+    android:paddingTop="16dp"
     tools:context="com.ibea.fides.ui.activities.AdminActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_alignParentTop="true"
         android:id="@+id/textView_Instructions"
         android:layout_centerHorizontal="true"
@@ -22,6 +22,8 @@
         android:text="Unapproved Organizations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textSize="24sp"
         android:layout_below="@+id/textView_Instructions"
         android:layout_centerHorizontal="true"
@@ -29,9 +31,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:id="@+id/unratedRecyclerView"
         android:layout_below="@+id/textView_Header"
-         />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

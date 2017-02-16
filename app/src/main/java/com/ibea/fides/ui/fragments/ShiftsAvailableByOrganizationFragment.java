@@ -55,7 +55,6 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment{
         return new ShiftsAvailableByOrganizationFragment();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
