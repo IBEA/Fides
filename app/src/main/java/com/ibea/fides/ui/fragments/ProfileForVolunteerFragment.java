@@ -47,7 +47,6 @@ public class ProfileForVolunteerFragment extends Fragment {
     StorageReference mStorageRef;
     StorageReference mImageRef;
 
-//    @Bind(R.id.usernametext) TextView username;
     @Bind(R.id.imageView_volPic) ImageView mVolPic;
     @Bind(R.id.totalHours) TextView totalHourstext;
     @Bind(R.id.trustpercent) TextView trustpercent;

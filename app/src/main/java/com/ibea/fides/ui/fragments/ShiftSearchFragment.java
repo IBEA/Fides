@@ -2,8 +2,10 @@ package com.ibea.fides.ui.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -278,12 +280,28 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
-//                Log.d("Adapter Position: ", String.valueOf(position));
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                final int position = viewHolder.getAdapterPosition();
 
                 if(swipeDir == 8){
-                    ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Volunteer for this shift?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                       public void onClick(DialogInterface dialog, int id){
+                           ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
+                       }
+                    });
+
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            mRecyclerAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+
+                    dialog.show();
                 }
                 Log.d(TAG, String.valueOf(position));
 

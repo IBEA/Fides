@@ -189,11 +189,11 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
                     } else {
                         Log.d("LogInActivity", "User has not Verified");
-                        Toast.makeText(mContext, "Please Verify Your Email", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Please verify your email", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d("LogInActivity", "Bad Credentials");
-                    Toast.makeText(mContext, "Invalid Credentials", Toast.LENGTH_LONG).show();
+                    Log.d("LogInActivity", "Bad credentials");
+                    Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
                 }
             }
         });
