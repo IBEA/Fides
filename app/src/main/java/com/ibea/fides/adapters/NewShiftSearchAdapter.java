@@ -43,6 +43,7 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
     public NewShiftSearchAdapter(Context context, ArrayList<Shift> shifts) {
             mShifts = shifts;
+
             mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             }
 
@@ -53,8 +54,11 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
             return viewHolder;
             }
 
+
+
     @Override
     public void onBindViewHolder(NewShiftSearchAdapter.NewShiftSearchViewHolder holder, int position) {
+
             holder.bindShift(mShifts.get(position));
             }
 
@@ -89,55 +93,9 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
         @Override
         public void onClick(View v){
-            //TODO: Parcel shift and send to shift details
             Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
             intent.putExtra("shift", Parcels.wrap(mShifts.get(this.getAdapterPosition())));
             mContext.startActivity(intent);
-        }
-
-        public void claimShift(int _position){
-            Shift shift = mShifts.get(_position);
-            final String shiftId = shift.getPushId();
-            Log.d("In claimShift:", shiftId);
-            Log.d("Shift desc: ", shift.getShortDescription());
-
-            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
-            dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Shift shift = dataSnapshot.getValue(Shift.class);
-                    if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
-                        Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
-                    }else{
-                        // Assign to shiftsPending for user
-                        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId).child(shiftId).setValue(shiftId);
-
-                        //Add user to list of volunteers and push to database
-                        shift.addVolunteer(mUserId);
-                        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
-
-                        //check if shift has slots left. If not, remove from shiftsAvailable
-                        String organizationID = shift.getOrganizationID();
-                        String zip = String.valueOf(shift.getZip());
-                        String state = shift.getState();
-                        String city = shift.getCity();
-
-                        if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 0){
-                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).removeValue();
-                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
-                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).removeValue();
-                        }
-
-                        Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
         }
 
     }

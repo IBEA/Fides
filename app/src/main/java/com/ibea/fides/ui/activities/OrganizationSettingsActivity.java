@@ -484,7 +484,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                             String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
                             // Change Search Value for StateCity subnodes
-                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity).child(mShift.getPushId()).setValue(searchParam);
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity.toLowerCase()).child(mShift.getPushId()).setValue(searchParam);
                         }
 
                         @Override

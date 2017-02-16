@@ -38,8 +38,6 @@ public class VolunteerProfileActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_home);
 
-        //TODO: Eventually will have user objects pacakaged in when navigating to this activity from a searched user list, typically indicating that the viewing user is not the same.
-
         Intent intent = getIntent();
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);
 
@@ -85,8 +83,6 @@ public class VolunteerProfileActivity extends BaseActivity{
         //Profile only
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         ArrayList<String> tabTitles = new ArrayList<String>();
-
-        //TODO: This is going to need much more granular parsing
 
         if(isOrganization){
             tabTitles.add("Profile");

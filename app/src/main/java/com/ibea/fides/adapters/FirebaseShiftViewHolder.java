@@ -149,7 +149,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                         String zip = String.valueOf(shift.getZip());
                         String organizationID = shift.getOrganizationID();
                         String state = shift.getState();
-                        String city = shift.getCity();
+                        String city = shift.getCity().toLowerCase();
 
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).setValue(shiftId);
                         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).setValue(shiftId);
