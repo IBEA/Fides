@@ -4,14 +4,13 @@
     android:id="@+id/activity_admin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:theme="@style/DarkOnLightLayout"
     android:paddingTop="16dp"
     tools:context="com.ibea.fides.ui.activities.AdminActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryText"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_alignParentTop="true"
@@ -23,7 +22,6 @@
         android:text="Unapproved Organizations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryText"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="24dp"
