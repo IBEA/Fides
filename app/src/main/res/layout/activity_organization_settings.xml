@@ -6,7 +6,8 @@
     android:id="@+id/activity_organization_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.activities.OrganizationSettingsActivity">
+    tools:context="com.ibea.fides.ui.activities.OrganizationSettingsActivity"
+    android:background="@color/colorBackground">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +20,8 @@
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_above="@+id/updateButton"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:layout_marginTop="12dp">
 
             <ImageView
                 android:layout_width="match_parent"

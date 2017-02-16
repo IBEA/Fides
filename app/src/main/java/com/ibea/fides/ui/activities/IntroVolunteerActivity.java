@@ -37,6 +37,7 @@ public class IntroVolunteerActivity extends AppIntro {
 
         setFadeAnimation();
 
+        setTitle("Tutorial");
     }
 
     @Override

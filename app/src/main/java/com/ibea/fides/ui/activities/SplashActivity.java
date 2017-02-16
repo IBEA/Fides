@@ -84,6 +84,8 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         };
+
+        setTitle("Fides Loading...");
     }
 
     public void redirectToLogin(){

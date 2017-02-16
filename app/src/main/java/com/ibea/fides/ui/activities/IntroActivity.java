@@ -59,6 +59,7 @@ public class IntroActivity extends AppIntro {
         startActivity(intent);
         finish();
 
+        setTitle("Welcome to Fides");
     }
 
     @Override
