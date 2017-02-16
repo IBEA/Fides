@@ -34,8 +34,6 @@ public class OrganizationProfileActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("MO", "Created");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_home);
 
