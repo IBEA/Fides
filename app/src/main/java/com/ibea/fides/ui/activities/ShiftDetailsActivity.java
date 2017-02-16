@@ -52,7 +52,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
     boolean mInEditMode = false;
-
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.textView_ShortDescription) TextView mShortDescriptionOutput;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
@@ -70,6 +69,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.editText_Zip) EditText mZipInput;
     @Bind(R.id.textView_Description) TextView mDescriptionOutput;
     @Bind(R.id.editText_Description) EditText mDescriptionInput;
+    @Bind(R.id.view_VolSectionDivider) View mVolSectionDivider;
     @Bind(R.id.textView_VolunteerCurrentNumber) TextView mVolCurrentNumber;
     @Bind(R.id.textView_VolunteerMax) TextView mVolMaxOutput;
     @Bind(R.id.editText_VolunteerMax) EditText mVolMaxInput;
@@ -356,7 +356,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mLongDesc = mDescriptionInput.getText().toString();
         mVolunteerSize = mVolMaxInput.getText().toString();
 
-        Log.d("Justin", "Comparing Date");
 
         if (compareDate(mStartD, mEndD, mStartTime, mEndTime)) {
 
@@ -412,7 +411,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             dbShifts.child(mShift.getPushId()).setValue(mShift);
             String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
-            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
+            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).setValue(searchKey);
         }
         else {
             Toast.makeText(mContext, "Invalid Input", Toast.LENGTH_SHORT).show();
@@ -431,15 +430,15 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             Date time2 = sdfTime.parse(timeTwo);
 
             if(date1.after(date2)) {
-                Log.d("Justin", "Rejected at Date");
+
                 Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT).show();
                 return false;
             } else if(date1.equals(date2)) {
                 if(time1.after(time2) || time1.equals(time2)) {
-                    Log.d("Justin", "Rejected at Time");
+
                     Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT).show();
-                    Log.d("Justin Time One: ", time1 + "");
-                    Log.d("Justin Time Two: ", time2 + "");
+
+
                     return false;
                 }
                 return true;

@@ -46,6 +46,8 @@
         <activity
             android:name=".ui.activities.IntroOrganizationActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.IntroVolunteerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.VolunteerProfileActivity"
             android:exported="true"

@@ -24,7 +24,6 @@ import com.ibea.fides.models.Volunteer;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
 // Create a Volunteer Model -- Not Firebase Volunteer
 //public class CreateUserAccountActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
@@ -193,3 +192,4 @@ import butterknife.ButterKnife;
 //        }else return true;
 //    }
 //}
+

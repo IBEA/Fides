@@ -93,7 +93,6 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
 
         @Override
         public void onClick(View v){
-            //TODO: Parcel shift and send to shift details
             Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
             intent.putExtra("shift", Parcels.wrap(mShifts.get(this.getAdapterPosition())));
             mContext.startActivity(intent);

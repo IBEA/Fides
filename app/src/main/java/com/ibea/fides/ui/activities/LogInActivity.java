@@ -106,8 +106,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                 if(task.isSuccessful()) {
                     final FirebaseUser user = mAuth.getCurrentUser();
 
-                    Log.d("LogInActivity ", "Volunteer is authenticated");
-
                     // If user has verified email
                     if (user.isEmailVerified()) {
                         Log.d("LogInActivity ", "Volunteer is verified");
@@ -118,15 +116,12 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                 userId = user.getUid();
                                 userEmail = user.getEmail();
 
-                                // Check to see if Volunteer has finished account creation
+                                // Check to see if user has finished account creation
                                 if (dataSnapshot.hasChild(userId)) {
-                                    Log.d("LogInActivity ", "Volunteer has a Volunteer Model");
 
-                                    // Check to see if Volunteer is an Organization
+                                    // Check to see if user is an Organization
                                     Boolean isOrganization = dataSnapshot.child(userId).child("isOrganization").getValue(Boolean.class);
                                     if (isOrganization) {
-                                        Log.d("LogInActivity", "Volunteer is an Organization");
-
                                         // Check to see if Organization has been Verified
                                         dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
@@ -134,7 +129,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                 Boolean isVerifiedOrg = dataSnapshot.hasChild(userId);
 
                                                 if (isVerifiedOrg) {
-                                                    Log.d("LogInActivity", "Volunteer is Verified Org");
                                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, isVerifiedOrg).apply();
 
                                                     Intent intent = new Intent(LogInActivity.this, OrganizationProfileActivity.class);
@@ -142,7 +136,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                     startActivity(intent);
                                                     finish();
                                                 } else{
-                                                    Log.d("LogInActivity", "Volunteer is Not Verified Org");
                                                     Toast.makeText(mContext, "Thank you. Your account is being verified.", Toast.LENGTH_LONG).show();
                                                 }
                                             }
@@ -151,7 +144,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                             public void onCancelled(DatabaseError databaseError) {}
                                         });
                                     } else {
-                                        Log.d("LogInActivity", "Volunteer is a Volunteer");
                                         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, false).apply();
                                         // Volunteer is a Volunteer - Send to Volunteer Main Page
                                         Intent intent = new Intent(LogInActivity.this, VolunteerProfileActivity.class);
@@ -160,10 +152,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                         finish();
                                     }
                                 } else {
-                                    // Volunteer has not finished account creation
+                                    // User has not finished account creation
                                     Intent intent = new Intent(LogInActivity.this, VolunteerOrOrganizationActivity.class);
-                                    intent.putExtra("userId", userId);
-                                    intent.putExtra("userEmail", userEmail);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     finish();
@@ -179,11 +169,9 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                         });
 
                     } else {
-                        Log.d("LogInActivity", "Volunteer has not Verified");
                         Toast.makeText(mContext, "Please verify your email", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Log.d("LogInActivity", "Bad credentials");
                     Toast.makeText(mContext, "Invalid credentials", Toast.LENGTH_LONG).show();
                 }
             }

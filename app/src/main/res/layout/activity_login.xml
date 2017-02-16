@@ -34,7 +34,7 @@
             android:inputType="textPassword"
             android:hint="password"
             android:gravity="center_horizontal"
-            android:password="true" />
+            />
 
         <Button
             android:layout_width="wrap_content"

@@ -3,8 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
     android:weightSum="4">
 
     <TextView
@@ -13,7 +11,7 @@
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="You can cancel a shift by swiping left in the 'Pending' tab "
+        android:text="Fides is an app that connects volunteers to local organizations. Organizations can make shifts, volunteers can find them!"
         android:layout_weight="1"
         android:textSize="25sp" />
 
@@ -21,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:padding="20dp"
-        android:src="@drawable/createshifttutorial"
+        android:src="@drawable/fidesearchnow"
         android:layout_weight="2"/>
+
 
 </LinearLayout>

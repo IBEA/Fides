@@ -3,8 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
     android:weightSum="4">
 
     <TextView
@@ -13,15 +11,14 @@
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="You can cancel a shift by swiping left in the 'Pending' tab "
-        android:layout_weight="1"
-        android:textSize="25sp" />
+        android:text="When a volunteer shows up for a scheduled shift and meets expectations, they earn trust."
+        android:layout_weight="1.2"
+        android:textSize="22sp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:padding="20dp"
-        android:src="@drawable/createshifttutorial"
-        android:layout_weight="2"/>
+        android:src="@drawable/trusttutorial"
+        android:layout_weight="1.8"/>
 
 </LinearLayout>

@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.ui.activities.AdminActivity;
 import com.ibea.fides.ui.activities.FaqActivity;
+import com.ibea.fides.ui.activities.IntroOrganizationActivity;
+import com.ibea.fides.ui.activities.IntroVolunteerActivity;
 import com.ibea.fides.ui.activities.LogInActivity;
 import com.ibea.fides.ui.activities.OrganizationProfileActivity;
 import com.ibea.fides.ui.activities.VolunteerProfileActivity;
@@ -78,7 +80,6 @@ public class BaseActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        //TODO: Add protections for deleted users and associated redirects. TEST THOROUGHLY
         if(mCurrentUser != null){
             uId = mAuth.getCurrentUser().getUid();
             dbCurrentUser = dbUsers.child(uId);
@@ -180,6 +181,12 @@ public class BaseActivity extends AppCompatActivity {
             finish();
         }else if(id == R.id.search_page){
             Intent intent = new Intent(mContext, SearchActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.action_volunteertutorial) {
+            Intent intent = new Intent(mContext, IntroVolunteerActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.action_organizationtutorial) {
+            Intent intent = new Intent(mContext, IntroOrganizationActivity.class);
             startActivity(intent);
         }else if (id == R.id.action_faq) {
             Intent intent = new Intent(mContext, FaqActivity.class);

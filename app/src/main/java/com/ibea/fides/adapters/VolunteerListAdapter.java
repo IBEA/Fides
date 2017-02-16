@@ -166,7 +166,6 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
         public void popup(int rating) {
             mRating = rating;
-            Log.d("JUSTI", "FOUND");
             // Retrieve duration of shift information
             // Start and End times/dates
             String startDate = mShift.getStartDate();
@@ -196,7 +195,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
                 // Convert difference to hours and format correctly
                 difference = (difference/(60 * 60 * 1000));
                 DecimalFormat df = new DecimalFormat("0.00");
-                Log.d("Justin", "YO");
+
                 mDiffInput = df.format(difference);
 
             } catch (ParseException ex){
@@ -281,6 +280,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).setValue(volunteer);
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getUserId()).removeValue();
 
+
 //            // Retrieve duration of shift information
 //            // Start and End times/dates
 //            String startDate = mShift.getStartDate();
@@ -320,6 +320,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             // Move Volunteer from current volunteers on shift to rated volunteers
             mShift.getCurrentVolunteers().remove(volunteer.getUserId());
             mShift.addRated(volunteer.getUserId());
+
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
 

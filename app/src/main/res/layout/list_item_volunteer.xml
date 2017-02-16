@@ -14,11 +14,13 @@
         app:cardCornerRadius="5dp"
         android:layout_gravity="center"
         app:cardUseCompatPadding="true"
+        android:theme="@style/CardLayout"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:weightSum="3">
 
             <ImageView
@@ -26,6 +28,7 @@
                 android:layout_weight="1"
                 android:layout_height="45dp"
                 android:layout_margin="5dp"
+                android:background="@color/cardview_light_background"
                 app:srcCompat="@drawable/avatar_blank"
                 android:id="@+id/imageView_VolunteerThumbnail"
                 />
@@ -35,6 +38,7 @@
                 android:textSize="24sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:background="@color/cardview_light_background"
                 android:layout_height="match_parent"
                 android:id="@+id/textView_Name"
                 android:layout_centerVertical="true"
@@ -43,6 +47,7 @@
             <TextView
                 android:text="Trust"
                 android:textSize="24sp"
+                android:background="@color/cardview_light_background"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"

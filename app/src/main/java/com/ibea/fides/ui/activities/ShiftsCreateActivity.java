@@ -238,8 +238,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                             //Push data
                             pushData(shift);
-                        } else {
-                            Log.d("Justin", "Rejected");
                         }
                     } else {
                         // Create Toast, overriding background property of activity
@@ -317,7 +315,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             return false;
         }
 
-        Log.d("Justin", "Comparing Date");
         return compareDate(mStartDate, mEndDate, mStartTime, mEndTime);
 
     }
@@ -345,15 +342,14 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             Date time2 = sdfTime.parse(timeTwo);
 
             if(date1.after(date2)) {
-                Log.d("Justin", "Rejected at Date");
+
                 Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT).show();
                 return false;
             } else if(date1.equals(date2)) {
                 if(time1.after(time2) || time1.equals(time2)) {
-                    Log.d("Justin", "Rejected at Time");
+
                     Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT).show();
-                    Log.d("Justin Time One: ", time1 + "");
-                    Log.d("Justin Time Two: ", time2 + "");
+
                     return false;
                 }
                 return true;
@@ -396,7 +392,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsAvailable fields
 //        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(searchKey);
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(searchKey);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(_shift.getCity().toLowerCase()).child(shiftId).setValue(searchKey);
 
         // Create Toast, overriding background property of activity
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
