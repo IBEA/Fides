@@ -263,10 +263,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             }
 
             if(updated) {
-                Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Profile updated", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(mContext, "No Changes Made", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "No changes made", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -449,7 +449,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         // Update Search Node - Organizations Subnode
 
         dbRef = FirebaseDatabase.getInstance().getReference();
-        Toast.makeText(mContext, "Profile Updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Profile updated", Toast.LENGTH_SHORT).show();
         String searchKey = thisOrg.getName().toLowerCase() + "|" + thisOrg.getZipcode() + "|" + thisOrg.getCityAddress().toLowerCase() + "|" + thisOrg.getStateAddress();
         dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).setValue(searchKey);
 

@@ -1,11 +1,13 @@
 package com.ibea.fides.ui.fragments;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.FirebaseShiftViewHolder;
+import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.activities.SearchActivity;
 
@@ -145,9 +148,26 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 if(swipeDir == 4){
-                    ((FirebaseShiftViewHolder) viewHolder).quitShift();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Cancel participation?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            ((FirebaseShiftViewHolder) viewHolder).quitShift();
+                        }
+                    });
+
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            mFirebaseAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+
+                    dialog.show();
                 }
             }
         };
