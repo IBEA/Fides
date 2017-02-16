@@ -111,7 +111,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mVolCurrentNumber.setText(String.valueOf(mShift.getCurrentVolunteers().size()) + "/");
         mVolMaxOutput.setText(String.valueOf(mShift.getMaxVolunteers()));
 
-        if(mIsOrganization) {
+        if(uId.equals(mShift.getOrganizationID())) {
             mVolunteers.clear();
 
             mBeginEditButton.setVisibility(View.VISIBLE);
