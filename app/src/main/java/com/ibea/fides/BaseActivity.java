@@ -78,7 +78,6 @@ public class BaseActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        //TODO: Add protections for deleted users and associated redirects. TEST THOROUGHLY
         if(mCurrentUser != null){
             uId = mAuth.getCurrentUser().getUid();
             dbCurrentUser = dbUsers.child(uId);

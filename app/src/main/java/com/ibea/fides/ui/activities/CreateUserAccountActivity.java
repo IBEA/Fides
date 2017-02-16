@@ -63,11 +63,6 @@ public class CreateUserAccountActivity extends BaseActivity implements View.OnCl
         userEmail = getIntent().getStringExtra("userEmail");
         userName = getIntent().getStringExtra("userName");
 
-        Log.d("CreateUser:", userId);
-        Log.d("CreateUser:", userName);
-        Log.d("CreateUser", userEmail);
-        Log.d("Justin", isOrg + "");
-
         // State Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -112,10 +107,8 @@ public class CreateUserAccountActivity extends BaseActivity implements View.OnCl
                 mCreateUserButton.setText("Create an Organization");
             }
 
-            Log.d("Justin", isOrg + "");
         }
         if(view == mCreateUserButton) {
-            Log.d("Justin CreateB", isOrg + "");
 
             mCity = mCityInput.getText().toString().trim();
             mZipcode = mZipcodeInput.getText().toString().trim();

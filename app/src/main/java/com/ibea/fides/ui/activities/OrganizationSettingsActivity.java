@@ -97,7 +97,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         setContentView(R.layout.activity_organization_settings);
         ButterKnife.bind(this);
 
-        AutoFill();
+        autoFill();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -170,7 +170,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
     }
 
-    public void AutoFill() {
+    public void autoFill() {
         dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -286,6 +286,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         mOrganizationName = tempOrgName;
 
         dbOrganizations.child(uId).child("name").setValue(mOrganizationName);
+        dbCurrentUser.child("name").setValue(mOrganizationName);
         thisOrg.setName(mOrganizationName);
         organizationNameEditText.setHint(organizationNameEditText.getText());
         organizationNameEditText.getText().clear();
@@ -484,7 +485,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                             String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
                             // Change Search Value for StateCity subnodes
-                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity).child(mShift.getPushId()).setValue(searchParam);
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity.toLowerCase()).child(mShift.getPushId()).setValue(searchParam);
                         }
 
                         @Override

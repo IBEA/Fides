@@ -5,11 +5,15 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
+import com.ibea.fides.models.User;
 import com.ibea.fides.ui.fragments.ShiftSearchFragment;
 import com.ibea.fides.ui.fragments.OrganizationSearchFragment;
 
@@ -27,7 +31,6 @@ public class SearchActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);
-
         populateTabs();
     }
 
@@ -39,7 +42,6 @@ public class SearchActivity extends BaseActivity {
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         ArrayList<String> tabTitles = new ArrayList<String>();
 
-        //TODO: This is going to need much more granular parsing
 
         if(isOrganization){
             //User is organization
