@@ -412,7 +412,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             dbShifts.child(mShift.getPushId()).setValue(mShift);
             String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
-            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
+            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).setValue(searchKey);
         }
         else {
             Toast.makeText(mContext, "Invalid Input", Toast.LENGTH_SHORT).show();

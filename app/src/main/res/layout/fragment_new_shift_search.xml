@@ -80,22 +80,15 @@
                     tools:inputType="number"
                     android:layout_weight="2">
                 </EditText>
-
-                <EditText
+                <Spinner
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editText_State"
-                    android:inputType="text"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/stateSpinner"
                     android:background="@color/colorSearchField"
-                    android:imeOptions="actionSearch"
-                    android:maxLines="1"
-                    android:hint="State"
                     android:padding="5dp"
                     android:textSize="25sp"
                     android:iconifiedByDefault="false"
-                    android:layout_weight="1">
-                </EditText>
-
+                    android:layout_weight="1"/>
             </LinearLayout>
 
             <ImageButton

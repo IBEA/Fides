@@ -3,7 +3,9 @@ package com.ibea.fides.ui.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,8 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +35,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.NewShiftSearchAdapter;
+import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.models.User;
+import com.ibea.fides.ui.activities.SearchActivity;
+import com.ibea.fides.ui.activities.ShiftsCreateActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,9 +50,9 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShiftSearchFragment extends Fragment implements View.OnClickListener{
+public class ShiftSearchFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
     @Bind(R.id.editText_City) EditText mEditText_City;
-    @Bind(R.id.editText_State) EditText mEditText_State;
+    @Bind(R.id.stateSpinner) Spinner mStateSpinner;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
     @Bind(R.id.editText_Organization) EditText mEditText_Organization;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
@@ -50,11 +60,16 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
+    public SearchActivity parentActivity;
+
+    private String mState;
     private final String TAG = "NewShiftsSearchFragment";
     private ArrayList<Shift> shifts = new ArrayList<>();
     private RecyclerView.Adapter mRecyclerAdapter;
     private Context mContext;
     private Boolean foundResults = false;
+
+    private User mUser;
 
     private String userId;
 
@@ -73,8 +88,11 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         //TODO: Replace with population from users once all users are required to have these fields. Don't forget you're doing this in onResume as well!
 
-        mEditText_State.setText("OR");
-        mEditText_City.setText("Portland");
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.states_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mStateSpinner.setAdapter(adapter);
+
+        autoFill();
 
         mRecyclerAdapter = new NewShiftSearchAdapter(mContext, shifts);
         mRecyclerView.setHasFixedSize(false);
@@ -130,9 +148,37 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         mImageButton_Search.setOnClickListener(this);
 
+        mStateSpinner.setOnItemSelectedListener(this);
         // Inflate the layout for this fragment
         return view;
     }
+
+    public void autoFill() {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef = dbRef.child(Constants.DB_NODE_USERS).child(userId);
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUser = dataSnapshot.getValue(User.class);
+
+                mEditText_City.setText(mUser.getCity());
+
+                Resources res = getResources();
+                String[] states = res.getStringArray(R.array.states_array);
+                int index = Arrays.asList(states).indexOf(mUser.getState());
+
+                mStateSpinner.setSelection(index);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -144,22 +190,28 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        mState = parent.getItemAtPosition(pos).toString();
+
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
     public void startSearch(){
-        //TODO: Lowercase cityQuery once database also has lowercase city nodes
-        String cityQuery = mEditText_City.getText().toString();
-        String stateQuery = mEditText_State.getText().toString();
+        String cityQuery = mEditText_City.getText().toString().toLowerCase();
         String zipQuery = mEditText_Zip.getText().toString();
         String orgQuery = mEditText_Organization.getText().toString();
 
-        //TODO: Remove stateQuery check once state dropdown is in
-        if(cityQuery.length() != 0 && stateQuery.length() != 0 && validateZip(zipQuery)){
+        if(cityQuery.length() != 0 && validateZip(zipQuery)){
             //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
-            fetchShiftIds(cityQuery, stateQuery);
+            fetchShiftIds(cityQuery, mState);
         }else{
             if(cityQuery.length() == 0){
                 Toast.makeText(mContext, "Please enter a city", Toast.LENGTH_SHORT).show();
-            }else if(stateQuery.length() == 0){
-                Toast.makeText(mContext, "Please enter a valid state", Toast.LENGTH_SHORT).show();
             }else if(!validateZip(zipQuery)){
                 Toast.makeText(mContext, "Invalid zip code", Toast.LENGTH_SHORT).show();
             }
@@ -181,7 +233,8 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             final ArrayList<String> shiftIds = new ArrayList<>();
             DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
-            Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
+            Query dbQuery = dbShiftsByStateCity.child(_state).child(_city.toLowerCase()).orderByValue();
+
             dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -231,6 +284,8 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         });
     }
 
+
+
     public Boolean validateZip(String _query){
         String onlyNumbers = "[0-9]+";
 
@@ -247,18 +302,11 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     @Override
     public void onPause() {
         super.onPause();
-        mEditText_Zip.setText("");
-        mEditText_City.setText("");
-        mEditText_State.setText("");
-        mEditText_Organization.setText("");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //TODO: autopopulate
-        mEditText_State.setText("OR");
-        mEditText_City.setText("Portland");
     }
 
     private void setRecyclerViewItemTouchListener() {
