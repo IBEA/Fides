@@ -27,6 +27,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_volunteertutorial"
+        android:title="Tutorial"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_faq"
         android:title="FAQ"
         android:visible="true"

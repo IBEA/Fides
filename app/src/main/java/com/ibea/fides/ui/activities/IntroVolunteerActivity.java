@@ -11,12 +11,10 @@ import com.ibea.fides.R;
 import com.ibea.fides.ui.fragments.IntroSlideFragment;
 
 /**
- * Created by Garrett on 1/25/2017.
+ * Created by Garrett on 2/16/2017.
  */
 
-//-- Creates the slideshow that appears when app is run for the first time -- Garrettt
-
-public class IntroOrganizationActivity extends AppIntro {
+public class IntroVolunteerActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +23,8 @@ public class IntroOrganizationActivity extends AppIntro {
 
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1_organization));
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2_organization));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1_volunteer));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2_volunteer));
 
         // OPTIONAL METHODS
         // Override bar/separator color.

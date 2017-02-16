@@ -96,7 +96,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Log.e("Garrett", "uri " + uri );
                 Picasso.with(getApplicationContext())
                         .load(uri)
                         .placeholder(R.drawable.avatar_blank)

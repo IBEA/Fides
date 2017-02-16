@@ -28,8 +28,8 @@ public class IntroActivity extends AppIntro {
 
         // AppIntro will automatically generate the dots indicator and buttons.
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_welcome));
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1_volunteer));
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2_volunteer));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1));
+        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_3));
 
         // Override bar/separator color.
@@ -45,9 +45,7 @@ public class IntroActivity extends AppIntro {
         userEmail = getIntent().getStringExtra("userEmail");
         userName = getIntent().getStringExtra("userName");
 
-
         setFadeAnimation();
-
     }
 
     @Override
