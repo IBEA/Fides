@@ -102,7 +102,7 @@ public class OrganizationListAdapter extends RecyclerView.Adapter<OrganizationLi
         @Override
         public void onClick(View v){
             Intent intent = new Intent(mContext, OrganizationProfileActivity.class);
-            intent.putExtra("organization", Parcels.wrap(mOrganization));
+            intent.putExtra("organization", Parcels.wrap(mOrganizations.get(getAdapterPosition())));
             mContext.startActivity(intent);
         }
     }
