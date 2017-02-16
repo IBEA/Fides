@@ -145,8 +145,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     }
 
     public void startSearch(){
-        //TODO: Lowercase cityQuery once database also has lowercase city nodes
-        String cityQuery = mEditText_City.getText().toString();
+        String cityQuery = mEditText_City.getText().toString().toLowerCase();
         String stateQuery = mEditText_State.getText().toString();
         String zipQuery = mEditText_Zip.getText().toString();
         String orgQuery = mEditText_Organization.getText().toString();
@@ -183,7 +182,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             final ArrayList<String> shiftIds = new ArrayList<>();
             DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
-            Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
+            Query dbQuery = dbShiftsByStateCity.child(_state).child(_city.toLowerCase()).orderByValue();
             Log.d(TAG, "State: " + _state);
             Log.d(TAG, "City: " + _city);
             dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {

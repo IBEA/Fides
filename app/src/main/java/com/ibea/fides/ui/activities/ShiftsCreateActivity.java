@@ -396,7 +396,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         // Add shift to shiftsAvailable fields
 //        dbShiftsAvailable.child(Constants.DB_SUBNODE_ZIPCODE).child(String.valueOf(_shift.getZip())).child(shiftId).setValue(searchKey);
         dbShiftsAvailable.child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizagtionID).child(shiftId).setValue(shiftId);
-        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(String.valueOf(_shift.getCity())).child(shiftId).setValue(searchKey);
+        dbShiftsAvailable.child(Constants.DB_SUBNODE_STATECITY).child(String.valueOf(_shift.getState())).child(_shift.getCity().toLowerCase()).child(shiftId).setValue(searchKey);
 
         // Create Toast, overriding background property of activity
         Toast.makeText(mContext, "Shift created", Toast.LENGTH_SHORT).show();
