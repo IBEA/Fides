@@ -1,16 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.ibea.fides.ui.fragments.ShiftsPendingForVolunteerFragment"
-    android:background="@color/colorBackground"
-    >
+    android:background="@color/colorBackground">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/textView_Splash"
-        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, choose search from the dropdown menu, or tap here."
+        android:text="No volunteer shifts pending. To find and sign up for volunteer opportunities, use the button below."
         android:visibility="invisible"
         android:padding="36dp"
         android:gravity="center_vertical|center"
@@ -23,4 +23,18 @@
         android:id="@+id/unratedRecyclerView"
         android:padding="12dp"
         />
-</FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search_black_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:borderWidth="0dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/colorSearchButton"
+        android:backgroundTint="@color/colorSearchButton"
+        android:layout_margin="10dp"
+        android:id="@+id/button_FindShift"/>
+
+</RelativeLayout>
