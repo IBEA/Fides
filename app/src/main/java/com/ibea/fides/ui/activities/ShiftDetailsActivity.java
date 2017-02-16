@@ -52,7 +52,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
     boolean mInEditMode = false;
-
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.textView_ShortDescription) TextView mShortDescriptionOutput;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
@@ -70,6 +69,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.editText_Zip) EditText mZipInput;
     @Bind(R.id.textView_Description) TextView mDescriptionOutput;
     @Bind(R.id.editText_Description) EditText mDescriptionInput;
+    @Bind(R.id.view_VolSectionDivider) View mVolSectionDivider;
     @Bind(R.id.textView_VolunteerCurrentNumber) TextView mVolCurrentNumber;
     @Bind(R.id.textView_VolunteerMax) TextView mVolMaxOutput;
     @Bind(R.id.editText_VolunteerMax) EditText mVolMaxInput;
