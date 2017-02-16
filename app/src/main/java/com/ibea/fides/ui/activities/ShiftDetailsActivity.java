@@ -59,6 +59,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
     @Bind(R.id.textView_EndTime) TextView mTimeEnd;
     @Bind(R.id.textView_StartDate) TextView mStartDate;
+    @Bind(R.id.textView_DateFiller) TextView mDateFiller;
     @Bind(R.id.textView_EndDate) TextView mEndDate;
     @Bind(R.id.textView_StreetAddress) TextView mStreetAddressOutput;
     @Bind(R.id.editText_StreetAddress) EditText mStreetAddressInput;
@@ -94,7 +95,13 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
         mStartDate.setText(mShift.getStartDate());
-        mEndDate.setText(mShift.getEndDate());
+        if(mShift.getEndDate().equals(mShift.getStartDate())) {
+            mDateFiller.setVisibility(View.GONE);
+            mEndDate.setVisibility(View.GONE);
+        }
+        else {
+            mEndDate.setText(mShift.getEndDate());
+        }
         mStreetAddressOutput.setText(mShift.getStreetAddress());
         mAddressLine2Output.setText(mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
         mDescriptionOutput.setText(mShift.getDescription());
@@ -142,6 +149,9 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mShortDescriptionInput.setText(mShift.getShortDescription());
             mShortDescriptionOutput.setVisibility(View.GONE);
 
+            mDateFiller.setVisibility(View.VISIBLE);
+            mEndDate.setVisibility(View.VISIBLE);
+            mEndDate.setText(mShift.getEndDate());
             mTimeStart.setOnClickListener(this);
             mTimeEnd.setOnClickListener(this);
             mStartDate.setOnClickListener(this);
@@ -376,6 +386,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mTimeEnd.setOnClickListener(null);
             mStartDate.setOnClickListener(null);
             mEndDate.setOnClickListener(null);
+
+            if(mShift.getEndDate().equals(mShift.getStartDate())) {
+                mDateFiller.setVisibility(View.GONE);
+                mEndDate.setVisibility(View.GONE);
+            }
 
             mStreetAddressOutput.setVisibility(View.VISIBLE);
             mStreetAddressOutput.setText(mShift.getStreetAddress());
