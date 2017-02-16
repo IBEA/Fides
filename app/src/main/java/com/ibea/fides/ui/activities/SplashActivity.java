@@ -22,7 +22,6 @@ public class SplashActivity extends BaseActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private boolean hasUserModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,49 +34,48 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                //Check if user is in auth database
                 if(user != null){
-                    Log.d(TAG, "Current user is not null");
-                    Log.d(">Current user name", String.valueOf(user.getDisplayName()));
-                    if(user.getDisplayName() != null) {
-                        Log.d(">>>>>", "getDisplayName is not null");
-
+                    //Check to see if user is verified
+                    if(user.isEmailVerified()){
+                        //Check if user has completed account creation
                         dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.d(">>>>>", "In db call");
-                                hasUserModel = dataSnapshot.hasChild(uId);
-                                if(hasUserModel) {
-                                    Log.d(TAG, "Current user is not null and in auth & db");
-                                    mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
+                                //User has completed account creation
+                                if(dataSnapshot.hasChild(uId)) {
+                                    mIsOrganization = dataSnapshot.child(uId).getValue(Boolean.class);
+//                                    mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
+                                    //User is an organization
                                     if(mIsOrganization){
-                                        Log.d(TAG, "Routing to Org Profile");
                                         Intent intent = new Intent(SplashActivity.this, OrganizationProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
+                                    //User is a volunteer
                                     } else{
-                                        Log.d(TAG, "Routing to Vol Profile");
                                         Intent intent = new Intent(SplashActivity.this, VolunteerProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                     }
+                                //User is in auth database, but has not finished account creation
                                 } else {
                                     Log.d(TAG, "Current user is not null and is in auth but not db");
                                     redirectToLogin();
                                 }
                             }
-
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
 
                             }
                         });
+                    //User is not verified
                     }else{
-                        Log.d(TAG, "Current user is not null and is not in auth");
                         redirectToLogin();
                     }
+                //User is null
                 }else{
                     Log.d(TAG, "Current user is null");
                     redirectToLogin();
@@ -86,9 +84,18 @@ public class SplashActivity extends BaseActivity {
         };
     }
 
+    public void redirectToVerifiedAccountCreation(){
+        Intent intent = new Intent(SplashActivity.this, VolunteerOrOrganizationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
     public void redirectToLogin(){
         Intent intent = new Intent(SplashActivity.this, LogInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 
     @Override

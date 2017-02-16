@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 
 // Create A Firebase User Account -- Does Not Create User Model
 public class CreateAccountActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.nameInput) EditText mNameInput;
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
     @Bind(R.id.passwordConfirmInput) EditText mPasswordConfirmInput;
@@ -38,7 +37,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
     // Misc
     private ProgressDialog mAuthProgressDialog;
-    private String mName;
     private String mEmail;
     private String mPassword;
     private String mPasswordConfirm;
@@ -85,17 +83,15 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
     // Create New Account
     private void createUser() {
-        mName = mNameInput.getText().toString().trim();
         mEmail = mEmailInput.getText().toString().trim();
         mPassword = mPasswordInput.getText().toString().trim();
         mPasswordConfirm = mPasswordConfirmInput.getText().toString().trim();
 
         // Confirm validity of inputs
-        boolean validName = isValidName(mName);
         boolean validEmail = isValidEmail(mEmail);
         boolean validPassword = isValidPassword(mPassword, mPasswordConfirm);
 
-        if(!validName || !validEmail || !validPassword) {
+        if(!validEmail || !validPassword) {
             return;
         }
 
@@ -136,15 +132,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         };
     }
 
-    // Validators for name, email, and password inputs
-    private boolean isValidName(String name) {
-        if (name.equals("")) {
-            mNameInput.setError("Please enter your name");
-            return false;
-        }
-        return true;
-    }
-
+    // Validators for email, and password inputs
     private boolean isValidEmail(String email) {
         boolean isGoodEmail = (email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches());
         if(!isGoodEmail) {
@@ -173,14 +161,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         mAuthProgressDialog.setCancelable(false);
     }
 
-    // Upload User DisplayName to Firebase
     private void createFirebaseUserProfile(FirebaseUser user) {
-        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder().setDisplayName(mName).build();
-        user.updateProfile(addProfileName).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {}
-        });
-
         // Send Email Verification
         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

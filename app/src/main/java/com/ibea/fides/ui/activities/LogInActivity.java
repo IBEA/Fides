@@ -44,7 +44,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
     private ProgressDialog mAuthProgressDialog;
 
     private String userId;
-    private String userName;
     private String userEmail;
 
     Toast toast;
@@ -117,12 +116,10 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 userId = user.getUid();
-                                userName = user.getDisplayName();
                                 userEmail = user.getEmail();
 
-                                // Check to see if User has created a User Model
-                                Boolean isUser = dataSnapshot.hasChild(userId);
-                                if (isUser) {
+                                // Check to see if User has finished account creation
+                                if (dataSnapshot.hasChild(userId)) {
                                     Log.d("LogInActivity ", "User has a User Model");
 
                                     // Check to see if User is an Organization
@@ -163,14 +160,9 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                         finish();
                                     }
                                 } else {
-                                    Log.d("LogInActivity", "User has no User Model");
-                                    // User has not created a User Model - Send to IntroActivity to create a User model
-                                    Log.d("JUSTIN:", userId);
-                                    Log.d("Justin:", userName);
-                                    Log.d("justin:", userEmail);
-                                    Intent intent = new Intent(LogInActivity.this, IntroActivity.class);
+                                    // User has not finished account creation
+                                    Intent intent = new Intent(LogInActivity.this, VolunteerOrOrganizationActivity.class);
                                     intent.putExtra("userId", userId);
-                                    intent.putExtra("userName", userName);
                                     intent.putExtra("userEmail", userEmail);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);

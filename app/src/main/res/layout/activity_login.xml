@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/emailInput"
             android:hint="email"
-            android:gravity="left"
+            android:gravity="center_horizontal"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -33,7 +33,7 @@
             android:id="@+id/passwordInput"
             android:inputType="textPassword"
             android:hint="password"
-            android:gravity="left"
+            android:gravity="center_horizontal"
             android:password="true" />
 
         <Button

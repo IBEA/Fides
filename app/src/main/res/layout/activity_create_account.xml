@@ -16,23 +16,14 @@
         <EditText
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:id="@+id/nameInput"
-            android:hint="Display Name"
-            android:gravity="center"
-            android:layout_below="@+id/switchToVolunteerButton"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
             android:id="@+id/emailInput"
             android:hint="Email Address"
             android:gravity="center"
             android:layout_below="@+id/nameInput"
             android:layout_alignLeft="@+id/nameInput"
             android:layout_alignStart="@+id/nameInput"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:layout_width="300dp"

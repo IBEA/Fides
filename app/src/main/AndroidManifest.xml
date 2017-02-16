@@ -18,41 +18,52 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".ui.activities.LogInActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BaseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activities.CreateAccountActivity"
+        <activity
+            android:name=".ui.activities.LogInActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.ShiftsCreateActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"/>
-        <activity android:name=".ui.activities.ShiftDetailsActivity"
+        <activity
+            android:name=".BaseActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.AdminActivity"
+        <activity
+            android:name=".ui.activities.CreateAccountActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.IntroActivity"
+        <activity
+            android:name=".ui.activities.ShiftsCreateActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.FaqActivity"
+        <activity
+            android:name=".ui.activities.ShiftDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.IntroOrganizationActivity"
+        <activity
+            android:name=".ui.activities.AdminActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.IntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.FaqActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.IntroOrganizationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.VolunteerProfileActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="true" />
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.activities.OrganizationProfileActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="true" />
-        <activity android:name=".ui.activities.VolunteerSettingsActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".ui.activities.VolunteerSettingsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.OrganizationSettingsActivity"
+        <activity
+            android:name=".ui.activities.OrganizationSettingsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.SplashActivity"
+        <activity
+            android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,12 +74,12 @@
         <activity
             android:name=".ui.activities.CreateUserAccountActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.activities.SearchActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".ui.activities.VolunteerOrOrganizationActivity" />
+        <activity android:name=".ui.activities.CreateVolunteerActivity"></activity>
     </application>
 
 </manifest>
