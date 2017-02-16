@@ -42,7 +42,6 @@ public class SearchActivity extends BaseActivity {
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         ArrayList<String> tabTitles = new ArrayList<String>();
 
-        //TODO: This is going to need much more granular parsing
 
         if(isOrganization){
             //User is organization
