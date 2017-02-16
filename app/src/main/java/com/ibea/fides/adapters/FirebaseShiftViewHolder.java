@@ -88,7 +88,7 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         String organizationID = mShift.getOrganizationID();
         String zipcode = String.valueOf(mShift.getZip());
         String state = mShift.getState();
-        String city = mShift.getCity();
+        String city = mShift.getCity().toLowerCase();
 
         List<String> userIds = mShift.getCurrentVolunteers();
 
