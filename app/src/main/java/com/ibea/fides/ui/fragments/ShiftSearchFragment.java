@@ -168,8 +168,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
     //Retrieves full list of shiftIDs
     public void fetchShiftIds(String _city, String _state){
-        Log.d(TAG, "in fetchShiftIds");
-
         foundResults = false;
 
         final String zipQuery = mEditText_Zip.getText().toString();
@@ -184,22 +182,14 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             DatabaseReference dbShiftsByStateCity = dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY);
 
             Query dbQuery = dbShiftsByStateCity.child(_state).child(_city).orderByValue();
-            Log.d(TAG, "State: " + _state);
-            Log.d(TAG, "City: " + _city);
             dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    Log.d(TAG, "fetching shifts");
-
                     for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                         String searchKey = snapshot.getValue(String.class);
                         String shiftId = snapshot.getKey();
 
-                        Log.d(TAG, searchKey);
-
                         if(searchKey.contains(orgQuery) && searchKey.contains(zipQuery)){
-                            Log.d(TAG, "Query matches!");
                             foundResults = true;
                             fetchShift(shiftId);
                         }
@@ -220,8 +210,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     }
 
     public void fetchShift(String _shiftId){
-        Log.d(TAG, "in fetchShift");
-
         dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -229,7 +217,8 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
                 if(!shift.getCurrentVolunteers().contains(userId)){
                     shifts.add(shift);
-                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+//                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
+                    mRecyclerAdapter.notifyDataSetChanged();
                 }else{
                     Log.d(TAG, "User already signed up for shift");
                 }
@@ -284,12 +273,17 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                 final int position = viewHolder.getAdapterPosition();
 
                 if(swipeDir == 8){
+                    Log.d("shifts size: ", String.valueOf(shifts.size()));
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("Volunteer for this shift?");
 
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                        public void onClick(DialogInterface dialog, int id){
-                           ((NewShiftSearchAdapter.NewShiftSearchViewHolder) viewHolder).claimShift(position);
+                           Log.d("Position ", String.valueOf(position));
+                           Log.d("Post positive shifts size: ", String.valueOf(shifts.size()));
+                           claimShift(shifts.get(position));
+                           mRecyclerAdapter.notifyItemRemoved(position);
+                           shifts.remove(position);
                        }
                     });
 
@@ -300,18 +294,57 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                     });
 
                     AlertDialog dialog = builder.create();
-
                     dialog.show();
+                }else if(swipeDir == 4){
+                    mRecyclerAdapter.notifyItemRemoved(position);
+                    shifts.remove(position);
                 }
-                Log.d(TAG, String.valueOf(position));
-
-                //TODO: Figure out why the damn thing straight up deletes the last item (if visible and then animates it all up.
-                mRecyclerAdapter.notifyItemRemoved(position);
-                shifts.remove(position);
             }
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    public void claimShift(Shift shift){
+        final String shiftId = shift.getPushId();
+
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shift shift = dataSnapshot.getValue(Shift.class);
+                if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() <= 0){
+                    Toast.makeText(mContext, "Shift full", Toast.LENGTH_SHORT).show();
+                }else{
+                    // Assign to shiftsPending for user
+                    dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userId).child(shiftId).setValue(shiftId);
+
+                    //Add user to list of volunteers and push to database
+                    shift.addVolunteer(userId);
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+                    //check if shift has slots left. If not, remove from shiftsAvailable
+                    String organizationID = shift.getOrganizationID();
+                    String zip = String.valueOf(shift.getZip());
+                    String state = shift.getState();
+                    String city = shift.getCity();
+
+                    if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 0){
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).removeValue();
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).removeValue();
+                        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).removeValue();
+                    }
+
+                    Toast.makeText(mContext, "Shift claimed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
