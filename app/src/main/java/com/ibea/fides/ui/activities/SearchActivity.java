@@ -42,12 +42,12 @@ public class SearchActivity extends BaseActivity {
         //TODO: This is going to need much more granular parsing
 
         if(isOrganization){
-            //User is organization
+            //Volunteer is organization
             tabTitles.add("Organizations");
             fragmentList.add(new OrganizationSearchFragment());
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
         }else {
-            //User is volunteer
+            //Volunteer is volunteer
             tabTitles.add("Opportunities");
             tabTitles.add("Organizations");
             fragmentList.add(new ShiftSearchFragment());

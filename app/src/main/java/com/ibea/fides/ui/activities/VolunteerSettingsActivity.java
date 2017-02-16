@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -30,7 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.R;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -57,7 +56,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
     String mFileName;
 
-    User thisUser;
+    Volunteer thisUser;
 
     boolean pictureClicked = false;
 
@@ -121,7 +120,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
             @Override
 
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            thisUser = dataSnapshot.getValue(User.class);
+                            thisUser = dataSnapshot.getValue(Volunteer.class);
                             useredittext.setText(thisUser.getName());
                             cityeedittext.setText(thisUser.getCity());
                             zipedittext.setText(thisUser.getZipcode());

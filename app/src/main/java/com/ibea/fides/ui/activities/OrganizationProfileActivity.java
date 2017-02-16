@@ -79,8 +79,8 @@ public class OrganizationProfileActivity extends BaseActivity {
         ArrayList<String> tabTitles = new ArrayList<String>();
 
         if(!isOrganization){
-            //User is not an organization
-            Log.v(TAG, "User is not an organization");
+            //Volunteer is not an organization
+            Log.v(TAG, "Volunteer is not an organization");
 
             tabTitles.add("Profile");
             tabTitles.add("Opportunities");
@@ -90,8 +90,8 @@ public class OrganizationProfileActivity extends BaseActivity {
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
         }else {
             if(mOrganization.getPushId().equals(currentUserId)) {
-                //User is organization, and this is their page
-                Log.v(TAG, "User is an organization");
+                //Volunteer is organization, and this is their page
+                Log.v(TAG, "Volunteer is an organization");
 
                 tabTitles.add("Profile");
                 tabTitles.add("Pending");

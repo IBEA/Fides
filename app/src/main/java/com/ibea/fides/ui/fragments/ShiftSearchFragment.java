@@ -231,7 +231,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                     shifts.add(shift);
                     mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                 }else{
-                    Log.d(TAG, "User already signed up for shift");
+                    Log.d(TAG, "Volunteer already signed up for shift");
                 }
             }
 

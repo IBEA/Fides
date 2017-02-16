@@ -10,11 +10,10 @@ import java.util.List;
  */
 
 @Parcel
-public class User {
+public class Volunteer {
     String pushId;
     String name;
     String email;
-    boolean isOrganization = false;
     boolean isAdmin = false;
     int rating;
     double hours;
@@ -23,12 +22,13 @@ public class User {
     String zipcode;
     String city;
     String state;
+    String about;
 
     // Empty Constructor for Parceler
-    public User() {}
+    public Volunteer() {}
 
     // Basic Constructor
-    public User(String pushId, String name, String email) {
+    public Volunteer(String pushId, String name, String email) {
         this.pushId = pushId;
         this.name = name;
         this.email = email;
@@ -49,10 +49,6 @@ public class User {
     }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-    public boolean getIsOrganization() { return isOrganization; }
-    public void setIsOrganization(boolean isOrganization) {
-        this.isOrganization = isOrganization;
-    }
     public boolean getIsAdmin() { return isAdmin; }
     public void setIsAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
 
@@ -111,4 +107,13 @@ public class User {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
 }

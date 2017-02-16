@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 
 
 /**
@@ -45,8 +45,8 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder {
         dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(organizationPushId).setValue(mOrganization);;
 
         //Create user entry for organization
-        User newUser = new User(organizationPushId, mOrganization.getName(), mOrganization.getContactEmail());
-        newUser.setIsOrganization(true);
+        Volunteer newUser = new Volunteer(organizationPushId, mOrganization.getName(), mOrganization.getContactEmail());
+//        newUser.setIsOrganization(true);
         dbRef.child(Constants.DB_NODE_USERS).child(organizationPushId).setValue(newUser);
 
         //Create search entry

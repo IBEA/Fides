@@ -15,6 +15,7 @@ public class Constants {
     public static final String DB_NODE_SHIFTSPENDING = "shiftsPending";
     public static final String DB_NODE_SHIFTSCOMPLETE = "shiftsComplete";
     public static final String DB_NODE_SEARCH = "search";
+    public static final String DB_NODE_VOLUNTEERS = "volunteers";
 
     // Sub-nodes
     public static final String DB_SUBNODE_ZIPCODE = "zipcode";

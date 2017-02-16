@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -35,7 +35,7 @@ import java.util.List;
 
 public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private View mView;
-    private User mUser;
+    private Volunteer mVolunteer;
     private Shift mShift;
     private Button mDislikeButton;
     private Button mLikeButton;
@@ -84,14 +84,14 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mShift = dataSnapshot.getValue(Shift.class);
 
-                // Retrieve appropriate User from database
+                // Retrieve appropriate Volunteer from database
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DB_NODE_USERS).child(mUserId);
                 ref.addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        mUser = dataSnapshot.getValue(User.class);
-                        userName.setText(mUser.getName());
+                        mVolunteer = dataSnapshot.getValue(Volunteer.class);
+                        userName.setText(mVolunteer.getName());
 
                         // Remove buttons if shift isn't complete OR user has already been rated
                         if(mRated || !mShift.getComplete()) {
@@ -137,8 +137,8 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         mLikeButton.setVisibility(View.GONE);
         Log.d("JUSTIN", "Wha");
 
-        // Retrieve User's rating history and calculate new rating
-        List<Integer> ratingHistory = mUser.getRatingHistory();
+        // Retrieve Volunteer's rating history and calculate new rating
+        List<Integer> ratingHistory = mVolunteer.getRatingHistory();
         ratingHistory.add(rating);
         float size = ratingHistory.size();
         float modifiedRating = 0;
@@ -154,11 +154,11 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         }
         float finalFloatRating = (modifiedRating/modifiedMax) * 100 ;
         int finalRating = Math.round(finalFloatRating);
-        mUser.setRating(finalRating);
-        mUser.setRatingHistory(ratingHistory);
+        mVolunteer.setRating(finalRating);
+        mVolunteer.setRatingHistory(ratingHistory);
 
-        // Update Database with new User info and remove User from rated shift
-        dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).setValue(mUser);
+        // Update Database with new Volunteer info and remove Volunteer from rated shift
+        dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).setValue(mVolunteer);
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(indexKey).removeValue();
 
         // Retrieve duration of shift information
@@ -196,9 +196,9 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
             ex.printStackTrace();
         }
 
-        // Move User from current volunteers on shift to rated volunteers
-        mShift.getCurrentVolunteers().remove(mUser.getPushId());
-        mShift.addRated(mUser.getPushId());
+        // Move Volunteer from current volunteers on shift to rated volunteers
+        mShift.getCurrentVolunteers().remove(mVolunteer.getPushId());
+        mShift.addRated(mVolunteer.getPushId());
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
 
@@ -228,13 +228,13 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
 
     private void dataUpdate(String time, boolean showed) {
         if(showed) {
-            double currentHours = mUser.getHours();
+            double currentHours = mVolunteer.getHours();
             currentHours += Double.parseDouble(time);
-            dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).child("hours").setValue(currentHours);
+            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).child("hours").setValue(currentHours);
         } else {
-            int absences = mUser.getAbsences();
+            int absences = mVolunteer.getAbsences();
             absences += 1;
-            dbRef.child(Constants.DB_NODE_USERS).child(mUser.getPushId()).child("absences").setValue(absences);
+            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).child("absences").setValue(absences);
         }
         mPopUp.dismiss();
     }

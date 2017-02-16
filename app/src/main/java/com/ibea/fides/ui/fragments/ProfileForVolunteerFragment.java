@@ -19,14 +19,13 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.R;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -39,7 +38,7 @@ import butterknife.ButterKnife;
 
 public class ProfileForVolunteerFragment extends Fragment {
 
-    private User mUser;
+    private Volunteer mVolunteer;
 
     private Bitmap imageBitmap;
     // image storage reference variables
@@ -60,7 +59,7 @@ public class ProfileForVolunteerFragment extends Fragment {
     int circlespeed2 = 400;
 
     // newInstance constructor for creating fragment with arguments
-    public static ProfileForVolunteerFragment newInstance(User user) {
+    public static ProfileForVolunteerFragment newInstance(Volunteer user) {
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
 
         Bundle bundle = new Bundle();
@@ -76,9 +75,9 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         if(intent.hasExtra("user")){
-            mUser = Parcels.unwrap(intent.getParcelableExtra("user"));
+            mVolunteer = Parcels.unwrap(intent.getParcelableExtra("user"));
         }else{
-            mUser = Parcels.unwrap(getArguments().getParcelable("user"));
+            mVolunteer = Parcels.unwrap(getArguments().getParcelable("user"));
         }
 
     }
@@ -91,7 +90,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         // assign image storage reference variables
-        String volunteerId = mUser.getPushId();
+        String volunteerId = mVolunteer.getPushId();
 
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
@@ -118,9 +117,9 @@ public class ProfileForVolunteerFragment extends Fragment {
             }
         });
 
-        trustmetric = mUser.getRating();
+        trustmetric = mVolunteer.getRating();
 
-        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
+        totalHoursWorked = (float) mVolunteer.getHours(); //TODO once hours are implemented, return hours
 
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))

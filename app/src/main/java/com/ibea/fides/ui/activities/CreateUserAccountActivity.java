@@ -19,13 +19,13 @@ import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-// Create a User Model -- Not Firebase User
+// Create a Volunteer Model -- Not Firebase Volunteer
 public class CreateUserAccountActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
     @Bind(R.id.switchTypeTextView) TextView mSwitchTypeButton;
@@ -128,7 +128,7 @@ public class CreateUserAccountActivity extends BaseActivity implements View.OnCl
                 return;
             }
 
-            User newUser = new User(userId, userName, userEmail);
+            Volunteer newUser = new Volunteer(userId, userName, userEmail);
             newUser.setCity(mCity);
             newUser.setZipcode(mZipcode);
             newUser.setState(mState);
@@ -147,7 +147,7 @@ public class CreateUserAccountActivity extends BaseActivity implements View.OnCl
                     return;
                 }
 
-                newUser.setIsOrganization(true);
+//                newUser.setIsOrganization(true);
                 Organization newOrg = new Organization(userId, userName, mContactName, mStreet, mCity, mState, mZipcode, mDescription);
 
                 dbPendingOrganizations.child(userId).setValue(newOrg);

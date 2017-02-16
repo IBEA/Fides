@@ -1,8 +1,10 @@
 package com.ibea.fides.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 
 import com.ibea.fides.R;
@@ -28,7 +30,8 @@ public class VolunteerOrOrganizationActivity extends AppCompatActivity implement
     @Override
     public void onClick(View view) {
         if(view == mButton_Volunteer){
-
+            Intent intent = new Intent(this, CreateVolunteerActivity.class);
+            startActivity(intent);
         }else if(view == mButton_Organization){
 
         }

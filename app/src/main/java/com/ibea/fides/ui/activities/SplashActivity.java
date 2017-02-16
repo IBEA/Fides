@@ -42,25 +42,25 @@ public class SplashActivity extends BaseActivity {
                         dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                //User has completed account creation
+                                //Volunteer has completed account creation
                                 if(dataSnapshot.hasChild(uId)) {
                                     mIsOrganization = dataSnapshot.child(uId).getValue(Boolean.class);
 //                                    mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
-                                    //User is an organization
+                                    //Volunteer is an organization
                                     if(mIsOrganization){
                                         Intent intent = new Intent(SplashActivity.this, OrganizationProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
-                                    //User is a volunteer
+                                    //Volunteer is a volunteer
                                     } else{
                                         Intent intent = new Intent(SplashActivity.this, VolunteerProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                     }
-                                //User is in auth database, but has not finished account creation
+                                //Volunteer is in auth database, but has not finished account creation
                                 } else {
                                     Log.d(TAG, "Current user is not null and is in auth but not db");
                                     redirectToLogin();
@@ -71,11 +71,11 @@ public class SplashActivity extends BaseActivity {
 
                             }
                         });
-                    //User is not verified
+                    //Volunteer is not verified
                     }else{
                         redirectToLogin();
                     }
-                //User is null
+                //Volunteer is null
                 }else{
                     Log.d(TAG, "Current user is null");
                     redirectToLogin();

@@ -23,7 +23,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.VolunteerListAdapter;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 
 import org.parceler.Parcels;
 
@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 
 public class ShiftDetailsActivity extends BaseActivity implements View.OnClickListener{
     private Shift mShift;
-    private ArrayList<User> mVolunteers = new ArrayList<>();
+    private ArrayList<Volunteer> mVolunteers = new ArrayList<>();
     private ArrayList<String> mVolunteerIds = new ArrayList<>();
     private RecyclerView.Adapter mRecyclerAdapter;
 
@@ -266,7 +266,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         dbUsers.child(_volunteerId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
+                Volunteer user = dataSnapshot.getValue(Volunteer.class);
                 mVolunteers.add(user);
                 mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(user));
                 if(mShift.getComplete()){

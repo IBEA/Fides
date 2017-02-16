@@ -17,7 +17,7 @@ import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 import com.ibea.fides.ui.fragments.ProfileForVolunteerFragment;
 import com.ibea.fides.ui.fragments.ShiftsCompletedForVolunteerFragment;
 import com.ibea.fides.ui.fragments.ShiftsPendingForVolunteerFragment;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 // Main organization page, nested with profile and shift tab.
 
 public class VolunteerProfileActivity extends BaseActivity{
-    User mUser;
+    Volunteer mVolunteer;
     Boolean isOrganization;
     String currentUserId;
 
@@ -47,25 +47,25 @@ public class VolunteerProfileActivity extends BaseActivity{
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if(intent.getExtras() != null){
-            //User passed in, display profile for passed user
-            Log.d(TAG, "User not passed in");
-            mUser = Parcels.unwrap(intent.getExtras().getParcelable("user"));
+            //Volunteer passed in, display profile for passed user
+            Log.d(TAG, "Volunteer not passed in");
+            mVolunteer = Parcels.unwrap(intent.getExtras().getParcelable("user"));
 
-            Log.d(">EXTRAS>", mUser.getName());
+            Log.d(">EXTRAS>", mVolunteer.getName());
 
-            setTitle(mUser.getName());
+            setTitle(mVolunteer.getName());
             populateTabs();
 
         }else{
-            //User not passed in. Display profile for logged user
-            Log.d(TAG, "User not passed in");
+            //Volunteer not passed in. Display profile for logged user
+            Log.d(TAG, "Volunteer not passed in");
             FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    mUser = dataSnapshot.getValue(User.class);
-                    Log.d(">NO EXTRAS>", mUser.getName());
+                    mVolunteer = dataSnapshot.getValue(Volunteer.class);
+                    Log.d(">NO EXTRAS>", mVolunteer.getName());
 
-                    setTitle(mUser.getName());
+                    setTitle(mVolunteer.getName());
                     populateTabs();
 
                 }
@@ -93,11 +93,11 @@ public class VolunteerProfileActivity extends BaseActivity{
             fragmentList.add(new ProfileForVolunteerFragment());
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
         }else {
-            //User is volunteer, and this is their page
+            //Volunteer is volunteer, and this is their page
             tabTitles.add("Profile");
             tabTitles.add("Pending");
             tabTitles.add("History");
-            fragmentList.add(new ProfileForVolunteerFragment().newInstance(mUser));
+            fragmentList.add(new ProfileForVolunteerFragment().newInstance(mVolunteer));
             fragmentList.add(new ShiftsPendingForVolunteerFragment());
             fragmentList.add(new ShiftsCompletedForVolunteerFragment());
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 3, tabTitles, fragmentList));

@@ -24,7 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-// Create A Firebase User Account -- Does Not Create User Model
+// Create A Firebase Volunteer Account -- Does Not Create Volunteer Model
 public class CreateAccountActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.emailInput) EditText mEmailInput;
     @Bind(R.id.passwordInput) EditText mPasswordInput;
@@ -104,7 +104,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             public void onComplete(@NonNull Task<AuthResult> task) {
                 mAuthProgressDialog.dismiss();
 
-                // If Auth Success, create a Authentication User. If Auth Not Successful, alert.
+                // If Auth Success, create a Authentication Volunteer. If Auth Not Successful, alert.
                 if(task.isSuccessful()) {
                     createFirebaseUserProfile(task.getResult().getUser());
 

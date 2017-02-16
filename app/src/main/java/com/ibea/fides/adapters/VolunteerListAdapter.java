@@ -30,9 +30,8 @@ import com.google.firebase.storage.StorageReference;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
-import com.ibea.fides.models.User;
+import com.ibea.fides.models.Volunteer;
 import com.ibea.fides.ui.activities.VolunteerProfileActivity;
-import com.ibea.fides.ui.fragments.ProfileForOrganizationFragment;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -48,8 +47,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdapter.VolunteerViewHolder> {
-    private ArrayList<User> mVolunteers = new ArrayList<>();
-    private User mVolunteer;
+    private ArrayList<Volunteer> mVolunteers = new ArrayList<>();
+    private Volunteer mVolunteer;
     private List<String> mUnratedVolunteers = new ArrayList<>();
     private Shift mShift;
     private int mRating;
@@ -73,7 +72,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
-    public VolunteerListAdapter(Context context, ArrayList<User> volunteers, List<String> _unratedVolunteers, Shift _shift) {
+    public VolunteerListAdapter(Context context, ArrayList<Volunteer> volunteers, List<String> _unratedVolunteers, Shift _shift) {
         mVolunteers = volunteers;
         mUnratedVolunteers = _unratedVolunteers;
         mShift = _shift;
@@ -111,7 +110,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             itemView.setOnClickListener(this);
         }
 
-        public void bindVolunteer(User volunteer) {
+        public void bindVolunteer(Volunteer volunteer) {
             mVolunteer = volunteer;
 
             String volId = mVolunteer.getPushId();
@@ -216,12 +215,12 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         }
 
         public Boolean isUnrated(){
-            User volunteer = mVolunteers.get(getAdapterPosition());
+            Volunteer volunteer = mVolunteers.get(getAdapterPosition());
             return mUnratedVolunteers.contains(volunteer.getPushId());
         }
 
         private void dataUpdate(final String time, final boolean showed) {
-            final User volunteer = mVolunteers.get(getAdapterPosition());
+            final Volunteer volunteer = mVolunteers.get(getAdapterPosition());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -256,9 +255,9 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         }
 
         public void setRating(){
-            User volunteer = mVolunteers.get(getAdapterPosition());
+            Volunteer volunteer = mVolunteers.get(getAdapterPosition());
 
-            // Retrieve User's rating history and calculate new rating
+            // Retrieve Volunteer's rating history and calculate new rating
             List<Integer> ratingHistory = volunteer.getRatingHistory();
             ratingHistory.add(mRating);
             float size = ratingHistory.size();
@@ -278,7 +277,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             volunteer.setRating(finalRating);
             volunteer.setRatingHistory(ratingHistory);
 
-            // Update Database with new User info and remove User from rated shift
+            // Update Database with new Volunteer info and remove Volunteer from rated shift
             dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).setValue(volunteer);
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getPushId()).removeValue();
 
@@ -318,7 +317,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 //                ex.printStackTrace();
 //            }
 
-            // Move User from current volunteers on shift to rated volunteers
+            // Move Volunteer from current volunteers on shift to rated volunteers
             mShift.getCurrentVolunteers().remove(volunteer.getPushId());
             mShift.addRated(volunteer.getPushId());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
