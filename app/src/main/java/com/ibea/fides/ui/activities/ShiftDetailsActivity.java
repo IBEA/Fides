@@ -36,7 +36,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.Bind;
@@ -84,26 +83,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
 
-
-        // Handling this in XML
-//        mBeginEditButton.setVisibility(View.GONE);
-//        mFinishEditButton.setVisibility(View.GONE);
-//        mShortDescriptionInput.setVisibility(View.GONE);
-//        mStreetAddressInput.setVisibility(View.GONE);
-//        mCityInput.setVisibility(View.GONE);
-//        mStateInput.setVisibility(View.GONE);
-//        mZipInput.setVisibility(View.GONE);
-//        mDescriptionInput.setVisibility(View.GONE);
-//        mVolMaxInput.setVisibility(View.GONE);
-
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
-
-
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mStateInput.setAdapter(adapter);
-
 
         mOrgName.setText(mShift.getOrganizationName());
         mShortDescriptionOutput.setText(mShift.getShortDescription());
@@ -146,12 +130,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mVolunteersListInstructions.setVisibility(View.GONE);
             }
         }
-//        else {
-////            mVolunteersListHeader.setVisibility(View.GONE);
-////            mVolunteersListInstructions.setVisibility(View.GONE);
-////            mBeginEditButton.setVisibility(View.GONE);
-//        }
-
     }
 
     @Override
@@ -196,9 +174,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             validateFields();
         }
         if(view == mTimeStart) {
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            // Auto-populate time for picker
+            mStartTime = mShift.getStartTime();
+            mHour = Integer.parseInt(mStartTime.substring(0,mStartTime.indexOf(":")));
+            mMinute = Integer.parseInt((mStartTime.substring(mStartTime.indexOf(":") + 1)));
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker, new TimePickerDialog.OnTimeSetListener() {
@@ -211,15 +190,14 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             timePickerDialog.show();
         }
         if(view == mTimeEnd) {
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            // Auto-populate time for picker
+            mEndTime = mShift.getEndTime();
+            mHour = Integer.parseInt(mEndTime.substring(0,mEndTime.indexOf(":")));
+            mMinute = Integer.parseInt((mEndTime.substring(mEndTime.indexOf(":") + 1)));
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
                     new TimePickerDialog.OnTimeSetListener() {
-
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
@@ -230,12 +208,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             timePickerDialog.show();
         }
         if(view == mStartDate) {
-            // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-
+            // Auto-populate date for picker
+            mStartD = mShift.getStartDate();
+            mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) -1;
+            mDay = Integer.parseInt((mStartD.substring(mStartD.indexOf("-") + 1, mStartD.lastIndexOf("-"))));
+            mYear = Integer.parseInt((mStartD.substring(mStartD.lastIndexOf("-") + 1)));
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
                     new DatePickerDialog.OnDateSetListener() {
@@ -251,11 +228,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             datePickerDialog.show();
         }
         if(view == mEndDate) {
-            // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
+            // Auto-populate date for picker
+            mEndD = mShift.getEndDate();
+            mMonth = Integer.parseInt(mEndD.substring(0, mEndD.indexOf("-"))) - 1;
+            mDay = Integer.parseInt((mEndD.substring(mEndD.indexOf("-") + 1, mEndD.lastIndexOf("-"))));
+            mYear = Integer.parseInt((mEndD.substring(mEndD.lastIndexOf("-") + 1)));
 
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
