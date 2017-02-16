@@ -96,7 +96,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mDescription.setText(mShift.getDescription());
         mAddress.setText(mShift.getStreetAddress());
 
-        if(mIsOrganization) {
+        if(uId.equals(mShift.getOrganizationID())) {
             mVolunteers.clear();
             mEditButton.setVisibility(View.VISIBLE);
 
