@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -12,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,9 +51,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private int mYear, mMonth, mDay, mHour, mMinute;
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
+    boolean mInEditMode = false;
 
-    @Bind(R.id.imageView_BeginEdit) ImageView mBeginEditButton;
-    @Bind(R.id.imageView_FinishEdit) ImageView mFinishEditButton;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.textView_ShortDescription) TextView mShortDescriptionOutput;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
@@ -76,6 +76,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.textView_VolunteerListHeader) TextView mVolunteersListHeader;
     @Bind(R.id.textView_VolunteerListInstructions) TextView mVolunteersListInstructions;
     @Bind(R.id.unratedRecyclerView) RecyclerView mVolunteersListRecyclerView;
+    @Bind(R.id.floatingActionButton_EditOrComplete) FloatingActionButton mEditOrCompleteButton;
 
 
     @Override
@@ -114,10 +115,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         if(uId.equals(mShift.getOrganizationID())) {
             mVolunteers.clear();
 
-            mBeginEditButton.setVisibility(View.VISIBLE);
-            mBeginEditButton.setOnClickListener(this);
-
-            mFinishEditButton.setOnClickListener(this);
+            mEditOrCompleteButton.setVisibility(View.VISIBLE);
+            mEditOrCompleteButton.setOnClickListener(this);
 
             mVolunteersListHeader.setVisibility(View.VISIBLE);
             mVolunteersListInstructions.setVisibility(View.VISIBLE);
@@ -141,47 +140,50 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        if(view == mBeginEditButton) {
-            mBeginEditButton.setVisibility(View.GONE);
-            mFinishEditButton.setVisibility(View.VISIBLE);
+        if(view == mEditOrCompleteButton) {
+            if(!mInEditMode) {
+                mEditOrCompleteButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_done_black_24dp));
 
-            mShortDescriptionInput.setVisibility(View.VISIBLE);
-            mShortDescriptionInput.setText(mShift.getShortDescription());
-            mShortDescriptionOutput.setVisibility(View.GONE);
+                mShortDescriptionInput.setVisibility(View.VISIBLE);
+                mShortDescriptionInput.setText(mShift.getShortDescription());
+                mShortDescriptionOutput.setVisibility(View.GONE);
 
-            mDateFiller.setVisibility(View.VISIBLE);
-            mEndDate.setVisibility(View.VISIBLE);
-            mEndDate.setText(mShift.getEndDate());
-            mTimeStart.setOnClickListener(this);
-            mTimeEnd.setOnClickListener(this);
-            mStartDate.setOnClickListener(this);
-            mEndDate.setOnClickListener(this);
+                mDateFiller.setVisibility(View.VISIBLE);
+                mEndDate.setVisibility(View.VISIBLE);
+                mEndDate.setText(mShift.getEndDate());
+                mTimeStart.setOnClickListener(this);
+                mTimeEnd.setOnClickListener(this);
+                mStartDate.setOnClickListener(this);
+                mEndDate.setOnClickListener(this);
 
-            mStreetAddressInput.setVisibility(View.VISIBLE);
-            mStreetAddressInput.setText(mShift.getStreetAddress());
-            mStreetAddressOutput.setVisibility(View.GONE);
+                mStreetAddressInput.setVisibility(View.VISIBLE);
+                mStreetAddressInput.setText(mShift.getStreetAddress());
+                mStreetAddressOutput.setVisibility(View.GONE);
 
-            mAddressLine2Input.setVisibility(View.VISIBLE);
-            mCityInput.setText(mShift.getCity());
-            String state = mShift.getState();
-            Resources res = getResources();
-            String[] states = res.getStringArray(R.array.states_array);
-            int index = Arrays.asList(states).indexOf(state);
-            mStateInput.setSelection(index);
-            mZipInput.setText(mShift.getZip());
-            mAddressLine2Output.setVisibility(View.GONE);
+                mAddressLine2Input.setVisibility(View.VISIBLE);
+                mCityInput.setText(mShift.getCity());
+                String state = mShift.getState();
+                Resources res = getResources();
+                String[] states = res.getStringArray(R.array.states_array);
+                int index = Arrays.asList(states).indexOf(state);
+                mStateInput.setSelection(index);
+                mZipInput.setText(mShift.getZip());
+                mAddressLine2Output.setVisibility(View.GONE);
 
-            mDescriptionInput.setVisibility(View.VISIBLE);
-            mDescriptionInput.setText(mShift.getDescription());
-            mDescriptionOutput.setVisibility(View.GONE);
+                mDescriptionInput.setVisibility(View.VISIBLE);
+                mDescriptionInput.setText(mShift.getDescription());
+                mDescriptionOutput.setVisibility(View.GONE);
 
-            mVolMaxInput.setVisibility(View.VISIBLE);
-            mVolMaxInput.setText(String.valueOf(mShift.getMaxVolunteers()));
-            mVolMaxOutput.setVisibility(View.GONE);
+                mVolMaxInput.setVisibility(View.VISIBLE);
+                mVolMaxInput.setText(String.valueOf(mShift.getMaxVolunteers()));
+                mVolMaxOutput.setVisibility(View.GONE);
 
-        }
-        if(view == mFinishEditButton) {
-            validateFields();
+                mInEditMode = true;
+            }
+            else {
+                validateFields();
+                mInEditMode = false;
+            }
         }
         if(view == mTimeStart) {
             // Auto-populate time for picker
@@ -375,8 +377,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));
 
 
-            mBeginEditButton.setVisibility(View.VISIBLE);
-            mFinishEditButton.setVisibility(View.GONE);
+            mEditOrCompleteButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_mode_edit_black_24dp));
 
             mShortDescriptionOutput.setVisibility(View.VISIBLE);
             mShortDescriptionOutput.setText(mShift.getShortDescription());
@@ -412,7 +413,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
             dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity()).child(mShift.getPushId()).setValue(searchKey);
-
         }
         else {
             Toast.makeText(mContext, "Invalid Input", Toast.LENGTH_SHORT).show();
