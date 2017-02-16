@@ -49,7 +49,7 @@ public class VolunteerProfileActivity extends BaseActivity{
         if(intent.getExtras() != null){
             //Volunteer passed in, display profile for passed user
             Log.d(TAG, "Volunteer not passed in");
-            mVolunteer = Parcels.unwrap(intent.getExtras().getParcelable("user"));
+            mVolunteer = Parcels.unwrap(intent.getExtras().getParcelable("volunteer"));
 
             Log.d(">EXTRAS>", mVolunteer.getName());
 
@@ -58,8 +58,8 @@ public class VolunteerProfileActivity extends BaseActivity{
 
         }else{
             //Volunteer not passed in. Display profile for logged user
-            Log.d(TAG, "Volunteer not passed in");
-            FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_USERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_VOLUNTEERS).child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mVolunteer = dataSnapshot.getValue(Volunteer.class);
@@ -67,7 +67,6 @@ public class VolunteerProfileActivity extends BaseActivity{
 
                     setTitle(mVolunteer.getName());
                     populateTabs();
-
                 }
 
                 @Override

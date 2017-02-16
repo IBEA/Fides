@@ -66,14 +66,14 @@ public class IntroActivity extends AppIntro {
 
     @Override
     public void onSkipPressed(Fragment currentFragment) {
-        super.onSkipPressed(currentFragment);
-        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
-        intent.putExtra("userId", userId);
-        intent.putExtra("userName", userName);
-        intent.putExtra("userEmail", userEmail);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+//        super.onSkipPressed(currentFragment);
+//        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
+//        intent.putExtra("userId", userId);
+//        intent.putExtra("userName", userName);
+//        intent.putExtra("userEmail", userEmail);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
+//        finish();
 
     }
 
@@ -85,15 +85,15 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
-        intent.putExtra("userId", userId);
-        intent.putExtra("userName", userName);
-        intent.putExtra("userEmail", userEmail);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-
-        finish();
+//        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
+//        intent.putExtra("userId", userId);
+//        intent.putExtra("userName", userName);
+//        intent.putExtra("userEmail", userEmail);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
+//        finish();
+//
+//        finish();
     }
 
     @Override

@@ -18,7 +18,8 @@
         android:stateListAnimator="@null"
         android:elevation="12dp"
         android:background="@drawable/rounded_button"
-        android:padding="5dp"
+        android:padding="15dp"
+        android:textSize="25dp"
         android:layout_above="@+id/textView"
         android:layout_centerHorizontal="true" />
 
@@ -39,7 +40,8 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:background="@drawable/rounded_button"
-        android:padding="5dp"
+        android:padding="15dp"
+        android:textSize="25dp"
         android:stateListAnimator="@null"
         android:elevation="12dp"
         android:id="@+id/button_Organization" />

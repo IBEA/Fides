@@ -158,7 +158,7 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         mVolunteer.setRatingHistory(ratingHistory);
 
         // Update Database with new Volunteer info and remove Volunteer from rated shift
-        dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).setValue(mVolunteer);
+        dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getUserId()).setValue(mVolunteer);
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").child(indexKey).removeValue();
 
         // Retrieve duration of shift information
@@ -197,8 +197,8 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         }
 
         // Move Volunteer from current volunteers on shift to rated volunteers
-        mShift.getCurrentVolunteers().remove(mVolunteer.getPushId());
-        mShift.addRated(mVolunteer.getPushId());
+        mShift.getCurrentVolunteers().remove(mVolunteer.getUserId());
+        mShift.addRated(mVolunteer.getUserId());
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
 
@@ -230,11 +230,11 @@ public class FirebaseVolunteerViewHolder extends RecyclerView.ViewHolder impleme
         if(showed) {
             double currentHours = mVolunteer.getHours();
             currentHours += Double.parseDouble(time);
-            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).child("hours").setValue(currentHours);
+            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getUserId()).child("hours").setValue(currentHours);
         } else {
             int absences = mVolunteer.getAbsences();
             absences += 1;
-            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getPushId()).child("absences").setValue(absences);
+            dbRef.child(Constants.DB_NODE_USERS).child(mVolunteer.getUserId()).child("absences").setValue(absences);
         }
         mPopUp.dismiss();
     }

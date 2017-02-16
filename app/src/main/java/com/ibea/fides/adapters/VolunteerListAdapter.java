@@ -113,7 +113,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         public void bindVolunteer(Volunteer volunteer) {
             mVolunteer = volunteer;
 
-            String volId = mVolunteer.getPushId();
+            String volId = mVolunteer.getUserId();
             // assign image storage reference variables
             mStorage = FirebaseStorage.getInstance();
             mStorageRef = mStorage.getReferenceFromUrl("gs://fides-6faeb.appspot.com");
@@ -140,7 +140,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
             mTextView_Name.setText(mVolunteer.getName());
             mTextView_Trust.setText( Integer.toString (mVolunteer.getRating()) + "%" );
-            if(mUnratedVolunteers.contains(mVolunteer.getPushId()) && mShift.getComplete()){
+            if(mUnratedVolunteers.contains(mVolunteer.getUserId()) && mShift.getComplete()){
                 Log.d(">>>>>", mVolunteer.getName() + " is unrated");
                 mTextView_Name.setTextColor(Color.parseColor("#F44336"));
             }
@@ -161,7 +161,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         }
 
         public String getVolunteerId(){
-            return mVolunteers.get(getAdapterPosition()).getPushId();
+            return mVolunteers.get(getAdapterPosition()).getUserId();
         }
 
         public void popup(int rating) {
@@ -216,7 +216,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
         public Boolean isUnrated(){
             Volunteer volunteer = mVolunteers.get(getAdapterPosition());
-            return mUnratedVolunteers.contains(volunteer.getPushId());
+            return mUnratedVolunteers.contains(volunteer.getUserId());
         }
 
         private void dataUpdate(final String time, final boolean showed) {
@@ -225,22 +225,22 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mShift = dataSnapshot.getValue(Shift.class);
-                    if(!mShift.getRatedVolunteers().contains(volunteer.getPushId())){
+                    if(!mShift.getRatedVolunteers().contains(volunteer.getUserId())){
                         if(showed) {
                             setRating();
                             double currentHours = volunteer.getHours();
                             currentHours += Double.parseDouble(time);
-                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).child("hours").setValue(currentHours);
+                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).child("hours").setValue(currentHours);
                         } else {
                             setRating();
                             int absences = volunteer.getAbsences();
                             absences += 1;
-                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).child("absences").setValue(absences);
+                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).child("absences").setValue(absences);
                         }
                         mTextView_Name.setTextColor(Color.parseColor("#757575"));
                         mPopUp.dismiss();
                     }else{
-                        mUnratedVolunteers.remove(mUnratedVolunteers.indexOf(volunteer.getPushId()));
+                        mUnratedVolunteers.remove(mUnratedVolunteers.indexOf(volunteer.getUserId()));
                         Toast.makeText(mContext, "Volunteer already rated", Toast.LENGTH_SHORT).show();
                         mPopUp.dismiss();
                         mTextView_Name.setTextColor(Color.parseColor("#757575"));
@@ -278,8 +278,8 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             volunteer.setRatingHistory(ratingHistory);
 
             // Update Database with new Volunteer info and remove Volunteer from rated shift
-            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getPushId()).setValue(volunteer);
-            dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getPushId()).removeValue();
+            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).setValue(volunteer);
+            dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getUserId()).removeValue();
 
 //            // Retrieve duration of shift information
 //            // Start and End times/dates
@@ -318,15 +318,15 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 //            }
 
             // Move Volunteer from current volunteers on shift to rated volunteers
-            mShift.getCurrentVolunteers().remove(volunteer.getPushId());
-            mShift.addRated(volunteer.getPushId());
+            mShift.getCurrentVolunteers().remove(volunteer.getUserId());
+            mShift.addRated(volunteer.getUserId());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").setValue(mShift.getCurrentVolunteers());
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("ratedVolunteers").setValue(mShift.getRatedVolunteers());
 
             //Remove user from local unrated list
             Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
-            Log.d(">>>>>", String.valueOf(volunteer.getPushId()));
-            mUnratedVolunteers.remove(mUnratedVolunteers.indexOf(volunteer.getPushId()));
+            Log.d(">>>>>", String.valueOf(volunteer.getUserId()));
+            mUnratedVolunteers.remove(mUnratedVolunteers.indexOf(volunteer.getUserId()));
         }
     }
 }

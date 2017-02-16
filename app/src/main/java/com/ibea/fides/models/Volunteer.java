@@ -11,7 +11,7 @@ import java.util.List;
 
 @Parcel
 public class Volunteer {
-    String pushId;
+    String userId;
     String name;
     String email;
     boolean isAdmin = false;
@@ -28,18 +28,21 @@ public class Volunteer {
     public Volunteer() {}
 
     // Basic Constructor
-    public Volunteer(String pushId, String name, String email) {
-        this.pushId = pushId;
-        this.name = name;
-        this.email = email;
+    public Volunteer(String _pushId, String _name, String _email, String _zipcode, String _city, String _state) {
+        this.userId = _pushId;
+        this.name = _name;
+        this.email = _email;
+        zipcode = _zipcode;
+        city = _city;
+        state = _state;
     }
 
     // Getters and Setters
-    public String getPushId() {
-        return pushId;
+    public String getUserId() {
+        return userId;
     }
-    public void setPushId(String pushId) {
-        this.pushId = pushId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     public String getName() {
         return name;

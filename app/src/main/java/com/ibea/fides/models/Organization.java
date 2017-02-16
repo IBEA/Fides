@@ -25,7 +25,6 @@ public class Organization {
     List<String> shiftsCompleted = new ArrayList<>();
     List<String> tags = new ArrayList<>();
 
-
     // Empty Constructor for Parceler
     public Organization() {}
 
