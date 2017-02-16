@@ -120,7 +120,7 @@ public class ProfileForVolunteerFragment extends Fragment {
 
         trustmetric = mUser.getRating();
 
-        totalHoursWorked = (float)mUser.getHours(); //TODO once hours are implemented, return hours
+        totalHoursWorked = (float)mUser.getHours();
 
 // Create background track
         arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))

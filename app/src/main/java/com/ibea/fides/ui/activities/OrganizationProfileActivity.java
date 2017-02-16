@@ -73,8 +73,6 @@ public class OrganizationProfileActivity extends BaseActivity {
     public void populateTabs(){
         SwipelessViewPager viewPager = (SwipelessViewPager) findViewById(R.id.viewpager);
 
-        //TODO: This is going to need much more granular parsing
-
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         ArrayList<String> tabTitles = new ArrayList<String>();
 
@@ -84,7 +82,7 @@ public class OrganizationProfileActivity extends BaseActivity {
 
             tabTitles.add("Profile");
             tabTitles.add("Opportunities");
-            //TODO: Investigate using constructor instead of instance
+
             fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
             fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization));
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
@@ -96,7 +94,7 @@ public class OrganizationProfileActivity extends BaseActivity {
                 tabTitles.add("Profile");
                 tabTitles.add("Pending");
                 tabTitles.add("History");
-                //TODO: Investigate using constructor instead of instance
+
                 fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
                 fragmentList.add(new ShiftsPendingForOrganizationFragment());
                 fragmentList.add(new ShiftsCompletedForOrganizationFragment());

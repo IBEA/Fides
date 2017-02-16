@@ -86,8 +86,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //TODO: Replace with population from users once all users are required to have these fields. Don't forget you're doing this in onResume as well!
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mStateSpinner.setAdapter(adapter);
@@ -182,8 +180,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        //TODO: Allow searches when the zipcode, but not the city, is in.
-        //TODO: Consider abandoning zipcode searches
 
         if(view == mImageButton_Search){
             startSearch();
