@@ -171,45 +171,33 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     }
 
     public void autoFill() {
-        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
-                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            thisOrg = dataSnapshot.getValue(Organization.class);
+                thisOrg = dataSnapshot.getValue(Organization.class);
+                if(thisOrg != null) {
+                    if (!thisOrg.getName().equals(""))
+                        organizationNameEditText.setHint(thisOrg.getName());
+                    if (thisOrg.getUrl() != null)
+                        if (!thisOrg.getUrl().equals(""))
+                            websiteEditText.setHint(thisOrg.getUrl());
+                    if (!thisOrg.getContactName().equals(""))
+                        contactNameEditText.setHint(thisOrg.getContactName());
+                    if (!thisOrg.getStreetAddress().equals(""))
+                        streetAddressEditText.setHint(thisOrg.getStreetAddress());
+                    if (!thisOrg.getCityAddress().equals(""))
+                        cityEditText.setHint(thisOrg.getCityAddress());
 
-                            if(thisOrg != null) {
-                                if (!thisOrg.getName().equals(""))
-                                    organizationNameEditText.setHint(thisOrg.getName());
-                                if (thisOrg.getUrl() != null)
-                                    if(!thisOrg.getUrl().equals(""))
-                                        websiteEditText.setHint(thisOrg.getUrl());
-                                if (!thisOrg.getContactName().equals(""))
-                                    contactNameEditText.setHint(thisOrg.getContactName());
-                                if (!thisOrg.getStreetAddress().equals(""))
-                                    streetAddressEditText.setHint(thisOrg.getStreetAddress());
-                                if (!thisOrg.getCityAddress().equals(""))
-                                    cityEditText.setHint(thisOrg.getCityAddress());
+                    String state = thisOrg.getStateAddress();
+                    Resources res = getResources();
+                    String[] states = res.getStringArray(R.array.states_array);
+                    int index = Arrays.asList(states).indexOf(state);
+                    stateSpinner.setSelection(index);
 
-                                String state = thisOrg.getStateAddress();
-                                Resources res = getResources();
-                                String[] states = res.getStringArray(R.array.states_array);
-                                int index = Arrays.asList(states).indexOf(state);
-                                stateSpinner.setSelection(index);
-
-                                if (!thisOrg.getZipcode().equals(""))
-                                    zipCodeEditText.setHint(thisOrg.getZipcode());
-                                if (!thisOrg.getDescription().equals(""))
-                                    descriptionEditText.setHint(thisOrg.getDescription());
-                            }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                    if (!thisOrg.getZipcode().equals(""))
+                        zipCodeEditText.setHint(thisOrg.getZipcode());
+                    if (!thisOrg.getDescription().equals(""))
+                        descriptionEditText.setHint(thisOrg.getDescription());
                 }
             }
             @Override
@@ -286,7 +274,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         mOrganizationName = tempOrgName;
 
         dbOrganizations.child(uId).child("name").setValue(mOrganizationName);
-        dbCurrentUser.child("name").setValue(mOrganizationName);
         thisOrg.setName(mOrganizationName);
         organizationNameEditText.setHint(organizationNameEditText.getText());
         organizationNameEditText.getText().clear();

@@ -39,7 +39,6 @@ public class BaseActivity extends AppCompatActivity {
     public DatabaseReference dbOrganizations;
     public DatabaseReference dbPendingOrganizations;
     public DatabaseReference dbTags;
-    public DatabaseReference dbCurrentUser;
     public DatabaseReference dbShiftsAvailable;
     public DatabaseReference dbShiftsPending;
     public DatabaseReference dbVolunteers;
@@ -84,7 +83,6 @@ public class BaseActivity extends AppCompatActivity {
 
         if(mCurrentUser != null){
             uId = mAuth.getCurrentUser().getUid();
-            dbCurrentUser = dbUsers.child(uId);
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
@@ -129,11 +127,11 @@ public class BaseActivity extends AppCompatActivity {
 
         final MenuItem admin = (MenuItem) menu.findItem(R.id.action_admin);
         if(mCurrentUser != null) {
-            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            dbVolunteers.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChild("isAdmin")){
-                        if(dataSnapshot.child("isAdmin").getValue(Boolean.class) == false){
+                    if(dataSnapshot.hasChild(uId)){
+                        if(dataSnapshot.child(uId).child("isAdmin").getValue(Boolean.class) == false){
                             admin.setVisible(false);
                         }
                     }
@@ -144,7 +142,6 @@ public class BaseActivity extends AppCompatActivity {
 
                 }
             });
-
         }
 
         return super.onCreateOptionsMenu(menu);

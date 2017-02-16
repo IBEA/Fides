@@ -278,8 +278,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
     }
     public void fetchVolunteer(String _volunteerId){
-        //db call
-            //update within call
         dbVolunteers.child(_volunteerId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

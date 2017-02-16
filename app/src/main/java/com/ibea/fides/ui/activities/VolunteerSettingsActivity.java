@@ -115,7 +115,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     }
 
     public void autoFill() {
-        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbVolunteers.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
                         public void onDataChange(DataSnapshot dataSnapshot) {

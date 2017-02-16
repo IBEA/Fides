@@ -96,34 +96,21 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void autoFill() {
-        dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if((Boolean) dataSnapshot.child("isOrganization").getValue()) {
-                    dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            thisOrg = dataSnapshot.getValue(Organization.class);
-                            mStreetInput.setText(thisOrg.getStreetAddress());
-                            mCityInput.setText(thisOrg.getCityAddress());
-                            mZipcodeInput.setText(thisOrg.getZipcode());
-                            String state = thisOrg.getStateAddress();
+                thisOrg = dataSnapshot.getValue(Organization.class);
+                mStreetInput.setText(thisOrg.getStreetAddress());
+                mCityInput.setText(thisOrg.getCityAddress());
+                mZipcodeInput.setText(thisOrg.getZipcode());
+                String state = thisOrg.getStateAddress();
 
-                            Resources res = getResources();
-                            String[] states = res.getStringArray(R.array.states_array);
-                            int index = Arrays.asList(states).indexOf(state);
+                Resources res = getResources();
+                String[] states = res.getStringArray(R.array.states_array);
+                int index = Arrays.asList(states).indexOf(state);
 
 
-                            mStateSpinner.setSelection(index);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
+                mStateSpinner.setSelection(index);
             }
 
             @Override
@@ -222,34 +209,12 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         }
 
         if (v == mSubmitButton) {
-            dbCurrentUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if ((Boolean) dataSnapshot.child("isOrganization").getValue()) {
-                        String organizationName = dataSnapshot.child("name").getValue().toString();
-                        Log.v("Here:", organizationName);
+            if (validateFields()) {
+                Shift shift = new Shift(mStartTime, mEndTime, mStartDate, mEndDate, mLongDescription, mShortDescription, mVolunteerSize, uId, mStreet, mCity, mState, mZipcode, thisOrg.getName());
 
-                        String pushId = dataSnapshot.child("pushId").getValue().toString();
-
-                        Log.v("There:", pushId);
-
-                        if (validateFields()) {
-                            Shift shift = createShift(organizationName, pushId);
-
-                            //Push data
-                            pushData(shift);
-                        }
-                    } else {
-                        // Create Toast, overriding background property of activity
-                        Toast.makeText(mContext, "Only organizations can create shifts", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+                //Push data
+                pushData(shift);
+            }
         }
     }
 
@@ -360,13 +325,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         }
         return false;
-    }
-
-
-    // Reads all fields and returns constructed shift
-    public Shift createShift(String _organizationName, String _pushId){
-        return new Shift(mStartTime, mEndTime, mStartDate, mEndDate, mLongDescription, mShortDescription, mVolunteerSize, _pushId, mStreet, mCity, mState, mZipcode, _organizationName);
-
     }
 
     public void pushData(Shift _shift){

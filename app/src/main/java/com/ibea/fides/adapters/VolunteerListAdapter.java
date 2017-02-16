@@ -280,43 +280,6 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).setValue(volunteer);
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getUserId()).removeValue();
 
-
-//            // Retrieve duration of shift information
-//            // Start and End times/dates
-//            String startDate = mShift.getStartDate();
-//            String endDate = mShift.getEndDate();
-//            String from = mShift.getStartTime();
-//            String to = mShift.getEndTime();
-//
-//            // Time and Date format
-//            SimpleDateFormat tFormat = new SimpleDateFormat("kk:mm");
-//            SimpleDateFormat dFormat = new SimpleDateFormat("MM-dd-yyyy");
-//
-//            try {
-//                double difference = 0.00;
-//
-//                // If dates aren't equal, calculate difference
-//                if(!startDate.equals(endDate)) {
-//                    Date date1 = dFormat.parse(startDate);
-//                    Date date2 = dFormat.parse(endDate);
-//                    difference = date2.getTime() - date1.getTime();
-//                }
-//
-//                // Calculate difference for the times
-//                Date time1 = tFormat.parse(from);
-//                Date time2 = tFormat.parse(to);
-//                difference += time2.getTime() - time1.getTime();
-//
-//                // Convert difference to hours and format correctly
-//                difference = (difference/(60 * 60 * 1000));
-//                DecimalFormat df = new DecimalFormat("0.00");
-//                Log.d("Justin", "YO");
-//                mDiffInput = df.format(difference);
-//
-//            } catch (ParseException ex){
-//                ex.printStackTrace();
-//            }
-
             // Move Volunteer from current volunteers on shift to rated volunteers
             mShift.getCurrentVolunteers().remove(volunteer.getUserId());
             mShift.addRated(volunteer.getUserId());
