@@ -59,7 +59,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPastOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 
-
         // Set Click Listeners
         mNewAccountButton.setOnClickListener(this);
         mLogInButton.setOnClickListener(this);

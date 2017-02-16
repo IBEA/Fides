@@ -7,6 +7,14 @@
     <string name="Fragment1">This is Fragment 1</string>
     <string name="OrganizationShiftFragment">This is a organization fragment</string>
 
+
+    <string name="ibea_email">Contact: <u><b>ibeatechnology@gmail.com</b></u> for any additional questions or concerns.</string>
+
+    <string name="question_One"><b>Question</b>: How does the trust rating work?</string>
+    <string name="answer_One"><b>Answer</b>:Your rating will increase if you attend a shift and meet expectations. If you attend and are unable to fulfill expectations, your rating will drop slightly. If you miss a shift, then your rating will take a significant drop.</string>
+    <string name="question_Two"><b>Question</b>: Will you abuse my email address in any way?</string>
+    <string name="answer_Two"><b>Answer</b>: No. We will not share your address with anybody or send you any emails. Your email is simply needed for verification purposes.</string>
+
     <string-array name="states_array">
         <item>AL</item>
         <item>AK</item>
