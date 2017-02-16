@@ -280,12 +280,12 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     public void fetchVolunteer(String _volunteerId){
         //db call
             //update within call
-        dbUsers.child(_volunteerId).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbVolunteers.child(_volunteerId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Volunteer user = dataSnapshot.getValue(Volunteer.class);
-                mVolunteers.add(user);
-                mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(user));
+                Volunteer volunteer = dataSnapshot.getValue(Volunteer.class);
+                mVolunteers.add(volunteer);
+                mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(volunteer));
                 if(mShift.getComplete()){
                     setRecyclerViewItemTouchListener();
                 }

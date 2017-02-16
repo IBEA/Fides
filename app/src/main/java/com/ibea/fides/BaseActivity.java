@@ -42,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
     public DatabaseReference dbCurrentUser;
     public DatabaseReference dbShiftsAvailable;
     public DatabaseReference dbShiftsPending;
+    public DatabaseReference dbVolunteers;
 
     // Auth references
     public FirebaseAuth mAuth;
@@ -75,6 +76,7 @@ public class BaseActivity extends AppCompatActivity {
         dbTags = db.child(Constants.DB_NODE_TAGS);
         dbShiftsAvailable = db.child(Constants.DB_NODE_SHIFTSAVAILABLE);
         dbShiftsPending = db.child(Constants.DB_NODE_SHIFTSPENDING);
+        dbVolunteers = db.child(Constants.DB_NODE_VOLUNTEERS);
 
         // Set auth references
         mAuth = FirebaseAuth.getInstance();

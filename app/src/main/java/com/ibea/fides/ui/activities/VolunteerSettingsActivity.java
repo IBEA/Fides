@@ -177,9 +177,9 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         mCity = city;
         mZip = zip;
 
-        dbUsers.child(uId).child("city").setValue(mCity);
-        dbUsers.child(uId).child("zipcode").setValue(mZip);
-        dbUsers.child(uId).child("state").setValue(mState);
+        dbVolunteers.child(uId).child("city").setValue(mCity);
+        dbVolunteers.child(uId).child("zipcode").setValue(mZip);
+        dbVolunteers.child(uId).child("state").setValue(mState);
 
         Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
@@ -196,7 +196,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
         mUsername = username;
 
-        dbUsers.child(uId).child("name").setValue(mUsername);
+        dbVolunteers.child(uId).child("name").setValue(mUsername);
 
         Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
 

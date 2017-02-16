@@ -150,7 +150,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
     public void autoFill() {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-        dbRef = dbRef.child(Constants.DB_NODE_USERS).child(userId);
+        dbRef = dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(userId);
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -255,15 +255,16 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    public void fetchShift(String _shiftId){
+    public void fetchShift(final String _shiftId){
+
         dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Fetching shift: ", _shiftId);
                 Shift shift = dataSnapshot.getValue(Shift.class);
-
+                Log.d("Shift value: ", String.valueOf(shift));
                 if(!shift.getCurrentVolunteers().contains(userId)){
                     shifts.add(shift);
-//                    mRecyclerAdapter.notifyItemInserted(shifts.indexOf(shift));
                     mRecyclerAdapter.notifyDataSetChanged();
                 }else{
                     Log.d(TAG, "Volunteer already signed up for shift");
