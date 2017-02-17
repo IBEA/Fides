@@ -67,6 +67,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     private Boolean foundResults = false;
 
     private Volunteer mVolunteer;
+    private ShiftSearchFragment mThis;
 
     private String userId;
 
@@ -80,6 +81,8 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_new_shift_search, container, false);
         ButterKnife.bind(this, view);
         mContext = this.getContext();
+
+        mThis = this;
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -179,6 +182,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
 
         if(view == mImageButton_Search){
+            mImageButton_Search.setOnClickListener(null);
             startSearch();
         }
     }
@@ -231,13 +235,16 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    long count = 0;
+                    long numChildren = dataSnapshot.getChildrenCount();
                     for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                         String searchKey = snapshot.getValue(String.class);
                         String shiftId = snapshot.getKey();
 
+                        count++;
                         if(searchKey.contains(orgQuery) && searchKey.contains(zipQuery)){
                             foundResults = true;
-                            fetchShift(shiftId);
+                            fetchShift(shiftId, count == numChildren);
                         }
 
                     }
@@ -255,7 +262,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    public void fetchShift(final String _shiftId){
+    public void fetchShift(final String _shiftId, final Boolean _lastItem){
 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(_shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -269,6 +276,11 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                 }else{
                     Log.d(TAG, "Volunteer already signed up for shift");
                 }
+
+                if(_lastItem){
+                    mImageButton_Search.setOnClickListener(mThis);
+                }
+
             }
 
             @Override

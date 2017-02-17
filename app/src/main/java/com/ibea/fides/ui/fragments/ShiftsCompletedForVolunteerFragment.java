@@ -89,7 +89,7 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         DatabaseReference dbFirebaseNode;
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<String, FirebaseShiftViewHolder>
-                (String.class, R.layout.list_item_shift_pending, FirebaseShiftViewHolder.class, dbShiftsCompletedForVolunteer) {
+                (String.class, R.layout.list_item_shift, FirebaseShiftViewHolder.class, dbShiftsCompletedForVolunteer) {
 
             @Override
             protected void populateViewHolder(final FirebaseShiftViewHolder viewHolder, String shiftId, int position) {
