@@ -442,7 +442,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).setValue(searchKey);
 
         // Update OrgName for Current Shifts Belonging to Organization
-        dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -453,7 +453,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                     dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("organizationName").setValue(mOrganizationName);
 
                     // Retrieve Shift then change Search Value for StateCity subnodes
-                    //TODO: reconfigure this to use information form searchkey to get city/state
                     dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
