@@ -107,6 +107,14 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/recyclerView_Backing"
+        android:padding="12dp"
+        android:layout_below="@+id/cardView_Search"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/recyclerView"
         android:padding="12dp"
         android:layout_below="@+id/cardView_Search"

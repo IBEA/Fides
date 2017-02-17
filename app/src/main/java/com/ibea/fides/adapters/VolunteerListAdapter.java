@@ -155,7 +155,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
                 dataUpdate(mHours, false);
             }else {
                 Intent intent = new Intent(mContext, VolunteerProfileActivity.class);
-                intent.putExtra("user", Parcels.wrap(mVolunteers.get(getAdapterPosition())));
+                intent.putExtra("volunteer", Parcels.wrap(mVolunteers.get(getAdapterPosition())));
                 mContext.startActivity(intent);
             }
         }
@@ -229,12 +229,12 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
                             setRating();
                             double currentHours = volunteer.getHours();
                             currentHours += Double.parseDouble(time);
-                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).child("hours").setValue(currentHours);
+                            dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(volunteer.getUserId()).child("hours").setValue(currentHours);
                         } else {
                             setRating();
                             int absences = volunteer.getAbsences();
                             absences += 1;
-                            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).child("absences").setValue(absences);
+                            dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(volunteer.getUserId()).child("absences").setValue(absences);
                         }
                         mTextView_Name.setTextColor(Color.parseColor("#757575"));
                         mPopUp.dismiss();
@@ -277,7 +277,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             volunteer.setRatingHistory(ratingHistory);
 
             // Update Database with new Volunteer info and remove Volunteer from rated shift
-            dbRef.child(Constants.DB_NODE_USERS).child(volunteer.getUserId()).setValue(volunteer);
+            dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(volunteer.getUserId()).setValue(volunteer);
             dbRef.child(Constants.DB_NODE_SHIFTS).child(mShift.getPushId()).child("currentVolunteers").child(volunteer.getUserId()).removeValue();
 
             // Move Volunteer from current volunteers on shift to rated volunteers

@@ -120,6 +120,10 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         }
         dbRef.child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mShift.getOrganizationID()).child(shiftId).setValue(shiftId);
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("complete").setValue(true);
+
+        Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
+        intent.putExtra("shift", Parcels.wrap(mShift));
+        mContext.startActivity(intent);
     }
 
     public void quitShift(){

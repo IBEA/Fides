@@ -67,7 +67,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable("user", Parcels.wrap(user));
+        bundle.putParcelable("volunteer", Parcels.wrap(user));
         fragment.setArguments(bundle);
 
         return fragment;
@@ -78,10 +78,10 @@ public class ProfileForVolunteerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        if(intent.hasExtra("user")){
-            mVolunteer = Parcels.unwrap(intent.getParcelableExtra("user"));
+        if(intent.hasExtra("volunteer")){
+            mVolunteer = Parcels.unwrap(intent.getParcelableExtra("volunteer"));
         }else{
-            mVolunteer = Parcels.unwrap(getArguments().getParcelable("user"));
+            mVolunteer = Parcels.unwrap(getArguments().getParcelable("volunteer"));
         }
 
     }
