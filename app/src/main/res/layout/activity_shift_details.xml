@@ -237,6 +237,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="14sp"
+            android:visibility="invisible"
             android:id="@+id/textView_VolunteerListInstructions"
             android:text="Unrated volunteers appear in red.\nSwipe right if they met expectations, left if not."
             android:layout_marginBottom="12dp"/>
