@@ -11,7 +11,7 @@
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="Go out and volunteer!"
+        android:text="Welcome to Fides"
         android:layout_weight="1"
         android:textSize="25sp" />
 
@@ -22,13 +22,14 @@
         android:layout_weight="1"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:textAlignment="center"
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:textColor="#ffffff"
-        android:text="Remember, only you can change the world!"
+        android:text="Go out and volunteer!"
         android:layout_weight="1"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:id="@+id/textView" />
 
 </LinearLayout>
