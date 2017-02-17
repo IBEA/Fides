@@ -57,19 +57,7 @@ public class ShiftsCompletedForOrganizationFragment extends Fragment {
 
         if(auth.getCurrentUser() != null){
             mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            dbRef.child(Constants.DB_NODE_USERS).child(mUserId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    isOrganization = dataSnapshot.child("isOrganization").getValue(Boolean.class);
-                    setUpFirebaseAdapter();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            setUpFirebaseAdapter();
         }
 
         FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mUserId).addValueEventListener(new ValueEventListener() {

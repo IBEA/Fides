@@ -89,20 +89,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
             }
         });
 
-        dbRef.child(Constants.DB_NODE_USERS).child(mCurrentUser.getUid()).child("isOrganization").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                isOrganization = dataSnapshot.getValue(Boolean.class);
-                if(isOrganization){
-                    setUpFirebaseAdapter();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        setUpFirebaseAdapter();
 
         mButton_CreateShift.setOnClickListener(this);
         setRecyclerViewItemTouchListener();

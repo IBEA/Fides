@@ -33,7 +33,8 @@ public class VolunteerOrOrganizationActivity extends AppCompatActivity implement
             Intent intent = new Intent(this, CreateVolunteerActivity.class);
             startActivity(intent);
         }else if(view == mButton_Organization){
-
+            Intent intent = new Intent(this, CreateOrganizationActivity.class);
+            startActivity(intent);
         }
     }
 }

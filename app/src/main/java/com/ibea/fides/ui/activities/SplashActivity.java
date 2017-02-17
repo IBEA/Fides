@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,18 +43,33 @@ public class SplashActivity extends BaseActivity {
                         dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                //Volunteer has completed account creation
+                                //User has completed account creation
                                 if(dataSnapshot.hasChild(uId)) {
                                     mIsOrganization = dataSnapshot.child(uId).getValue(Boolean.class);
-//                                    mIsOrganization = dataSnapshot.child(uId).child("isOrganization").getValue(Boolean.class);
                                     PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, mIsOrganization).apply();
                                     //Volunteer is an organization
                                     if(mIsOrganization){
-                                        Intent intent = new Intent(SplashActivity.this, OrganizationProfileActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    //Volunteer is a volunteer
+                                        db.child(Constants.DB_NODE_PENDINGORGANIZATIONS).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                //Organization is still pending
+                                                if(dataSnapshot.hasChild(uId)){
+                                                    Toast.makeText(SplashActivity.this, "Your organization is still pending verification", Toast.LENGTH_SHORT).show();
+                                                    redirectToLogin();
+                                                }else{
+                                                    Intent intent = new Intent(SplashActivity.this, OrganizationProfileActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    //User is a volunteer
                                     } else{
                                         Intent intent = new Intent(SplashActivity.this, VolunteerProfileActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

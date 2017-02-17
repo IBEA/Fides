@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_create_organization"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.ibea.fides.ui.activities.CreateOrganizationActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:id="@+id/editText_ContactName"
+        android:hint="Contact Name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_ContactName"
+        android:layout_alignRight="@+id/editText_ContactName"
+        android:layout_alignEnd="@+id/editText_ContactName"
+        android:id="@+id/editText_OrganizationName"
+        android:hint="Organization Name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_OrganizationName"
+        android:layout_alignLeft="@+id/editText_OrganizationName"
+        android:layout_alignStart="@+id/editText_OrganizationName"
+        android:id="@+id/editText_StreetAddress"
+        android:hint="Street Address" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_StreetAddress"
+        android:layout_alignLeft="@+id/editText_StreetAddress"
+        android:layout_alignStart="@+id/editText_StreetAddress"
+        android:id="@+id/editText_City"
+        android:hint="City" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_City"
+        android:layout_alignLeft="@+id/editText_City"
+        android:layout_alignStart="@+id/editText_City"
+        android:id="@+id/editText_State"
+        android:hint="State" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/editText_State"
+        android:layout_alignLeft="@+id/editText_State"
+        android:layout_alignStart="@+id/editText_State"
+        android:id="@+id/editText_Zip"
+        android:hint="Zip Code" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/editText_Zip"
+        android:layout_alignRight="@+id/editText_Zip"
+        android:layout_alignEnd="@+id/editText_Zip"
+        android:id="@+id/editText_Description"
+        android:hint="About your organization" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_below="@+id/editText_Description"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/editText_Email"
+        android:hint="Public contact email" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done_black_24dp"
+        app:borderWidth="0dp"
+        android:id="@+id/button_Submit"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorSearchButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

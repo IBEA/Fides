@@ -445,16 +445,16 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Retrieve all shifts available for this org
-                shiftIds =  (Map<String, String>) dataSnapshot.getValue();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    final String shiftId = snapshot.getKey();
+                    Log.d("ShiftId", shiftId);
 
-                // Update affected shifts in Shift node and ShiftsAvailable StateCity subnode
-                for(String key : shiftIds.keySet()) {
-                    // Change the Org name for Shift node
-                    dbRef.child(Constants.DB_NODE_SHIFTS).child(key).child("organizationName").setValue(mOrganizationName);
+                    //Change the Org name for Shift node
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("organizationName").setValue(mOrganizationName);
 
                     // Retrieve Shift then change Search Value for StateCity subnodes
-                    dbRef.child(Constants.DB_NODE_SHIFTS).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    //TODO: reconfigure this to use information form searchkey to get city/state
+                    dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             mShift = dataSnapshot.getValue(Shift.class);
@@ -469,10 +469,11 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                                 extendedStartTime = mShift.getStartTime();
                             }
 
+                            //TODO: make sure this matches original searchkey pattern
                             String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
                             // Change Search Value for StateCity subnodes
-                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity.toLowerCase()).child(mShift.getPushId()).setValue(searchParam);
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(mShiftState).child(mShiftCity.toLowerCase()).child(shiftId).setValue(searchParam);
                         }
 
                         @Override
@@ -480,6 +481,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
                         }
                     });
+
                 }
             }
 

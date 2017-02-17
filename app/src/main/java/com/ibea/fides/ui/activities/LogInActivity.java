@@ -120,7 +120,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                 if (dataSnapshot.hasChild(userId)) {
 
                                     // Check to see if user is an Organization
-                                    Boolean isOrganization = dataSnapshot.child(userId).child("isOrganization").getValue(Boolean.class);
+                                    Boolean isOrganization = dataSnapshot.child(userId).getValue(Boolean.class);
                                     if (isOrganization) {
                                         // Check to see if Organization has been Verified
                                         dbOrganizations.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -136,7 +136,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                     startActivity(intent);
                                                     finish();
                                                 } else{
-                                                    Toast.makeText(mContext, "Thank you. Your account is being verified.", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(mContext, "Your organization is still pending verification", Toast.LENGTH_LONG).show();
                                                 }
                                             }
 
