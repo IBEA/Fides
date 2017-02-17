@@ -2,7 +2,9 @@ package com.ibea.fides.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -137,6 +139,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             }
         }
 
+        mStreetAddressOutput.setOnClickListener(this);
+
         setTitle("Volunteer Opportunity");
     }
 
@@ -260,6 +264,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
+        }
+        if(view == mStreetAddressOutput) {
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("geo:0,0?q=" + mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState()));
+            startActivity(mapIntent);
         }
     }
 

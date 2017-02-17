@@ -55,6 +55,15 @@
         android:id="@+id/editText_City"
         android:hint="City" />
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/stateSpinner"
+        android:layout_below="@+id/editText_StreetAddress"
+        android:layout_alignTop="@+id/editText_City"
+        android:layout_alignBottom="@+id/editText_City"
+        android:layout_toRightOf="@+id/editText_City" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,17 +72,6 @@
         android:layout_below="@+id/editText_City"
         android:layout_alignLeft="@+id/editText_City"
         android:layout_alignStart="@+id/editText_City"
-        android:id="@+id/editText_State"
-        android:hint="State" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_State"
-        android:layout_alignLeft="@+id/editText_State"
-        android:layout_alignStart="@+id/editText_State"
         android:id="@+id/editText_Zip"
         android:hint="Zip Code" />
 

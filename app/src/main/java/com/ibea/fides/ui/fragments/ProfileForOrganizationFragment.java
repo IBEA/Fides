@@ -150,6 +150,7 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
         mOrgAddressLineTwo.setText(mOrganization.getCityAddress() + ", " + mOrganization.getStateAddress() + ", " + mOrganization.getZipcode());
         mOrgWebsite.setText(mOrganization.getUrl());
         mOrgDescription.setText(mOrganization.getDescription());
+        mOrgAddress.setOnClickListener(this);
 
         mOrgWebsite.setOnClickListener(this);
 
@@ -167,6 +168,12 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
             catch (ActivityNotFoundException e) {
                 Log.e(String.valueOf(getActivity()), e.getMessage());
             }
+        }
+        if(v == mOrgAddress) {
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("geo:0,0?q=" + mOrganization.getStreetAddress() + ", " + mOrganization.getCityAddress() + ", " + mOrganization.getStateAddress()));
+            startActivity(mapIntent);
+
         }
     }
 

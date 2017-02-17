@@ -7,8 +7,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,16 +27,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 //No need to extend BaseActivity
-public class CreateVolunteerActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateVolunteerActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
     @Bind(R.id.editText_Name) EditText mEditText_Name;
     @Bind(R.id.editText_City) EditText mEditText_City;
-    @Bind(R.id.editText_State) EditText mEditText_State;
+    @Bind(R.id.stateSpinner) Spinner mStateSpinner;
     @Bind(R.id.editText_Zip) EditText mEditText_Zip;
     @Bind(R.id.button_Submit) FloatingActionButton mButton_Submit;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference dbRef;
 
+    private String mState;
     private Volunteer mVolunteer;
 
     @Override
@@ -44,9 +48,21 @@ public class CreateVolunteerActivity extends AppCompatActivity implements View.O
 
         dbRef = FirebaseDatabase.getInstance().getReference();
 
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array,R.layout.custom_spinner_item_settings);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
+        mStateSpinner.setAdapter(adapter);
+        mStateSpinner.setSelection(0);
+
         mButton_Submit.setOnClickListener(this);
     }
 
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        mState = parent.getItemAtPosition(pos).toString();
+    }
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
     @Override
     public void onClick(View view) {
         if(view == mButton_Submit){
@@ -72,12 +88,11 @@ public class CreateVolunteerActivity extends AppCompatActivity implements View.O
     public void createVolunteer(){
         String name = mEditText_Name.getText().toString().trim();
         String city = mEditText_City.getText().toString().trim();
-        String state = mEditText_State.getText().toString().trim();
         String zip = mEditText_Zip.getText().toString().trim();
         String email = mAuth.getCurrentUser().getEmail();
         String pushId = mAuth.getCurrentUser().getUid();
 
-        mVolunteer = new Volunteer(pushId, name, email, zip, city, state);
+        mVolunteer = new Volunteer(pushId, name, email, zip, city, mState);
         dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(pushId).setValue(mVolunteer);
     }
 

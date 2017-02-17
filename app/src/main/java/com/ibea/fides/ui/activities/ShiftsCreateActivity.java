@@ -66,8 +66,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         autoFill();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.states_array,R.layout.custom_spinner_item_settings);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
         mStateSpinner.setAdapter(adapter);
 
         mStartTimeInput.setOnClickListener(this);

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -94,8 +95,10 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         autoFill();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.states_array,R.layout.custom_spinner_item_settings);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
         stateSpinner.setAdapter(adapter);
 
         profilePicImageView.setOnClickListener(this);
@@ -129,6 +132,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mState = parent.getItemAtPosition(pos).toString();
+
     }
 
     @Override
