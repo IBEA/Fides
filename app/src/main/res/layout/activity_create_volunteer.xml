@@ -33,26 +33,21 @@
         android:hint="City"
         android:maxLines="1"/>
 
-    <EditText
+    <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_City"
-        android:layout_alignLeft="@+id/editText_City"
-        android:layout_alignStart="@+id/editText_City"
-        android:id="@+id/editText_State"
-        android:hint="State"
-        android:maxLines="1"/>
+        android:id="@+id/stateSpinner"
+        android:layout_below="@+id/editText_Name"
+        android:layout_toRightOf="@+id/editText_City" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/editText_State"
-        android:layout_alignLeft="@+id/editText_State"
-        android:layout_alignStart="@+id/editText_State"
+        android:layout_below="@+id/editText_City"
+        android:layout_alignLeft="@+id/editText_City"
+        android:layout_alignStart="@+id/editText_City"
         android:id="@+id/editText_Zip"
         android:hint="Zip"
         android:maxLines="1"/>
