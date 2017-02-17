@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -53,6 +55,8 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
     @Bind(R.id.textView_orgAddressLineTwo) TextView mOrgAddressLineTwo;
     @Bind(R.id.textView_orgWebsite) TextView mOrgWebsite;
     @Bind(R.id.textView_orgDescription) TextView mOrgDescription;
+    @Bind(R.id.progressBar_ImageLoading) ProgressBar mImageProgressBar;
+
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -71,8 +75,6 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         Intent intent = getActivity().getIntent();
         if(intent.hasExtra("organization")){
             Log.d(TAG, "Found intent");
@@ -80,6 +82,24 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
         }else{
             Log.d(TAG, "Used bundle");
             mOrganization = Parcels.unwrap(getArguments().getParcelable("organization"));
+        }
+    }
+
+    private class ImageLoadedCallbacker implements Callback {
+        ProgressBar progressBar;
+
+        public ImageLoadedCallbacker(ProgressBar progBar) {
+            progressBar = progBar;
+        }
+
+        @Override
+        public void onSuccess() {
+
+        }
+
+        @Override
+        public void onError() {
+
         }
     }
 
@@ -99,14 +119,24 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
         mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+
+                mOrgPic.setVisibility(View.GONE);
+                mImageProgressBar.setVisibility(View.VISIBLE);
                 Picasso.with(getActivity())
                         .load(uri)
                         .placeholder(R.drawable.avatar_blank)
-                        .resize(450,400)
+                        .resize(450, 400)
                         .centerCrop()
                         .transform(new CircleTransform())
-                        .into(mOrgPic);
-
+                        .into(mOrgPic, new ImageLoadedCallbacker(mImageProgressBar) {
+                            @Override
+                            public void onSuccess() {
+                                if(this.progressBar != null) {
+                                    this.progressBar.setVisibility(View.GONE);
+                                    mOrgPic.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

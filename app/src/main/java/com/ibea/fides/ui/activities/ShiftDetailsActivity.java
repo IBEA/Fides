@@ -136,6 +136,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mVolunteersListInstructions.setVisibility(View.GONE);
             }
         }
+
+        setTitle("Volunteer Opportunity");
     }
 
     @Override

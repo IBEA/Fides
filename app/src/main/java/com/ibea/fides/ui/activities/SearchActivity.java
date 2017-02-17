@@ -28,6 +28,8 @@ public class SearchActivity extends BaseActivity {
 
         isOrganization = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.KEY_ISORGANIZATION, false);
         populateTabs();
+
+        setTitle("Search");
     }
 
     public void populateTabs(){

@@ -26,6 +26,8 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
         ButterKnife.bind(this);
         setUpFirebaseAdapter();
         setRecyclerViewItemTouchListener();
+
+        setTitle("Admin Panel");
     }
 
     @Override

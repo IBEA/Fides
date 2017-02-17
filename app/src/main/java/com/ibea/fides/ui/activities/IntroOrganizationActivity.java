@@ -39,6 +39,7 @@ public class IntroOrganizationActivity extends AppIntro {
 
         setFadeAnimation();
 
+        setTitle("Tutorial");
     }
 
     @Override

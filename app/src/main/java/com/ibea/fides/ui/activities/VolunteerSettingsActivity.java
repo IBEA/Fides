@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -108,6 +107,8 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                 // Handle any errors
             }
         });
+
+        setTitle("Account Settings");
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

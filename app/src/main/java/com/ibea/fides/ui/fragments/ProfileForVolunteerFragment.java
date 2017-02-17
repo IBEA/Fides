@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,6 +27,8 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Volunteer;
+import com.squareup.picasso.Callback;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -51,6 +54,7 @@ public class ProfileForVolunteerFragment extends Fragment {
     @Bind(R.id.trustpercent) TextView trustpercent;
     @Bind(R.id.dynamicArcView) DecoView arcView;
     @Bind(R.id.hoursArcView) DecoView hoursArcView;
+    @Bind(R.id.progressBar_ImageLoading) ProgressBar mImageProgressBar;
 
     int trustmetric; // Will be changed
     float totalHoursWorked; // Will be changed
@@ -82,6 +86,24 @@ public class ProfileForVolunteerFragment extends Fragment {
 
     }
 
+    private class ImageLoadedCallback implements Callback {
+        ProgressBar progressBar;
+
+        public ImageLoadedCallback(ProgressBar progBar) {
+            progressBar = progBar;
+        }
+
+        @Override
+        public void onSuccess() {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,14 +123,23 @@ public class ProfileForVolunteerFragment extends Fragment {
         mImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Log.e("Garrett", "uri " + uri );
+                mVolPic.setVisibility(View.GONE);
+                mImageProgressBar.setVisibility(View.VISIBLE);
                 Picasso.with(getActivity())
                         .load(uri)
                         .placeholder(R.drawable.avatar_blank)
                         .resize(450,400)
                         .centerCrop()
                         .transform(new CircleTransform())
-                        .into(mVolPic);
+                        .into(mVolPic, new ImageLoadedCallback(mImageProgressBar) {
+                            @Override
+                            public void onSuccess() {
+                                if(this.progressBar != null) {
+                                    this.progressBar.setVisibility(View.GONE);
+                                    mVolPic.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

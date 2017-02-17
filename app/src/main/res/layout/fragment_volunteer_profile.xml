@@ -21,6 +21,14 @@
         android:src="@drawable/avatar_blank">
     </ImageView>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_height="0dp"
+        android:layout_weight="4.5"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/progressBar_ImageLoading"
+        android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_below="@+id/imageView_volPic"

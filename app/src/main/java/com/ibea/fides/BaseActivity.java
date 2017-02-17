@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.ui.activities.AdminActivity;
 import com.ibea.fides.ui.activities.FaqActivity;
+import com.ibea.fides.ui.activities.IntroActivity;
 import com.ibea.fides.ui.activities.IntroOrganizationActivity;
 import com.ibea.fides.ui.activities.IntroVolunteerActivity;
 import com.ibea.fides.ui.activities.LogInActivity;
@@ -182,7 +183,7 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(mContext, SearchActivity.class);
             startActivity(intent);
         }else if (id == R.id.action_volunteertutorial) {
-            Intent intent = new Intent(mContext, IntroVolunteerActivity.class);
+            Intent intent = new Intent(mContext, IntroActivity.class);
             startActivity(intent);
         }else if (id == R.id.action_organizationtutorial) {
             Intent intent = new Intent(mContext, IntroOrganizationActivity.class);

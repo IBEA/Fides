@@ -46,7 +46,7 @@ public class OrganizationProfileActivity extends BaseActivity {
             mOrganization = Parcels.unwrap(intent.getExtras().getParcelable("organization"));
 
             setTitle(mOrganization.getName());
-            populateTabs();
+            populateTabs(false);
 
         }else{
             Log.d(">>>>>", "Did not find extras");
@@ -56,7 +56,7 @@ public class OrganizationProfileActivity extends BaseActivity {
                     mOrganization = dataSnapshot.getValue(Organization.class);
                     Log.d(TAG, mOrganization.getName());
                     setTitle(mOrganization.getName());
-                    populateTabs();
+                    populateTabs(true);
                 }
 
                 @Override
@@ -68,39 +68,29 @@ public class OrganizationProfileActivity extends BaseActivity {
     }
 
 
-    public void populateTabs(){
+    public void populateTabs(Boolean owner){
         SwipelessViewPager viewPager = (SwipelessViewPager) findViewById(R.id.viewpager);
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         ArrayList<String> tabTitles = new ArrayList<String>();
 
-        if(!isOrganization){
-            //Volunteer is not an organization
-            Log.v(TAG, "Volunteer is not an organization");
+        if(mOrganization.getPushId().equals(currentUserId)) {
 
+            tabTitles.add("Profile");
+            tabTitles.add("Pending");
+            tabTitles.add("History");
+
+            fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
+            fragmentList.add(new ShiftsPendingForOrganizationFragment());
+            fragmentList.add(new ShiftsCompletedForOrganizationFragment());
+            viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 3, tabTitles, fragmentList));
+        }else{
             tabTitles.add("Profile");
             tabTitles.add("Opportunities");
 
             fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
             fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization));
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
-        }else {
-            if(mOrganization.getPushId().equals(currentUserId)) {
-                //Volunteer is organization, and this is their page
-                Log.v(TAG, "Volunteer is an organization");
-
-                tabTitles.add("Profile");
-                tabTitles.add("Pending");
-                tabTitles.add("History");
-
-                fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
-                fragmentList.add(new ShiftsPendingForOrganizationFragment());
-                fragmentList.add(new ShiftsCompletedForOrganizationFragment());
-                viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 3, tabTitles, fragmentList));
-            }else{
-                //Usr is organization, but it is not their page
-            }
-
         }
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items

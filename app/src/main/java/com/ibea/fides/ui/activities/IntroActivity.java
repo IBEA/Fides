@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 
 import com.github.paolorotolo.appintro.AppIntro;
+import com.github.paolorotolo.appintro.AppIntro2;
 import com.ibea.fides.R;
 import com.ibea.fides.ui.fragments.IntroSlideFragment;
+import com.ibea.fides.ui.fragments.IntroSlideFragmentFade;
 
 /**
  * Created by Garrett on 1/25/2017.
@@ -17,7 +19,7 @@ import com.ibea.fides.ui.fragments.IntroSlideFragment;
 
 //-- Creates the slideshow that appears when app is run for the first time -- Garrettt
 
-public class IntroActivity extends AppIntro {
+public class IntroActivity extends AppIntro2 {
     private String userId;
     private String userEmail;
     private String userName;
@@ -30,11 +32,7 @@ public class IntroActivity extends AppIntro {
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_welcome));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_1));
         addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_2));
-        addSlide(IntroSlideFragment.newInstance(R.layout.fragment_intro_slide_3));
-
-        // Override bar/separator color.
-        setBarColor(Color.parseColor("#5D4037"));
-        setSeparatorColor(Color.parseColor("#EFEBE9"));
+        addSlide(IntroSlideFragmentFade.newInstance(R.layout.fragment_intro_slide_3));
 
         // Hide Skip/Done button.
         showSkipButton(true);
@@ -69,6 +67,7 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+
 //        Intent intent = new Intent(IntroActivity.this, CreateUserAccountActivity.class);
 //        intent.putExtra("userId", userId);
 //        intent.putExtra("userName", userName);
@@ -78,11 +77,12 @@ public class IntroActivity extends AppIntro {
 //        finish();
 //
 //        finish();
-    }
 
+    }
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
         // Do something when the slide changes.
     }
+
 }

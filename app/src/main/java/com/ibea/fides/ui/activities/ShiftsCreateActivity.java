@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -77,6 +76,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mEndDateInput.setOnClickListener(this);
         mStateSpinner.setOnItemSelectedListener(this);
         mSubmitButton.setOnClickListener(this);
+
+        setTitle("Post Opportunity");
     }
 
     public String convertTime(String _time) {
