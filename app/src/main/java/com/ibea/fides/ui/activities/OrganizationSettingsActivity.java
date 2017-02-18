@@ -469,7 +469,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                                 extendedStartTime = mShift.getStartTime();
                             }
 
-                            //TODO: make sure this matches original searchkey pattern
                             String searchParam = mShift.getStartDate() + "|" + extendedStartTime + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
                             // Change Search Value for StateCity subnodes

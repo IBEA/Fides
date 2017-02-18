@@ -44,12 +44,6 @@ public class FirebaseOrganizationViewHolder extends RecyclerView.ViewHolder {
         //Create organization
         dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(organizationPushId).setValue(mOrganization);;
 
-        //Create user entry for organization
-        //TODO: fix this for new models
-//        Volunteer newUser = new Volunteer(organizationPushId, mOrganization.getName(), mOrganization.getContactEmail());
-////        newUser.setIsOrganization(true);
-//        dbRef.child(Constants.DB_NODE_USERS).child(organizationPushId).setValue(newUser);
-
         //Create search entry
         String searchKey = mOrganization.getName().toLowerCase() + "|" + mOrganization.getZipcode() + "|" + mOrganization.getCityAddress().toLowerCase() + "|" + mOrganization.getStateAddress();
         dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationPushId).setValue(searchKey);
