@@ -320,8 +320,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 VolunteerListAdapter.VolunteerViewHolder currentViewHolder = (VolunteerListAdapter.VolunteerViewHolder) viewHolder;
 
                 if(swipeDir == 8){
+
                     currentViewHolder.popup(3);
                 }else if(swipeDir == 4){
+
                     currentViewHolder.popup(0);
                 }
 

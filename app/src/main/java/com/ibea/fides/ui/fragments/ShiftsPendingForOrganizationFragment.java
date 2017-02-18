@@ -1,11 +1,13 @@
 package com.ibea.fides.ui.fragments;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -134,11 +136,47 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 if(swipeDir == 4){
-                    ((FirebaseShiftViewHolder) viewHolder).deleteShift(true);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Delete this shift?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            ((FirebaseShiftViewHolder) viewHolder).deleteShift(true);
+                        }
+                    });
+
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            // Maybe
+                            mRecyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
                 }else if(swipeDir == 8){
-                    ((FirebaseShiftViewHolder) viewHolder).completeShift();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Set this shift as complete?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            ((FirebaseShiftViewHolder) viewHolder).completeShift();
+                        }
+                    });
+
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            // Maybe
+                            mRecyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
                 }
             }
         };
