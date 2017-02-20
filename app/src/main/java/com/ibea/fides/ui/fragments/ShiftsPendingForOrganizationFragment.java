@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -92,6 +93,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
         });
 
         setUpFirebaseAdapter();
+        this.setHasOptionsMenu(true);
 
         mButton_CreateShift.setOnClickListener(this);
         setRecyclerViewItemTouchListener();
@@ -162,8 +164,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                         }
                     });
 
-
-
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
@@ -203,5 +203,29 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_organizationtutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Shifts Pending Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
