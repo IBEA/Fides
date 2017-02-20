@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -147,6 +148,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         mImageButton_Search.setOnClickListener(this);
 
         mStateSpinner.setOnItemSelectedListener(this);
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -166,7 +168,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                 int index = Arrays.asList(states).indexOf(mVolunteer.getState());
 
                 mStateSpinner.setSelection(index);
-
 
             }
 
@@ -205,6 +206,9 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
         if(cityQuery.length() != 0 && validateZip(zipQuery)){
             //Sets off a series of functions that fetches shift Ids, resolves them, and then filters them.
+            final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
             fetchShiftIds(cityQuery, mState);
         }else{
             if(cityQuery.length() == 0){
@@ -334,7 +338,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                        public void onClick(DialogInterface dialog, int id){
                            Log.d("Position ", String.valueOf(position));
-                           Log.d("Post positive shifts size: ", String.valueOf(shifts.size()));
+                           Log.d("Post positive shifts: ", String.valueOf(shifts.size()));
                            claimShift(shifts.get(position));
                            mRecyclerAdapter.notifyItemRemoved(position);
                            shifts.remove(position);
