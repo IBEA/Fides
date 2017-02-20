@@ -231,6 +231,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state
         mZipcode = mZipcodeInput.getText().toString();
 
+
         mStartTimeInput.setError(null);
         mEndTimeInput.setError(null);
         mStartDateInput.setError(null);
@@ -244,14 +245,17 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         }
 
         if(mStartTime.equals("Time")) {
+            Toast.makeText(mContext, "Make sure to enter a start time.", Toast.LENGTH_SHORT).show();
             mStartTimeInput.setError("Set Time please.");
             return false;
         }
         else if(mEndTime.equals("Time")){
+            Toast.makeText(mContext, "Make sure to enter an end time.", Toast.LENGTH_SHORT).show();
             mEndTimeInput.setError("Set Time please.");
             return false;
         }
         else if(mStartDate.equals("Date")){
+            Toast.makeText(mContext, "Make sure to enter a start date.", Toast.LENGTH_SHORT).show();
             mStartDateInput.setError("Set Date please.");
             return false;
         }
@@ -290,8 +294,10 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mStartDate = mStartDateInput.getText().toString();
         mEndDate = mEndDateInput.getText().toString();
 
-        if(mStartTime.equals("Time")) {
+        if(mStartTime.equals("") || mEndTime.equals("")) {
+            Log.d("Justin", mStartTime);
             mStartTimeInput.setError("Set Time please.");
+            Toast.makeText(mContext, "Make sure to enter a time.", Toast.LENGTH_SHORT).show();
         }
     }
 

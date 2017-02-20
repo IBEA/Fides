@@ -55,7 +55,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     int rank;
     boolean mInEditMode = false;
     @Bind(R.id.textView_OrgName) TextView mOrgName;
-    @Bind(R.id.textView_ShortDescription) TextView mShortDescriptionOutput;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
     @Bind(R.id.textView_EndTime) TextView mTimeEnd;
@@ -94,7 +93,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mStateInput.setAdapter(adapter);
 
         mOrgName.setText(mShift.getOrganizationName());
-        mShortDescriptionOutput.setText(mShift.getShortDescription());
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
         mStartDate.setText(mShift.getStartDate());
@@ -152,7 +150,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
                 mShortDescriptionInput.setVisibility(View.VISIBLE);
                 mShortDescriptionInput.setText(mShift.getShortDescription());
-                mShortDescriptionOutput.setVisibility(View.GONE);
 
                 mDateFiller.setVisibility(View.VISIBLE);
                 mEndDate.setVisibility(View.VISIBLE);
@@ -386,11 +383,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mShift.setDescription(mDescriptionInput.getText().toString());
             mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));
 
-
             mEditOrCompleteButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_mode_edit_black_24dp));
 
-            mShortDescriptionOutput.setVisibility(View.VISIBLE);
-            mShortDescriptionOutput.setText(mShift.getShortDescription());
             mShortDescriptionInput.setVisibility(View.GONE);
 
             mTimeStart.setOnClickListener(null);
@@ -457,7 +451,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             return true;
         } catch (ParseException ex){
             ex.printStackTrace();
-
         }
         return false;
     }

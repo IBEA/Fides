@@ -154,11 +154,25 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                 createNewUsername();
             }
 
-            if( (!zipedittext.getText().toString().trim().equals("")) ||  (!cityeedittext.getText().toString().trim().equals("")) ) {
+            if( (validateZip(zipedittext)) &&  (!cityeedittext.getText().toString().trim().equals("")) ) {
                 createNewAddress();
             }
 
         }
+    }
+
+    public Boolean validateZip(EditText field){
+        String onlyNumbers = "[0-9]+";
+        String catcher = field.getText().toString().trim();
+
+        if(catcher.length() != 0){
+            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
+                return true;
+            }else{
+                field.setError("Invalid");
+                return false;
+            }
+        }else return true;
     }
 
     private void createNewAddress() {
