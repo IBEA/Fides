@@ -135,6 +135,8 @@ public class BaseActivity extends AppCompatActivity {
                         if(dataSnapshot.child(uId).child("isAdmin").getValue(Boolean.class) == false){
                             admin.setVisible(false);
                         }
+                    }else{
+                        admin.setVisible(false);
                     }
                 }
 

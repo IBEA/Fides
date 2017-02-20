@@ -379,6 +379,9 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mShift.setStreetAddress(mStreetAddressInput.getText().toString());
             mShift.setCity(mCityInput.getText().toString());
             mShift.setState(mStateInput.getSelectedItem().toString());
+
+            Log.d("ZAAAAACK","mShift.getState() == " + mShift.getState());
+
             mShift.setZip(mZipInput.getText().toString());
             mShift.setDescription(mDescriptionInput.getText().toString());
             mShift.setMaxVolunteers(Integer.parseInt(mVolMaxInput.getText().toString()));

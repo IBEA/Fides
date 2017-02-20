@@ -1,13 +1,12 @@
 package com.ibea.fides.ui.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
-import com.ibea.fides.models.Volunteer;
 
 import org.parceler.Parcels;
 
@@ -86,6 +84,7 @@ public class CreateOrganizationActivity extends AppCompatActivity implements Vie
         String organizationName = mEditText_OrganizationName.getText().toString().trim();
         String streetAddress = mEditText_StreetAddress.getText().toString().trim();
         String city = mEditText_City.getText().toString().trim();
+        mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state
         String zipCode = mEditText_Zip.getText().toString().trim();
         String description = mEditText_Description.getText().toString().trim();
         String email = mEditText_Email.getText().toString().trim();
