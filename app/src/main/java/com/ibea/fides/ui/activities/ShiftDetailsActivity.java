@@ -88,9 +88,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array,R.layout.custom_spinner_item_settings);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
         mStateInput.setAdapter(adapter);
+        mStateInput.setSelection(0);
 
         mOrgName.setText(mShift.getOrganizationName());
         mTimeStart.setText(mShift.getStartTime());
@@ -360,9 +361,22 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mStreet = mStreetAddressInput.getText().toString();
         mState = mStateInput.getSelectedItem().toString();
         mCity = mCityInput.getText().toString();
-        mZipcode = mZipInput.getText().toString();
+        if(validateZip(mZipInput)) {
+            mZipcode = mZipInput.getText().toString();
+        } else {
+            Toast.makeText(mContext, "Please enter a proper zipcode", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mLongDesc = mDescriptionInput.getText().toString();
         mVolunteerSize = mVolMaxInput.getText().toString();
+
+        if(mVolunteerSize.equals("0")) {
+            Toast.makeText(mContext, "Max Volunteers must be at least 1", Toast.LENGTH_SHORT).show();
+            return;
+        } else if(Integer.parseInt(mVolunteerSize) < mShift.getCurrentVolunteers().size()) {
+            Toast.makeText(mContext, "There are currently more volunteers signed up than the new max", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
         if (compareDate(mStartD, mEndD, mStartTime, mEndTime)) {
@@ -416,11 +430,34 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             dbShifts.child(mShift.getPushId()).setValue(mShift);
             String searchKey = mShift.getStartDate() + "|" + mShift.getStartTime() + "|" + mShift.getOrganizationName().toLowerCase() + "|" + mShift.getZip() + "|";
 
-            dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).setValue(searchKey);
+            // Remove from Shifts Available if new max is equal to current volunteers
+            int newMax = Integer.parseInt(mVolunteerSize);
+            int currentVolunteerSize = mShift.getCurrentVolunteers().size();
+            if(newMax == currentVolunteerSize) {
+                dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).removeValue();
+                dbShiftsAvailable.child("organizations").child(mShift.getOrganizationID()).child(mShift.getPushId()).removeValue();
+            } else {
+                dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).setValue(searchKey);
+            }
+
         }
         else {
             Toast.makeText(mContext, "Invalid Input", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public Boolean validateZip(EditText field){
+        String onlyNumbers = "[0-9]+";
+        String catcher = field.getText().toString().trim();
+
+        if(catcher.length() != 0){
+            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
+                return true;
+            }else{
+                field.setError("Invalid");
+                return false;
+            }
+        }else return true;
     }
 
     public boolean compareDate(String dateOne, String dateTwo, String timeOne, String timeTwo) {
