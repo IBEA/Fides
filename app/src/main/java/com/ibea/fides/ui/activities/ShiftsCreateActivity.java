@@ -238,11 +238,17 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mStartDateInput.setError(null);
         mEndDateInput.setError(null);
 
+
         if(Volunteertest.equals("")){
             mVolunteerSizeInput.setError("Please enter the #");
             return false;
         } else {
             mVolunteerSize = Integer.parseInt(Volunteertest);
+            Log.d("Justin", mVolunteerSize + "");
+            if(mVolunteerSize == 0) {
+                Toast.makeText(mContext, "There must be at least one volunteer", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
 
         if(mStartTime.equals("Time")) {
