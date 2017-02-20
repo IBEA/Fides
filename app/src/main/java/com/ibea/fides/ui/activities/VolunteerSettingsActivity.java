@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -126,13 +125,11 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                             useredittext.setText(thisUser.getName());
                             cityeedittext.setText(thisUser.getCity());
                             zipedittext.setText(thisUser.getZipcode());
-                            String state = thisUser.getState();
 
+                            String state = thisUser.getState();
                             Resources res = getResources();
                             String[] states = res.getStringArray(R.array.states_array);
                             int index = Arrays.asList(states).indexOf(state);
-
-
                             mStateInput.setSelection(index);
                         }
 
