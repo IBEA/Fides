@@ -334,7 +334,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                        public void onClick(DialogInterface dialog, int id){
                            Log.d("Position ", String.valueOf(position));
-                           Log.d("Post positive shifts size: ", String.valueOf(shifts.size()));
                            claimShift(shifts.get(position));
                            mRecyclerAdapter.notifyItemRemoved(position);
                            shifts.remove(position);
@@ -347,11 +346,21 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                         }
                     });
 
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Log.d("Justin", "Dismiss");
+                            mRecyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }else if(swipeDir == 4){
                     mRecyclerAdapter.notifyItemRemoved(position);
                     shifts.remove(position);
+
+
                 }
             }
         };
