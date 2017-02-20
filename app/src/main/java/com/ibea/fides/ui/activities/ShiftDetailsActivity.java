@@ -502,7 +502,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Shift Details Page");
+            builder.setMessage("This is the Shift Details Page. Pertinent shift information is listed here");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
@@ -520,7 +520,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Shifts Pending Page");
+            builder.setMessage("This is the Shifts Pending Page. Pertinent shift information is listed here. You can edit this information by clicking the pencil icon. If the shift is completed, then you can rate volunteers by swiping right on them or mark volunteers as absent by swiping left.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override

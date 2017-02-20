@@ -425,7 +425,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Shift Search Page");
+            builder.setMessage("This is the Shift Search Page. You can search for volunteer opportunities here. You must supply the city and state. Swipe right on a shift to volunteer for it.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override

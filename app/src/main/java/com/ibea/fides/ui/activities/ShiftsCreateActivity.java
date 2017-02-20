@@ -388,7 +388,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Shift Create Page");
+            builder.setMessage("This is the Shift Create Page. You can create multiple shifts in a row.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
