@@ -2,16 +2,19 @@ package com.ibea.fides.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -519,5 +522,48 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Shift Details Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }  else if (id == R.id.action_organizationtutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Shifts Pending Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

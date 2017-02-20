@@ -1,8 +1,11 @@
 package com.ibea.fides.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.ibea.fides.BaseActivity;
@@ -32,7 +35,7 @@ public class SearchActivity extends BaseActivity {
         setTitle("Search");
     }
 
-    public void populateTabs(){
+    public void populateTabs() {
 
         SwipelessViewPager viewPager = (SwipelessViewPager) findViewById(R.id.viewpager);
 
@@ -40,12 +43,12 @@ public class SearchActivity extends BaseActivity {
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         ArrayList<String> tabTitles = new ArrayList<String>();
 
-
         if(isOrganization){
             //Volunteer is organization
             tabTitles.add("Organizations");
             fragmentList.add(new OrganizationSearchFragment());
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 1, tabTitles, fragmentList));
+
         }else {
             //Volunteer is volunteer
             tabTitles.add("Opportunities");

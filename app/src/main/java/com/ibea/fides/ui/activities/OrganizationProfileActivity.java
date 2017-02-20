@@ -1,10 +1,13 @@
 package com.ibea.fides.ui.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,6 +101,31 @@ public class OrganizationProfileActivity extends BaseActivity {
         // Attach the toastView pager to the tab strip
         tabsStrip.setViewPager(viewPager);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Organization Profile Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

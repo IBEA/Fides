@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -95,6 +96,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setHasOptionsMenu(true);
 
     }
 
@@ -184,5 +186,28 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Volunteer Shifts Pending Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
