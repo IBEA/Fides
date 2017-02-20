@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -95,8 +94,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
         autoFill();
 
-
-
+        // State Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.states_array,R.layout.custom_spinner_item_settings);
         adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
         stateSpinner.setAdapter(adapter);
@@ -133,42 +131,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mState = parent.getItemAtPosition(pos).toString();
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Uri selectedImageUri = intent.getData();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                profilePicImageView.setImageBitmap(bitmap);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] serializedImageFile = baos.toByteArray();
-
-                UploadTask uploadTask = mImageRef.putBytes(serializedImageFile);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    }
-                });
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void autoFill() {
@@ -211,7 +173,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     public void onClick(View view) {
         if(view == profilePicImageView) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-
         }
         else if (view == updateButton){
             boolean updated = false;
@@ -220,7 +181,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                 updateOrgName();
                 updated = true;
                 updateNodes();
-
             }
             if(!websiteEditText.getText().toString().trim().equals("")) {
                 updateWebsite();
@@ -243,14 +203,14 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                 updated = true;
             }
             if(!zipCodeEditText.getText().toString().trim().equals("")) {
-                if(validateZip(zipCodeEditText)) {
+                if(isValidZip(zipCodeEditText)) {
                     updateZip();
                     updated = true;
-                } else {
+                }
+                else {
                     Toast.makeText(mContext, "Please put in a proper zipcode", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
             }
             if(!descriptionEditText.getText().toString().trim().equals("")) {
                 updateDescription();
@@ -266,18 +226,40 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
     }
 
-    public Boolean validateZip(EditText field){
-        String onlyNumbers = "[0-9]+";
-        String catcher = field.getText().toString().trim();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
-        if(catcher.length() != 0){
-            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
-                return true;
-            }else{
-                field.setError("Invalid");
-                return false;
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImageUri = intent.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                profilePicImageView.setImageBitmap(bitmap);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] serializedImageFile = baos.toByteArray();
+
+                UploadTask uploadTask = mImageRef.putBytes(serializedImageFile);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    }
+                });
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }else return true;
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -361,13 +343,12 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
     }
 
     private void updateZip() {
-        String tempZip = zipCodeEditText.getText().toString().trim();
-        boolean validInput = isValidZip(tempZip);
+        boolean validInput = isValidZip(zipCodeEditText);
         if (!validInput) {
             return;
         }
 
-        mZip = tempZip;
+        mZip = zipCodeEditText.getText().toString().trim();
         thisOrg.setZipcode(mZip);
         dbOrganizations.child(uId).child("zipcode").setValue(mZip);
         zipCodeEditText.setHint(zipCodeEditText.getText());
@@ -434,12 +415,26 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         return true;
     }
 
-    private boolean isValidZip(String data) {
-        if (data.equals("")) {
-            zipCodeEditText.setError("ZIP code required");
-            return false;
-        }
-        return true;
+//    private boolean isValidZip(String data) {
+//        if (data.equals("")) {
+//            zipCodeEditText.setError("ZIP code required");
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public Boolean isValidZip(EditText field){
+        String onlyNumbers = "[0-9]+";
+        String catcher = field.getText().toString().trim();
+
+        if(catcher.length() != 0){
+            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
+                return true;
+            }else{
+                field.setError("Invalid");
+                return false;
+            }
+        }else return true;
     }
 
     private boolean isValidDescription(String data) {

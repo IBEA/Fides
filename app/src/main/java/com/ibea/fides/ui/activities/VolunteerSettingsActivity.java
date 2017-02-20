@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -39,32 +38,31 @@ import java.util.Arrays;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.ibea.fides.R.id.stateSpinner;
+
 public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    @Bind(R.id.updateButton) FloatingActionButton updateButton;
-    @Bind(R.id.usernameedittext) EditText useredittext;
-    @Bind(R.id.cityedittext) EditText cityeedittext;
-    @Bind(R.id.stateSpinner) Spinner mStateInput;
-    @Bind(R.id.zipedittext) EditText zipedittext;
-    @Bind(R.id.tempPicture) ImageView tempPicture;
+    @Bind(R.id.tempPicture) ImageView mProfilePicImageView;
+    @Bind(R.id.usernameedittext) EditText mUserNameEditText;
+    @Bind(R.id.cityedittext) EditText mCityEditText;
+    @Bind(stateSpinner) Spinner mStateInput;
+    @Bind(R.id.zipedittext) EditText mZipEditText;
+    @Bind(R.id.updateButton) FloatingActionButton mUpdateButton;
+
+    Volunteer thisVol;
 
     String mCity;
     String mState;
     String mZip;
     String mUsername;
 
-    String mFileName;
-
-    Volunteer thisUser;
-
-    boolean pictureClicked = false;
-
-    public static final int GET_FROM_GALLERY = 3;
-
     // image storage reference variables
     FirebaseStorage mStorage;
     StorageReference mStorageRef;
     StorageReference mImageRef;
+
+    public static final int GET_FROM_GALLERY = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +77,8 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
         mStateInput.setAdapter(adapter);
 
-
-        tempPicture.setOnClickListener(this);
-        updateButton.setOnClickListener(this);
-        mStateInput.setOnItemSelectedListener(this);
-
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += uId + ".jpeg";
+        mProfilePicImageView.setOnClickListener(this);
+        mUpdateButton.setOnClickListener(this);
 
         // assign image storage reference variables
         mStorage = FirebaseStorage.getInstance();
@@ -100,7 +93,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                         .placeholder(R.drawable.avatar_blank)
                         .resize(450,400)
                         .centerCrop()
-                        .into(tempPicture);
+                        .into(mProfilePicImageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -120,124 +113,63 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         dbVolunteers.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            thisUser = dataSnapshot.getValue(Volunteer.class);
-                            useredittext.setText(thisUser.getName());
-                            cityeedittext.setText(thisUser.getCity());
-                            zipedittext.setText(thisUser.getZipcode());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                thisVol = dataSnapshot.getValue(Volunteer.class);
+                if(thisVol != null) {
+                    if(!thisVol.getName().equals(""))
+                        mUserNameEditText.setText(thisVol.getName());
+                    if(!thisVol.getCity().equals(""))
+                        mCityEditText.setText(thisVol.getCity());
+                    if(!thisVol.getZipcode().equals(""))
+                        mZipEditText.setText(thisVol.getZipcode());
 
-                            String state = thisUser.getState();
-                            Resources res = getResources();
-                            String[] states = res.getStringArray(R.array.states_array);
-                            int index = Arrays.asList(states).indexOf(state);
-                            mStateInput.setSelection(index);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
+                    String state = thisVol.getState();
+                    Resources res = getResources();
+                    String[] states = res.getStringArray(R.array.states_array);
+                    int index = Arrays.asList(states).indexOf(state);
+                    mStateInput.setSelection(index);
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     public void onClick(View view) {
-        String city = cityeedittext.getText().toString().trim();
-        String zip = zipedittext.getText().toString().trim();
-
-        if(view == tempPicture) {
+        if(view == mProfilePicImageView) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
-        else if (view == updateButton){
+        else if (view == mUpdateButton) {
+            boolean updated = false;
 
-            if( (!useredittext.getText().toString().trim().equals(""))) {
-                createNewUsername();
+            if(!isValidUsername(mUserNameEditText.getText().toString().trim())) {
+                updateUsername();
+                updated = true;
+            }
+            if(!isValidCity(mCityEditText.getText().toString().trim())) {
+                updateCity();
+                updated = true;
+            }
+            if(!mStateInput.getSelectedItem().equals(thisVol.getState())) {
+                updateState();
+                updated = true;
+            }
+            if(!isValidZip(mZipEditText)) {
+                updateZip();
+                updated = true;
             }
 
-            if( (validateZip(zipedittext)) &&  (!cityeedittext.getText().toString().trim().equals("")) ) {
-                createNewAddress();
+            if(updated) {
+                Toast.makeText(mContext, "Profile updated", Toast.LENGTH_SHORT).show();
             }
-
-        }
-    }
-
-    public Boolean validateZip(EditText field){
-        String onlyNumbers = "[0-9]+";
-        String catcher = field.getText().toString().trim();
-
-        if(catcher.length() != 0){
-            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
-                return true;
-            }else{
-                field.setError("Invalid");
-                return false;
+            else {
+                Toast.makeText(mContext, "No changes made", Toast.LENGTH_SHORT).show();
             }
-        }else return true;
-    }
-
-    private void createNewAddress() {
-        String city = cityeedittext.getText().toString().trim();
-        String zip = zipedittext.getText().toString().trim();
-
-        // Confirm validity of inputs
-        boolean validCity = isValidCity(city);
-        boolean validPassword = isValidPassword(zip);
-
-        if ( !validCity || !validPassword ) {
-            return;
         }
-
-        // Set name
-        mCity = city;
-        mZip = zip;
-
-        dbVolunteers.child(uId).child("city").setValue(mCity);
-        dbVolunteers.child(uId).child("zipcode").setValue(mZip);
-        dbVolunteers.child(uId).child("state").setValue(mState);
-
-        Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void createNewUsername() {
-        String username = useredittext.getText().toString().trim();
-
-        boolean validName = isValidUsername(username);
-
-        if(!validName){
-            return;
-        }
-
-        mUsername = username;
-
-        dbVolunteers.child(uId).child("name").setValue(mUsername);
-
-        Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private boolean isValidCity(String data) {
-        if (data.equals("")) {
-            cityeedittext.setError("Please enter your city");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidPassword(String data) {
-        if (data.equals("")) {
-            zipedittext.setError("Please enter your zip code");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidUsername(String data) {
-        if (data.equals("")) {
-            useredittext.setError("Please enter your new mOrgName");
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -251,8 +183,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
 
-                tempPicture.setImageBitmap(bitmap);
-                pictureClicked = false;
+                mProfilePicImageView.setImageBitmap(bitmap);
 
                 // save picture to firebase storage
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -283,5 +214,91 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////
+    // DB UPDATERS
 
+    private void updateUsername() {
+        String tempUsername = mUserNameEditText.getText().toString().trim();
+        boolean validInput = isValidUsername(tempUsername);
+        if (!validInput){
+            return;
+        }
+
+        mUsername = tempUsername;
+
+        dbVolunteers.child(uId).child("name").setValue(mUsername);
+        thisVol.setName(mUsername);
+        mUserNameEditText.setHint(mUserNameEditText.getText());
+        mUserNameEditText.getText().clear();
+    }
+
+    private void updateCity() {
+        String tempCity = mCityEditText.getText().toString().trim();
+        boolean validInput = isValidCity(tempCity);
+        if (!validInput) {
+            return;
+        }
+
+        mCity = tempCity;
+
+        dbVolunteers.child(uId).child("city").setValue(mCity);
+        thisVol.setCity(mCity);
+        mCityEditText.setHint(mCityEditText.getText());
+        mCityEditText.getText().clear();
+    }
+
+    private void updateState() {
+        mState = mStateInput.getSelectedItem().toString().trim();
+        thisVol.setState(mState);
+        dbOrganizations.child(uId).child("state").setValue(mState);
+    }
+
+    private void updateZip() {
+        String tempZip = mZipEditText.getText().toString().trim();
+        boolean validInput = isValidZip(mZipEditText);
+        if (!validInput) {
+            return;
+        }
+
+        mZip = tempZip;
+
+        dbVolunteers.child(uId).child("zipcode").setValue(mZip);
+        thisVol.setZipcode(mZip);
+        mZipEditText.setHint(mZipEditText.getText());
+        mZipEditText.getText().clear();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////
+    // TEXT INPUT VALIDATORS
+
+    private boolean isValidUsername(String data) {
+        if (data.equals("")) {
+            mUserNameEditText.setError("Please enter your new mOrgName");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidCity(String data) {
+        if (data.equals("")) {
+            mCityEditText.setError("Please enter your city");
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean isValidZip(EditText field){
+        String onlyNumbers = "[0-9]+";
+        String catcher = field.getText().toString().trim();
+
+        if(catcher.length() != 0){
+            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
+                return true;
+            }else{
+                field.setError("Invalid");
+                return false;
+            }
+        }else return true;
+    }
 }

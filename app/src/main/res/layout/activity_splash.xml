@@ -9,10 +9,13 @@
     android:background="@color/colorDivider">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="512dp"
+        android:layout_height="512dp"
         app:srcCompat="@drawable/logo_v02"
         android:id="@+id/imageViewLogo"
         tools:srcCompat="@drawable/logo_v02"
-        android:padding="24dp"/>
+        android:layout_margin="24dp"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
