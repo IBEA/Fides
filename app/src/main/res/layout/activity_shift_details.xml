@@ -173,7 +173,6 @@
                     android:id="@+id/textView_Description"
                     android:layout_marginBottom="12dp"/>
 
-
             </LinearLayout>
         </ScrollView>
 
@@ -266,5 +265,19 @@
         android:layout_margin="10dp"
         android:id="@+id/floatingActionButton_EditOrComplete"
         android:visibility="gone"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done Editing"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        app:borderWidth="0dp"
+        android:background="@color/colorSearchButton"
+        android:backgroundTint="@color/colorSearchButton"
+        android:id="@+id/floatingActionButton_EditDone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>
