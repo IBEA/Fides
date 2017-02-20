@@ -132,7 +132,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
                             String[] states = res.getStringArray(R.array.states_array);
                             int index = Arrays.asList(states).indexOf(state);
 
-
                             mStateInput.setSelection(index);
                         }
 
@@ -147,19 +146,13 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     public void onClick(View view) {
         String city = cityeedittext.getText().toString().trim();
         String zip = zipedittext.getText().toString().trim();
+        String username = useredittext.getText().toString().trim();
 
         if(view == tempPicture) {
             startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
         else if (view == updateButton){
-
-            if( (!useredittext.getText().toString().trim().equals(""))) {
-                createNewUsername();
-            }
-
-            if( (validateZip(zipedittext)) &&  (!cityeedittext.getText().toString().trim().equals("")) ) {
-                createNewAddress();
-            }
+            createNewAddress();
 
         }
     }
@@ -179,69 +172,31 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     }
 
     private void createNewAddress() {
-        String city = cityeedittext.getText().toString().trim();
-        String zip = zipedittext.getText().toString().trim();
+        String mCity = cityeedittext.getText().toString().trim();
+        String mZip = zipedittext.getText().toString().trim();
+        String mUsername = useredittext.getText().toString().trim();
 
-        // Confirm validity of inputs
-        boolean validCity = isValidCity(city);
-        boolean validPassword = isValidPassword(zip);
+        if(isValid(useredittext) && isValid(cityeedittext) && validateZip(zipedittext)){
+            dbVolunteers.child(uId).child("name").setValue(mUsername);
+            dbVolunteers.child(uId).child("city").setValue(mCity);
+            dbVolunteers.child(uId).child("zipcode").setValue(mZip);
+            dbVolunteers.child(uId).child("state").setValue(mState);
 
-        if ( !validCity || !validPassword ) {
-            return;
+            Toast.makeText(mContext, "Information updated", Toast.LENGTH_SHORT).show();
         }
-
-        // Set name
-        mCity = city;
-        mZip = zip;
-
-        dbVolunteers.child(uId).child("city").setValue(mCity);
-        dbVolunteers.child(uId).child("zipcode").setValue(mZip);
-        dbVolunteers.child(uId).child("state").setValue(mState);
-
-        Toast.makeText(mContext, "Address Updated", Toast.LENGTH_SHORT).show();
 
     }
 
-    private void createNewUsername() {
-        String username = useredittext.getText().toString().trim();
+    private boolean isValid(EditText field) {
+        String catcher = field.getText().toString().trim();
 
-        boolean validName = isValidUsername(username);
-
-        if(!validName){
-            return;
-        }
-
-        mUsername = username;
-
-        dbVolunteers.child(uId).child("name").setValue(mUsername);
-
-        Toast.makeText(mContext, "Username updated", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private boolean isValidCity(String data) {
-        if (data.equals("")) {
-            cityeedittext.setError("Please enter your city");
+        if (catcher.equals("")) {
+            field.setError("Invalid");
             return false;
         }
         return true;
     }
 
-    private boolean isValidPassword(String data) {
-        if (data.equals("")) {
-            zipedittext.setError("Please enter your zip code");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidUsername(String data) {
-        if (data.equals("")) {
-            useredittext.setError("Please enter your new mOrgName");
-            return false;
-        }
-        return true;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
