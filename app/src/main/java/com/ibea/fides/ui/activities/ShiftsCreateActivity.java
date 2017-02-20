@@ -104,13 +104,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 mStreetInput.setText(thisOrg.getStreetAddress());
                 mCityInput.setText(thisOrg.getCityAddress());
                 mZipcodeInput.setText(thisOrg.getZipcode());
-                String state = thisOrg.getStateAddress();
 
+                String state = thisOrg.getStateAddress();
                 Resources res = getResources();
                 String[] states = res.getStringArray(R.array.states_array);
                 int index = Arrays.asList(states).indexOf(state);
-
-
                 mStateSpinner.setSelection(index);
             }
 
@@ -230,6 +228,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mLongDescription = mLongDescriptionInput.getText().toString();
         mStreet = mStreetInput.getText().toString();
         mCity = mCityInput.getText().toString();
+        mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state
         mZipcode = mZipcodeInput.getText().toString();
 
 
@@ -238,11 +237,17 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mStartDateInput.setError(null);
         mEndDateInput.setError(null);
 
+
         if(Volunteertest.equals("")){
             mVolunteerSizeInput.setError("Please enter the #");
             return false;
         } else {
             mVolunteerSize = Integer.parseInt(Volunteertest);
+            Log.d("Justin", mVolunteerSize + "");
+            if(mVolunteerSize == 0) {
+                Toast.makeText(mContext, "There must be at least one volunteer", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
 
         if(mStartTime.equals("Time")) {

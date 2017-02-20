@@ -1,18 +1,15 @@
 package com.ibea.fides.ui.activities;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -88,6 +85,7 @@ public class CreateVolunteerActivity extends AppCompatActivity implements View.O
     public void createVolunteer(){
         String name = mEditText_Name.getText().toString().trim();
         String city = mEditText_City.getText().toString().trim();
+        mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state
         String zip = mEditText_Zip.getText().toString().trim();
         String email = mAuth.getCurrentUser().getEmail();
         String pushId = mAuth.getCurrentUser().getUid();
