@@ -146,19 +146,19 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         else if (view == mUpdateButton) {
             boolean updated = false;
 
-            if(!isValidUsername(mUserNameEditText.getText().toString().trim())) {
+            if(isValidUsername(mUserNameEditText.getText().toString().trim())) {
                 updateUsername();
                 updated = true;
             }
-            if(!isValidCity(mCityEditText.getText().toString().trim())) {
+            if(isValidCity(mCityEditText.getText().toString().trim())) {
                 updateCity();
                 updated = true;
             }
-            if(!mStateInput.getSelectedItem().equals(thisVol.getState())) {
+            if(mStateInput.getSelectedItem().equals(thisVol.getState())) {
                 updateState();
                 updated = true;
             }
-            if(!isValidZip(mZipEditText)) {
+            if(isValidZip(mZipEditText)) {
                 updateZip();
                 updated = true;
             }
