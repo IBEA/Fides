@@ -2,14 +2,17 @@ package com.ibea.fides.ui.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -71,6 +74,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
         mContext = this.getContext();
         mImageButton_Search.setOnClickListener(this);
 
+        this.setHasOptionsMenu(true);
         mRecyclerAdapter = new OrganizationListAdapter(mContext, mOrganizations);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(mRecyclerAdapter);
@@ -178,5 +182,30 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_organizationtutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Organization Search Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
