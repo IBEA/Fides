@@ -243,8 +243,14 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
                 updated = true;
             }
             if(!zipCodeEditText.getText().toString().trim().equals("")) {
-                updateZip();
-                updated = true;
+                if(validateZip(zipCodeEditText)) {
+                    updateZip();
+                    updated = true;
+                } else {
+                    Toast.makeText(mContext, "Please put in a proper zipcode", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
             }
             if(!descriptionEditText.getText().toString().trim().equals("")) {
                 updateDescription();
@@ -260,7 +266,19 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
     }
 
+    public Boolean validateZip(EditText field){
+        String onlyNumbers = "[0-9]+";
+        String catcher = field.getText().toString().trim();
 
+        if(catcher.length() != 0){
+            if(catcher.length() == 5 && catcher.matches(onlyNumbers)){
+                return true;
+            }else{
+                field.setError("Invalid");
+                return false;
+            }
+        }else return true;
+    }
 
     ///////////////////////////////////////////////////////////////////////
     // DB UPDATERS
