@@ -164,6 +164,16 @@
                     android:layout_marginBottom="12dp"
                     android:visibility="gone"/>
 
+                <EditText
+                    android:text="Full Description"
+                    android:textSize="18sp"
+                    android:gravity="left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_Description"
+                    android:layout_marginBottom="12dp"
+                    android:visibility="gone"/>
+
                 <TextView
                     android:text="Full Description"
                     android:textSize="18sp"
@@ -175,16 +185,6 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <EditText
-            android:text="Full Description"
-            android:textSize="18sp"
-            android:gravity="left"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_Description"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"
@@ -230,7 +230,8 @@
                 android:id="@+id/editText_VolunteerMax"
                 tools:inputType="number"
                 android:text="Max"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:inputType="number" />
         </LinearLayout>
 
         <TextView

@@ -61,7 +61,6 @@ public class VolunteerProfileActivity extends BaseActivity{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mVolunteer = dataSnapshot.getValue(Volunteer.class);
-                    Log.d(">NO EXTRAS>", mVolunteer.getName());
 
                     setTitle(mVolunteer.getName());
                     populateTabs();

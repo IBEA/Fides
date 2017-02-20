@@ -39,6 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static com.ibea.fides.R.id.stateSpinner;
+import static com.ibea.fides.R.id.zipedittext;
 
 public class VolunteerSettingsActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -46,7 +47,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     @Bind(R.id.usernameedittext) EditText mUserNameEditText;
     @Bind(R.id.cityedittext) EditText mCityEditText;
     @Bind(stateSpinner) Spinner mStateInput;
-    @Bind(R.id.zipedittext) EditText mZipEditText;
+    @Bind(zipedittext) EditText mZipEditText;
     @Bind(R.id.updateButton) FloatingActionButton mUpdateButton;
 
     Volunteer thisVol;
@@ -112,7 +113,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
     public void autoFill() {
         dbVolunteers.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-
             public void onDataChange(DataSnapshot dataSnapshot) {
                 thisVol = dataSnapshot.getValue(Volunteer.class);
                 if(thisVol != null) {
@@ -171,6 +171,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
             }
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
