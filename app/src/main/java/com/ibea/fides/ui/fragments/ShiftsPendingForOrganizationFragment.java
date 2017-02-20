@@ -154,6 +154,16 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                         }
                     });
 
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Log.d("Justin", "Dismiss");
+                            mRecyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+
+
+
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
@@ -170,6 +180,14 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int id){
                             // Maybe
+                            mRecyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Log.d("Justin", "Dismiss");
                             mRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     });
