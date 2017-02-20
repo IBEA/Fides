@@ -136,17 +136,18 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mStartTimeInput.setText(convertTime( hourOfDay + ":" + minute));
+                    mStartTime = ( hourOfDay + ":" + minute);
+                    mStartTimeInput.setText(mStartTime);
                 }
             }, mHour, mMinute, false);
             timePickerDialog.show();
         }
 
         if (v == mEndTimeInput) {
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            // Auto-populate time for picker
+            mEndTime = mStartTime;
+            mHour = Integer.parseInt(mEndTime.substring(0,mEndTime.indexOf(":")));
+            mMinute = Integer.parseInt((mEndTime.substring(mEndTime.indexOf(":") + 1)));
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
@@ -155,15 +156,14 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
-
-                            mEndTimeInput.setText( convertTime( hourOfDay + ":" + minute) );
+                            mEndTime = convertTime(hourOfDay + ":" + minute);
+                            mEndTimeInput.setText(mEndTime);
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
         }
 
         if (v == mStartDateInput) {
-
             // Get Current Date
             final Calendar c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
@@ -172,27 +172,47 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
-                    new DatePickerDialog.OnDateSetListener() {
+                new DatePickerDialog.OnDateSetListener() {
 
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        mStartDate = (monthOfYear + 1) + "-" + dayOfMonth + "-" + year;
+                        mStartDateInput.setText(mStartDate);
 
-                            mStartDateInput.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
-                            mEndDateInput.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                        ///////////////////////////////////////
+                        // Compare dates: if invalid, update end date
+                        if(mEndDate != null) {
+                            try {
+                                SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+                                Date date1 = sdf.parse(mStartDate);
+                                Date date2 = sdf.parse(mEndDate);
+
+                                if(date1.after(date2)) {
+                                    mEndDate = mStartDate;
+                                    mEndDateInput.setText(mEndDate);
+                                }
+                            } catch (ParseException ex){
+                                ex.printStackTrace();
+                                mEndDate = mStartDate;
+                                mEndDateInput.setText(mEndDate);
+                            }
                         }
-                    }, mYear, mMonth, mDay);
+                        else {
+                            mEndDate = mStartDate;
+                            mEndDateInput.setText(mEndDate);
+                        }
+                    }
+                }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
 
 
         if (v == mEndDateInput) {
-            // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-
+            // Auto-populate date for picker
+            mMonth = Integer.parseInt(mEndDate.substring(0, mEndDate.indexOf("-"))) - 1;
+            mDay = Integer.parseInt((mEndDate.substring(mEndDate.indexOf("-") + 1, mEndDate.lastIndexOf("-"))));
+            mYear = Integer.parseInt((mEndDate.substring(mEndDate.lastIndexOf("-") + 1)));
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.TimePicker,
                     new DatePickerDialog.OnDateSetListener() {
@@ -200,8 +220,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-
-                            mEndDateInput.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                            mEndDate = (monthOfYear + 1) + "-" + dayOfMonth + "-" + year;
+                            mEndDateInput.setText(mEndDate);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -241,7 +261,8 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         if(Volunteertest.equals("")){
             mVolunteerSizeInput.setError("Please enter the #");
             return false;
-        } else {
+        }
+        else {
             mVolunteerSize = Integer.parseInt(Volunteertest);
             Log.d("Justin", mVolunteerSize + "");
             if(mVolunteerSize == 0) {
@@ -310,7 +331,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     public boolean compareDate(String dateOne, String dateTwo, String timeOne, String timeTwo) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-
             Date date1 = sdf.parse(dateOne);
             Date date2 = sdf.parse(dateTwo);
 
@@ -319,14 +339,11 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             Date time2 = sdfTime.parse(timeTwo);
 
             if(date1.after(date2)) {
-
                 Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT).show();
                 return false;
             } else if(date1.equals(date2)) {
                 if(time1.after(time2) || time1.equals(time2)) {
-
                     Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT).show();
-
                     return false;
                 }
                 return true;
@@ -334,7 +351,6 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             return true;
         } catch (ParseException ex){
             ex.printStackTrace();
-
         }
         return false;
     }

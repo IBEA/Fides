@@ -236,8 +236,36 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
+                            mStartD = (monthOfYear + 1) + "-" + dayOfMonth + "-" + year;
+                            mStartDate.setText(mStartD);
 
-                            mStartDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
+                            ///////////////////////////////////////
+                            // Compare dates: if invalid, update end date
+                            if(mEndD != null) {
+                                try {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+                                    Date date1 = sdf.parse(mShift.getStartDate());
+                                    Date date2 = sdf.parse(mShift.getEndDate());
+
+                                    if(date1.after(date2)) {
+                                        mEndD = mStartD;
+                                        mEndDate.setText(mEndD);
+                                    }
+                                } catch (ParseException ex){
+                                    ex.printStackTrace();
+                                    mEndD = mStartD;
+                                    mEndDate.setText(mEndD);
+                                }
+                            }
+                            else {
+                                mEndD = mStartD;
+                                mEndDate.setText(mEndD);
+                            }
+
+
+
+
+
                             mEndDate.setText((monthOfYear + 1) + "-" + dayOfMonth + "-" + year);
                         }
                     }, mYear, mMonth, mDay);
@@ -436,7 +464,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             if(newMax == currentVolunteerSize) {
                 dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).removeValue();
                 dbShiftsAvailable.child("organizations").child(mShift.getOrganizationID()).child(mShift.getPushId()).removeValue();
-            } else {
+            }
+            else {
                 dbShiftsAvailable.child(mShift.getState()).child(mShift.getCity().toLowerCase()).child(mShift.getPushId()).setValue(searchKey);
             }
 
