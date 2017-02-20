@@ -54,6 +54,8 @@ public class BaseActivity extends AppCompatActivity {
 
     // For Navigation
     public Context mContext;
+    public String mCurrentLoc;
+
 
     public String TAG;
     public String uId;
@@ -185,11 +187,12 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(mContext, SearchActivity.class);
             startActivity(intent);
         }else if (id == R.id.action_volunteertutorial) {
-            Intent intent = new Intent(mContext, IntroActivity.class);
-            startActivity(intent);
+//            Log.d("Justin", mContext + "");
+//            Intent intent = new Intent(mContext, IntroActivity.class);
+//            startActivity(intent);
         }else if (id == R.id.action_organizationtutorial) {
-            Intent intent = new Intent(mContext, IntroOrganizationActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(mContext, IntroOrganizationActivity.class);
+//            startActivity(intent);
         }else if (id == R.id.action_faq) {
             Intent intent = new Intent(mContext, FaqActivity.class);
             startActivity(intent);

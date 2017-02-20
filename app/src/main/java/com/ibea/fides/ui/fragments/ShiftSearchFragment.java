@@ -13,6 +13,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -84,6 +85,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
         mContext = this.getContext();
 
         mThis = this;
+        this.setHasOptionsMenu(true);
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -414,5 +416,30 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Shift Search Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

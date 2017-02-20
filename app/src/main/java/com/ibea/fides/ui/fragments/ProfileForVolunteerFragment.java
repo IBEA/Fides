@@ -1,5 +1,6 @@
 package com.ibea.fides.ui.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -10,8 +11,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,6 +29,7 @@ import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.R;
+import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Volunteer;
 import com.squareup.picasso.Callback;
 
@@ -67,6 +71,7 @@ public class ProfileForVolunteerFragment extends Fragment {
         ProfileForVolunteerFragment fragment = new ProfileForVolunteerFragment();
 
         Bundle bundle = new Bundle();
+
         bundle.putParcelable("volunteer", Parcels.wrap(user));
         fragment.setArguments(bundle);
 
@@ -76,13 +81,14 @@ public class ProfileForVolunteerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.setHasOptionsMenu(true);
         Intent intent = getActivity().getIntent();
         if(intent.hasExtra("volunteer")){
             mVolunteer = Parcels.unwrap(intent.getParcelableExtra("volunteer"));
         }else{
             mVolunteer = Parcels.unwrap(getArguments().getParcelable("volunteer"));
         }
+
 
     }
 
@@ -345,5 +351,30 @@ public class ProfileForVolunteerFragment extends Fragment {
         public String key() {
             return "circle";
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Volunteer Profile Page");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
