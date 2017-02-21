@@ -154,7 +154,13 @@ public class ProfileForVolunteerFragment extends Fragment {
             }
         });
 
-        trustmetric = mVolunteer.getRating();
+        if(mVolunteer.getRatingHistory().size() == 0) {
+            trustmetric = 100;
+        } else {
+            trustmetric = mVolunteer.getRating();
+        }
+
+
 
         totalHoursWorked = (float) mVolunteer.getHours();
 
