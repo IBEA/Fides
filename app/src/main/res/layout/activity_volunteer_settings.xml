@@ -6,83 +6,86 @@
     android:id="@+id/activity_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.activities.VolunteerSettingsActivity"
-    android:background="@color/colorCardBackground">
+    android:background="@color/colorCardBackground"
+    tools:context="com.ibea.fides.ui.activities.VolunteerSettingsActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_above="@+id/updateButton"
-        android:weightSum="10">
+        android:layout_height="match_parent">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:src="@drawable/avatar_blank"
-            android:gravity="center"
-            android:id="@+id/tempPicture" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_above="@+id/updateButton"
+            android:weightSum="10">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap Picture to change"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:labelFor="@id/tempPicture"
-            android:layout_marginBottom="30dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:src="@drawable/avatar_blank"
+                android:gravity="center"
+                android:id="@+id/tempPicture" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:hint="Username"
-            android:ems="12"
-            android:id="@+id/usernameedittext"
-            android:inputType="textPersonName" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap Picture to change"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:labelFor="@id/tempPicture"
+                android:layout_marginBottom="30dp"/>
 
             <EditText
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="9"
-                android:id="@+id/cityedittext"
-                android:hint="City" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="Username"
+                android:ems="12"
+                android:id="@+id/usernameedittext"
+                android:inputType="textPersonName" />
 
-            <Spinner
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stateSpinner"
-                android:layout_toRightOf="@id/cityedittext"
-                android:gravity="left" />
+                android:layout_gravity="center_horizontal"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-        </RelativeLayout>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="9"
+                    android:id="@+id/cityedittext"
+                    android:hint="City" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:ems="12"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:hint="ZIP Code"
-        android:id="@+id/zipedittext" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stateSpinner"
+                    android:layout_toRightOf="@id/cityedittext"
+                    android:gravity="left" />
 
+            </RelativeLayout>
 
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:ems="12"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="ZIP Code"
+                android:id="@+id/zipedittext" />
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -97,6 +100,6 @@
         android:layout_margin="10dp"
         android:id="@+id/updateButton"/>
 
-    </RelativeLayout>
+</RelativeLayout>
 
 
