@@ -4,7 +4,9 @@
     android:id="@+id/activity_create_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.activities.CreateAccountActivity">
+    tools:context="com.ibea.fides.ui.activities.CreateAccountActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -61,13 +63,11 @@
                 android:background="@color/colorAccent"
                 android:textColor="@color/colorIcons"
                 android:layout_marginTop="20dp"
-                android:textSize="25sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
-                <requestFocus />
+                android:textSize="25sp">
             </Button>
 
         </LinearLayout>
     </ScrollView>
 
+    <requestFocus />
 </RelativeLayout>

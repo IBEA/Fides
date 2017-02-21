@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorCardBackground"
-    tools:context="com.ibea.fides.ui.activities.CreateVolunteerActivity">
+    tools:context="com.ibea.fides.ui.activities.CreateVolunteerActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,10 +81,7 @@
         android:backgroundTint="@color/colorSearchButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-        <requestFocus />
-    </android.support.design.widget.FloatingActionButton>
+        android:layout_alignParentEnd="true" />
 
+    <requestFocus />
 </RelativeLayout>

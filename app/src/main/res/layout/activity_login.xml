@@ -4,7 +4,9 @@
     android:id="@+id/activity_log_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ibea.fides.ui.activities.LogInActivity">
+    tools:context="com.ibea.fides.ui.activities.LogInActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,10 +52,7 @@
                 android:paddingRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
-                android:textSize="25sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
-                <requestFocus />
+                android:textSize="25sp">
             </Button>
 
             <TextView
@@ -67,4 +66,5 @@
         </LinearLayout>
     </ScrollView>
 
+    <requestFocus />
 </RelativeLayout>

@@ -56,7 +56,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     // Popup
     private PopupWindow mPopUp;
     private View mPopupContext;
-    private TextView mNoShowButton;
+//    private TextView mNoShowButton;
     private Button mShowButton;
     private EditText mHoursInput;
     private String mHours;
@@ -156,10 +156,14 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         public void onClick(View view){
             if(view == mShowButton) {
                 mHours = mHoursInput.getText().toString();
-                dataUpdate(mHours, true);
-            } else if(view == mNoShowButton) {
-                dataUpdate(mHours, false);
-            }else {
+                if(Float.parseFloat(mHours) > 0.0f) {
+                    dataUpdate(mHours, true);
+                }
+                else {
+                    dataUpdate(mHours, false);
+                }
+            }
+            else {
                 Intent intent = new Intent(mContext, VolunteerProfileActivity.class);
                 intent.putExtra("volunteer", Parcels.wrap(mVolunteers.get(getAdapterPosition())));
                 mContext.startActivity(intent);
@@ -211,12 +215,12 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             mPopUp = new PopupWindow(mPopupContext, 1000, 1000, true);
             mPopUp.showAtLocation(mPopupContext, Gravity.CENTER, 0, 0);
             mShowButton = (Button) mPopupContext.findViewById(R.id.showButton);
-            mNoShowButton = (TextView) mPopupContext.findViewById(R.id.noShowButton);
+//            mNoShowButton = (TextView) mPopupContext.findViewById(R.id.noShowButton);
             mHoursInput = (EditText) mPopupContext.findViewById(R.id.hoursInput);
 
             mHoursInput.setText(mDiffInput);
             mShowButton.setOnClickListener(this);
-            mNoShowButton.setOnClickListener(this);
+//            mNoShowButton.setOnClickListener(this);
         }
 
         public Boolean isUnrated(){
