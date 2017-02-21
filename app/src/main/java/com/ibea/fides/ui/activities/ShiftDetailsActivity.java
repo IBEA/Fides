@@ -87,24 +87,22 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
-
+        mAddressLine2Output.setOnClickListener(this);
+        mStreetAddressOutput.setOnClickListener(this);
+        setTitle("Volunteer Opportunity");
         mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
+        InitializeSpinner();
+        SetShiftDetails();
+        SetUserDeterminateDetails();
+    }
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array,R.layout.custom_spinner_item_settings);
-        adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
-        mStateInput.setAdapter(adapter);
-        mStateInput.setSelection(0);
-
-        if(!mIsOrganization){
-            mVolCurrentNumber.setVisibility(View.GONE);
-            mVolMaxOutput.setVisibility(View.GONE);
-            mVolunteersListHeader.setVisibility(View.GONE);
-            mVolSectionDivider.setVisibility(View.GONE);
-        }
-
+    private void SetShiftDetails() {
+        // Org Name
         mOrgName.setText(mShift.getOrganizationName());
+        // Time
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
+        // Date
         mStartDate.setText(mShift.getStartDate());
         if(mShift.getEndDate().equals(mShift.getStartDate())) {
             mDateFiller.setVisibility(View.GONE);
@@ -113,43 +111,57 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         else {
             mEndDate.setText(mShift.getEndDate());
         }
+        // Address Line 1
         mStreetAddressOutput.setText(mShift.getStreetAddress());
+        // Address Line 2
         mAddressLine2Output.setText(mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
+        // Full Description
         mDescriptionOutput.setText(mShift.getDescription());
-        if(mShift.getCurrentVolunteers().isEmpty())
-            mVolCurrentNumber.setText("0/");
-        else
-            mVolCurrentNumber.setText(String.valueOf(mShift.getCurrentVolunteers().size()) + "/");
-        mVolMaxOutput.setText(String.valueOf(mShift.getMaxVolunteers()));
+    }
 
+    private void SetUserDeterminateDetails() {
         if(uId.equals(mShift.getOrganizationID())) {
-            mVolunteers.clear();
-
             mEditOrCompleteButton.setVisibility(View.VISIBLE);
             mEditOrCompleteButton.setOnClickListener(this);
 
-            mVolunteersListHeader.setVisibility(View.VISIBLE);
-            mVolunteersListInstructions.setVisibility(View.VISIBLE);
+            SetUpVolList();
 
-            mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
-            mVolunteersListRecyclerView.setHasFixedSize(false);
-            mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
-            mVolunteersListRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            if(mShift.getCurrentVolunteers().isEmpty())
+                mVolCurrentNumber.setText("0/");
+            else
+                mVolCurrentNumber.setText(String.valueOf(mShift.getCurrentVolunteers().size()) + "/");
+            mVolMaxOutput.setText(String.valueOf(mShift.getMaxVolunteers()));
 
-            mVolunteerIds.addAll(mShift.getCurrentVolunteers());
-            mVolunteerIds.addAll(mShift.getRatedVolunteers());
-            for(String volunteerId : mVolunteerIds){
-                fetchVolunteer(volunteerId);
-            }
-
-            if(!mShift.getComplete()){
-                mVolunteersListInstructions.setVisibility(View.GONE);
+            if(mShift.getComplete()){
+                mVolunteersListInstructions.setVisibility(View.VISIBLE);
             }
         }
+        else if(!mIsOrganization){
+            mVolCurrentNumber.setVisibility(View.GONE);
+            mVolMaxOutput.setVisibility(View.GONE);
+            if(mShift.getComplete()) {
+                SetUpVolList();
+            }
+            else {
+                mVolSectionDivider.setVisibility(View.GONE);
+                mVolunteersListHeader.setVisibility(View.GONE);
+            }
+        }
+    }
 
-        mStreetAddressOutput.setOnClickListener(this);
+    private void SetUpVolList() {
+        mVolunteers.clear();
 
-        setTitle("Volunteer Opportunity");
+        mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
+        mVolunteersListRecyclerView.setHasFixedSize(false);
+        mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
+        mVolunteersListRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        mVolunteerIds.addAll(mShift.getCurrentVolunteers());
+        mVolunteerIds.addAll(mShift.getRatedVolunteers());
+        for(String volunteerId : mVolunteerIds){
+            fetchVolunteer(volunteerId);
+        }
     }
 
     @Override
@@ -340,6 +352,13 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             }
         });
+    }
+
+    private void InitializeSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states_array,R.layout.custom_spinner_item_settings);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
+        mStateInput.setAdapter(adapter);
+        mStateInput.setSelection(0);
     }
 
     private void setRecyclerViewItemTouchListener() {
