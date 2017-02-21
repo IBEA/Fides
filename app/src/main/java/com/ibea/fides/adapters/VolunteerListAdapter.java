@@ -175,6 +175,47 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             return mVolunteers.get(getAdapterPosition()).getUserId();
         }
 
+        public void remove() {
+            final Volunteer volunteer = mVolunteers.get(getAdapterPosition());
+            final String userID = volunteer.getUserId();
+            final String shiftId = mShift.getPushId();
+            dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Shift shift = dataSnapshot.getValue(Shift.class);
+                    if(shift.getCurrentVolunteers().indexOf(userID) == -1){
+                        Toast.makeText(mContext, "Not on shift", Toast.LENGTH_SHORT).show();
+                    }else{
+                        // Remove from shiftsPending for user
+                        dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
+
+                        //Remove user from list of volunteers and push to database
+                        //!! Check to see what happens when sending an empty list !!
+                        shift.removeVolunteer(userID);
+                        dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
+
+                        //Check if shift was full. If so, repopulate to shiftsAvailable
+                        if(shift.getMaxVolunteers() - shift.getCurrentVolunteers().size() == 1){
+                            String zip = String.valueOf(shift.getZip());
+                            String organizationID = shift.getOrganizationID();
+                            String state = shift.getState();
+                            String city = shift.getCity().toLowerCase();
+
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ZIPCODE).child(zip).child(shiftId).setValue(shiftId);
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_STATECITY).child(state).child(city).child(shiftId).setValue(shiftId);
+                            dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(organizationID).child(shiftId).setValue(shiftId);
+                        }
+                        Toast.makeText(mContext, "Removed from shift", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
         public void popup(int rating) {
             mRating = rating;
             // Retrieve duration of shift information
