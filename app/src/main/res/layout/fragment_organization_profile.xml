@@ -8,12 +8,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView_OrgProfileMinusAvailableShiftsList">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,54 +38,79 @@
                 android:id="@+id/progressBar_ImageLoading"
                 android:visibility="gone"/>
 
-                <TextView
-                    android:text="Org Name"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_orgName"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingBottom="12dp" />
-                <TextView
-                    android:text="Street Address"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_orgAddress"
-                    android:textStyle="normal"
-                    android:textAlignment="center"/>
-                <TextView
-                    android:text="City, State, ZIP Code"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_orgAddressLineTwo"
-                    android:textStyle="normal"
-                    android:textAlignment="center"
-                    android:paddingBottom="12dp"/>
-                <TextView
-                    android:text="Website URL"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView_orgWebsite"
-                    android:textStyle="normal"
-                    android:textAlignment="center"
-                    android:paddingBottom="12dp"/>
-                <TextView
-                    android:text="Org description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:id="@+id/textView_orgDescription"
-                    android:textStyle="normal"
-                    android:textSize="16sp" />
+            <TextView
+                android:text="Org Name"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_orgName"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingBottom="12dp" />
+            <TextView
+                android:text="Street Address"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_orgAddress"
+                android:textStyle="normal"
+                android:textAlignment="center"/>
+            <TextView
+                android:text="City, State, ZIP Code"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_orgAddressLineTwo"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:paddingBottom="12dp"/>
+            <TextView
+                android:text="Website URL"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_orgWebsite"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:paddingBottom="12dp"/>
+            <TextView
+                android:text="Org description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_orgDescription"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:paddingBottom="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/view_AvailableShiftSectionDivider"
+                android:background="@color/colorPrimaryText"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/textView_AvailableShiftListHeader"
+                android:text="Available Shifts:"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryText"/>
 
         </LinearLayout>
-
     </ScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView_AvailableShifts"
+        android:paddingLeft="24dp"
+        android:paddingStart="24dp"
+        android:paddingRight="24dp"
+        android:paddingEnd="24dp"
+        android:layout_below="@+id/scrollView_OrgProfileMinusAvailableShiftsList" />
 
 </LinearLayout>

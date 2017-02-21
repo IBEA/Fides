@@ -9,9 +9,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.ibea.fides.Constants;
 import com.ibea.fides.R;
 import com.ibea.fides.models.Organization;
 import com.squareup.picasso.Callback;
@@ -46,6 +49,7 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
 
     private String TAG = "ProfileForOrg";
     private Organization mOrganization;
+    private boolean mIsOrganization;
 
     // image storage reference variables
     FirebaseStorage mStorage;
@@ -59,6 +63,10 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
     @Bind(R.id.textView_orgWebsite) TextView mOrgWebsite;
     @Bind(R.id.textView_orgDescription) TextView mOrgDescription;
     @Bind(R.id.progressBar_ImageLoading) ProgressBar mImageProgressBar;
+
+    @Bind(R.id.view_AvailableShiftSectionDivider) View mAvailableShiftSectionDivider;
+    @Bind(R.id.textView_AvailableShiftListHeader) TextView mAvailableShiftListHeader;
+    @Bind(R.id.recyclerView_AvailableShifts) RecyclerView mRecyclerViewAvailableShifts;
 
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
@@ -114,6 +122,13 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
 
         View view = inflater.inflate(R.layout.fragment_organization_profile, container, false);
         ButterKnife.bind(this, view);
+
+        mIsOrganization = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.KEY_ISORGANIZATION, false);
+        if(mIsOrganization) {
+            mAvailableShiftSectionDivider.setVisibility(View.GONE);
+            mAvailableShiftListHeader.setVisibility(View.GONE);
+            mRecyclerViewAvailableShifts.setVisibility(View.GONE);
+        }
 
         String orgId = mOrganization.getPushId();
         // assign image storage reference variables
