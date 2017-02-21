@@ -156,10 +156,11 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         public void onClick(View view){
             if(view == mShowButton) {
                 mHours = mHoursInput.getText().toString();
-                if(Float.parseFloat(mHours) > 0.0f) {
+                if(Float.parseFloat(mHours) > 0.1f) {
                     dataUpdate(mHours, true);
-                }
-                else {
+                } else if((Float.parseFloat(mHours) == 0.0f) && (mRating > 0)) {
+                    Toast.makeText(mContext, "Please enter a positive number of hours", Toast.LENGTH_LONG).show();
+                }else {
                     dataUpdate(mHours, false);
                 }
             }
