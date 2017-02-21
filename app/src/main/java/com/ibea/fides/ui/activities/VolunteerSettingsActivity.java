@@ -179,6 +179,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
         mUsername = mUserNameEditText.getText().toString();
         mCity = mCityEditText.getText().toString();
         mZip = mZipEditText.getText().toString();
+        mState = mStateInput.getSelectedItem().toString();
 
         return true;
     };
