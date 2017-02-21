@@ -61,7 +61,8 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.activities.VolunteerSettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.activities.OrganizationSettingsActivity"
             android:screenOrientation="portrait" />
@@ -74,9 +75,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activities.CreateUserAccountActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.SearchActivity"
             android:screenOrientation="portrait"
