@@ -514,7 +514,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Organization Settings Page");
+            builder.setMessage("This is the Organization Settings Page. You can change information about your organization here.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override

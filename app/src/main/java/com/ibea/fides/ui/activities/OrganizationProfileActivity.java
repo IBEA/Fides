@@ -110,7 +110,7 @@ public class OrganizationProfileActivity extends BaseActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Organization Profile Page");
+            builder.setMessage("This is the Organization Profile Page.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override

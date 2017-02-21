@@ -191,7 +191,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Organization Search Page");
+            builder.setMessage("This is the Organization Search Page. Search for Organizations by their name. You can then navigate to any organizations the appear in the list.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
@@ -205,6 +205,23 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
 
             dialog.show();
 
+        } else if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Organization Search Page. Search for Organizations by their name. You can then navigate to any organizations the appear in the list.");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }

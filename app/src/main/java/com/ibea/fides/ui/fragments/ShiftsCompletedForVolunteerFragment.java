@@ -125,7 +125,7 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Shifts Completed Page");
+            builder.setMessage("This is the Shifts Completed Page. A list of your completed shifts can be found here. Click on them for more information.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
