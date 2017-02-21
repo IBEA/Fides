@@ -210,7 +210,7 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Shifts Pending Page");
+            builder.setMessage("This is the Shifts Pending Page. Click on the plus icon to create a new shift. Swipe right on one of your shifts to mark it as complete. Swipe left to delete the shift. Click on a shift to get more information on it.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override

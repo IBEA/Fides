@@ -224,7 +224,7 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 //          TODO: Set up an actual message
-            builder.setMessage("This is the Organization Profile Page");
+            builder.setMessage("This is the Organization Profile Page. Important information about your organization is stored here.");
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
