@@ -235,6 +235,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         mOrganizationName = organizationNameEditText.getText().toString();
         mWebsite = websiteEditText.getText().toString();
         mContactName = contactNameEditText.getText().toString();
+        mState = stateSpinner.getSelectedItem().toString();
         mStreetAddress = streetAddressEditText.getText().toString();
         mCity = cityEditText.getText().toString();
         mDescription = descriptionEditText.getText().toString();
