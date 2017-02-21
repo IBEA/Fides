@@ -4,7 +4,7 @@
     android:id="@+id/activity_faq"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/DarkOnLightLayout"
+    android:theme="@style/CardLayout"
     android:paddingLeft="48dp"
     android:paddingRight="48dp"
     tools:context="com.ibea.fides.ui.activities.FaqActivity">

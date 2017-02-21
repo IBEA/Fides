@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/activity_shift_details"
-    android:theme="@style/DarkOnLightLayout">
+    android:theme="@style/CardLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
