@@ -95,6 +95,13 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mStateInput.setAdapter(adapter);
         mStateInput.setSelection(0);
 
+        if(!mIsOrganization){
+            mVolCurrentNumber.setVisibility(View.GONE);
+            mVolMaxOutput.setVisibility(View.GONE);
+            mVolunteersListHeader.setVisibility(View.GONE);
+            mVolSectionDivider.setVisibility(View.GONE);
+        }
+
         mOrgName.setText(mShift.getOrganizationName());
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
