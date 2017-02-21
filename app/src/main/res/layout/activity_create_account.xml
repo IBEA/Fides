@@ -6,62 +6,68 @@
     android:layout_height="match_parent"
     tools:context="com.ibea.fides.ui.activities.CreateAccountActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:paddingBottom="60dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <EditText
-            android:layout_width="300dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/emailInput"
-            android:hint="Email Address"
-            android:gravity="center"
-            android:layout_below="@+id/nameInput"
-            android:layout_alignLeft="@+id/nameInput"
-            android:layout_alignStart="@+id/nameInput"
-            android:layout_gravity="center_horizontal"
-            android:inputType="textEmailAddress" />
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp">
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/passwordInput"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:gravity="center"
-            android:layout_below="@+id/emailInput"
-            android:layout_alignLeft="@+id/emailInput"
-            android:layout_alignStart="@+id/emailInput"
-            android:layout_gravity="center_horizontal" />
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailInput"
+                android:hint="email"
+                android:gravity="center"
+                android:layout_below="@+id/nameInput"
+                android:layout_alignLeft="@+id/nameInput"
+                android:layout_alignStart="@+id/nameInput"
+                android:layout_gravity="center_horizontal"
+                android:inputType="textEmailAddress" />
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/passwordConfirmInput"
-            android:inputType="textPassword"
-            android:hint="Confirm Password"
-            android:gravity="center"
-            android:layout_below="@+id/passwordInput"
-            android:layout_alignLeft="@+id/passwordInput"
-            android:layout_alignStart="@+id/passwordInput"
-            android:layout_gravity="center_horizontal" />
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/passwordInput"
+                android:inputType="textPassword"
+                android:hint="password"
+                android:gravity="center"
+                android:layout_below="@+id/emailInput"
+                android:layout_alignLeft="@+id/emailInput"
+                android:layout_alignStart="@+id/emailInput"
+                android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:id="@+id/createAccountButton"
-            android:background="@color/colorAccent"
-            android:textColor="@color/colorIcons"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="25sp" />
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/passwordConfirmInput"
+                android:inputType="textPassword"
+                android:hint="confirm password"
+                android:gravity="center"
+                android:layout_below="@+id/passwordInput"
+                android:layout_alignLeft="@+id/passwordInput"
+                android:layout_alignStart="@+id/passwordInput"
+                android:layout_gravity="center_horizontal" />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Account"
+                android:id="@+id/createAccountButton"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorIcons"
+                android:layout_marginTop="20dp"
+                android:textSize="25sp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <requestFocus />
+            </Button>
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
