@@ -136,99 +136,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
 
     }
 
-    public void autoFill() {
-        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                thisOrg = dataSnapshot.getValue(Organization.class);
-                if(thisOrg != null) {
-                    if (!thisOrg.getName().equals(""))
-                        organizationNameEditText.setHint(thisOrg.getName());
-                    if (thisOrg.getUrl() != null)
-                        if (!thisOrg.getUrl().equals(""))
-                            websiteEditText.setHint(thisOrg.getUrl());
-                    if (!thisOrg.getContactName().equals(""))
-                        contactNameEditText.setHint(thisOrg.getContactName());
-                    if (!thisOrg.getStreetAddress().equals(""))
-                        streetAddressEditText.setHint(thisOrg.getStreetAddress());
-                    if (!thisOrg.getCityAddress().equals(""))
-                        cityEditText.setHint(thisOrg.getCityAddress());
-
-                    String state = thisOrg.getStateAddress();
-                    Resources res = getResources();
-                    String[] states = res.getStringArray(R.array.states_array);
-                    int index = Arrays.asList(states).indexOf(state);
-                    stateSpinner.setSelection(index);
-
-                    if (!thisOrg.getZipcode().equals(""))
-                        zipCodeEditText.setHint(thisOrg.getZipcode());
-                    if (!thisOrg.getDescription().equals(""))
-                        descriptionEditText.setHint(thisOrg.getDescription());
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void onClick(View view) {
-        if(view == profilePicImageView) {
-            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-        }
-        else if (view == updateButton){
-            boolean updated = false;
-
-            if(!organizationNameEditText.getText().toString().trim().equals("")) {
-                updateOrgName();
-                updated = true;
-                updateNodes();
-            }
-            if(!websiteEditText.getText().toString().trim().equals("")) {
-                updateWebsite();
-                updated = true;
-            }
-            if(!contactNameEditText.getText().toString().trim().equals("")) {
-                updateContactName();
-                updated = true;
-            }
-            if(!streetAddressEditText.getText().toString().trim().equals("")) {
-                updateStreetAddress();
-                updated = true;
-            }
-            if(!cityEditText.getText().toString().trim().equals("")) {
-                updateCity();
-                updated = true;
-            }
-            if(!stateSpinner.getSelectedItem().equals(thisOrg.getStateAddress())) {
-                updateState();
-                updated = true;
-            }
-            if(!zipCodeEditText.getText().toString().trim().equals("")) {
-                if(isValidZip(zipCodeEditText)) {
-                    updateZip();
-                    updated = true;
-                }
-                else {
-                    Toast.makeText(mContext, "Please put in a proper zipcode", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-            if(!descriptionEditText.getText().toString().trim().equals("")) {
-                updateDescription();
-                updated = true;
-            }
-
-            if(updated) {
-                Toast.makeText(mContext, "Profile updated", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(mContext, "No changes made", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -265,166 +172,98 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////
-    // DB UPDATERS
+    public void autoFill() {
+        dbOrganizations.child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                thisOrg = dataSnapshot.getValue(Organization.class);
+                if(thisOrg != null) {
+                    if (!thisOrg.getName().equals(""))
+                        organizationNameEditText.setText(thisOrg.getName());
+                    if (thisOrg.getUrl() != null)
+                        if (!thisOrg.getUrl().equals(""))
+                            websiteEditText.setText(thisOrg.getUrl());
+                    if (!thisOrg.getContactName().equals(""))
+                        contactNameEditText.setText(thisOrg.getContactName());
+                    if (!thisOrg.getStreetAddress().equals(""))
+                        streetAddressEditText.setText(thisOrg.getStreetAddress());
+                    if (!thisOrg.getCityAddress().equals(""))
+                        cityEditText.setText(thisOrg.getCityAddress());
 
-    private void updateOrgName() {
-        String tempOrgName = organizationNameEditText.getText().toString().trim();
-        boolean validInput = isValidOrganizationName(tempOrgName);
-        if(!validInput){
-            return;
-        }
+                    String state = thisOrg.getStateAddress();
+                    Resources res = getResources();
+                    String[] states = res.getStringArray(R.array.states_array);
+                    int index = Arrays.asList(states).indexOf(state);
+                    stateSpinner.setSelection(index);
 
-        mOrganizationName = tempOrgName;
+                    if (!thisOrg.getZipcode().equals(""))
+                        zipCodeEditText.setText(thisOrg.getZipcode());
+                    if (!thisOrg.getDescription().equals(""))
+                        descriptionEditText.setText(thisOrg.getDescription());
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        dbOrganizations.child(uId).child("name").setValue(mOrganizationName);
-        thisOrg.setName(mOrganizationName);
-        organizationNameEditText.setHint(organizationNameEditText.getText());
-        organizationNameEditText.getText().clear();
+            }
+        });
     }
 
-    private void updateWebsite() {
-        String tempWebsite = websiteEditText.getText().toString().trim();
-        boolean validInput = isValidWebsite(tempWebsite);
-        if(!validInput){
-            return;
+    public void onClick(View view) {
+        if(view == profilePicImageView) {
+            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
         }
-
-        mWebsite = tempWebsite;
-        thisOrg.setUrl(mWebsite);
-        dbOrganizations.child(uId).child("url").setValue(mWebsite);
-        websiteEditText.setHint(websiteEditText.getText());
-        websiteEditText.getText().clear();
+        else if (view == updateButton){
+            if(!validateInputs()) {
+                return;
+            };
+            updateOrganization();
+            updateNodes();
+        }
     }
 
-    private void updateContactName() {
-        String tempContactName = contactNameEditText.getText().toString().trim();
-        boolean validInput = isValidContactName(tempContactName);
-        if(!validInput){
-            return;
+    private boolean validateInputs() {
+
+        if(!isValid(organizationNameEditText) || !isValid(websiteEditText) || !isValid(contactNameEditText) || !isValid(streetAddressEditText) || !isValid(cityEditText) || !isValid(descriptionEditText)) {
+            return false;
         }
 
-        mContactName = tempContactName;
-        thisOrg.setContactName(mContactName);
-        dbOrganizations.child(uId).child("contactName").setValue(mContactName);
-        contactNameEditText.setHint(contactNameEditText.getText());
-        contactNameEditText.getText().clear();
-    }
-
-    private void updateStreetAddress() {
-        String tempStreetAddress = streetAddressEditText.getText().toString().trim();
-        boolean validInput = isValidStreetAddress(tempStreetAddress);
-        if (!validInput) {
-            return;
+        if(!isValidZip(zipCodeEditText)) {
+            return false;
         }
 
-        mStreetAddress = tempStreetAddress;
-        thisOrg.setStreetAddress(mStreetAddress);
-        dbOrganizations.child(uId).child("streetAddress").setValue(mStreetAddress);
-        streetAddressEditText.setHint(streetAddressEditText.getText());
-        streetAddressEditText.getText().clear();
-    }
-
-    private void updateCity() {
-        String tempCity = cityEditText.getText().toString().trim();
-        boolean validInput = isValidCity(tempCity);
-        if (!validInput) {
-            return;
-        }
-
-        mCity = tempCity;
-        thisOrg.setCityAddress(mCity);
-        dbOrganizations.child(uId).child("cityAddress").setValue(mCity);
-        cityEditText.setHint(cityEditText.getText());
-        cityEditText.getText().clear();
-    }
-
-    private void updateState() {
-        mState = stateSpinner.getSelectedItem().toString().trim();
-        thisOrg.setStateAddress(mState);
-        dbOrganizations.child(uId).child("stateAddress").setValue(mState);
-    }
-
-    private void updateZip() {
-        boolean validInput = isValidZip(zipCodeEditText);
-        if (!validInput) {
-            return;
-        }
-
-        mZip = zipCodeEditText.getText().toString().trim();
-        thisOrg.setZipcode(mZip);
-        dbOrganizations.child(uId).child("zipcode").setValue(mZip);
-        zipCodeEditText.setHint(zipCodeEditText.getText());
-        zipCodeEditText.getText().clear();
-    }
-
-    private void updateDescription() {
-        String tempDescription = descriptionEditText.getText().toString().trim();
-        boolean validInput = isValidDescription(tempDescription);
-
-        if(!validInput){
-            return;
-        }
-
+        mOrganizationName = organizationNameEditText.getText().toString();
+        mWebsite = websiteEditText.getText().toString();
+        mContactName = contactNameEditText.getText().toString();
+        mStreetAddress = streetAddressEditText.getText().toString();
+        mCity = cityEditText.getText().toString();
         mDescription = descriptionEditText.getText().toString();
+        mZip = zipCodeEditText.getText().toString();
+
+        return true;
+    };
+
+    private boolean isValid(EditText field) {
+        String catcher = field.getText().toString().trim();
+
+        if (catcher.equals("")) {
+            field.setError("Invalid");
+            return false;
+        }
+        return true;
+    }
+
+    private void updateOrganization() {
+        thisOrg.setName(mOrganizationName);
+        thisOrg.setUrl(mWebsite);
+        thisOrg.setContactName(mContactName);
+        thisOrg.setStreetAddress(mStreetAddress);
+        thisOrg.setCityAddress(mCity);
         thisOrg.setDescription(mDescription);
-        dbOrganizations.child(uId).child("description").setValue(mDescription);
-        descriptionEditText.setText(descriptionEditText.getText());
-        descriptionEditText.getText().clear();
+        thisOrg.setZipcode(mZip);
     }
 
 
-
-    ///////////////////////////////////////////////////////////////////////
-    // TEXT INPUT VALIDATORS
-
-    private boolean isValidOrganizationName(String data) {
-        if (data.equals("")) {
-            organizationNameEditText.setError("Organization name required");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidWebsite(String data) {
-        if (data.equals("")) {
-            websiteEditText.setError("Website URL required");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidContactName(String data) {
-        if (data.equals("")) {
-            contactNameEditText.setError("Contact name required");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidStreetAddress(String data) {
-        if (data.equals("")) {
-            streetAddressEditText.setError("Street address required");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidCity(String data) {
-        if (data.equals("")) {
-            cityEditText.setError("City required");
-            return false;
-        }
-        return true;
-    }
-
-//    private boolean isValidZip(String data) {
-//        if (data.equals("")) {
-//            zipCodeEditText.setError("ZIP code required");
-//            return false;
-//        }
-//        return true;
-//    }
 
     public Boolean isValidZip(EditText field){
         String onlyNumbers = "[0-9]+";
@@ -440,14 +279,6 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         }else return true;
     }
 
-    private boolean isValidDescription(String data) {
-        if (data.equals("")) {
-            descriptionEditText.setError("Description required");
-            return false;
-        }
-        return true;
-    }
-
     private void updateNodes() {
         String orgId = thisOrg.getPushId();
 
@@ -457,6 +288,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
         Toast.makeText(mContext, "Profile updated", Toast.LENGTH_SHORT).show();
         String searchKey = thisOrg.getName().toLowerCase() + "|" + thisOrg.getZipcode() + "|" + thisOrg.getCityAddress().toLowerCase() + "|" + thisOrg.getStateAddress();
         dbRef.child(Constants.DB_NODE_SEARCH).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).setValue(searchKey);
+        dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(orgId).setValue(thisOrg);
 
         // Update OrgName for Current Shifts Belonging to Organization
         dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(orgId).addListenerForSingleValueEvent(new ValueEventListener() {
