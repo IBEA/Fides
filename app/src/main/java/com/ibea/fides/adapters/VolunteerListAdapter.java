@@ -139,7 +139,13 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
 
             Log.d(">>>>>", String.valueOf(mUnratedVolunteers));
             mTextView_Name.setText(mVolunteer.getName());
-            mTextView_Trust.setText( Integer.toString (mVolunteer.getRating()) + "%" );
+
+            if(mVolunteer.getRatingHistory().size() == 0) {
+                mTextView_Trust.setText("100%");
+            } else {
+                mTextView_Trust.setText( Integer.toString (mVolunteer.getRating()) + "%" );
+            }
+
             if(mUnratedVolunteers.contains(mVolunteer.getUserId()) && mShift.getComplete()){
                 Log.d(">>>>>", mVolunteer.getName() + " is unrated");
                 mTextView_Name.setTextColor(Color.parseColor("#F44336"));
