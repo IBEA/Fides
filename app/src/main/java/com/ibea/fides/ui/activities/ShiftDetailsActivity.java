@@ -82,7 +82,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.unratedRecyclerView) RecyclerView mVolunteersListRecyclerView;
     @Bind(R.id.floatingActionButton_EditOrComplete) FloatingActionButton mEditOrCompleteButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

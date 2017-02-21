@@ -4,7 +4,7 @@
     android:id="@+id/activity_admin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/DarkOnLightLayout"
+    android:theme="@style/CardLayout"
     android:paddingTop="16dp"
     tools:context="com.ibea.fides.ui.activities.AdminActivity">
 
