@@ -30,7 +30,6 @@
         <activity
             android:name=".ui.activities.ShiftsCreateActivity"
             android:noHistory="true"
-            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.ShiftDetailsActivity"
