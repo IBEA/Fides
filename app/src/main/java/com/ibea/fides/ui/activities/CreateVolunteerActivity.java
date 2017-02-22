@@ -85,7 +85,7 @@ public class CreateVolunteerActivity extends AppCompatActivity implements View.O
     public void createVolunteer(){
         String name = mEditText_Name.getText().toString().trim();
         String city = mEditText_City.getText().toString().trim();
-        mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state
+        mState = mStateSpinner.getSelectedItem().toString().trim(); // Safety against creating org without ever selecting spinner, resulting in NULL state
         String zip = mEditText_Zip.getText().toString().trim();
         String email = mAuth.getCurrentUser().getEmail();
         String pushId = mAuth.getCurrentUser().getUid();
