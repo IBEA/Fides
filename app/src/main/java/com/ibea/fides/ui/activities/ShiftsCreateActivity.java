@@ -50,7 +50,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.longDescriptionInput) EditText mLongDescriptionInput;
     @Bind(R.id.streetInput) EditText mStreetInput;
     @Bind(R.id.cityInput) EditText mCityInput;
-    @Bind(R.id.trustInput) EditText mTrustInput;
+    @Bind(R.id.trustInput) Spinner mTrustInput;
     @Bind(R.id.stateSpinner) Spinner mStateSpinner;
     @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
     @Bind(R.id.button_CreateShift) FloatingActionButton mSubmitButton;
@@ -74,11 +74,18 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         adapter.setDropDownViewResource(R.layout.custom_spinner_list_settings);
         mStateSpinner.setAdapter(adapter);
 
+        Integer[] items = new Integer[]{0,25,50,75};
+
+        ArrayAdapter<Integer> trustAdapter = new ArrayAdapter<Integer>(this,R.layout.custom_spinner_item_settings, items);
+        mTrustInput.setAdapter(trustAdapter);
+
+
         mStartTimeInput.setOnClickListener(this);
         mEndTimeInput.setOnClickListener(this);
         mStartDateInput.setOnClickListener(this);
         mEndDateInput.setOnClickListener(this);
         mStateSpinner.setOnItemSelectedListener(this);
+        mTrustInput.setOnItemSelectedListener(this);
         mSubmitButton.setOnClickListener(this);
 
         setTitle("Post Opportunity");
@@ -124,7 +131,12 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        mState = parent.getItemAtPosition(pos).toString();
+        if(view == mStateSpinner) {
+            mState = parent.getItemAtPosition(pos).toString();
+        } else if(view == mTrustInput) {
+            mMinTrust = Integer.parseInt(parent.getItemAtPosition(pos).toString());
+        }
+
     }
 
     @Override
@@ -253,7 +265,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         Volunteertest = mVolunteerSizeInput.getText().toString();
         mShortDescription = mShortDescriptionInput.getText().toString();
         mLongDescription = mLongDescriptionInput.getText().toString();
-        mSTrust = mTrustInput.getText().toString();
+        mSTrust = mTrustInput.getSelectedItem().toString();
         mStreet = mStreetInput.getText().toString();
         mCity = mCityInput.getText().toString();
         mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state

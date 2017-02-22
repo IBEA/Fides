@@ -92,7 +92,7 @@ public class OrganizationProfileActivity extends BaseActivity {
             tabTitles.add("Opportunities");
 
             fragmentList.add(new ProfileForOrganizationFragment().newInstance(mOrganization));
-            fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization));
+            fragmentList.add(new ShiftsAvailableByOrganizationFragment().newInstance(mOrganization, isOrganization));
             viewPager.setAdapter(new UniversalPagerAdapter(getSupportFragmentManager(), 2, tabTitles, fragmentList));
         }
 

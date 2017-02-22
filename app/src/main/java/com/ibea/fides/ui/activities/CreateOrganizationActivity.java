@@ -90,7 +90,7 @@ public class CreateOrganizationActivity extends AppCompatActivity implements Vie
         String email = mEditText_Email.getText().toString().trim();
         String uId = mAuth.getCurrentUser().getUid();
 
-        mOrganization = new Organization(uId, organizationName, contactName, streetAddress, city, mState, zipCode, description);
+        mOrganization = new Organization(uId, organizationName, contactName, streetAddress, city, mState, zipCode, description, email);
         dbRef.child(Constants.DB_NODE_PENDINGORGANIZATIONS).child(uId).setValue(mOrganization);
     }
 

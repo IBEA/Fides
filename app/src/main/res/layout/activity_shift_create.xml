@@ -192,16 +192,23 @@
 
             </LinearLayout>
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/endDateInput"
-                android:inputType="number"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/trustInput"
-                android:hint="Minimum Trust Required"
+                android:id="@+id/trustView"
+                android:text="Minimum Trust Rating"
                 android:textSize="20sp"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_weight="0.9"
+                android:layout_height="match_parent"
+                android:id="@+id/trustInput"
+                android:layout_gravity="center" />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
