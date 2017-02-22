@@ -29,7 +29,7 @@ public class Organization {
     public Organization() {}
 
     // Basic Constructor
-    public Organization(String pushId, String orgName, String contactName, String streetAddress, String cityAddress, String stateAddress, String zip, String description) {
+    public Organization(String pushId, String orgName, String contactName, String streetAddress, String cityAddress, String stateAddress, String zip, String description, String _contactEmail) {
         this.pushId = pushId;
         this.name = orgName;
         this.contactName = contactName;
@@ -38,6 +38,7 @@ public class Organization {
         this.stateAddress = stateAddress;
         this.zipcode = zip;
         this.description = description;
+        this.contactEmail = _contactEmail;
     }
 
     // Getters and Setters
