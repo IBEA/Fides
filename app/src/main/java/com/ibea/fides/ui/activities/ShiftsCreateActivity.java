@@ -50,14 +50,15 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.longDescriptionInput) EditText mLongDescriptionInput;
     @Bind(R.id.streetInput) EditText mStreetInput;
     @Bind(R.id.cityInput) EditText mCityInput;
+    @Bind(R.id.trustInput) EditText mTrustInput;
     @Bind(R.id.stateSpinner) Spinner mStateSpinner;
     @Bind(R.id.zipcodeInput) EditText mZipcodeInput;
     @Bind(R.id.button_CreateShift) FloatingActionButton mSubmitButton;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
-    private String mStartTime, mEndTime, mStartDate, mEndDate, mShortDescription, mLongDescription, mStreet, mCity, mState, mZipcode, Volunteertest;
-    private int mVolunteerSize;
+    private String mStartTime, mEndTime, mStartDate, mEndDate, mShortDescription, mSTrust, mLongDescription, mStreet, mCity, mState, mZipcode, Volunteertest;
+    private int mVolunteerSize, mMinTrust;
 
     Organization thisOrg;
 
@@ -132,14 +133,16 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             // Get Current Time
             final Calendar c = Calendar.getInstance();
             mHour = c.get(Calendar.HOUR_OF_DAY);
+
             mMinute = c.get(Calendar.MINUTE);
+
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker, new TimePickerDialog.OnTimeSetListener() {
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mStartTime = ( hourOfDay + ":" + minute);
+                    mStartTime = convertTime(hourOfDay + ":" + minute);
                     mStartTimeInput.setText(mStartTime);
                 }
             }, mHour, mMinute, false);
@@ -149,8 +152,9 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         if (v == mEndTimeInput) {
             // Auto-populate time for picker
             mEndTime = mStartTime;
-            mHour = Integer.parseInt(mEndTime.substring(0,mEndTime.indexOf(":")));
-            mMinute = Integer.parseInt((mEndTime.substring(mEndTime.indexOf(":") + 1)));
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
@@ -232,7 +236,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         if (v == mSubmitButton) {
             if (validateFields()) {
-                Shift shift = new Shift(mStartTime, mEndTime, mStartDate, mEndDate, mLongDescription, mShortDescription, mVolunteerSize, uId, mStreet, mCity, mState, mZipcode, thisOrg.getName());
+                Shift shift = new Shift(mStartTime, mEndTime, mStartDate, mEndDate, mLongDescription, mShortDescription, mVolunteerSize, mMinTrust, uId, mStreet, mCity, mState, mZipcode, thisOrg.getName());
 
                 //Push data
                 pushData(shift);
@@ -249,6 +253,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         Volunteertest = mVolunteerSizeInput.getText().toString();
         mShortDescription = mShortDescriptionInput.getText().toString();
         mLongDescription = mLongDescriptionInput.getText().toString();
+        mSTrust = mTrustInput.getText().toString();
         mStreet = mStreetInput.getText().toString();
         mCity = mCityInput.getText().toString();
         mState = mStateSpinner.getSelectedItem().toString(); // Safety against creating org without ever selecting spinner, resulting in NULL state
@@ -272,6 +277,16 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
                 Toast.makeText(mContext, "There must be at least one volunteer", Toast.LENGTH_SHORT).show();
                 return false;
             }
+        }
+        if(mSTrust.equals("")) {
+            return false;
+        } else {
+            mMinTrust = Integer.parseInt(mSTrust);
+            if(mMinTrust > 100) {
+                Toast.makeText(mContext, "Required Trust must be between 0 and 100", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
         }
 
         if(mStartTime.equals("Time")) {

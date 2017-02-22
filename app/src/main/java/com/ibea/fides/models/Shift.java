@@ -27,12 +27,13 @@ public class Shift {
     String startDate;
     String endDate;
     int maxVolunteers;
+    int minTrust;
     List<String> currentVolunteers = new ArrayList<String>();
     List<String> ratedVolunteers = new ArrayList<>();
     Boolean complete = false;
 
     public Shift(){}
-    public Shift(String _from, String _until, String _startDate, String _endDate, String _description, String _shortDescription, int _maxVolunteers, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
+    public Shift(String _from, String _until, String _startDate, String _endDate, String _description, String _shortDescription, int _maxVolunteers, int _minTrust, String _OID, String _address, String _city, String _state, String _zip, String _organizationName){
         startTime = _from;
         endTime = _until;
         organizationID = _OID;
@@ -41,6 +42,7 @@ public class Shift {
         startDate = _startDate;
         endDate = _endDate;
         maxVolunteers = _maxVolunteers;
+        minTrust = _minTrust;
         streetAddress = _address;
         city = _city;
         state = _state;
@@ -146,6 +148,10 @@ public class Shift {
     public void setMaxVolunteers(int maxVolunteers) {
         this.maxVolunteers = maxVolunteers;
     }
+
+    public int getMinTrust() { return minTrust; }
+
+    public void setMinTrust(int minTrust) { this.minTrust = minTrust; }
 
     public List<String> getCurrentVolunteers() {
         return currentVolunteers;
