@@ -132,14 +132,16 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             // Get Current Time
             final Calendar c = Calendar.getInstance();
             mHour = c.get(Calendar.HOUR_OF_DAY);
+
             mMinute = c.get(Calendar.MINUTE);
+
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker, new TimePickerDialog.OnTimeSetListener() {
 
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    mStartTime = ( hourOfDay + ":" + minute);
+                    mStartTime = convertTime(hourOfDay + ":" + minute);
                     mStartTimeInput.setText(mStartTime);
                 }
             }, mHour, mMinute, false);
@@ -149,8 +151,9 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         if (v == mEndTimeInput) {
             // Auto-populate time for picker
             mEndTime = mStartTime;
-            mHour = Integer.parseInt(mEndTime.substring(0,mEndTime.indexOf(":")));
-            mMinute = Integer.parseInt((mEndTime.substring(mEndTime.indexOf(":") + 1)));
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.TimePicker,
