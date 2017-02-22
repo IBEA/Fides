@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,10 @@ import com.ibea.fides.ui.activities.OrganizationSettingsActivity;
 import com.ibea.fides.ui.activities.SearchActivity;
 import com.ibea.fides.ui.activities.VolunteerSettingsActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -101,78 +105,22 @@ public class BaseActivity extends AppCompatActivity {
             Log.v(TAG, "No user logged in");
         }
 
+        if(mCurrentUser != null) {
+            Timer timer = new Timer ();
+            TimerTask hourlyTask = new TimerTask () {
+                @Override
+                public void run() {
+                    sendNotification();
+                }
+            };
+
+            // schedule the task to run starting now and then every hour...
+            timer.schedule (hourlyTask, 0l, 1000*60*60);
+        }
+
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
-
-        final Calendar c = Calendar.getInstance();
-
-        //Notification Logic
-        final NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_done_black_24dp)
-                        .setContentTitle("Fides")
-                        .setPriority(0);
-        //.setContentText("Your shift is coming up in one hour! " + c.get(DATE));
-
-        mBuilder.setAutoCancel(true);
-
-        Intent resultIntent = new Intent(this, LogInActivity.class);
-
-// Because clicking the notification opens a new ("special") activity, there's
-// no need to create an artificial back stack.
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-
-        mBuilder.setContentIntent(resultPendingIntent);
-
-        final NotificationManager mNotifyMgr =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        dbShiftsPending.child("volunteers").child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    Log.e("correct value" , postSnapshot.getValue().toString());
-
-                    dbShifts.child(postSnapshot.getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            Log.e("Test me now", "data" + dataSnapshot.getValue() );
-                            thisShift = dataSnapshot.getValue(Shift.class);
-
-                            String startTime = thisShift.getStartTime();
-                            startTime = startTime.substring(0, startTime.indexOf(":") );
-
-                            if(Integer.toString(c.get(Calendar.HOUR_OF_DAY) + 1).equals(startTime))
-                            {
-                                mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is coming up in one hour! ");
-                                mNotifyMgr.notify(101, mBuilder.build());
-                            }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-                //notifyDataSetChanged();
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
     }
 
@@ -283,6 +231,84 @@ public class BaseActivity extends AppCompatActivity {
         // Another interface callback
     }
 
+    public void sendNotification(){
+        final Calendar c = Calendar.getInstance();
+
+        //Notification Logic
+        final NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_done_black_24dp)
+                        .setContentTitle("Fides")
+                        .setPriority(0);
+        //.setContentText("Your shift is coming up in one hour! " + c.get(DATE));
+
+        mBuilder.setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, LogInActivity.class);
+
+// Because clicking the notification opens a new ("special") activity, there's
+// no need to create an artificial back stack.
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        final NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Log.e("Garrett" , "checking uId " + uId);
+
+        dbShiftsPending.child("volunteers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.hasChild(uId)) {
+                    Log.d("Don't see me!" , "You should not see this!");
+                    for (DataSnapshot postSnapshot : snapshot.child(uId).getChildren()) {
+                        Log.e("correct value", postSnapshot.getValue().toString());
+
+                        dbShifts.child(postSnapshot.getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                Log.e("Test me now", "data" + dataSnapshot.getValue());
+                                thisShift = dataSnapshot.getValue(Shift.class);
+
+                                String startTime = thisShift.getStartTime();
+                                startTime = startTime.substring(0, startTime.indexOf(":"));
+
+                                SimpleDateFormat format1 = new SimpleDateFormat("M-dd-yyyy");
+                                String currentDate = format1.format( c.getTime() );
+
+                                if(Integer.toString(c.get(Calendar.HOUR_OF_DAY) + 1).equals(startTime) && currentDate.equals(thisShift.getStartDate()) )
+                                {
+                                    mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is coming up in one hour! ");
+                                    mNotifyMgr.notify(101, mBuilder.build());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    //notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
 
 
