@@ -38,8 +38,6 @@ import com.ibea.fides.adapters.VolunteerListAdapter;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.Volunteer;
 
-import org.parceler.Parcels;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,6 +59,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
     boolean mInEditMode = false;
+    String mShiftId;
+
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
@@ -95,10 +95,22 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mStreetAddressOutput.setOnClickListener(this);
         mAddressLine2Output.setOnClickListener(this);
         setTitle("Volunteer Opportunity");
-        mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
         InitializeSpinner();
-        SetShiftDetails();
-        SetUserDeterminateDetails();
+
+        mShiftId = getIntent().getStringExtra("shiftId");
+        dbShifts.child(mShiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mShift = dataSnapshot.getValue(Shift.class);
+                SetShiftDetails();
+                SetUserDeterminateDetails();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetShiftDetails() {
