@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -45,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,6 +67,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
+    @Bind(R.id.textView_TimeFiller) TextView mTimeFiller;
     @Bind(R.id.textView_EndTime) TextView mTimeEnd;
     @Bind(R.id.textView_StartDate) TextView mStartDate;
     @Bind(R.id.textView_DateFiller) TextView mDateFiller;
@@ -106,14 +110,18 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         // Time
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
+        mTimeStart.setOnClickListener(this);
+        mTimeEnd.setOnClickListener(this);
         // Date
         mStartDate.setText(mShift.getStartDate());
+        mStartDate.setOnClickListener(this);
         if(mShift.getEndDate().equals(mShift.getStartDate())) {
             mDateFiller.setVisibility(View.GONE);
             mEndDate.setVisibility(View.GONE);
         }
         else {
             mEndDate.setText(mShift.getEndDate());
+            mEndDate.setOnClickListener(this);
         }
         // Address Line 1
         mStreetAddressOutput.setText(mShift.getStreetAddress());
@@ -180,10 +188,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mDateFiller.setVisibility(View.VISIBLE);
                 mEndDate.setVisibility(View.VISIBLE);
                 mEndDate.setText(mShift.getEndDate());
-                mTimeStart.setOnClickListener(this);
-                mTimeEnd.setOnClickListener(this);
-                mStartDate.setOnClickListener(this);
-                mEndDate.setOnClickListener(this);
+//                mTimeStart.setOnClickListener(this);
+//                mTimeEnd.setOnClickListener(this);
+//                mStartDate.setOnClickListener(this);
+//                mEndDate.setOnClickListener(this);
 
                 mStreetAddressInput.setVisibility(View.VISIBLE);
                 mStreetAddressInput.setText(mShift.getStreetAddress());
@@ -316,7 +324,32 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if(view == mStreetAddressOutput) {
+        // Calendar Intent
+        if(!mInEditMode && (view == mStartDate || view == mDateFiller || view == mEndDate || view == mTimeStart || view == mTimeFiller || view == mTimeEnd)) {
+            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+            calIntent.setType("vnd.android.cursor.item/event");
+            calIntent.putExtra(Events.TITLE, "Volunteering with " + mShift.getOrganizationName());
+            calIntent.putExtra(Events.EVENT_LOCATION, mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
+            calIntent.putExtra(Events.DESCRIPTION, mShift.getDescription());
+
+            mStartD = mShift.getStartDate();
+            mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) -1;
+            mDay = Integer.parseInt((mStartD.substring(mStartD.indexOf("-") + 1, mStartD.lastIndexOf("-"))));
+            mYear = Integer.parseInt((mStartD.substring(mStartD.lastIndexOf("-") + 1)));
+            GregorianCalendar calDate = new GregorianCalendar(mYear, mMonth, mDay);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                    calDate.getTimeInMillis());
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                    calDate.getTimeInMillis());
+
+            calIntent.putExtra(Events.ACCESS_LEVEL, Events.ACCESS_PRIVATE);
+            calIntent.putExtra(Events.AVAILABILITY, Events.AVAILABILITY_BUSY);
+
+            startActivity(calIntent);
+        }
+        // Map Intent
+        if(view == mStreetAddressOutput || view == mAddressLine2Output) {
             Intent mapIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("geo:0,0?q=" + mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState()));
             startActivity(mapIntent);
@@ -499,10 +532,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             mShortDescriptionInput.setVisibility(View.GONE);
 
-            mTimeStart.setOnClickListener(null);
-            mTimeEnd.setOnClickListener(null);
-            mStartDate.setOnClickListener(null);
-            mEndDate.setOnClickListener(null);
+//            mTimeStart.setOnClickListener(null);
+//            mTimeEnd.setOnClickListener(null);
+//            mStartDate.setOnClickListener(null);
+//            mEndDate.setOnClickListener(null);
 
             if(mShift.getEndDate().equals(mShift.getStartDate())) {
                 mDateFiller.setVisibility(View.GONE);
