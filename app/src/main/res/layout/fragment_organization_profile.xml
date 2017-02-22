@@ -83,34 +83,7 @@
                 android:textSize="16sp"
                 android:paddingBottom="12dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/view_AvailableShiftSectionDivider"
-                android:background="@color/colorPrimaryText"
-                android:layout_marginBottom="12dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:id="@+id/textView_AvailableShiftListHeader"
-                android:text="Available Shifts:"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryText"/>
-
         </LinearLayout>
     </ScrollView>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView_AvailableShifts"
-        android:paddingLeft="24dp"
-        android:paddingStart="24dp"
-        android:paddingRight="24dp"
-        android:paddingEnd="24dp"
-        android:layout_below="@+id/scrollView_OrgProfileMinusAvailableShiftsList" />
 
 </LinearLayout>
