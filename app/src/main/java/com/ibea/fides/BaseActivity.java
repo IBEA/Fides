@@ -1,10 +1,13 @@
 package com.ibea.fides;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.activities.AdminActivity;
 import com.ibea.fides.ui.activities.FaqActivity;
 import com.ibea.fides.ui.activities.IntroActivity;
@@ -30,6 +34,8 @@ import com.ibea.fides.ui.activities.VolunteerProfileActivity;
 import com.ibea.fides.ui.activities.OrganizationSettingsActivity;
 import com.ibea.fides.ui.activities.SearchActivity;
 import com.ibea.fides.ui.activities.VolunteerSettingsActivity;
+
+import java.util.Calendar;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -56,9 +62,10 @@ public class BaseActivity extends AppCompatActivity {
     public Context mContext;
     public String mCurrentLoc;
 
-
     public String TAG;
     public String uId;
+
+    Shift thisShift;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +103,77 @@ public class BaseActivity extends AppCompatActivity {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+
+        final Calendar c = Calendar.getInstance();
+
+        //Notification Logic
+        final NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_done_black_24dp)
+                        .setContentTitle("Fides")
+                        .setPriority(0);
+        //.setContentText("Your shift is coming up in one hour! " + c.get(DATE));
+
+        mBuilder.setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, LogInActivity.class);
+
+// Because clicking the notification opens a new ("special") activity, there's
+// no need to create an artificial back stack.
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        final NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        dbShiftsPending.child("volunteers").child(uId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Log.e("correct value" , postSnapshot.getValue().toString());
+
+                    dbShifts.child(postSnapshot.getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            Log.e("Test me now", "data" + dataSnapshot.getValue() );
+                            thisShift = dataSnapshot.getValue(Shift.class);
+
+                            String startTime = thisShift.getStartTime();
+                            startTime = startTime.substring(0, startTime.indexOf(":") );
+
+                            if(Integer.toString(c.get(Calendar.HOUR_OF_DAY) + 1).equals(startTime))
+                            {
+                                mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is coming up in one hour! ");
+                                mNotifyMgr.notify(101, mBuilder.build());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+                //notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     // On Start Override
