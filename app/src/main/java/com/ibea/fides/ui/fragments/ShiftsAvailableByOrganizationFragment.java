@@ -31,6 +31,7 @@ import com.ibea.fides.R;
 import com.ibea.fides.adapters.NewShiftSearchAdapter;
 import com.ibea.fides.models.Organization;
 import com.ibea.fides.models.Shift;
+import com.ibea.fides.models.Volunteer;
 
 import org.parceler.Parcels;
 
@@ -49,7 +50,8 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
 
     static Organization mOrganization;
-
+    private Volunteer mVolunteer;
+    static boolean isVolunteer;
     private NewShiftSearchAdapter mAdapter;
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -73,8 +75,9 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ShiftsAvailableByOrganizationFragment newInstance(Organization organization) {
+    public static ShiftsAvailableByOrganizationFragment newInstance(Organization organization, boolean isOrg) {
         mOrganization = organization;
+        isVolunteer = !isOrg;
         return new ShiftsAvailableByOrganizationFragment();
     }
 
@@ -85,6 +88,9 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
         mOrganization = Parcels.unwrap(intent.getParcelableExtra("organization"));
         this.setHasOptionsMenu(true);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+
     }
 
     @Override
@@ -106,6 +112,12 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
 
         this.setHasOptionsMenu(true);
         mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if(isVolunteer) {
+            getVolunteer();
+        }
+
+
         dbRef.child(Constants.DB_NODE_SHIFTSAVAILABLE).child(Constants.DB_SUBNODE_ORGANIZATIONS).child(mOrganization.getPushId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,6 +131,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                 }
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Log.d("Justin", snapshot.getKey());
                     fetchShift(snapshot.getKey());
                 }
             }
@@ -191,15 +204,42 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
 
             dialog.show();
 
+        } else if (id == R.id.action_volunteertutorial) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+//          TODO: Set up an actual message
+            builder.setMessage("This is the Shifts Available Page. Swipe right to claim a shift.");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Log.d("Justin", "Dismiss");
+                }
+            });
+
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+
         }
         return super.onOptionsItemSelected(item);
     }
 
 
+    public void getVolunteer() {
+        dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(mCurrentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mVolunteer = dataSnapshot.getValue(Volunteer.class);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-
-
+            }
+        });
+    }
 
 
 
@@ -253,7 +293,17 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 Log.d("Shift value: ", String.valueOf(shift));
                 if(!shift.getCurrentVolunteers().contains(userId)){
-                    shifts.add(shift);
+                    if(isVolunteer) {
+                        if(shift.getMinTrust() < mVolunteer.getRating()) {
+                            Log.d("Justin", mVolunteer.getRating() + "");
+                            Log.d("Justin", shift.getMinTrust() + "");
+                            shifts.add(shift);
+                        }
+                    } else {
+                        shifts.add(shift);
+                    }
+
+
                     mAdapter.notifyDataSetChanged();
                 }else{
                     Log.d(TAG, "Volunteer already signed up for shift");
