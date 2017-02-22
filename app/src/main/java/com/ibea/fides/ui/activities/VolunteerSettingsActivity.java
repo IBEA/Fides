@@ -143,39 +143,57 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
 
     }
 
-    public void onClick(View view) {
-        if(view == mProfilePicImageView) {
-            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+    private boolean isValid(EditText field) {
+        String catcher = field.getText().toString().trim();
+
+        if (catcher.equals("")) {
+            field.setError("Invalid");
+            return false;
         }
-        else if (view == mUpdateButton) {
-            boolean updated = false;
+        return true;
+    }
 
-            if(isValidUsername(mUserNameEditText.getText().toString().trim())) {
-                updateUsername();
-                updated = true;
-            }
-            if(isValidCity(mCityEditText.getText().toString().trim())) {
-                updateCity();
-                updated = true;
-            }
-            if(mStateInput.getSelectedItem().equals(thisVol.getState())) {
-                updateState();
-                updated = true;
-            }
-            if(isValidZip(mZipEditText)) {
-                updateZip();
-                updated = true;
-            }
-
-            if(updated) {
-                Toast.makeText(mContext, "Profile updated", Toast.LENGTH_SHORT).show();
-            }
-            else {
+    public void onClick(View view) {
+        if (view == mProfilePicImageView) {
+            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+        } else if (view == mUpdateButton) {
+            if(!validateInputs()) {
                 Toast.makeText(mContext, "No changes made", Toast.LENGTH_SHORT).show();
-            }
+                return;
+            };
+            updateVolunteer();
+            updateNodes();
         }
     }
 
+    private boolean validateInputs() {
+
+        if(!isValid(mUserNameEditText) || !isValid(mCityEditText)) {
+            return false;
+        }
+
+        if(!isValidZip(mZipEditText)) {
+            return false;
+        }
+
+        mUsername = mUserNameEditText.getText().toString();
+        mCity = mCityEditText.getText().toString();
+        mZip = mZipEditText.getText().toString();
+        mState = mStateInput.getSelectedItem().toString();
+
+        return true;
+    };
+
+    private void updateVolunteer() {
+        thisVol.setName(mUsername);
+        thisVol.setCity(mCity);
+        thisVol.setZipcode(mZip);
+        thisVol.setState(mState);
+    }
+
+    private void updateNodes() {
+        dbVolunteers.child(thisVol.getUserId()).setValue(thisVol);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -218,61 +236,6 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
             }
         }
     }
-
-    ///////////////////////////////////////////////////////////////////////
-    // DB UPDATERS
-
-    private void updateUsername() {
-        String tempUsername = mUserNameEditText.getText().toString().trim();
-        boolean validInput = isValidUsername(tempUsername);
-        if (!validInput){
-            return;
-        }
-
-        mUsername = tempUsername;
-
-        dbVolunteers.child(uId).child("name").setValue(mUsername);
-        thisVol.setName(mUsername);
-        mUserNameEditText.setHint(mUserNameEditText.getText());
-        mUserNameEditText.getText().clear();
-    }
-
-    private void updateCity() {
-        String tempCity = mCityEditText.getText().toString().trim();
-        boolean validInput = isValidCity(tempCity);
-        if (!validInput) {
-            return;
-        }
-
-        mCity = tempCity;
-
-        dbVolunteers.child(uId).child("city").setValue(mCity);
-        thisVol.setCity(mCity);
-        mCityEditText.setHint(mCityEditText.getText());
-        mCityEditText.getText().clear();
-    }
-
-    private void updateState() {
-        mState = mStateInput.getSelectedItem().toString().trim();
-        thisVol.setState(mState);
-        dbOrganizations.child(uId).child("state").setValue(mState);
-    }
-
-    private void updateZip() {
-        String tempZip = mZipEditText.getText().toString().trim();
-        boolean validInput = isValidZip(mZipEditText);
-        if (!validInput) {
-            return;
-        }
-
-        mZip = tempZip;
-
-        dbVolunteers.child(uId).child("zipcode").setValue(mZip);
-        thisVol.setZipcode(mZip);
-        mZipEditText.setHint(mZipEditText.getText());
-        mZipEditText.getText().clear();
-    }
-
 
     ///////////////////////////////////////////////////////////////////////
     // TEXT INPUT VALIDATORS

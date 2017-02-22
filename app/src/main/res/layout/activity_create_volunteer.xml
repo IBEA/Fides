@@ -5,54 +5,71 @@
     android:id="@+id/activity_create_volunteer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
-    tools:context="com.ibea.fides.ui.activities.CreateVolunteerActivity">
+    android:background="@color/colorCardBackground"
+    tools:context="com.ibea.fides.ui.activities.CreateVolunteerActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
-        android:id="@+id/editText_Name"
-        android:hint="Real name"
-        android:maxLines="1"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_Name"
-        android:layout_alignLeft="@+id/editText_Name"
-        android:layout_alignStart="@+id/editText_Name"
-        android:id="@+id/editText_City"
-        android:hint="City"
-        android:maxLines="1"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editText_Name"
+                android:hint="full name"
+                android:gravity="center"
+                android:maxLines="1"/>
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stateSpinner"
-        android:layout_below="@+id/editText_Name"
-        android:layout_alignTop="@+id/editText_City"
-        android:layout_alignBottom="@+id/editText_City"
-        android:layout_toRightOf="@+id/editText_City" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText_City"
-        android:layout_alignLeft="@+id/editText_City"
-        android:layout_alignStart="@+id/editText_City"
-        android:id="@+id/editText_Zip"
-        android:hint="Zip"
-        android:maxLines="1"/>
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:layout_weight="2"
+                    android:id="@+id/editText_City"
+                    android:hint="city"
+                    android:gravity="center"
+                    android:maxLines="1"/>
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/stateSpinner" />
+
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:layout_below="@+id/editText_City"
+                android:layout_alignLeft="@+id/editText_City"
+                android:layout_alignStart="@+id/editText_City"
+                android:id="@+id/editText_Zip"
+                android:hint="zip code"
+                android:gravity="center"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -64,6 +81,7 @@
         android:backgroundTint="@color/colorSearchButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true" />
 
+    <requestFocus />
 </RelativeLayout>

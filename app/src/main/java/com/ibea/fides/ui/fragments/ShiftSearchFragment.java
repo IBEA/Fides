@@ -277,7 +277,9 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                 Shift shift = dataSnapshot.getValue(Shift.class);
                 Log.d("Shift value: ", String.valueOf(shift));
                 if(!shift.getCurrentVolunteers().contains(userId)){
-                    shifts.add(shift);
+                    if(shift.getMinTrust() <= mVolunteer.getRating()) {
+                        shifts.add(shift);
+                    }
                     mRecyclerAdapter.notifyDataSetChanged();
                 }else{
                     Log.d(TAG, "Volunteer already signed up for shift");

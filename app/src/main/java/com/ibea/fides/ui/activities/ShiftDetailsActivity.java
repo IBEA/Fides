@@ -52,6 +52,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private ArrayList<Volunteer> mVolunteers = new ArrayList<>();
     private ArrayList<String> mVolunteerIds = new ArrayList<>();
     private RecyclerView.Adapter mRecyclerAdapter;
+    private Volunteer mVolunteer;
+
 
     private int mYear, mMonth, mDay, mHour, mMinute;
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
@@ -343,7 +345,9 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mVolunteers.add(volunteer);
                 mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(volunteer));
                 if(mShift.getComplete()){
-                    setRecyclerViewItemTouchListener();
+                    setRecyclerViewItemTouchListener(true);
+                } else {
+                    setRecyclerViewItemTouchListener(false);
                 }
             }
 
@@ -361,7 +365,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mStateInput.setSelection(0);
     }
 
-    private void setRecyclerViewItemTouchListener() {
+    private void setRecyclerViewItemTouchListener(final boolean isComplete) {
         ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
@@ -370,19 +374,55 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
-                VolunteerListAdapter.VolunteerViewHolder currentViewHolder = (VolunteerListAdapter.VolunteerViewHolder) viewHolder;
+                final int position = viewHolder.getAdapterPosition();
+                final VolunteerListAdapter.VolunteerViewHolder currentViewHolder = (VolunteerListAdapter.VolunteerViewHolder) viewHolder;
 
-                if(swipeDir == 8){
+                if(isComplete) {
+                    if(swipeDir == 8){
 
-                    currentViewHolder.popup(3);
-                }else if(swipeDir == 4){
+                        currentViewHolder.popup(3);
+                    }else if(swipeDir == 4){
 
-                    currentViewHolder.popup(0);
+                        currentViewHolder.popup(0);
+                    }
+
+                } else {
+                    if(swipeDir == 4) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                        builder.setMessage("Remove Volunteer?");
+
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                currentViewHolder.remove();
+
+                                mVolunteers.remove(position);
+                                mRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                mRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                mRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+
+                        AlertDialog dialog = builder.create();
+
+                        dialog.show();
+                    }
                 }
 
                 mRecyclerAdapter.notifyDataSetChanged();
-                setRecyclerViewItemTouchListener();
+                setRecyclerViewItemTouchListener(isComplete);
             }
 
             @Override

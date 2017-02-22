@@ -7,7 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorCardBackground"
-    tools:context="com.ibea.fides.ui.activities.ShiftsCreateActivity">
+    tools:context="com.ibea.fides.ui.activities.ShiftsCreateActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +32,7 @@
                 android:layout_centerHorizontal="true"
                 android:id="@+id/titleText"
                 android:gravity="center"
-                android:text="Create Shift Form"
+                android:text="Post Opportunity"
                 android:textSize="30sp"/>
 
                 <LinearLayout
@@ -190,10 +192,27 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/endDateInput"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/trustView"
+                android:text="Minimum Trust Rating"
+                android:textSize="20sp"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_weight="0.9"
+                android:layout_height="match_parent"
+                android:id="@+id/trustInput"
+                android:layout_gravity="center" />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/endDateInput"
+                android:layout_below="@id/trustInput"
                 android:inputType="textMultiLine"
                 android:gravity="center"
                 android:id="@+id/shortDescriptionInput"
@@ -224,6 +243,9 @@
         android:background="@color/colorSearchButton"
         android:backgroundTint="@color/colorSearchButton"
         android:layout_margin="10dp"
-        android:id="@+id/button_CreateShift"/>
+        android:id="@+id/button_CreateShift"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
+    <requestFocus />
 </RelativeLayout>

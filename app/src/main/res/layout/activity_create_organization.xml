@@ -5,96 +5,101 @@
     android:id="@+id/activity_create_organization"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ibea.fides.ui.activities.CreateOrganizationActivity">
+    android:background="@color/colorCardBackground"
+    tools:context="com.ibea.fides.ui.activities.CreateOrganizationActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
-        android:id="@+id/editText_ContactName"
-        android:hint="Contact Name" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_ContactName"
-        android:layout_alignRight="@+id/editText_ContactName"
-        android:layout_alignEnd="@+id/editText_ContactName"
-        android:id="@+id/editText_OrganizationName"
-        android:hint="Organization Name" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_OrganizationName"
-        android:layout_alignLeft="@+id/editText_OrganizationName"
-        android:layout_alignStart="@+id/editText_OrganizationName"
-        android:id="@+id/editText_StreetAddress"
-        android:hint="Street Address" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editText_OrganizationName"
+                android:hint="organization name"
+                android:gravity="center"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_StreetAddress"
-        android:layout_alignLeft="@+id/editText_StreetAddress"
-        android:layout_alignStart="@+id/editText_StreetAddress"
-        android:id="@+id/editText_City"
-        android:hint="City" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editText_ContactName"
+                android:hint="public contact name"
+                android:gravity="center" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stateSpinner"
-        android:layout_below="@+id/editText_StreetAddress"
-        android:layout_alignTop="@+id/editText_City"
-        android:layout_alignBottom="@+id/editText_City"
-        android:layout_toRightOf="@+id/editText_City" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/editText_Email"
+                android:hint="public contact email"
+                android:gravity="center" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/editText_City"
-        android:layout_alignLeft="@+id/editText_City"
-        android:layout_alignStart="@+id/editText_City"
-        android:id="@+id/editText_Zip"
-        android:hint="Zip Code" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editText_StreetAddress"
+                android:hint="street address"
+                android:gravity="center"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_below="@+id/editText_Zip"
-        android:layout_alignRight="@+id/editText_Zip"
-        android:layout_alignEnd="@+id/editText_Zip"
-        android:id="@+id/editText_Description"
-        android:hint="About your organization" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="4">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:layout_below="@+id/editText_Description"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/editText_Email"
-        android:hint="Public contact email" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:inputType="textPersonName"
+                    android:id="@+id/editText_City"
+                    android:hint="city"
+                    android:gravity="center"/>
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/stateSpinner" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:id="@+id/editText_Zip"
+                    android:hint="zip"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText_Description"
+                android:hint="about your organization"
+                android:gravity="center"/>
+
+        </LinearLayout>
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -106,5 +111,7 @@
         android:backgroundTint="@color/colorSearchButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true" />
+
+    <requestFocus />
 </RelativeLayout>

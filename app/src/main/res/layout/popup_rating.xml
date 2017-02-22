@@ -24,62 +24,50 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/cardview_light_background"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="Hours Worked:"
-            android:textSize="16sp"/>
-
-        <EditText
-        android:hint="Hours"
-        android:ems="6"
-        android:layout_width="0dp"
-        android:gravity="center"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:id="@+id/hoursInput"
-        android:layout_weight="1"/>
-
-    </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardview_light_background"
-                android:weightSum="2">
+                android:background="@color/cardview_light_background">
 
                 <TextView
-                android:text="Didn't Show"
-                    android:background="@color/cardview_light_background"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:id="@+id/noShowButton"
-                    android:gravity="center"
-                android:layout_margin="10dp"
-                android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/cardview_light_background"
-                    android:layout_weight="0.26"/>
+                    android:gravity="center"
+                    android:text="Hours Worked: "
+                    android:textSize="16sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/textView_HoursWorkedLabel"/>
+
+                <EditText
+                    android:hint="hours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:id="@+id/hoursInput"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/textView_HoursWorkedLabel"
+                    android:layout_toEndOf="@+id/textView_HoursWorkedLabel"
+                    android:layout_toLeftOf="@+id/showButton"
+                    android:layout_toStartOf="@+id/showButton"/>
+
                 <Button
                     android:background="@drawable/ic_done_black_24dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.4"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/showButton" />
+                    android:id="@+id/showButton"
+                    android:layout_gravity="bottom|right|end"
+                    android:minWidth="48dip"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerVertical="true" />
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

@@ -11,6 +11,13 @@
     <string name="question_Two"><b>Will you abuse my email address in any way?</b></string>
     <string name="answer_Two"> No. We will not share your address with anybody or send you any emails. Your email is simply needed for verification purposes.</string>
 
+    <integer-array name="trust_array">
+        <item>0</item>
+        <item>25</item>
+        <item>50</item>
+        <item>75</item>
+    </integer-array>
+
     <string-array name="states_array">
         <item>AL</item>
         <item>AK</item>

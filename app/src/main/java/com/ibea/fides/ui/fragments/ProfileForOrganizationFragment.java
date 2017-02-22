@@ -61,6 +61,7 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
     @Bind(R.id.progressBar_ImageLoading) ProgressBar mImageProgressBar;
 
 
+
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     public static ProfileForOrganizationFragment newInstance(Organization organization) {
@@ -84,7 +85,8 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
         if(intent.hasExtra("organization")){
             Log.d(TAG, "Found intent");
             mOrganization = Parcels.unwrap(intent.getParcelableExtra("organization"));
-        }else{
+        }
+        else{
             Log.d(TAG, "Used bundle");
             mOrganization = Parcels.unwrap(getArguments().getParcelable("organization"));
         }
