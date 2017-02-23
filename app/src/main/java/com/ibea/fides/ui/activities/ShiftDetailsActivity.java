@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,6 +64,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     int rank;
     boolean mInEditMode = false;
     String mShiftId;
+    int mLockCounter = 0;
+    boolean mListLocked = true;
 
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
@@ -104,6 +110,73 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mShift = dataSnapshot.getValue(Shift.class);
                 SetShiftDetails();
                 SetUserDeterminateDetails();
+
+                final long[] volCount = new long[1];
+                dbShifts.child(mShiftId).child("currentVolunteers").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        volCount[0] = (dataSnapshot.getChildrenCount());
+                        Log.d("ZZZZZZZZZZZZZZZZZZ",String.valueOf(volCount[0]));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                dbShifts.child(mShiftId).child("currentVolunteers").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d(">>>>>", "in onChildAdded");
+
+                        mLockCounter++;
+
+                        if(!mListLocked) {
+                            String volId = dataSnapshot.getValue(String.class);
+                            mVolunteerIds.add(volId);
+                            fetchVolunteer(volId);
+                            Log.d(">>>>>", "in locked onChildAdded");
+                        }
+
+                        if(mLockCounter >= volCount[0]) {
+                            mListLocked = false;
+                        }
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        String volunteerId = dataSnapshot.getValue(String.class);
+                        Log.d("ZZZZZZZZZZZZZZZZ",String.valueOf(mVolunteerIds.indexOf(volunteerId)));
+                        Volunteer volunteer = null;
+                        for(Volunteer vol : mVolunteers) {
+                            if(vol.getUserId().equals(volunteerId)) {
+                                volunteer = vol;
+                            }
+                        }
+                        if(volunteer != null) {
+                            mRecyclerAdapter.notifyItemRemoved(mVolunteers.indexOf(volunteer));
+                            mVolunteers.remove(mVolunteers.indexOf(volunteer));
+                        }
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -119,18 +192,18 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         // Time
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
-//        mTimeStart.setOnClickListener(this);
-//        mTimeEnd.setOnClickListener(this);
+        mTimeStart.setOnClickListener(this);
+        mTimeEnd.setOnClickListener(this);
         // Date
         mStartDate.setText(mShift.getStartDate());
-//        mStartDate.setOnClickListener(this);
+        mStartDate.setOnClickListener(this);
         if(mShift.getEndDate().equals(mShift.getStartDate())) {
             mDateFiller.setVisibility(View.GONE);
             mEndDate.setVisibility(View.GONE);
         }
         else {
             mEndDate.setText(mShift.getEndDate());
-//            mEndDate.setOnClickListener(this);
+            mEndDate.setOnClickListener(this);
         }
         // Address Line 1
         mStreetAddressOutput.setText(mShift.getStreetAddress());
@@ -197,10 +270,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mDateFiller.setVisibility(View.VISIBLE);
                 mEndDate.setVisibility(View.VISIBLE);
                 mEndDate.setText(mShift.getEndDate());
-                mTimeStart.setOnClickListener(this);
-                mTimeEnd.setOnClickListener(this);
-                mStartDate.setOnClickListener(this);
-                mEndDate.setOnClickListener(this);
+//                mTimeStart.setOnClickListener(this);
+//                mTimeEnd.setOnClickListener(this);
+//                mStartDate.setOnClickListener(this);
+//                mEndDate.setOnClickListener(this);
 
                 mStreetAddressInput.setVisibility(View.VISIBLE);
                 mStreetAddressInput.setText(mShift.getStreetAddress());
@@ -231,7 +304,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mInEditMode = false;
             }
         }
-        if(view == mTimeStart) {
+        if(view == mTimeStart && mInEditMode) {
             // Auto-populate time for picker
             mStartTime = mShift.getStartTime();
             mHour = Integer.parseInt(mStartTime.substring(0,mStartTime.indexOf(":")));
@@ -247,7 +320,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             }, mHour, mMinute, false);
             timePickerDialog.show();
         }
-        if(view == mTimeEnd) {
+        if(view == mTimeEnd && mInEditMode) {
             // Auto-populate time for picker
             mEndTime = mShift.getEndTime();
             mHour = Integer.parseInt(mEndTime.substring(0,mEndTime.indexOf(":")));
@@ -265,7 +338,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                     }, mHour, mMinute, false);
             timePickerDialog.show();
         }
-        if(view == mStartDate) {
+        if(view == mStartDate && mInEditMode) {
             // Auto-populate date for picker
             mStartD = mShift.getStartDate();
             mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) -1;
@@ -313,7 +386,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if(view == mEndDate) {
+        if(view == mEndDate && mInEditMode) {
             // Auto-populate date for picker
             mEndD = mShift.getEndDate();
             mMonth = Integer.parseInt(mEndD.substring(0, mEndD.indexOf("-"))) - 1;
@@ -334,29 +407,42 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             datePickerDialog.show();
         }
         // Calendar Intent
-//        if(!mInEditMode && (view == mStartDate || view == mDateFiller || view == mEndDate || view == mTimeStart || view == mTimeFiller || view == mTimeEnd)) {
-//            Intent calIntent = new Intent(Intent.ACTION_INSERT);
-//            calIntent.setType("vnd.android.cursor.item/event");
-//            calIntent.putExtra(Events.TITLE, "Volunteering with " + mShift.getOrganizationName());
-//            calIntent.putExtra(Events.EVENT_LOCATION, mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
-//            calIntent.putExtra(Events.DESCRIPTION, mShift.getDescription());
-//
-//            mStartD = mShift.getStartDate();
-//            mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) -1;
-//            mDay = Integer.parseInt((mStartD.substring(mStartD.indexOf("-") + 1, mStartD.lastIndexOf("-"))));
-//            mYear = Integer.parseInt((mStartD.substring(mStartD.lastIndexOf("-") + 1)));
-//            GregorianCalendar calDate = new GregorianCalendar(mYear, mMonth, mDay);
-//            calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-//            calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
-//                    calDate.getTimeInMillis());
-//            calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
-//                    calDate.getTimeInMillis());
-//
-//            calIntent.putExtra(Events.ACCESS_LEVEL, Events.ACCESS_PRIVATE);
-//            calIntent.putExtra(Events.AVAILABILITY, Events.AVAILABILITY_BUSY);
-//
-//            startActivity(calIntent);
-//        }
+        if(!mInEditMode && (view == mStartDate || view == mDateFiller || view == mEndDate || view == mTimeStart || view == mTimeFiller || view == mTimeEnd)) {
+            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+            calIntent.setType("vnd.android.cursor.item/event");
+            calIntent.putExtra(Events.TITLE, "Volunteering with " + mShift.getOrganizationName());
+            calIntent.putExtra(Events.EVENT_LOCATION, mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
+            calIntent.putExtra(Events.DESCRIPTION, mShift.getDescription());
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+
+            mStartD = mShift.getStartDate();
+            mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) - 1;
+            mDay = Integer.parseInt((mStartD.substring(mStartD.indexOf("-") + 1, mStartD.lastIndexOf("-"))));
+            mYear = Integer.parseInt((mStartD.substring(mStartD.lastIndexOf("-") + 1)));
+            mStartTime = mShift.getStartTime();
+            mHour = Integer.parseInt(mStartTime.substring(0,mStartTime.indexOf(":")));
+            mMinute = Integer.parseInt((mStartTime.substring(mStartTime.indexOf(":") + 1)));
+            GregorianCalendar calStart = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                    calStart.getTimeInMillis());
+
+            mEndD = mShift.getEndDate();
+            mMonth = Integer.parseInt(mEndD.substring(0, mEndD.indexOf("-"))) - 1;
+            mDay = Integer.parseInt((mEndD.substring(mEndD.indexOf("-") + 1, mEndD.lastIndexOf("-"))));
+            mYear = Integer.parseInt((mEndD.substring(mEndD.lastIndexOf("-") + 1)));
+            mEndTime = mShift.getEndTime();
+            mHour = Integer.parseInt(mEndTime.substring(0,mEndTime.indexOf(":")));
+            mMinute = Integer.parseInt((mEndTime.substring(mEndTime.indexOf(":") + 1)));
+            GregorianCalendar calEnd = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                    calEnd.getTimeInMillis());
+
+            calIntent.putExtra(Events.ACCESS_LEVEL, Events.ACCESS_PRIVATE);
+            calIntent.putExtra(Events.AVAILABILITY, Events.AVAILABILITY_BUSY);
+
+            startActivity(calIntent);
+
+        }
         // Map Intent
         if(view == mStreetAddressOutput || view == mAddressLine2Output) {
             Intent mapIntent = new Intent(Intent.ACTION_VIEW,
@@ -541,10 +627,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             mShortDescriptionInput.setVisibility(View.GONE);
 
-            mTimeStart.setOnClickListener(null);
-            mTimeEnd.setOnClickListener(null);
-            mStartDate.setOnClickListener(null);
-            mEndDate.setOnClickListener(null);
+//            mTimeStart.setOnClickListener(null);
+//            mTimeEnd.setOnClickListener(null);
+//            mStartDate.setOnClickListener(null);
+//            mEndDate.setOnClickListener(null);
 
             if(mShift.getEndDate().equals(mShift.getStartDate())) {
                 mDateFiller.setVisibility(View.GONE);
