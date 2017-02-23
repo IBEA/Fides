@@ -48,6 +48,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
     @Bind(R.id.imageButton_Search) ImageButton mImageButton_Search;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    private OrganizationSearchFragment mThis;
 
     private Boolean foundResults = false;
     private Context mContext;
@@ -72,6 +73,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
         ButterKnife.bind(this, view);
 
         mContext = this.getContext();
+        mThis = this;
         mImageButton_Search.setOnClickListener(this);
 
         this.setHasOptionsMenu(true);
@@ -113,6 +115,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
     @Override
     public void onClick(View view) {
         if(view == mImageButton_Search){
+            mImageButton_Search.setOnClickListener(null);
             fetchOrganizationsIds();
         }
     }
@@ -137,19 +140,18 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Log.d(TAG, "fetching organizations");
+                long count = 0;
+                long numChildren = dataSnapshot.getChildrenCount();
 
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String searchKey = snapshot.getValue(String.class);
                     String organizationId = snapshot.getKey();
 
-                    Log.d(TAG, searchKey);
-                    Log.d(TAG, orgQuery);
-
+                    count++;
                     if(searchKey.contains(orgQuery)){
                         Log.d(TAG, "Query matches!");
                         foundResults = true;
-                        fetchOrganization(organizationId);
+                        fetchOrganization(organizationId, count == numChildren);
                     }
                 }
 
@@ -165,7 +167,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
         });
     }
 
-    public void fetchOrganization(String _organizationId){
+    public void fetchOrganization(String _organizationId, final Boolean _lastItem){
         Log.d(TAG, "in fetchShift");
 
         dbRef.child(Constants.DB_NODE_ORGANIZATIONS).child(_organizationId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -175,6 +177,10 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
 
                 mOrganizations.add(organization);
                 mRecyclerAdapter.notifyItemInserted(mOrganizations.indexOf(organization));
+
+                if(_lastItem){
+                    mImageButton_Search.setOnClickListener(mThis);
+                }
             }
 
             @Override

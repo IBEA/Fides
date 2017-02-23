@@ -13,8 +13,6 @@ import com.ibea.fides.R;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.activities.ShiftDetailsActivity;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -82,7 +80,7 @@ public class NewShiftSearchAdapter extends RecyclerView.Adapter<NewShiftSearchAd
         @Override
         public void onClick(View v){
             Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
-            intent.putExtra("shift", Parcels.wrap(mShifts.get(this.getAdapterPosition())));
+            intent.putExtra("shiftId", mShifts.get(this.getAdapterPosition()).getPushId());
             mContext.startActivity(intent);
         }
 

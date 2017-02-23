@@ -2,7 +2,6 @@ package com.ibea.fides.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -76,9 +75,8 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
-        intent.putExtra("shift", Parcels.wrap(mShift));
+        intent.putExtra("shiftId", mShift.getPushId());
         mContext.startActivity(intent);
-
     }
 
     // Avoided duplicate functionality in completeShift by adding boolean

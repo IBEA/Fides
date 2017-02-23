@@ -59,7 +59,8 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
     @Bind(R.id.textView_orgWebsite) TextView mOrgWebsite;
     @Bind(R.id.textView_orgDescription) TextView mOrgDescription;
     @Bind(R.id.progressBar_ImageLoading) ProgressBar mImageProgressBar;
-
+    @Bind(R.id.textView_contactName) TextView mContactName;
+    @Bind(R.id.textView_contactEmail) TextView mContactEmail;
 
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
@@ -155,10 +156,15 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
         mOrgName.setText(mOrganization.getName());
         mOrgAddress.setText(mOrganization.getStreetAddress());
         mOrgAddressLineTwo.setText(mOrganization.getCityAddress() + ", " + mOrganization.getStateAddress() + ", " + mOrganization.getZipcode());
+        mContactName.setText(mOrganization.getContactName());
+        mContactEmail.setText(mOrganization.getContactEmail());
         mOrgWebsite.setText(mOrganization.getUrl());
         mOrgDescription.setText(mOrganization.getDescription());
-        mOrgAddress.setOnClickListener(this);
 
+        mOrgAddress.setOnClickListener(this);
+        mOrgAddressLineTwo.setOnClickListener(this);
+        mContactName.setOnClickListener(this);
+        mContactEmail.setOnClickListener(this);
         mOrgWebsite.setOnClickListener(this);
 
         return view;
@@ -166,6 +172,16 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
 
     @Override
     public void onClick(View v) {
+        if(v == mOrgAddress || v == mOrgAddressLineTwo) {
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("geo:0,0?q=" + mOrganization.getStreetAddress() + ", " + mOrganization.getCityAddress() + ", " + mOrganization.getStateAddress()));
+            startActivity(mapIntent);
+        }
+        if(v == mContactName || v == mContactEmail) {
+            Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+            emailIntent.setData(Uri.parse("mailto:" + mOrganization.getContactEmail()));
+            startActivity(emailIntent);
+        }
         if(v == mOrgWebsite) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(mOrgWebsite.getText().toString()));
@@ -175,12 +191,6 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
             catch (ActivityNotFoundException e) {
                 Log.e(String.valueOf(getActivity()), e.getMessage());
             }
-        }
-        if(v == mOrgAddress) {
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("geo:0,0?q=" + mOrganization.getStreetAddress() + ", " + mOrganization.getCityAddress() + ", " + mOrganization.getStateAddress()));
-            startActivity(mapIntent);
-
         }
     }
 

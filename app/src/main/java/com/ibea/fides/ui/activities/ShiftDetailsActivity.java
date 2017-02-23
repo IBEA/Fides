@@ -2,9 +2,11 @@ package com.ibea.fides.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -36,8 +38,6 @@ import com.ibea.fides.adapters.VolunteerListAdapter;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.models.Volunteer;
 
-import org.parceler.Parcels;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,9 +59,12 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
     boolean mInEditMode = false;
+    String mShiftId;
+
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
     @Bind(R.id.textView_StartTime) TextView mTimeStart;
+    @Bind(R.id.textView_TimeFiller) TextView mTimeFiller;
     @Bind(R.id.textView_EndTime) TextView mTimeEnd;
     @Bind(R.id.textView_StartDate) TextView mStartDate;
     @Bind(R.id.textView_DateFiller) TextView mDateFiller;
@@ -89,13 +92,25 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shift_details);
         ButterKnife.bind(this);
-        mAddressLine2Output.setOnClickListener(this);
         mStreetAddressOutput.setOnClickListener(this);
+        mAddressLine2Output.setOnClickListener(this);
         setTitle("Volunteer Opportunity");
-        mShift = Parcels.unwrap(getIntent().getParcelableExtra("shift"));
         InitializeSpinner();
-        SetShiftDetails();
-        SetUserDeterminateDetails();
+
+        mShiftId = getIntent().getStringExtra("shiftId");
+        dbShifts.child(mShiftId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mShift = dataSnapshot.getValue(Shift.class);
+                SetShiftDetails();
+                SetUserDeterminateDetails();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void SetShiftDetails() {
@@ -104,14 +119,18 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         // Time
         mTimeStart.setText(mShift.getStartTime());
         mTimeEnd.setText(mShift.getEndTime());
+//        mTimeStart.setOnClickListener(this);
+//        mTimeEnd.setOnClickListener(this);
         // Date
         mStartDate.setText(mShift.getStartDate());
+//        mStartDate.setOnClickListener(this);
         if(mShift.getEndDate().equals(mShift.getStartDate())) {
             mDateFiller.setVisibility(View.GONE);
             mEndDate.setVisibility(View.GONE);
         }
         else {
             mEndDate.setText(mShift.getEndDate());
+//            mEndDate.setOnClickListener(this);
         }
         // Address Line 1
         mStreetAddressOutput.setText(mShift.getStreetAddress());
@@ -314,7 +333,32 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if(view == mStreetAddressOutput) {
+        // Calendar Intent
+//        if(!mInEditMode && (view == mStartDate || view == mDateFiller || view == mEndDate || view == mTimeStart || view == mTimeFiller || view == mTimeEnd)) {
+//            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+//            calIntent.setType("vnd.android.cursor.item/event");
+//            calIntent.putExtra(Events.TITLE, "Volunteering with " + mShift.getOrganizationName());
+//            calIntent.putExtra(Events.EVENT_LOCATION, mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState() + ", " + mShift.getZip());
+//            calIntent.putExtra(Events.DESCRIPTION, mShift.getDescription());
+//
+//            mStartD = mShift.getStartDate();
+//            mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) -1;
+//            mDay = Integer.parseInt((mStartD.substring(mStartD.indexOf("-") + 1, mStartD.lastIndexOf("-"))));
+//            mYear = Integer.parseInt((mStartD.substring(mStartD.lastIndexOf("-") + 1)));
+//            GregorianCalendar calDate = new GregorianCalendar(mYear, mMonth, mDay);
+//            calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+//            calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+//                    calDate.getTimeInMillis());
+//            calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+//                    calDate.getTimeInMillis());
+//
+//            calIntent.putExtra(Events.ACCESS_LEVEL, Events.ACCESS_PRIVATE);
+//            calIntent.putExtra(Events.AVAILABILITY, Events.AVAILABILITY_BUSY);
+//
+//            startActivity(calIntent);
+//        }
+        // Map Intent
+        if(view == mStreetAddressOutput || view == mAddressLine2Output) {
             Intent mapIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("geo:0,0?q=" + mShift.getStreetAddress() + ", " + mShift.getCity() + ", " + mShift.getState()));
             startActivity(mapIntent);
@@ -460,17 +504,17 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         if(validateZip(mZipInput)) {
             mZipcode = mZipInput.getText().toString();
         } else {
-            Toast.makeText(mContext, "Please enter a proper zipcode", Toast.LENGTH_SHORT).show();
+            MakeToast(mContext, "Please enter a proper zipcode", false);
             return;
         }
         mLongDesc = mDescriptionInput.getText().toString();
         mVolunteerSize = mVolMaxInput.getText().toString();
 
         if(mVolunteerSize.equals("0")) {
-            Toast.makeText(mContext, "Max Volunteers must be at least 1", Toast.LENGTH_SHORT).show();
+            MakeToast(mContext, "Max Volunteers must be at least 1", false);
             return;
         } else if(Integer.parseInt(mVolunteerSize) < mShift.getCurrentVolunteers().size()) {
-            Toast.makeText(mContext, "There are currently more volunteers signed up than the new max", Toast.LENGTH_SHORT).show();
+            MakeToast(mContext, "There are currently more volunteers signed up than the new max", false);
             return;
         }
 
@@ -539,7 +583,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         }
         else {
-            Toast.makeText(mContext, "Invalid Input", Toast.LENGTH_SHORT).show();
+            MakeToast(mContext, "Invalid Input", false);
         }
     }
 
@@ -570,14 +614,12 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             if(date1.after(date2)) {
 
-                Toast.makeText(mContext, "Make sure to enter an end date that is AFTER the start date.", Toast.LENGTH_SHORT).show();
+                MakeToast(mContext, "Make sure to enter an end date that is AFTER the start date.", false);
                 return false;
             } else if(date1.equals(date2)) {
                 if(time1.after(time2) || time1.equals(time2)) {
 
-                    Toast.makeText(mContext, "Make sure to enter a start time that is AFTER the end time.", Toast.LENGTH_SHORT).show();
-
-
+                    MakeToast(mContext, "Make sure to enter a start time that is AFTER the end time.", false);
                     return false;
                 }
                 return true;
@@ -630,5 +672,14 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void MakeToast(Context _context, String _message, boolean _long) {
+        Toast toast = Toast.makeText(_context, _message, _long ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
+        View toastView = toast.getView();
+        toastView.setBackgroundColor(Color.argb(150,0,0,0));
+        toastView.setPadding(30,30,30,30);
+        toast.setView(toastView);
+        toast.show();
     }
 }

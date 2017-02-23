@@ -17,11 +17,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
+            <!--Profile Pic-->
             <ImageView
                 android:layout_height="300dp"
                 android:layout_width="match_parent"
@@ -29,7 +25,6 @@
                 android:id="@+id/imageView_orgPic"
                 android:src="@drawable/avatar_blank">
             </ImageView>
-
             <ProgressBar
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_height="300dp"
@@ -37,7 +32,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/progressBar_ImageLoading"
                 android:visibility="gone"/>
-
+            <!--Org Name-->
             <TextView
                 android:text="Org Name"
                 android:textColor="@color/colorPrimaryText"
@@ -48,6 +43,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:paddingBottom="12dp" />
+            <!--Address-->
             <TextView
                 android:text="Street Address"
                 android:textColor="@color/colorPrimaryText"
@@ -65,6 +61,25 @@
                 android:textStyle="normal"
                 android:textAlignment="center"
                 android:paddingBottom="12dp"/>
+            <!--Contact Info-->
+            <TextView
+                android:text="Contact Name"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_contactName"
+                android:textStyle="normal"
+                android:textAlignment="center"/>
+            <TextView
+                android:text="contact@org.org"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_contactEmail"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:paddingBottom="12dp"/>
+            <!--Website-->
             <TextView
                 android:text="Website URL"
                 android:textColor="@color/colorPrimaryText"
@@ -74,6 +89,7 @@
                 android:textStyle="normal"
                 android:textAlignment="center"
                 android:paddingBottom="12dp"/>
+            <!--Full Description-->
             <TextView
                 android:text="Org description"
                 android:layout_width="match_parent"
