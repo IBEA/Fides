@@ -84,7 +84,7 @@ public class VolunteerProfileActivity extends BaseActivity{
             Intent intent2 = new Intent(getApplicationContext(), MyAlarmBroadcastReceiver.class);
             PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT );
             AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC, Calendar.getInstance().getTimeInMillis(), 60000, sender);
+            am.setRepeating(AlarmManager.RTC, Calendar.getInstance().getTimeInMillis(), 60000 * 60 * 24, sender);
         }
 
     }
