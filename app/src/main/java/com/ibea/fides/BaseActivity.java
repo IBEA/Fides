@@ -64,6 +64,7 @@ public class BaseActivity extends AppCompatActivity {
     // Shared Preferences
     public SharedPreferences mSharedPreferences;
     public boolean mIsOrganization;
+    public boolean mIsAdmin;
 
     // For Navigation
     public Context mContext;
@@ -99,20 +100,25 @@ public class BaseActivity extends AppCompatActivity {
         mCurrentUser = mAuth.getCurrentUser();
 
         if(mCurrentUser != null){
+            Log.d("Justin", "Current User Logged In");
             uId = mAuth.getCurrentUser().getUid();
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+            mIsAdmin = mSharedPreferences.getBoolean(Constants.KEY_ISADMIN, false);
+            Log.d("Justin", mIsAdmin + "");
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putBoolean("NotificationStart", false);
             editor.apply();
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
         }else{
             this.getSharedPreferences("isOrganization", 0).edit().clear().apply();
+            this.getSharedPreferences("isAdmin", 0).edit().clear().apply();
             Log.v(TAG, "No user logged in");
         }
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+        mIsAdmin = mSharedPreferences.getBoolean(Constants.KEY_ISADMIN, false);
 
     }
 
@@ -130,6 +136,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void logout() {
         this.getSharedPreferences("isOrganization", 0).edit().clear().apply();
+        this.getSharedPreferences("isAdmin", 0).edit().clear().apply();
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(BaseActivity.this, LogInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -148,23 +155,9 @@ public class BaseActivity extends AppCompatActivity {
 
         final MenuItem admin = (MenuItem) menu.findItem(R.id.action_admin);
         if(mCurrentUser != null) {
-            dbVolunteers.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChild(uId)){
-                        if(dataSnapshot.child(uId).child("isAdmin").getValue(Boolean.class) == false){
-                            admin.setVisible(false);
-                        }
-                    }else{
-                        admin.setVisible(false);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            if(!mIsAdmin) {
+                admin.setVisible(false);
+            }
         }
 
         return super.onCreateOptionsMenu(menu);
