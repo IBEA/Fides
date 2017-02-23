@@ -111,14 +111,6 @@ public class BaseActivity extends AppCompatActivity {
             Log.v(TAG, "No user logged in");
         }
 
-        if(mCurrentUser != null) {
-            Intent intent = new Intent(getApplicationContext(), MyAlarmBroadcastReceiver.class);
-            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            am.setRepeating(AlarmManager.RTC, Calendar.getInstance().getTimeInMillis(), 60000, sender);
-        }
-
-
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
 

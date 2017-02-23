@@ -1,5 +1,8 @@
 package com.ibea.fides.ui.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
+import com.ibea.fides.MyAlarmBroadcastReceiver;
 import com.ibea.fides.R;
 import com.ibea.fides.adapters.SwipelessViewPager;
 import com.ibea.fides.adapters.UniversalPagerAdapter;
@@ -28,6 +32,7 @@ import com.ibea.fides.ui.fragments.ShiftsPendingForVolunteerFragment;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 // Main organization page, nested with profile and shift tab.
 
@@ -73,6 +78,13 @@ public class VolunteerProfileActivity extends BaseActivity{
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
+        }
+
+        if((mCurrentUser != null) && (!mIsOrganization)) {
+            Intent intent2 = new Intent(getApplicationContext(), MyAlarmBroadcastReceiver.class);
+            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT );
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC, Calendar.getInstance().getTimeInMillis(), 60000, sender);
         }
 
     }
