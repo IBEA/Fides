@@ -1,10 +1,13 @@
 package com.ibea.fides;
 
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.preference.PreferenceManager;
@@ -99,6 +102,9 @@ public class BaseActivity extends AppCompatActivity {
             uId = mAuth.getCurrentUser().getUid();
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean("NotificationStart", false);
+            editor.apply();
             Log.v(TAG, mAuth.getCurrentUser().getEmail());
         }else{
             this.getSharedPreferences("isOrganization", 0).edit().clear().apply();
@@ -106,17 +112,12 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if(mCurrentUser != null) {
-            Timer timer = new Timer ();
-            TimerTask hourlyTask = new TimerTask () {
-                @Override
-                public void run() {
-                    sendNotification();
-                }
-            };
-
-            // schedule the task to run starting now and then every hour...
-            timer.schedule (hourlyTask, 0l, 1000*60*60);
+            Intent intent = new Intent(getApplicationContext(), MyAlarmBroadcastReceiver.class);
+            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC, Calendar.getInstance().getTimeInMillis(), 60000 * 60, sender);
         }
+
 
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -234,12 +235,15 @@ public class BaseActivity extends AppCompatActivity {
     public void sendNotification(){
         final Calendar c = Calendar.getInstance();
 
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         //Notification Logic
         final NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_done_black_24dp)
                         .setContentTitle("Fides")
-                        .setPriority(0);
+                        .setPriority(0)
+                        .setSound(alarmSound);
         //.setContentText("Your shift is coming up in one hour! " + c.get(DATE));
 
         mBuilder.setAutoCancel(true);
@@ -288,6 +292,7 @@ public class BaseActivity extends AppCompatActivity {
                                 {
                                     mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is coming up in one hour! ");
                                     mNotifyMgr.notify(101, mBuilder.build());
+
                                 }
                             }
 
