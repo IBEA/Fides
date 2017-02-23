@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +61,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     int rank;
     boolean mInEditMode = false;
     String mShiftId;
+    int mLockCounter = 0;
+    boolean mListLocked = true;
 
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
@@ -104,6 +107,75 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mShift = dataSnapshot.getValue(Shift.class);
                 SetShiftDetails();
                 SetUserDeterminateDetails();
+
+                final long[] volCount = new long[1];
+                dbShifts.child(mShiftId).child("currentVolunteers").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        volCount[0] = (dataSnapshot.getChildrenCount());
+                        Log.d("ZZZZZZZZZZZZZZZZZZ",String.valueOf(volCount[0]));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                dbShifts.child(mShiftId).child("currentVolunteers").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d(">>>>>", "in onChildAdded");
+
+                        mLockCounter++;
+
+                        if(!mListLocked) {
+                            String volId = dataSnapshot.getValue(String.class);
+                            mVolunteerIds.add(volId);
+                            fetchVolunteer(volId);
+                            Log.d(">>>>>", "in locked onChildAdded");
+                        }
+
+                        if(mLockCounter >= volCount[0]) {
+                            mListLocked = false;
+                        }
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        String volunteerId = dataSnapshot.getValue(String.class);
+                        Log.d("ZZZZZZZZZZZZZZZZ",String.valueOf(mVolunteerIds.indexOf(volunteerId)));
+                        Volunteer volunteer = null;
+                        for(Volunteer vol : mVolunteers) {
+                            if(vol.getUserId().equals(volunteerId)) {
+                                volunteer = vol;
+                            }
+                        }
+                        if(volunteer != null) {
+                            mRecyclerAdapter.notifyItemRemoved(mVolunteers.indexOf(volunteer));
+                            mVolunteers.remove(mVolunteers.indexOf(volunteer));
+                        }
+
+                        MakeToast(mContext, "Removed!", false);
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
             @Override
