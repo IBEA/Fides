@@ -26,4 +26,5 @@ public class Constants {
 
     //Keys
     public static final String KEY_ISORGANIZATION = "isOrganization";
+    public static final String KEY_ISADMIN = "isAdmin";
 }

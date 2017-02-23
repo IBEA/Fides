@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.BaseActivity;
 import com.ibea.fides.Constants;
 import com.ibea.fides.R;
+import com.ibea.fides.models.Volunteer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -146,10 +147,32 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                     } else {
                                         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISORGANIZATION, false).apply();
                                         // Volunteer is a Volunteer - Send to Volunteer Main Page
-                                        Intent intent = new Intent(LogInActivity.this, VolunteerProfileActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        finish();
+                                        dbVolunteers.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Volunteer currentVolunteer = dataSnapshot.getValue(Volunteer.class);
+                                                boolean isAdmin = currentVolunteer.getIsAdmin();
+
+                                                Log.d("Justin", isAdmin + "");
+                                                Log.d("Justin", currentVolunteer.getName());
+                                                if(isAdmin) {
+                                                   PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISADMIN, true).apply();
+                                                } else {
+                                                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISADMIN, false).apply();
+                                                }
+
+                                                Intent intent = new Intent(LogInActivity.this, VolunteerProfileActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
                                     }
                                 } else {
                                     // User has not finished account creation
