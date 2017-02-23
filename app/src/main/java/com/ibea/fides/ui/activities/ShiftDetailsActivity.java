@@ -161,8 +161,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                             mRecyclerAdapter.notifyItemRemoved(mVolunteers.indexOf(volunteer));
                             mVolunteers.remove(mVolunteers.indexOf(volunteer));
                         }
-
-                        MakeToast(mContext, "Removed!", false);
                     }
 
                     @Override
