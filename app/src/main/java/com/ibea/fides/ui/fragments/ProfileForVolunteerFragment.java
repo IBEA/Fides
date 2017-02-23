@@ -29,10 +29,8 @@ import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 import com.ibea.fides.R;
-import com.ibea.fides.adapters.FirebaseShiftViewHolder;
 import com.ibea.fides.models.Volunteer;
 import com.squareup.picasso.Callback;
-
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 

@@ -91,6 +91,7 @@ public class CreateVolunteerActivity extends AppCompatActivity implements View.O
         String pushId = mAuth.getCurrentUser().getUid();
 
         mVolunteer = new Volunteer(pushId, name, email, zip, city, mState);
+        mVolunteer.setRating(100);
         dbRef.child(Constants.DB_NODE_VOLUNTEERS).child(pushId).setValue(mVolunteer);
     }
 
