@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import com.ibea.fides.ui.activities.LogInActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -34,6 +36,8 @@ public class MyAlarmBroadcastReceiver extends BroadcastReceiver {
     private Shift thisShift;
     DatabaseReference dbShifts;
 
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    private String mStartTime, mStartD;
 
     @Override
     public void onReceive(Context context, Intent intent ) {
@@ -108,14 +112,21 @@ public class MyAlarmBroadcastReceiver extends BroadcastReceiver {
                                     Log.e("Test me now", "data" + dataSnapshot.getValue());
                                     thisShift = dataSnapshot.getValue(Shift.class);
 
-                                    String startTime = thisShift.getStartTime();
-                                    startTime = startTime.substring(0, startTime.indexOf(":"));
+                                    long currentDay = c.getTimeInMillis();
 
-                                    SimpleDateFormat format1 = new SimpleDateFormat("M-dd-yyyy");
-                                    String currentDate = format1.format(c.getTime());
+                                    mStartD = thisShift.getStartDate();
+                                    mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) - 1;
+                                    mDay = Integer.parseInt((mStartD.substring(mStartD.indexOf("-") + 1, mStartD.lastIndexOf("-"))));
+                                    mYear = Integer.parseInt((mStartD.substring(mStartD.lastIndexOf("-") + 1)));
+                                    mStartTime = thisShift.getStartTime();
+                                    mHour = Integer.parseInt(mStartTime.substring(0,mStartTime.indexOf(":")));
+                                    mMinute = Integer.parseInt((mStartTime.substring(mStartTime.indexOf(":") + 1)));
+                                    GregorianCalendar calStart = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
 
-                                    if (Integer.toString(c.get(Calendar.HOUR_OF_DAY) + 1).equals(startTime) && currentDate.equals(thisShift.getStartDate())) {
-                                        mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is coming up!");
+                                    long shiftStartTime = calStart.getTimeInMillis();
+
+                                    if ( (currentDay < shiftStartTime) && (currentDay >= (shiftStartTime - (1000*60*60*24))) ) {
+                                        mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is tommorrow!");
                                         mNotifyMgr.notify(101, mBuilder.build());
 
                                     }
