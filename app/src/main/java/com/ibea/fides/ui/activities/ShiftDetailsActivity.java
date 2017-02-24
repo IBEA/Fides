@@ -481,7 +481,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mVolunteers.add(volunteer);
                 mRecyclerAdapter.notifyItemInserted(mVolunteers.indexOf(volunteer));
                 if(mShift.getComplete()){
-                    setRecyclerViewItemTouchListener(true);
+                    if(uId.equals(mShift.getOrganizationID())) {
+                        setRecyclerViewItemTouchListener(true);
+                    }
+
                 } else {
                     setRecyclerViewItemTouchListener(false);
                 }
