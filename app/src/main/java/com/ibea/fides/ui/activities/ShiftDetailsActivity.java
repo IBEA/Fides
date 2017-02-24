@@ -104,6 +104,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         InitializeSpinner();
 
         mShiftId = getIntent().getStringExtra("shiftId");
+        Log.d("Justin", mShiftId);
         dbShifts.child(mShiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -177,9 +178,12 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+
+    // Issue here
     private void SetUpVolList() {
         mVolunteers.clear();
 
+        Log.d("Justin Test", mShift.getOrganizationName());
         mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
         mVolunteersListRecyclerView.setHasFixedSize(false);
         mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
