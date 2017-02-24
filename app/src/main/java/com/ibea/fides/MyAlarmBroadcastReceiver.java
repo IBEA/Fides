@@ -109,10 +109,7 @@ public class MyAlarmBroadcastReceiver extends BroadcastReceiver {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    Log.e("Test me now", "data" + dataSnapshot.getValue());
                                     thisShift = dataSnapshot.getValue(Shift.class);
-
-                                    long currentDay = c.getTimeInMillis();
 
                                     mStartD = thisShift.getStartDate();
                                     mMonth = Integer.parseInt(mStartD.substring(0, mStartD.indexOf("-"))) - 1;
@@ -125,11 +122,41 @@ public class MyAlarmBroadcastReceiver extends BroadcastReceiver {
 
                                     long shiftStartTime = calStart.getTimeInMillis();
 
-                                    if ( (currentDay < shiftStartTime) && (currentDay >= (shiftStartTime - (1000*60*60*24))) ) {
+                                    //if ( (currentDay < shiftStartTime) && (currentDay >= (shiftStartTime - (1000*60*60*24))) ) {
+                                        //mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is tommorrow!");
+                                        //mNotifyMgr.notify(101, mBuilder.build());
+
+                                    //}
+
+
+                                    GregorianCalendar calCurrent = new GregorianCalendar();
+                                    int currentDayOfMonth = calCurrent.get(Calendar.DAY_OF_MONTH);
+                                    int currentMonth = calCurrent.get(Calendar.MONTH);
+                                    int currentYear = calCurrent.get(Calendar.YEAR);
+
+                                    if (currentYear == mYear) {
+                                        Log.e("Trigger", "Year passed");
+                                        if(currentMonth == mMonth) {
+                                            Log.e("Trigger", "Month passed");
+                                            if(currentDayOfMonth == (mDay - 1)) {
+                                                Log.e("Trigger", "This logged");
+                                                mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is tommorrow!");
+                                                mNotifyMgr.notify(101, mBuilder.build());
+                                            }
+                                        }
+                                        else if(currentMonth == mMonth - 1 && mDay == 1 && currentDayOfMonth == calCurrent.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                                            mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is tommorrow!");
+                                            mNotifyMgr.notify(101, mBuilder.build());
+                                        }
+                                    }
+                                    else if( currentYear == mYear - 1 && mMonth == 1 && currentMonth == 12 && mDay == 1 && currentDayOfMonth == 31) {
                                         mBuilder.setContentText("Your shift at " + thisShift.getOrganizationName() + " is tommorrow!");
                                         mNotifyMgr.notify(101, mBuilder.build());
-
                                     }
+
+
+
+
                                 }
 
                                 @Override
