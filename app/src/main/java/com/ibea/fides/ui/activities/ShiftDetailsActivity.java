@@ -104,6 +104,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         InitializeSpinner();
 
         mShiftId = getIntent().getStringExtra("shiftId");
+        Log.d("Justin", mShiftId);
         dbShifts.child(mShiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
