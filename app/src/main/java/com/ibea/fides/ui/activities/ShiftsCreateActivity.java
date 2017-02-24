@@ -76,7 +76,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
 
         Integer[] items = new Integer[]{0,25,50,75};
 
-        ArrayAdapter<Integer> trustAdapter = new ArrayAdapter<Integer>(this,R.layout.custom_spinner_item_settings, items);
+        ArrayAdapter<Integer> trustAdapter = new ArrayAdapter<Integer>(this,R.layout.custom_spinner_list_settings, items);
         mTrustInput.setAdapter(trustAdapter);
 
 
