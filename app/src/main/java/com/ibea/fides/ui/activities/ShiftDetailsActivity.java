@@ -58,9 +58,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView.Adapter mRecyclerAdapter;
     private Volunteer mVolunteer;
 
-    private ChildEventListener mChildListener;
+    private ChildEventListener mCurrentChildListener;
+    private ChildEventListener mRatedChildListener;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private long mCurrentVolNumber, mRatedVolCurrentNumber;
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
     boolean mInEditMode = false;
@@ -178,6 +180,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    private void setVolunteerNumber() {
+        Log.d("Size", mCurrentVolNumber + mRatedVolCurrentNumber + "");
+        mVolCurrentNumber.setText(mVolunteerIds.size() + "/");
+    }
 
     // Issue here
     private void SetUpVolList() {
@@ -187,7 +193,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         mVolunteersListRecyclerView.setHasFixedSize(false);
         mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
         mVolunteersListRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-
+//
 //        mVolunteerIds.addAll(mShift.getCurrentVolunteers());
 //        mVolunteerIds.addAll(mShift.getRatedVolunteers());
 //        for(String volunteerId : mVolunteerIds){
@@ -195,14 +201,18 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 //        }
 
         final long[] volCount = new long[1];
-        mChildListener = dbShifts.child(mShiftId).child("currentVolunteers").addChildEventListener(new ChildEventListener() {
+
+        mRatedChildListener = dbShifts.child(mShiftId).child("ratedVolunteers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 volCount[0] = dataSnapshot.getChildrenCount();
                 String volId = dataSnapshot.getValue(String.class);
                 mVolunteerIds.add(volId);
                 Log.d("Justin Size: ", mVolunteerIds.size() + "");
-                mVolCurrentNumber.setText(mVolunteerIds.size() + "/");
+
+                mRatedVolCurrentNumber = mVolunteerIds.size();
+                Log.d("Rated Size", mVolunteerIds.size() + "");
+                setVolunteerNumber();
                 fetchVolunteer(volId);
             }
 
@@ -213,21 +223,53 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mCurrentChildListener = dbShifts.child(mShiftId).child("currentVolunteers").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                volCount[0] = dataSnapshot.getChildrenCount();
+                String volId = dataSnapshot.getValue(String.class);
+                mVolunteerIds.add(volId);
+                Log.d("Justin Size: ", mVolunteerIds.size() + "");
+                mCurrentVolNumber = dataSnapshot.getChildrenCount();
+                fetchVolunteer(volId);
+                setVolunteerNumber();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
                 String volunteerId = dataSnapshot.getValue(String.class);
-                Log.d("onChildRemoved","But why");
                 Volunteer volunteer = null;
+                mVolunteerIds.remove(volunteerId);
                 for(Volunteer vol : mVolunteers) {
                     if(vol.getUserId().equals(volunteerId)) {
                         Log.d("Removing: ", vol.getName() + " # " + mVolunteers.indexOf(vol));
                         int position = mVolunteers.indexOf(vol);
                         mVolunteers.remove(position);
                         mRecyclerAdapter.notifyItemRemoved(position);
-
-
                     }
                 }
                 Log.d("New Size", dataSnapshot.getChildrenCount()+ "");
-                mVolCurrentNumber.setText(dataSnapshot.getChildrenCount() + "/");
+                mCurrentVolNumber = dataSnapshot.getChildrenCount();
+
+                setVolunteerNumber();
             }
 
             @Override
@@ -758,13 +800,26 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onStop() {
         super.onStop();
-        dbShifts.child(mShiftId).child("currentVolunteers").removeEventListener(mChildListener);
+
+        if(mCurrentChildListener != null) {
+            dbShifts.child(mShiftId).child("currentVolunteers").removeEventListener(mCurrentChildListener);
+        }
+        if(mRatedChildListener != null) {
+            dbShifts.child(mShiftId).child("ratedVolunteers").removeEventListener(mRatedChildListener);
+        }
+
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        dbShifts.child(mShiftId).child("currentVolunteers").removeEventListener(mChildListener);
+
+        if(mCurrentChildListener != null) {
+            dbShifts.child(mShiftId).child("currentVolunteers").removeEventListener(mCurrentChildListener);
+        }
+        if(mRatedChildListener != null) {
+            dbShifts.child(mShiftId).child("ratedVolunteers").removeEventListener(mRatedChildListener);
+        }
     }
 }
