@@ -159,7 +159,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Log.d("Justin", "Dismiss");
                             mRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     });
@@ -187,7 +186,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Log.d("Justin", "Dismiss");
                             mRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     });
@@ -215,7 +213,6 @@ public class ShiftsPendingForOrganizationFragment extends Fragment implements Vi
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 

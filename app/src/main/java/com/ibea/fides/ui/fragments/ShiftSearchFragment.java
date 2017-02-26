@@ -358,7 +358,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Log.d("Justin", "Dismiss");
                             mRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     });
@@ -432,7 +431,6 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 

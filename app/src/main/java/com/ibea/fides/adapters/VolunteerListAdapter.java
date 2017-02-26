@@ -56,7 +56,6 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     // Popup
     private PopupWindow mPopUp;
     private View mPopupContext;
-//    private TextView mNoShowButton;
     private Button mShowButton;
     private EditText mHoursInput;
     private String mHours;
@@ -190,7 +189,6 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
                         dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
 
                         //Remove user from list of volunteers and push to database
-                        //!! Check to see what happens when sending an empty list !!
                         shift.removeVolunteer(userID);
                         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
 
@@ -257,12 +255,10 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
             mPopUp = new PopupWindow(mPopupContext, 1000, 1000, true);
             mPopUp.showAtLocation(mPopupContext, Gravity.CENTER, 0, 0);
             mShowButton = (Button) mPopupContext.findViewById(R.id.showButton);
-//            mNoShowButton = (TextView) mPopupContext.findViewById(R.id.noShowButton);
             mHoursInput = (EditText) mPopupContext.findViewById(R.id.hoursInput);
 
             mHoursInput.setText(mDiffInput);
             mShowButton.setOnClickListener(this);
-//            mNoShowButton.setOnClickListener(this);
         }
 
         public Boolean isUnrated(){

@@ -352,7 +352,7 @@ public class OrganizationSettingsActivity extends BaseActivity implements View.O
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 

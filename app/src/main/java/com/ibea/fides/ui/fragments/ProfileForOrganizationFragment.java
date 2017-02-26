@@ -241,7 +241,6 @@ public class ProfileForOrganizationFragment extends Fragment implements View.OnC
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 

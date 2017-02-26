@@ -44,16 +44,7 @@
             android:name=".ui.activities.AdminActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.IntroActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activities.FaqActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.IntroOrganizationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activities.IntroVolunteerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.VolunteerProfileActivity"

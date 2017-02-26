@@ -29,9 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.ibea.fides.models.Shift;
 import com.ibea.fides.ui.activities.AdminActivity;
 import com.ibea.fides.ui.activities.FaqActivity;
-import com.ibea.fides.ui.activities.IntroActivity;
-import com.ibea.fides.ui.activities.IntroOrganizationActivity;
-import com.ibea.fides.ui.activities.IntroVolunteerActivity;
 import com.ibea.fides.ui.activities.LogInActivity;
 import com.ibea.fides.ui.activities.OrganizationProfileActivity;
 import com.ibea.fides.ui.activities.VolunteerProfileActivity;
@@ -100,12 +97,10 @@ public class BaseActivity extends AppCompatActivity {
         mCurrentUser = mAuth.getCurrentUser();
 
         if(mCurrentUser != null){
-            Log.d("Justin", "Current User Logged In");
             uId = mAuth.getCurrentUser().getUid();
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mIsOrganization = mSharedPreferences.getBoolean(Constants.KEY_ISORGANIZATION, false);
             mIsAdmin = mSharedPreferences.getBoolean(Constants.KEY_ISADMIN, false);
-            Log.d("Justin", mIsAdmin + "");
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putBoolean("NotificationStart", false);
             editor.apply();
@@ -197,13 +192,6 @@ public class BaseActivity extends AppCompatActivity {
         }else if(id == R.id.search_page){
             Intent intent = new Intent(mContext, SearchActivity.class);
             startActivity(intent);
-        }else if (id == R.id.action_volunteertutorial) {
-//            Log.d("Justin", mContext + "");
-//            Intent intent = new Intent(mContext, IntroActivity.class);
-//            startActivity(intent);
-        }else if (id == R.id.action_organizationtutorial) {
-//            Intent intent = new Intent(mContext, IntroOrganizationActivity.class);
-//            startActivity(intent);
         }else if (id == R.id.action_faq) {
             Intent intent = new Intent(mContext, FaqActivity.class);
             startActivity(intent);
@@ -228,7 +216,7 @@ public class BaseActivity extends AppCompatActivity {
                         .setContentTitle("Fides")
                         .setPriority(0)
                         .setSound(alarmSound);
-        //.setContentText("Your shift is coming up in one hour! " + c.get(DATE));
+
 
         mBuilder.setAutoCancel(true);
 
@@ -255,15 +243,12 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if(snapshot.hasChild(uId)) {
-                    Log.d("Don't see me!" , "You should not see this!");
                     for (DataSnapshot postSnapshot : snapshot.child(uId).getChildren()) {
                         Log.e("correct value", postSnapshot.getValue().toString());
 
                         dbShifts.child(postSnapshot.getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                Log.e("Test me now", "data" + dataSnapshot.getValue());
                                 thisShift = dataSnapshot.getValue(Shift.class);
 
                                 String startTime = thisShift.getStartTime();
@@ -286,8 +271,6 @@ public class BaseActivity extends AppCompatActivity {
                             }
                         });
                     }
-
-                    //notifyDataSetChanged();
                 }
 
             }

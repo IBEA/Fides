@@ -109,8 +109,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
 
                     // If user has verified email
                     if (user.isEmailVerified()) {
-                        Log.d("LogInActivity ", "Volunteer is verified");
-
                         dbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -153,8 +151,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener{
                                                 Volunteer currentVolunteer = dataSnapshot.getValue(Volunteer.class);
                                                 boolean isAdmin = currentVolunteer.getIsAdmin();
 
-                                                Log.d("Justin", isAdmin + "");
-                                                Log.d("Justin", currentVolunteer.getName());
                                                 if(isAdmin) {
                                                    PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean(Constants.KEY_ISADMIN, true).apply();
                                                 } else {

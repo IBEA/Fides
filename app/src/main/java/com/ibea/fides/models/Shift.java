@@ -190,7 +190,7 @@ public class Shift {
     }
 
     public void removeVolunteer(String userID){
-        //Untested
+
         Log.v("Shift Model:", String.valueOf(currentVolunteers.size()));
         int index = currentVolunteers.indexOf(userID);
         currentVolunteers.remove(index);

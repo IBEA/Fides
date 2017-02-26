@@ -115,7 +115,6 @@ public class OrganizationProfileActivity extends BaseActivity {
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 

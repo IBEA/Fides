@@ -170,7 +170,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Log.d("Justin", "Dismiss");
+
                             mRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     });
@@ -198,7 +198,6 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 

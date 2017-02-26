@@ -284,7 +284,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         }
         else {
             mVolunteerSize = Integer.parseInt(Volunteertest);
-            Log.d("Justin", mVolunteerSize + "");
+
             if(mVolunteerSize == 0) {
                 Toast.makeText(mContext, "There must be at least one volunteer", Toast.LENGTH_SHORT).show();
                 return false;
@@ -352,7 +352,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
         mEndDate = mEndDateInput.getText().toString();
 
         if(mStartTime.equals("") || mEndTime.equals("")) {
-            Log.d("Justin", mStartTime);
+
             mStartTimeInput.setError("Set Time please.");
             Toast.makeText(mContext, "Make sure to enter a time.", Toast.LENGTH_SHORT).show();
         }
@@ -436,7 +436,7 @@ public class ShiftsCreateActivity extends BaseActivity implements View.OnClickLi
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 

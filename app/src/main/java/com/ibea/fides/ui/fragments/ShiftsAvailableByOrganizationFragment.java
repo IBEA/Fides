@@ -131,7 +131,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                 }
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Log.d("Justin", snapshot.getKey());
+
                     fetchShift(snapshot.getKey());
                 }
             }
@@ -195,7 +195,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 
@@ -213,7 +213,7 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 
@@ -295,8 +295,6 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                 if(!shift.getCurrentVolunteers().contains(userId)){
                     if(isVolunteer) {
                         if(shift.getMinTrust() < mVolunteer.getRating()) {
-                            Log.d("Justin", mVolunteer.getRating() + "");
-                            Log.d("Justin", shift.getMinTrust() + "");
                             shifts.add(shift);
                         }
                     } else {
@@ -357,7 +355,6 @@ public class ShiftsAvailableByOrganizationFragment extends Fragment {
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Log.d("Justin", "Dismiss");
                             mRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     });

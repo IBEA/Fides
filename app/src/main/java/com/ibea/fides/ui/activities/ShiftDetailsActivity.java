@@ -105,7 +105,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
         InitializeSpinner();
 
         mShiftId = getIntent().getStringExtra("shiftId");
-        Log.d("Justin", mShiftId);
         dbShifts.child(mShiftId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -202,7 +201,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 volCount[0] = dataSnapshot.getChildrenCount();
                 String volId = dataSnapshot.getValue(String.class);
                 mVolunteerIds.add(volId);
-                mVolCurrentNumber.setText(mVolunteers.size() + "/");
+                Log.d("Justin Size: ", mVolunteerIds.size() + "");
+                mVolCurrentNumber.setText(mVolunteerIds.size() + "/");
                 fetchVolunteer(volId);
             }
 
@@ -223,9 +223,11 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         mVolunteers.remove(position);
                         mRecyclerAdapter.notifyItemRemoved(position);
 
-                        mVolCurrentNumber.setText(mVolunteers.size() + "/");
+
                     }
                 }
+                Log.d("New Size", dataSnapshot.getChildrenCount()+ "");
+                mVolCurrentNumber.setText(dataSnapshot.getChildrenCount() + "/");
             }
 
             @Override
@@ -499,7 +501,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
                         currentViewHolder.popup(3);
                     }else if(swipeDir == 4){
-
                         currentViewHolder.popup(0);
                     }
 
@@ -549,10 +550,8 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
 
                 //Check to see if volunteer with current viewholder is already rated, disable swipes if so.
                 if(currentViewHolder.isUnrated()){
-//                    Log.d(mVolunteers.get(mVolunteerIds.indexOf(volunteerId)).getName(), "is unswipeable");
                     return super.getSwipeDirs(recyclerView, viewHolder);
                 }else{
-//                    Log.d(mVolunteers.get(mVolunteerIds.indexOf(volunteerId)).getName(), "is swipeable");
                 }
                 return 0;
             }
@@ -716,7 +715,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 
@@ -734,7 +733,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 

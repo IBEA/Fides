@@ -202,7 +202,6 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 
@@ -220,7 +219,6 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
                 }
             });
 

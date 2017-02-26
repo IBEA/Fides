@@ -282,7 +282,7 @@ public class VolunteerSettingsActivity extends BaseActivity implements View.OnCl
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    Log.d("Justin", "Dismiss");
+
                 }
             });
 

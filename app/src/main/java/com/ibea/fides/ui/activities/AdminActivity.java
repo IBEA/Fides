@@ -59,7 +59,6 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
-                Log.d("Swipe dir: ", String.valueOf(swipeDir));
 
                 if(swipeDir == 8){
                     ((FirebaseOrganizationViewHolder) viewHolder).approveOrg();

@@ -41,10 +41,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
     private Context mContext;
     private Shift mShift;
     private String mOrigin;
-    private Boolean mIsComplete;
-
-    Toast toast;
-    View toastView;
 
     public FirebaseShiftViewHolder(View itemView) {
         super(itemView);
@@ -56,8 +52,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
 
     public void bindShift(final Shift shift, String _origin) {
         mOrigin = _origin;
-
-        Log.d(mOrigin, " in bindShift");
 
         mShift = shift;
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -120,7 +114,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
         dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("complete").setValue(true);
 
         Intent intent = new Intent(mContext, ShiftDetailsActivity.class);
-        Log.d("Justin", mShift.getPushId());
         intent.putExtra("shiftId", mShift.getPushId());
         mContext.startActivity(intent);
     }
@@ -142,7 +135,6 @@ public class FirebaseShiftViewHolder extends RecyclerView.ViewHolder implements 
                     dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(userID).child(shiftId).removeValue();
 
                     //Remove user from list of volunteers and push to database
-                    //!! Check to see what happens when sending an empty list !!
                     shift.removeVolunteer(userID);
                     dbRef.child(Constants.DB_NODE_SHIFTS).child(shiftId).child("currentVolunteers").setValue(shift.getCurrentVolunteers());
 
