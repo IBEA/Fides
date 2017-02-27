@@ -62,13 +62,10 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     private ChildEventListener mRatedChildListener;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private long mCurrentVolNumber, mRatedVolCurrentNumber;
     private String mStartTime, mEndTime, mStartD, mEndD, mVolunteerSize, mShortDesc, mLongDesc, mStreet, mCity, mState, mZipcode;
     int rank;
     boolean mInEditMode = false;
     String mShiftId;
-    int mLockCounter = 0;
-    boolean mListLocked = true;
 
     @Bind(R.id.textView_OrgName) TextView mOrgName;
     @Bind(R.id.editText_ShortDescription) EditText mShortDescriptionInput;
@@ -181,24 +178,17 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setVolunteerNumber() {
-        Log.d("Size", mCurrentVolNumber + mRatedVolCurrentNumber + "");
+
         mVolCurrentNumber.setText(mVolunteerIds.size() + "/");
     }
 
     // Issue here
     private void SetUpVolList() {
-//        mVolunteers.clear();
-
         mRecyclerAdapter = new VolunteerListAdapter(mContext, mVolunteers, mShift.getCurrentVolunteers(), mShift);
         mVolunteersListRecyclerView.setHasFixedSize(false);
         mVolunteersListRecyclerView.setAdapter(mRecyclerAdapter);
         mVolunteersListRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//
-//        mVolunteerIds.addAll(mShift.getCurrentVolunteers());
-//        mVolunteerIds.addAll(mShift.getRatedVolunteers());
-//        for(String volunteerId : mVolunteerIds){
-//            fetchVolunteer(volunteerId);
-//        }
+
 
         final long[] volCount = new long[1];
 
@@ -208,10 +198,7 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 volCount[0] = dataSnapshot.getChildrenCount();
                 String volId = dataSnapshot.getValue(String.class);
                 mVolunteerIds.add(volId);
-                Log.d("Justin Size: ", mVolunteerIds.size() + "");
 
-                mRatedVolCurrentNumber = mVolunteerIds.size();
-                Log.d("Rated Size", mVolunteerIds.size() + "");
                 setVolunteerNumber();
                 fetchVolunteer(volId);
             }
@@ -242,8 +229,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 volCount[0] = dataSnapshot.getChildrenCount();
                 String volId = dataSnapshot.getValue(String.class);
                 mVolunteerIds.add(volId);
-                Log.d("Justin Size: ", mVolunteerIds.size() + "");
-                mCurrentVolNumber = dataSnapshot.getChildrenCount();
                 fetchVolunteer(volId);
                 setVolunteerNumber();
             }
@@ -266,8 +251,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                         mRecyclerAdapter.notifyItemRemoved(position);
                     }
                 }
-                Log.d("New Size", dataSnapshot.getChildrenCount()+ "");
-                mCurrentVolNumber = dataSnapshot.getChildrenCount();
 
                 setVolunteerNumber();
             }
@@ -298,10 +281,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
                 mDateFiller.setVisibility(View.VISIBLE);
                 mEndDate.setVisibility(View.VISIBLE);
                 mEndDate.setText(mShift.getEndDate());
-//                mTimeStart.setOnClickListener(this);
-//                mTimeEnd.setOnClickListener(this);
-//                mStartDate.setOnClickListener(this);
-//                mEndDate.setOnClickListener(this);
 
                 mStreetAddressInput.setVisibility(View.VISIBLE);
                 mStreetAddressInput.setText(mShift.getStreetAddress());
@@ -654,11 +633,6 @@ public class ShiftDetailsActivity extends BaseActivity implements View.OnClickLi
             mEditOrCompleteButton.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_mode_edit_black_24dp));
 
             mShortDescriptionInput.setVisibility(View.GONE);
-
-//            mTimeStart.setOnClickListener(null);
-//            mTimeEnd.setOnClickListener(null);
-//            mStartDate.setOnClickListener(null);
-//            mEndDate.setOnClickListener(null);
 
             if(mShift.getEndDate().equals(mShift.getStartDate())) {
                 mDateFiller.setVisibility(View.GONE);
