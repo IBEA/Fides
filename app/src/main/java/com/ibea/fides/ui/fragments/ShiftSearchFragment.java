@@ -257,6 +257,7 @@ public class ShiftSearchFragment extends Fragment implements View.OnClickListene
 
                     if(!foundResults){
                         Toast.makeText(mContext, "No opportunities found", Toast.LENGTH_SHORT).show();
+                        mImageButton_Search.setOnClickListener(mThis);
                     }
                 }
 

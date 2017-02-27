@@ -157,6 +157,7 @@ public class OrganizationSearchFragment extends Fragment implements View.OnClick
 
                 if(!foundResults){
                     Toast.makeText(mContext, "No organizations found", Toast.LENGTH_SHORT).show();
+                    mImageButton_Search.setOnClickListener(mThis);
                 }
             }
 
