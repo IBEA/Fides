@@ -47,6 +47,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
     private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private ValueEventListener mListener;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference dbShiftsPendingForUser = dbRef.child(Constants.DB_NODE_SHIFTSPENDING).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mCurrentUser.getUid());
@@ -63,7 +64,7 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
         View view = inflater.inflate(R.layout.fragment_shifts_pending_for_volunteer, container, false);
         ButterKnife.bind(this, view);
 
-        dbShiftsPendingForUser.addValueEventListener(new ValueEventListener() {
+        mListener = dbShiftsPendingForUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0){
@@ -209,4 +210,28 @@ public class ShiftsPendingForVolunteerFragment extends Fragment implements View.
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if(mListener != null) {
+            dbShiftsPendingForUser.removeEventListener(mListener);
+
+        }
+
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(mListener != null) {
+            dbShiftsPendingForUser.removeEventListener(mListener);
+        }
+
+    }
+
 }

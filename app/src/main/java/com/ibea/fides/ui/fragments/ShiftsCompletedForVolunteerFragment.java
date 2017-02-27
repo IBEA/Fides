@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 public class ShiftsCompletedForVolunteerFragment extends Fragment {
     @Bind(R.id.unratedRecyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.textView_Splash) TextView mTextView_Splash;
-
+    private ValueEventListener mListener;
     FirebaseRecyclerAdapter mFirebaseAdapter;
     DatabaseReference dbShiftsCompletedForVolunteer;
     String mUserId;
@@ -67,7 +67,7 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         dbShiftsCompletedForVolunteer = FirebaseDatabase.getInstance().getReference().child(Constants.DB_NODE_SHIFTSCOMPLETE).child(Constants.DB_SUBNODE_VOLUNTEERS).child(mUserId);
 
-        dbShiftsCompletedForVolunteer.addValueEventListener(new ValueEventListener() {
+        mListener = dbShiftsCompletedForVolunteer.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0){
@@ -141,4 +141,28 @@ public class ShiftsCompletedForVolunteerFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if(mListener != null) {
+            dbShiftsCompletedForVolunteer.removeEventListener(mListener);
+
+        }
+
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(mListener != null) {
+            dbShiftsCompletedForVolunteer.removeEventListener(mListener);
+        }
+
+    }
+
 }

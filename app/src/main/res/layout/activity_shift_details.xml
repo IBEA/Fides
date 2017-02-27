@@ -21,10 +21,10 @@
             android:orientation="vertical"
             android:layout_alignParentTop="true"
             android:paddingTop="24dp"
-            android:paddingLeft="48dp"
-            android:paddingStart="48dp"
-            android:paddingRight="48dp"
-            android:paddingEnd="48dp">
+            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingRight="24dp"
+            android:paddingEnd="24dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -243,15 +243,18 @@
                 android:text="Unrated volunteers appear in red.\nSwipe right if they met expectations, left if not."
                 android:layout_marginBottom="12dp"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/unratedRecyclerView"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="60dp"
+                android:layout_below="@+id/scrollView_ShiftDetailsMinusRecycler"/>
+
         </LinearLayout>
     </ScrollView>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/unratedRecyclerView"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/scrollView_ShiftDetailsMinusRecycler"/>
+
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
